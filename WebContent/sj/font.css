@@ -1,0 +1,11 @@
+A:link			{	COLOR: blue;		TEXT-DECORATION: none	}
+A:visited	{	COLOR: black;	TEXT-DECORATION: none	}
+A:hover		{	COLOR: blue;		TEXT-DECORATION: underline	}
+A:active		{  COLOR: #585858;	TEXT-DECORATION: underline	}
+
+body { font-family:돋음; font-size:9pt;  }
+table	{ font-family:돋음; font-size:9pt; vertical-align:middle; text-align:center; }
+
+.mytable { border:1px solid black; border-collapse: collapse; }
+.mytable td	{ padding:2px; border:1px solid black;}
+
