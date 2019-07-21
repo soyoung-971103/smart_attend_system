@@ -91,7 +91,7 @@ public class MemberController extends HttpServlet {
 		
 		int result = dao.delete(request.getParameter("email"));
 		
-		if(result >= 1) {	//È¸¿øÅ»Åð(»èÁ¦)¼º°ø
+		if(result >= 1) {	//È¸ï¿½ï¿½Å»ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½ï¿½
 			response.sendRedirect("member-list.do");
 		}else {
 			request.getRequestDispatcher("fail.jsp").forward(request, response);
@@ -140,7 +140,7 @@ public class MemberController extends HttpServlet {
 	*/
 	private void login(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
 		
-		System.out.println("login-1");		
+		System.out.println("login-2");		
 		
 		MemberDTO loginmember = new MemberDTO();
 		
@@ -153,7 +153,7 @@ public class MemberController extends HttpServlet {
 		if(member!= null) {	
 			request.setAttribute("name", member.getName());
 			sesobj.setAttribute("uid", member.getId());
-			request.getRequestDispatcher("main.html").forward(request, response);
+			request.getRequestDispatcher("main.jsp").forward(request, response);
 		}else {
 			request.getRequestDispatcher("login.jsp").forward(request, response);
 		}
@@ -161,17 +161,17 @@ public class MemberController extends HttpServlet {
 	
 	/*
 	private void list(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
-		int totalRows = 0;//ÀüÃ¼ »óÇ° ¼ö ·¹ÄÚµå  or ÇàÀÇ ¼ö
+		int totalRows = 0;//ï¿½ï¿½Ã¼ ï¿½ï¿½Ç° ï¿½ï¿½ ï¿½ï¿½ï¿½Úµï¿½  or ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½
 		totalRows = dao.selectCount();
-		int rowsPerPage = 3; //ÇÑ ÆäÀÌÁö¿¡ ³ªÅ¸³ª´Â »óÇ° ¼ö 
-		int paginationPerPage= 2;//ÇÑ ÆäÀÌÁö¿¡ ³ªÅ¸³ª´Â ÆäÀÌÁö ¹øÈ£ ¼ö
+		int rowsPerPage = 3; //ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å¸ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ç° ï¿½ï¿½ 
+		int paginationPerPage= 2;//ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å¸ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È£ ï¿½ï¿½
 		int pageNum = 1;
 		if(request.getParameter("pageNum")!=null) {
-			pageNum = Integer.parseInt(request.getParameter("pageNum")); //¿äÃ»ÇÑ ÆäÀÌÁö
+			pageNum = Integer.parseInt(request.getParameter("pageNum")); //ï¿½ï¿½Ã»ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			if(pageNum < 0)
 				pageNum = 1;
 		}
-		//¹Ýµå½Ã ³Ñ°ÜÁà¾ß ÇÔ ¾Æ´Ï¸é ÇöÀç ÆäÀÌÁö ¼ö ¸ð¸§
+		//ï¿½Ýµï¿½ï¿½ ï¿½Ñ°ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Æ´Ï¸ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½
 		
 		pn.processPaging(totalRows, pageNum, rowsPerPage, paginationPerPage);
 		
@@ -179,7 +179,7 @@ public class MemberController extends HttpServlet {
 			request.setAttribute("list", alMember);
 			request.setAttribute("pagination", pn);
 			request.getRequestDispatcher("customer-list.jsp").forward(request, response);
-			//¿¹¿Ü¹ß»ýÇÏ¸é È£ÃâÇÑ ÂÊÀ¸·Î ³Ñ±è, ÃÖ»óÀ§±îÁö ³Ñ±â°í °Å±â¼­ ¸Þ½ÃÁö Ã³¸®ÇÔ
+			//ï¿½ï¿½ï¿½Ü¹ß»ï¿½ï¿½Ï¸ï¿½ È£ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ñ±ï¿½, ï¿½Ö»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ñ±ï¿½ï¿½ ï¿½Å±â¼­ ï¿½Þ½ï¿½ï¿½ï¿½ Ã³ï¿½ï¿½ï¿½ï¿½
 		}else {
 			request.getRequestDispatcher("fail.jsp").forward(request, response);
 		}

@@ -51,11 +51,9 @@ public class DAOBase implements DAO {
 			e.printStackTrace();
 		}
 		try {
-			//String url="jdbc:mysql://cs.induk.ac.kr:53306/attend?useUnicode=true&characterEncoding=utf8";
-			String url="jdbc:mysql://localhost:3306/attend?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";			
+			String url="jdbc:mysql://gamejigix.induk.ac.kr:53306/attend?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
 			conn = DriverManager.getConnection(url, "attend", "attenddb");
-			//연결정보를 이용한 연결(connection) 객체생성
-			return conn; //연결 객체로부터  statement 객체 생성	 
+			return conn; 
 		}catch (SQLException e) {
 			e.printStackTrace();
 		}
