@@ -17,55 +17,87 @@ public class BuildingDAO extends DAOBase{
 	Statement stmt = null;
 	PreparedStatement pstmt = null;
 	ResultSet rs = null; 
-	ArrayList<MemberDTO> dtoList = null;
-	MemberDTO dto = null;
+	ArrayList<BuildingDTO> dtoList = null;
+	BuildingDTO dto = null;
 	HttpSession sesobj = null;
 	
 	
-	public MemberDTO loginCheck(MemberDTO loginmember) {
+	public ArrayList<BuildingDTO> selectAllList(){		
 		try {
 			conn = getConnection();
 			stmt = conn.createStatement();
-			rs = stmt.executeQuery("select * from student where " + 
-					"id=" + loginmember.getId() + " and " + 
-							"pwd='" + loginmember.getPwd() + "'");
-			if(rs.next()) {
-				dto = new MemberDTO();
+			
+			dtoList = new ArrayList<BuildingDTO>();
+			rs = stmt.executeQuery("select * from building");
+			while(rs.next()) {
+				dto = new BuildingDTO();
 				dto.setId(rs.getInt(1));
-				dto.setPwd(rs.getString(2));
-				dto.setName(rs.getString(3));
-				dto.setPhone(rs.getString(4));
-			}				
-			
-			return dto;
-			
+				dto.setName(rs.getString(2));
+				dto.setFloor(rs.getByte(3));
+				dtoList.add(dto);
+			}
+			return dtoList;
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		finally {
-			this.closeDBResources(rs, stmt, pstmt, conn);
-		}
-		return dto;			
+		return dtoList;	
 	}
 	
-	
-	/*
-	public int insert(MemberDTO dto) {
-		int result = 0;	
-				
+	public int insert(BuildingDTO dto) {    	
+    	int result = 0;
+    	try {
+    		conn = getConnection();
+        	pstmt = conn.prepareStatement("insert into building(name, floor) " +  
+    				"values(?, ?)");	
+    		
+    		pstmt.setString(1, dto.getName()); 
+    		pstmt.setByte(2, dto.getFloor());
+    		result = pstmt.executeUpdate();	
+    		return result;    		
+    	}catch(SQLException e){
+    		e.printStackTrace();
+    	}
+    	finally {
+			this.closeDBResources(rs, stmt, pstmt, conn);
+		}
+		return result;
+    }
+
+	public BuildingDTO selectOne(BuildingDTO dtoInfo){
 		try {
-			
+	  		conn = getConnection();
+	  		stmt = conn.createStatement();
+	  		rs = stmt.executeQuery("select * from building" + 
+	  		" where id = " + dtoInfo.getId());
+	  		if(rs.next()) {
+	  			dto = new BuildingDTO();
+	  			dto.setId(rs.getInt(1));
+	  			dto.setName(rs.getString(2));
+	  			dto.setFloor(rs.getByte(3));
+	  		}      			
+	  		return dto;
+	  	} catch (SQLException e) {	
+	  		e.printStackTrace();
+	  	}
+	  	finally {
+			this.closeDBResources(rs, stmt, pstmt, conn);
+		}
+	  	return dto;
+	  }
+
+	public int update(BuildingDTO dto) {
+		int result = 0;
+		
+		try {
 			conn = getConnection();
-			pstmt = conn.prepareStatement("insert into ja_026_member " + 
-					"values(?, ?, ?, ?)");
+			pstmt = conn.prepareStatement("update building " + 
+			"set name=?, floor=? where id=?");
+			pstmt.setString(1, dto.getName()); 
+			pstmt.setByte(2, dto.getFloor());    
+			pstmt.setInt(3, dto.getId());
 			
-			pstmt.setString(1, dto.getEmail()); 
-			pstmt.setString(2, dto.getPw());
-			pstmt.setString(3, dto.getName());
-			pstmt.setString(4, dto.getPhone());
-			
-			result = pstmt.executeUpdate();
+			result = pstmt.executeUpdate();	
 			return result;
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -74,41 +106,15 @@ public class BuildingDAO extends DAOBase{
 		finally {
 			this.closeDBResources(rs, stmt, pstmt, conn);
 		}
-		return result;
-	}
-
-	public MemberDTO selectRow(String email) {		
-		try {
-			conn = getConnection();
-			stmt = conn.createStatement();
-			rs = stmt.executeQuery("select * from ja_026_member where " + 
-			"email='" + email + "'");
-			dto = null;
-			//statement ∞¥√º∑Œ ¡ˆ¡§µ» sql Ω««‡. result set¿ª π›»Ø πﬁ¿Ω
-			if(rs.next()) {//¡˙¿« ∞·∞˙∞° ¥Ÿ¿Ω ∑πƒ⁄µÂ∞° ¡∏¿Á«œ∏È  true, æ∆¥œ∏È false
-				dto = new MemberDTO();
-				dto.setEmail(rs.getString(1));
-				dto.setPw(rs.getString(2));
-				dto.setName(rs.getString(3));
-				dto.setPhone(rs.getString(4));
-			}
-			return dto;
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		finally {
-			this.closeDBResources(rs, stmt, pstmt, conn);
-		}
-		return dto;
+		return result;				
 	}
 	
-	public int delete(String email) {
+	public int delete(int id) {
 		int result = 0;
 		try {
 			conn = getConnection();
-			pstmt = conn.prepareStatement("delete from ja_026_member where email=?");
-			pstmt.setString(1, email); //√ππ¯¬∞ π∞¿Ω«• ¥Î√º
+			pstmt = conn.prepareStatement("delete from building where id=? ");
+			pstmt.setInt(1, id); //Ï≤´Î≤àÏß∏ Î¨ºÏùåÌëú ÎåÄÏ≤¥
 			result = pstmt.executeUpdate();	
 			return result;
 		} catch (SQLException e) {
@@ -120,79 +126,19 @@ public class BuildingDAO extends DAOBase{
 		}
 		return result;			
 	}
-
-	public int update(MemberDTO dto) {
-		int result = 0;
-		
-		try {
-			conn = getConnection();
-			if(dto.getPw() != "" && dto.getPw() != null) {
-				pstmt = conn.prepareStatement("update ja_026_member " 
-						+ "set pw=?, name=?, phone=? where email=?");
-				pstmt.setString(4, dto.getEmail()); //√ππ¯¬∞ π∞¿Ω«• ¥Î√º
-				pstmt.setString(1, dto.getPw());
-				pstmt.setString(2, dto.getName());
-				pstmt.setString(3, dto.getPhone());
-			}else {
-				pstmt = conn.prepareStatement("update ja_026_member " 
-						+ "set name=?, phone=? where email=?");
-				pstmt.setString(3, dto.getEmail()); //√ππ¯¬∞ π∞¿Ω«• ¥Î√º
-				pstmt.setString(1, dto.getName());
-				pstmt.setString(2, dto.getPhone());				
-			}
-			
-			result = pstmt.executeUpdate();	
-			return result;
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		finally {
-			this.closeDBResources(rs, stmt, pstmt, conn);
-		}
-		return result;
-		//ƒƒ∆ƒ¿œµ» ªÛ≈¬∑Œ ∞™∏∏ ¥Î¿‘«ÿº≠ ªÁøÎ
-		
-	}
-
-	public MemberDTO loginCheck(MemberDTO loginmember) {
+	
+	public ArrayList<BuildingDTO> selectSearchList(String text){		
 		try {
 			conn = getConnection();
 			stmt = conn.createStatement();
-			rs = stmt.executeQuery("select * from ja_026_member where " + 
-					"email='" + loginmember.getEmail() + "' and " + 
-							"pw='" + loginmember.getPw() + "'");
-			//statement ∞¥√º∑Œ ¡ˆ¡§µ» sql Ω««‡. result set¿ª π›»Ø πﬁ¿Ω
-			if(rs.next()) {//¡˙¿« ∞·∞˙∞° ¥Ÿ¿Ω ∑πƒ⁄µÂ∞° ¡∏¿Á«œ∏È  true, æ∆¥œ∏È false
-				dto = new MemberDTO();
-				dto.setEmail(rs.getString(1));
-				dto.setPw(rs.getString(2));
-				dto.setName(rs.getString(3));
-				dto.setPhone(rs.getString(4));
-			}				
 			
-			return dto;
-			
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		finally {
-			this.closeDBResources(rs, stmt, pstmt, conn);
-		}
-		return dto;			
-	}
-	
-	public ArrayList<MemberDTO> list(){		
-		try {
-			dtoList = new ArrayList<MemberDTO>();
-			rs = stmt.executeQuery("select * from ja_026_member");
+			dtoList = new ArrayList<BuildingDTO>();
+			rs = stmt.executeQuery("select * from building where name="+text);
 			while(rs.next()) {
-				dto = new MemberDTO();
-				dto.setEmail(rs.getString(1));
-				dto.setPw(rs.getString(2));
-				dto.setName(rs.getString(3));
-				dto.setPhone(rs.getString(4));
+				dto = new BuildingDTO();
+				dto.setId(rs.getInt(1));
+				dto.setName(rs.getString(2));
+				dto.setFloor(rs.getByte(3));
 				dtoList.add(dto);
 			}
 			return dtoList;
@@ -202,48 +148,4 @@ public class BuildingDAO extends DAOBase{
 		}
 		return dtoList;	
 	}
-	
-	public ArrayList<MemberDTO> selectListBetween(int start, int end){
-		  try {
-	  		conn = getConnection();
-	      	stmt = conn.createStatement();
-	      	rs = stmt.executeQuery("select * from (select rownum rnum, email, pw, name, phone from ja_026_member) a where a.rnum between "+start+" and "+end+""); //"where id = '"+id+"'"
-	  		dtoList = new ArrayList<MemberDTO>();	      	
-	  		
-	  		//statement ∞¥√º∑Œ ¡ˆ¡§µ» sql Ω««‡. result set¿ª π›»Ø πﬁ¿Ω
-	  		while(rs.next()) {
-	  			dto = new MemberDTO();
-	  			dto.setEmail(rs.getString(2));
-				dto.setPw(rs.getString(3));
-				dto.setName(rs.getString(4));
-				dto.setPhone(rs.getString(5));
-				dtoList.add(dto);
-	  		}
-	  		//rs.close();stmt.close();conn.close();
-	  		return dtoList;
-	  	}catch(SQLException e){
-	  		e.printStackTrace();
-	  	}
-			return dtoList;
-	  }
-	
-	public int selectCount() {
-	  	int totalRows = 0;
-	  	try {
-	  		conn = getConnection();
-	  		stmt = conn.createStatement();
-	  		rs = stmt.executeQuery("select count(*) from ja_026_member");
-	  		if(rs.next())
-	  			totalRows = rs.getInt(1);
-	  		return totalRows;
-	  	} catch (SQLException e) {
-	  		e.printStackTrace();
-	  	}
-	  	finally {
-			this.closeDBResources(rs, stmt, pstmt, conn);
-		}
-	  	return totalRows;
-	  }
-	
-	*/
 }

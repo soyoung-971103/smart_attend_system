@@ -57,7 +57,7 @@
 							<li><hr style="background-color:gray;margin:0 25px 0 25px;"></li>
 							<li><a href="ad_depart.html" style="padding:5px 0 5px 40px;">학과/부서</a></li>
 							<li><a href="ad_room.html" style="padding:5px 0 5px 40px;">강의실</a></li>
-							<li><a href=""style="padding:5px 0 5px 40px;">건물</a></li>
+							<li><a href="building-list.do"style="padding:5px 0 5px 40px;">건물</a></li>
 							<li><a href="ad_holiday.html" style="padding:5px 0 5px 40px;">휴일</a></li>
 						</ul>
 					</li>
