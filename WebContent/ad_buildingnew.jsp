@@ -33,7 +33,7 @@
 <div id="main">
 
 	<%@ include file="main_menu.jsp" %>
-		
+	
     <div class="content-page">
 	    <div class="content">
 			<div class="container-fluid">
@@ -43,9 +43,11 @@
 				<div class="row">
 					<div class="col-xl-12">
 						<div class="breadcrumb-holder">
-							<h1 class="main-title float-left">인덕대학교</h1>
+							<h1 class="main-title float-left">교무처</h1>
 							<ol class="breadcrumb float-right">
-								<li class="breadcrumb-item active">Home</li>
+								<li class="breadcrumb-item">Home</li>
+								<li class="breadcrumb-item">직원</li>
+								<li class="breadcrumb-item active">건물</li>
 							</ol>
 							<div class="clearfix"></div>
 						</div>
@@ -57,25 +59,54 @@
 					<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
 						<div class="card mb-3">
 							<div class="card-header mycolor3" style="padding:10px">
-								<div class="row">
-									<div class="col" align="left">
-										<h3><i class="fa fa-table"></i> 공지사항</h3>
-									</div>
-									<div class="col" align="right">
-										<h3></h3>
-									</div>
-								</div>
+								<h3><i class="fa fa-table"></i> 건물 입력</h3>
 							</div>
+								
 							<div class="card-body" style="padding:10px">
 
-							&nbsp;<br>
-							&nbsp;<br>
-							&nbsp;<br>
-							&nbsp;<br>
-							&nbsp;<br>
-							&nbsp;<br>
-							&nbsp;<br>
-							&nbsp;<br>
+								<script>
+									function find_text()
+									{
+										if (!form1.text1.value)
+											form1.action="/member/lists/page";
+										else
+											form1.action="/member/lists/text1/" + form1.text1.value+"/page";
+										form1.submit();
+									}
+								</script>
+
+								<form name="form1" method="post" action="building-register.do">
+
+								<table class="table table-bordered mytable-centermiddle" style="width:100%;">
+									<tr>
+										<td class="mycolor2" width="70">건물명</td>
+										<td>
+											<input type="text" name="name" value="" class="form-control form-control-sm" required>
+										</td>
+									</tr>
+									<tr>
+										<td class="mycolor2">층수</td>
+										<td>
+											<div class="form-inline">
+												<select name="floor" class="form-control form-control-sm">
+													<option value="0" selected></option>
+													<option value='1'>1층</option>
+													<option value='2'>2층</option>
+													<option value='3'>3층</option>
+													<option value='4'>4층</option>
+													<option value='5'>5층</option>
+												</select>
+											</div>
+										</td>
+									</tr>
+								</table>
+
+								<div align="center">
+									<input type="submit" value="저장" class="btn btn-sm mycolor1">&nbsp;
+									<input type="button" value="이전화면" class="btn btn-sm mycolor1" onclick="history.back();">
+								</div>
+
+								</form>
 
 							</div>		<!-- card body end -->
 						</div>		<!-- card end -->
