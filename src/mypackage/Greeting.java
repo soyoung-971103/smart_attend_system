@@ -12,6 +12,6 @@ public class Greeting
 
     public void say() {
 
-		System.out.println("?•ˆ?…• " + msg);
+		System.out.println("dd " + msg);
 	}
 } 

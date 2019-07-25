@@ -22,7 +22,7 @@ import model.MemberDTO;
 /**
  * Servlet implementation class MemberController
  */
-@WebServlet({"/member-login.do","/member-register.do"})
+@WebServlet({"/member-login.do","/member-register.do","/member-list.do"})
 public class MemberController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -52,21 +52,9 @@ public class MemberController extends HttpServlet {
 		int lastIndex = uri.lastIndexOf('/'); 
 		String action = uri.substring(lastIndex + 1); 
 		
-		if(action.equals("member-list.do")) {
-			//list(request, response);
-		}else if(action.equals("member-login.do")) {
+		if(action.equals("member-login.do")) {
 			login(request, response);
-		}else if(action.equals("member-register.do")) {
-			//register(request, response);
-		}else if(action.equals("member-update.do")) {
-			//update(request, response);
-		}else if(action.equals("member-delete.do")) {
-			//delete(request, response);		
-		}else if(action.equals("member-info.do")) {
-			//info(request, response);		
 		}
-		else
-			;
 		
 	}
 	
@@ -140,7 +128,7 @@ public class MemberController extends HttpServlet {
 	*/
 	private void login(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
 		
-		System.out.println("login-2");		
+		System.out.println("login-1");		
 		
 		MemberDTO loginmember = new MemberDTO();
 		
@@ -158,34 +146,6 @@ public class MemberController extends HttpServlet {
 			request.getRequestDispatcher("login.jsp").forward(request, response);
 		}
 	}
-	
-	/*
-	private void list(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
-		int totalRows = 0;//��ü ��ǰ �� ���ڵ�  or ���� ��
-		totalRows = dao.selectCount();
-		int rowsPerPage = 3; //�� �������� ��Ÿ���� ��ǰ �� 
-		int paginationPerPage= 2;//�� �������� ��Ÿ���� ������ ��ȣ ��
-		int pageNum = 1;
-		if(request.getParameter("pageNum")!=null) {
-			pageNum = Integer.parseInt(request.getParameter("pageNum")); //��û�� ������
-			if(pageNum < 0)
-				pageNum = 1;
-		}
-		//�ݵ�� �Ѱ���� �� �ƴϸ� ���� ������ �� ��
-		
-		pn.processPaging(totalRows, pageNum, rowsPerPage, paginationPerPage);
-		
-		if((alMember = dao.selectListBetween(pn.getStartRow(), pn.getEndRow())) != null) {
-			request.setAttribute("list", alMember);
-			request.setAttribute("pagination", pn);
-			request.getRequestDispatcher("customer-list.jsp").forward(request, response);
-			//���ܹ߻��ϸ� ȣ���� ������ �ѱ�, �ֻ������� �ѱ�� �ű⼭ �޽��� ó����
-		}else {
-			request.getRequestDispatcher("fail.jsp").forward(request, response);
-		}
-	}
-	
-	*/
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     	try {

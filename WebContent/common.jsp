@@ -1,6 +1,4 @@
 <!-- 화살표 때문에 인코딩방식 설정 김진혁-->
-<%@ page contentType="text/html;charset=utf-8" %>
-
 <%
 	Class.forName("com.mysql.jdbc.Driver");
 

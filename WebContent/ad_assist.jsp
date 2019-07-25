@@ -1,9 +1,53 @@
+<!-------------------------------------------------------------------------------->
+<!-- 프로그램 : 인덕대학교 컴퓨터소프트웨어학과 전자출석 Demo                              -->
+<!--                                                                                                                  -->
+<!-- 소속 : 인덕대학교  컴퓨터소프트웨어학과  창업동아리 겜지기                              -->
+<!-- 교수 : 윤형태 (2019.5 -        )                                                                         -->
+<!-- 학생 : 유소영(3), 김해리(3), 이민호(2), 김진혁(2)                                              -->
+<!-------------------------------------------------------------------------------->	
 <%@ page contentType="text/html;charset=utf-8" %>
 <%@ page import="java.util.*, java.sql.*, java.io.*" %>
 <% request.setCharacterEncoding("utf-8"); %>
 <%@ include file="common.jsp" %>
-<%@ include file="main_top.jsp" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>  
 
+<!DOCTYPE html>
+<html lang="kr">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<title>인덕대학교 전자출석 Demo (겜지기)</title>
+
+	<link rel="shortcut icon" href="my/images/favicon.ico">
+
+	<!-- css 선언부 ---------------------------------------------------------------->
+	<link href="my/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+	<link href="my/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+	<link href="my/css/style.css" rel="stylesheet" type="text/css" />
+
+	<link href="my/css/dataTables.bootstrap4.min.css" rel="stylesheet">	<!-- datatable.net -->
+
+	<link href="my/css/my.css" rel="stylesheet" type="text/css">
+
+</head>
+
+<body class="adminbody">
+
+<div id="main">
+
+	<%@include file="main_menu.jsp" %>
+	
+    <div class="content-page">
+	    <div class="content">
+			<div class="container-fluid">
+<!------------------------------------------------------------------------------>
+<!-- 내용 시작 -->
+<!------------------------------------------------------------------------------>
+
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%
 
 	// 이전 문서의 변수들 (page는 예약어) ----------------------------------------------
@@ -62,7 +106,7 @@
 									}
 								</script>
 
-								<form name="form1" method="post" action="">
+								<form name="form1" method="post" action="AssistInquiry">
 								<div class="row" style="margin-bottom:5px">
 									<div class="col-auto" align="left">
 										<div class="form-inline">
@@ -70,7 +114,7 @@
 												<div class="input-group-prepend">
 													<span class="input-group-text">이름</span>
 												</div>
-												<input type="text" name="text1" size="10" value="<%= text1 %>" class="form-control">
+												<input type="text" name="text1" size="10" value="${text1}" class="form-control">
 												<div class="input-group-append">
 													<button class="btn btn-sm mycolor1" type="button" >검색</button>
 												</div>
@@ -78,7 +122,7 @@
 										</div>
 									</div>
 									<div class="col" align="right">
-										<a href="ad_assistnew.html" class="btn btn-sm mycolor1">추가</a>
+										<a href="ad_assistnew.jsp" class="btn btn-sm mycolor1">추가</a>
 									</div>
 								</div>
 								</form>
@@ -92,36 +136,28 @@
 										<th>이메일</th>
 										<th width="95"></th>
 									</tr>
-
-									<%
-										while(rs.next()){
-											String id = rs.getString("id");
-											String depart_id = rs.getString("depart_id");
-
-											if(depart_id.equals("1")) depart_id = "컴소과";
-											else if(depart_id.equals("2"))
-												depart_id = "전자과";
-
-											String name = rs.getString("name");
-											String tel = rs.getString("tel");
-											String phone = rs.getString("phone");
-											String email = rs.getString("email");
-
-									%>
+									<c:forEach var="item" items="${alMember}">
 										<tr>
-										<td><%= depart_id %></td>
-										<td><%= name %></td>
-										<td><%= tel %></td>
-										<td><%= phone %></td>
-										<td><%= email %></td>
 										<td>
-											<a href="ad_assistupdate.jsp?id=<%=id%>" class="btn btn-xs btn-outline-primary">수정</a>
-											<a href="ad_assistMA.jsp?id=<%=id%>&MA=DELETE" class="btn btn-xs btn-outline-danger" onClick="return confirm('삭제할까요 ?');">삭제</a>
+											<c:choose>
+												<c:when test="${item.getDepart_id() eq '1' }">
+													컴소과
+												</c:when>
+												<c:when test="${item.getDepart_id() eq '2' }">
+													전자과
+												</c:when>
+											</c:choose>
 										</td>
-										</tr>
-									<% }
-									%>
-
+										<td>${item.getName() }</td>
+										<td>${item.getTel() }</td>
+										<td>${item.getPhone() }</td>
+										<td>${item.getEmail() }</td>
+										<td>
+											<a href="AssistInfo?id=${item.id }" class="btn btn-xs btn-outline-primary">수정</a>
+											<a href="AssistDelete?id=${item.id }" class="btn btn-xs btn-outline-danger" onClick="return confirm('삭제할까요 ?');">삭제</a>
+										</td>
+									</tr>
+									</c:forEach>
 								</table>
 
 								<%
