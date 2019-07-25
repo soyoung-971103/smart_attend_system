@@ -51,7 +51,7 @@ public class DepartDAO extends DAOBase{
 		
 		try {
 			conn = getConnection();
-			pstmt = conn.prepareStatement("update Depart " + 
+			pstmt = conn.prepareStatement("update depart " + 
 			"set name=?, classnum=?, gradesystem=? where id=?");
 			
 			

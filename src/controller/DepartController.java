@@ -1,12 +1,7 @@
 package controller;
 
 import java.io.IOException;
-//import java.sql.Connection;
-//import java.sql.DriverManager;
-//import java.sql.PreparedStatement;
-//import java.sql.ResultSet;
 import java.sql.SQLException;
-//import java.sql.Statement;
 import java.util.ArrayList;
 
 import javax.servlet.ServletException;
@@ -18,7 +13,7 @@ import javax.servlet.http.HttpSession;
 
 import model.DepartDAO;
 import model.DepartDTO;
-//import service.Pagination;
+
 /**
  * Servlet implementation class MemberController
  */
@@ -76,9 +71,9 @@ public class DepartController extends HttpServlet {
     	
     	if(dto != null) {
   			request.setAttribute("depart", dto);
-  			request.getRequestDispatcher("ad_depart_update.jsp").forward(request, response);
+  			request.getRequestDispatcher("ad_departUpdate.jsp").forward(request, response);
   		}else {
-  			request.getRequestDispatcher("main.jsp").forward(request, response);
+  			request.getRequestDispatcher("depart-list.do").forward(request, response);
   		}
 	}
 	
@@ -95,9 +90,7 @@ public class DepartController extends HttpServlet {
 	
 	
 	private void update(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
-			
-		dto = new DepartDTO();
-    	
+		
 		dto.setId(Integer.parseInt(request.getParameter("id")));
 		dto.setName(request.getParameter("name"));
 		dto.setClassnum(Byte.parseByte(request.getParameter("classnum")));
@@ -108,7 +101,7 @@ public class DepartController extends HttpServlet {
 		if(result >= 1) {	
 			request.getRequestDispatcher("depart-list.do").forward(request, response);
 		}else {
-			request.getRequestDispatcher("ad_depart.jsp").forward(request, response);
+			request.getRequestDispatcher("ad_departUpdate.jsp").forward(request, response);
 		}
 	}
 	

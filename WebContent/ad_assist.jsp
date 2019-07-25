@@ -45,25 +45,6 @@
 <!------------------------------------------------------------------------------>
 
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%
-
-	// 이전 문서의 변수들 (page는 예약어) ----------------------------------------------
-	//String text1 = request.getParameter("text1");
-	//if(text1 == null) text1 = "";
-
-	//int npage= request.getParameter("npage")==null ? npage=1 :  Integer.parseInt(request.getParameter("npage"));
-
-	// 레코드개수 세기  ----------------------------------------------
-	//String where = text1=="" ? "" : "where name like '"+text1+"%'";
-	//query="select count(*) from staff "+where;
-	//int count=rowcount(query);
-
-	// 현재 페이지의 레코드위치 계산 및 해당 페이지 읽기 -------------------------------
-	//int	start = (npage-1) * page_line;
-
-	//query="select * from staff "+where+" order by name limit "+start+","+page_line+";";
-	//rs = stmt.executeQuery(query);
-%>
 
 <!------------------------------------------------------------------------------>
 <!-- 내용 시작 -->
@@ -123,7 +104,7 @@
 									</div>
 								</div>
 								</form>
-
+ 
 								<table class="table table-bordered table-hover table-responsive-sm mytable" style="width:100%;" id="example">
 									<tr class="mycolor1">
 										<th>학과</th>
@@ -156,11 +137,6 @@
 									</tr>
 									</c:forEach>
 								</table>
-
-								<%
-									//String nurl = "ad_assist.jsp?text1="+text1;
-									//out.println(pagination(npage, count, nurl));
-								%>
 
 							</div>		<!-- card body end -->
 						</div>		<!-- card end -->

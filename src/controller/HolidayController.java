@@ -1,14 +1,7 @@
 package controller;
 
 import java.io.IOException;
-import java.sql.Date;
-//import java.sql.Connection;
-//import java.sql.DriverManager;
-//import java.sql.PreparedStatement;
-//import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.SimpleDateFormat;
-//import java.sql.Statement;
 import java.util.ArrayList;
 
 import javax.servlet.ServletException;
@@ -18,13 +11,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+
 import model.HolidayDAO;
 import model.HolidayDTO;
 //import service.Pagination;
 /**
  * Servlet implementation class MemberController
  */
-@WebServlet({"/Holiday-list.do","/Holiday-info.do","/Holiday-delete.do","/Holiday-update.do","/Holiday-insert.do"})
+@WebServlet({"/holiday-list.do","/holiday-info.do","/holiday-delete.do","/holiday-update.do","/holiday-insert.do"})
 public class HolidayController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -53,15 +49,15 @@ public class HolidayController extends HttpServlet {
 		int lastIndex = uri.lastIndexOf('/'); 
 		String action = uri.substring(lastIndex + 1); 
 		
-		if(action.equals("Holiday-list.do")) {
+		if(action.equals("holiday-list.do")) {
 			list(request, response);
-		}else if(action.equals("Holiday-insert.do")) {
+		}else if(action.equals("holiday-insert.do")) {
 			insert(request, response);
-		}else if(action.equals("Holiday-update.do")) {
+		}else if(action.equals("holiday-update.do")) {
 			update(request, response);
-		}else if(action.equals("Holiday-delete.do")) {
+		}else if(action.equals("holiday-delete.do")) {
 			delete(request, response);		
-		}else if(action.equals("Holiday-info.do")) {
+		}else if(action.equals("holiday-info.do")) {
 			info(request, response);		
 		}
 		else
@@ -77,10 +73,10 @@ public class HolidayController extends HttpServlet {
     	dto = dao.selectOne(dtoInfo);
     	
     	if(dto != null) {
-  			request.setAttribute("Holiday", dto);
-  			request.getRequestDispatcher("ad_Holiday_update.jsp").forward(request, response);
+  			request.setAttribute("holiday", dto);
+  			request.getRequestDispatcher("ad_holidayupdate.jsp").forward(request, response);
   		}else {
-  			request.getRequestDispatcher("main.jsp").forward(request, response);
+  			request.getRequestDispatcher("holiday-list.do").forward(request, response);
   		}
 	}
 	
@@ -89,58 +85,68 @@ public class HolidayController extends HttpServlet {
 		int result = dao.delete(Integer.parseInt(request.getParameter("id")));
 		
 		if(result >= 1) {	
-			request.getRequestDispatcher("Holiday-list.do").forward(request, response);
+			request.getRequestDispatcher("holiday-list.do").forward(request, response);
 		}else {
-			request.getRequestDispatcher("ad_Holiday.jsp").forward(request, response);
+			request.getRequestDispatcher("ad_holiday.jsp").forward(request, response);
 		}
 	}
 	
 	
 	private void update(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
-			
-		dto = new HolidayDTO();
-    	
+		
 		dto.setYyyy(Integer.parseInt(request.getParameter("yyyy")));
-		String from = (request.getParameter("holiday"));
-		Date d = Date.valueOf(from);
-		dto.setHoliday(d);
+		SimpleDateFormat utilDate = new SimpleDateFormat("yyyy-MM-dd");
+		String day = request.getParameter("holiday");
+		try {
+			dto.setHoliday(utilDate.parse(day));
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		dto.setReason(request.getParameter("reason"));
 		
 		int result = dao.update(dto);
 		
 		if(result >= 1) {	
-			request.getRequestDispatcher("Holiday-list.do").forward(request, response);
+			request.getRequestDispatcher("holiday-list.do").forward(request, response);
 		}else {
-			request.getRequestDispatcher("ad_Holiday.jsp").forward(request, response);
+			request.getRequestDispatcher("ad_holidayupdate.jsp").forward(request, response);
 		}
 	}
 	
 	
-	private void insert(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
+	private void insert(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException{
 		
 		dto = new HolidayDTO();
     	
 		dto.setYyyy(Integer.parseInt(request.getParameter("yyyy")));
-		String from = (request.getParameter("holiday"));
-		Date d = Date.valueOf(from);
-		dto.setHoliday(d);
-		dto.setReason(request.getParameter("reason"));
 		
+		SimpleDateFormat utilDate = new SimpleDateFormat("yyyy-MM-dd");
+		String day = request.getParameter("holiday");
+		try {
+			dto.setHoliday(utilDate.parse(day));
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		dto.setReason(request.getParameter("reason"));
 		int result = dao.insert(dto);
 		
 		if(result >= 1) {	
-			request.getRequestDispatcher("Holiday-list.do").forward(request, response);
+			request.getRequestDispatcher("holiday-list.do").forward(request, response);
 		}else {
-			request.getRequestDispatcher("ad_Holidaynew.jsp").forward(request, response);
+			request.getRequestDispatcher("ad_holidaynew.jsp").forward(request, response);
 		}
 	}
 	
+
 
 	private void list(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
 		
     	dtoList = dao.List();
     	request.setAttribute("list", dtoList);    	
-    	request.getRequestDispatcher("ad_building.jsp").forward(request, response);
+    	request.getRequestDispatcher("ad_holiday.jsp").forward(request, response);
 		
 	}
 	
