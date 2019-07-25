@@ -84,8 +84,8 @@ public class MemberDAO extends DAOBase{
 			rs = stmt.executeQuery("select * from ja_026_member where " + 
 			"email='" + email + "'");
 			dto = null;
-			//statement °´Ã¼·Î ÁöÁ¤µÈ sql ½ÇÇà. result setÀ» ¹ÝÈ¯ ¹ÞÀ½
-			if(rs.next()) {//ÁúÀÇ °á°ú°¡ ´ÙÀ½ ·¹ÄÚµå°¡ Á¸ÀçÇÏ¸é  true, ¾Æ´Ï¸é false
+			//statement ï¿½ï¿½Ã¼ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ sql ï¿½ï¿½ï¿½ï¿½. result setï¿½ï¿½ ï¿½ï¿½È¯ ï¿½ï¿½ï¿½ï¿½
+			if(rs.next()) {//ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Úµå°¡ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¸ï¿½  true, ï¿½Æ´Ï¸ï¿½ false
 				dto = new MemberDTO();
 				dto.setEmail(rs.getString(1));
 				dto.setPw(rs.getString(2));
@@ -108,7 +108,7 @@ public class MemberDAO extends DAOBase{
 		try {
 			conn = getConnection();
 			pstmt = conn.prepareStatement("delete from ja_026_member where email=?");
-			pstmt.setString(1, email); //Ã¹¹øÂ° ¹°À½Ç¥ ´ëÃ¼
+			pstmt.setString(1, email); //Ã¹ï¿½ï¿½Â° ï¿½ï¿½ï¿½ï¿½Ç¥ ï¿½ï¿½Ã¼
 			result = pstmt.executeUpdate();	
 			return result;
 		} catch (SQLException e) {
@@ -129,14 +129,14 @@ public class MemberDAO extends DAOBase{
 			if(dto.getPw() != "" && dto.getPw() != null) {
 				pstmt = conn.prepareStatement("update ja_026_member " 
 						+ "set pw=?, name=?, phone=? where email=?");
-				pstmt.setString(4, dto.getEmail()); //Ã¹¹øÂ° ¹°À½Ç¥ ´ëÃ¼
+				pstmt.setString(4, dto.getEmail()); //Ã¹ï¿½ï¿½Â° ï¿½ï¿½ï¿½ï¿½Ç¥ ï¿½ï¿½Ã¼
 				pstmt.setString(1, dto.getPw());
 				pstmt.setString(2, dto.getName());
 				pstmt.setString(3, dto.getPhone());
 			}else {
 				pstmt = conn.prepareStatement("update ja_026_member " 
 						+ "set name=?, phone=? where email=?");
-				pstmt.setString(3, dto.getEmail()); //Ã¹¹øÂ° ¹°À½Ç¥ ´ëÃ¼
+				pstmt.setString(3, dto.getEmail()); //Ã¹ï¿½ï¿½Â° ï¿½ï¿½ï¿½ï¿½Ç¥ ï¿½ï¿½Ã¼
 				pstmt.setString(1, dto.getName());
 				pstmt.setString(2, dto.getPhone());				
 			}
@@ -151,7 +151,7 @@ public class MemberDAO extends DAOBase{
 			this.closeDBResources(rs, stmt, pstmt, conn);
 		}
 		return result;
-		//ÄÄÆÄÀÏµÈ »óÅÂ·Î °ª¸¸ ´ëÀÔÇØ¼­ »ç¿ë
+		//ï¿½ï¿½ï¿½ï¿½ï¿½Ïµï¿½ ï¿½ï¿½ï¿½Â·ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ø¼ï¿½ ï¿½ï¿½ï¿½
 		
 	}
 
@@ -162,8 +162,8 @@ public class MemberDAO extends DAOBase{
 			rs = stmt.executeQuery("select * from ja_026_member where " + 
 					"email='" + loginmember.getEmail() + "' and " + 
 							"pw='" + loginmember.getPw() + "'");
-			//statement °´Ã¼·Î ÁöÁ¤µÈ sql ½ÇÇà. result setÀ» ¹ÝÈ¯ ¹ÞÀ½
-			if(rs.next()) {//ÁúÀÇ °á°ú°¡ ´ÙÀ½ ·¹ÄÚµå°¡ Á¸ÀçÇÏ¸é  true, ¾Æ´Ï¸é false
+			//statement ï¿½ï¿½Ã¼ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ sql ï¿½ï¿½ï¿½ï¿½. result setï¿½ï¿½ ï¿½ï¿½È¯ ï¿½ï¿½ï¿½ï¿½
+			if(rs.next()) {//ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Úµå°¡ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¸ï¿½  true, ï¿½Æ´Ï¸ï¿½ false
 				dto = new MemberDTO();
 				dto.setEmail(rs.getString(1));
 				dto.setPw(rs.getString(2));
@@ -182,27 +182,9 @@ public class MemberDAO extends DAOBase{
 		}
 		return dto;			
 	}
+	*/
 	
-	public ArrayList<MemberDTO> list(){		
-		try {
-			dtoList = new ArrayList<MemberDTO>();
-			rs = stmt.executeQuery("select * from ja_026_member");
-			while(rs.next()) {
-				dto = new MemberDTO();
-				dto.setEmail(rs.getString(1));
-				dto.setPw(rs.getString(2));
-				dto.setName(rs.getString(3));
-				dto.setPhone(rs.getString(4));
-				dtoList.add(dto);
-			}
-			return dtoList;
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return dtoList;	
-	}
-	
+	/*
 	public ArrayList<MemberDTO> selectListBetween(int start, int end){
 		  try {
 	  		conn = getConnection();
@@ -210,7 +192,7 @@ public class MemberDAO extends DAOBase{
 	      	rs = stmt.executeQuery("select * from (select rownum rnum, email, pw, name, phone from ja_026_member) a where a.rnum between "+start+" and "+end+""); //"where id = '"+id+"'"
 	  		dtoList = new ArrayList<MemberDTO>();	      	
 	  		
-	  		//statement °´Ã¼·Î ÁöÁ¤µÈ sql ½ÇÇà. result setÀ» ¹ÝÈ¯ ¹ÞÀ½
+	  		//statement ï¿½ï¿½Ã¼ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ sql ï¿½ï¿½ï¿½ï¿½. result setï¿½ï¿½ ï¿½ï¿½È¯ ï¿½ï¿½ï¿½ï¿½
 	  		while(rs.next()) {
 	  			dto = new MemberDTO();
 	  			dto.setEmail(rs.getString(2));

@@ -59,19 +59,19 @@
 					<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
 						<div class="card mb-3">
 							<div class="card-header mycolor3" style="padding:10px">
-								<h3><i class="fa fa-table"></i> 학과 및 부서 수정</h3>
+								<h3><i class="fa fa-table"></i> 학과 및 부서 입력</h3>
 							</div>
 								
 							<div class="card-body" style="padding:10px">
 
-								<form name="form1" method="post" action="depart-update.do">
+								<form name="form1" method="post" action="depart-insert.do">
 
 								<table class="table table-bordered mytable-centermiddle" style="width:100%;">
 									<tr>
 										<td class="mycolor2">번호</td>
 										<td>
 											<div class="form-inline">
-												<input type="text" name="id" value="${depart.id }" class="form-control form-control-sm" style="width:50px">
+												<input type="text" name="id" value="" class="form-control form-control-sm" style="width:50px">
 											</div>
 										</td>
 									</tr>
@@ -79,7 +79,7 @@
 										<td class="mycolor2">학과/부서명</td>
 										<td>
 											<div class="form-inline">
-												<input type="text" name="name" value="${depart.name }" class="form-control form-control-sm" required>
+												<input type="text" name="name" value="" class="form-control form-control-sm" required>
 											</div>
 										</td>
 									</tr>

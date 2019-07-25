@@ -1,34 +1,45 @@
-    <!-------------------------------------------------------------------------------->
-        <!-- 프로그램 : 인덕대학교 컴퓨터소프트웨어학과 전자출석 Demo -->
-        <!-- -->
-        <!-- 소속 : 인덕대학교 컴퓨터소프트웨어학과 창업동아리 겜지기 -->
-        <!-- 교수 : 윤형태 (2019.5 - ) -->
-        <!-- 학생 : 유소영(3), 김해리(3), 이민호(2), 김진혁(2) -->
-        <!-------------------------------------------------------------------------------->
-        <%@ page contentType="text/html;charset=utf-8" %>
-        <%@ page import="java.util.*, java.sql.*, java.io.*" %>
-            <% request.setCharacterEncoding("utf-8"); %>
-        <%@ include file="common.jsp" %>
-        <%@ include file="main_top.jsp" %>
-            <%
-	// 이전 문서의 변수들 (page는 예약어) ----------------------------------------------
-	String text1 = request.getParameter("text1") == null ? "" : request.getParameter("text1");
-	int npage= request.getParameter("page")==null ? npage=1 :  Integer.parseInt(request.getParameter("page"));
+<!-------------------------------------------------------------------------------->	
+<!-- 프로그램 : 인덕대학교 컴퓨터소프트웨어학과 전자출석 Demo                              -->
+<!--                                                                                                                  -->
+<!-- 소속 : 인덕대학교  컴퓨터소프트웨어학과  창업동아리 겜지기                              -->
+<!-- 교수 : 윤형태 (2019.5 -        )                                                                         -->
+<!-- 학생 : 유소영(3), 김해리(3), 이민호(2), 김진혁(2)                                              -->
+<!-------------------------------------------------------------------------------->	
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html lang="kr">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	
+	<title>인덕대학교 전자출석 Demo (겜지기)</title>
 
-	// 레코드개수 세기  ----------------------------------------------
-	String where = text1=="" ? "" : "where name like '"+text1+"%'";
-	query="select count(*) from depart "+where;
-	int count=rowcount(query);
+	<link rel="shortcut icon" href="my/images/favicon.ico">
 
-	// 현재 페이지의 레코드위치 계산 및 해당 페이지 읽기 -------------------------------
-	int	start = (npage-1) * page_line;
+	<!-- css 선언부 ---------------------------------------------------------------->
+	<link href="my/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+	<link href="my/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+	<link href="my/css/style.css" rel="stylesheet" type="text/css" />		
 
-	query="select * from depart "+where+" order by name limit "+start+","+page_line+";";
-	rs = stmt.executeQuery(query);
-%>
-        <!------------------------------------------------------------------------------>
-        <!-- 내용 시작 -->
-        <!------------------------------------------------------------------------------>
+	<link href="my/css/dataTables.bootstrap4.min.css" rel="stylesheet">	<!-- datatable.net -->
+
+	<link href="my/css/my.css" rel="stylesheet" type="text/css">
+		
+</head>
+
+<body class="adminbody">
+
+<div id="main">
+	<%@ include file="main_menu.jsp" %>
+
+    <div class="content-page">
+	    <div class="content">
+			<div class="container-fluid">
+<!------------------------------------------------------------------------------>
+<!-- 내용 시작 -->
+<!------------------------------------------------------------------------------>
+
         <div class="row">
         <div class="col-xl-12">
         <div class="breadcrumb-holder">
@@ -64,7 +75,7 @@
         }
         </script>
 
-        <form name="form1" method="post" action="">
+        <form name="form1" method="post" action="depart-list.do">
         <div class="row" style="margin-bottom:5px">
         <div class="col-auto" style="text-align:left">
         <div class="form-inline">
@@ -81,7 +92,7 @@
         </div>
         </div>
         <div class="col" align="right">
-        <a href="ad_departnew.html" class="btn btn-sm mycolor1">추가</a>
+        <a href="ad_departnew.jsp" class="btn btn-sm mycolor1">추가</a>
         </div>
         </div>
         </form>
@@ -96,29 +107,21 @@
         <th width="95"></th>
         </tr>
         </thead>
+        <%@ page import="java.util.*,model.DepartDTO" %>
+        <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
         <tbody>
-            <%
-	while( rs.next() )
-	{
-		String id	=rs.getString("id");
-		String name=rs.getString("name");
-		String classnum	=rs.getString("classnum");
-		String gradesystem	=rs.getString("gradesystem");
-%>
-        <tr>
-        <td><%=id %></td>
-        <td style="text-align:left"><%=name %></td>
-        <td><%=classnum %></td>
-        <td><%=gradesystem %></td>
-        <td>
-        <a href="ad_departEdit.jsp?id=<%=id %>" class="btn btn-xs btn-outline-primary">수정</a>
-        <a href="ad_departDelete.jsp?id=<%=id %>" class="btn btn-xs btn-outline-danger" onClick="return confirm('삭제할까요
-        ?');">삭제</a>
-        </td>
-        </tr>
-            <%
-	}
-%>
+        <c:forEach var="depart" items="${list}">
+			<tr>
+				<td>${ depart.id}</td>
+				<td>${ depart.name}</td>
+				<td>${ depart.classnum}</td>
+				<td>${ depart.gradesystem}</td>
+				<td>
+				<a href="depart-info.do?id=${ depart.id}" class="btn btn-xs btn-outline-primary">수정</a>
+				<a href="depart-delete.do?id=${ depart.id}" class="btn btn-xs btn-outline-danger" onClick="return confirm('삭제할까요 ?');">삭제</a>
+			</td>
+		</tr>
+		</c:forEach>
         </tbody>
         </table>
 
@@ -141,13 +144,37 @@
         </div>
 
         </div> <!-- row end -->
-        <!------------------------------------------------------------------------------>
-        <!-- 내용 끝 -->
-        <!------------------------------------------------------------------------------>
-        <%@ include file="main_bottom.jsp" %>
+<!------------------------------------------------------------------------------>
+<!-- 내용 끝 -->
+<!------------------------------------------------------------------------------>
+			</div>
+		</div>
+	</div>
 
-            <%
-			rs.close();
-			stmt.close();
-			conn.close();
-		%>
+	<!-- 하단 정보 -->
+	<footer class="footer">
+		<span class="text-right">	Copyright <a target="_blank" href="#">Induk University</a></span>
+		<span class="float-right">Programmed by <a target="_blank" href="#"><b>Gamejigi</b></a></span>
+	</footer>
+
+</div>
+
+<!-- js 선언부 ----------------------------------------------------------------->
+<script src="my/js/jquery.min.js"></script>
+<script src="my/js/moment.min.js"></script>
+
+<script src="my/js/popper.min.js"></script>
+<script src="my/js/bootstrap.min.js"></script>
+
+<script src="my/js/detect.js"></script>
+<script src="my/js/fastclick.js"></script>
+<script src="my/js/jquery.blockUI.js"></script>
+<script src="my/js/jquery.nicescroll.js"></script>
+
+<script src="my/js/pikeadmin.js"></script>
+
+<script src="my/js/jquery.dataTables.min.js"></script>
+<script src="my/js/dataTables.bootstrap4.min.js"></script>
+
+</body>
+</html>
