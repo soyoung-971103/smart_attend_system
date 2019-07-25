@@ -9,7 +9,6 @@
     pageEncoding="UTF-8"%>
 <%@ page import="java.util.*, java.sql.*, java.io.*" %>
 <% request.setCharacterEncoding("UTF-8"); %>
-<%@ include file="common.jsp" %>
 <!DOCTYPE html>
 <html lang="kr">
 <head>
@@ -48,21 +47,21 @@
 <%@ taglib uri = "http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%
 	// 이전 문서의 변수들 (page는 예약어) ----------------------------------------------
-	String text1 = request.getParameter("text1");
-	if(text1 == null) text1 = "";
+	//String text1 = request.getParameter("text1");
+	//if(text1 == null) text1 = "";
 
-	int npage= request.getParameter("npage")==null ? npage=1 :  Integer.parseInt(request.getParameter("npage"));
+	//int npage= request.getParameter("npage")==null ? npage=1 :  Integer.parseInt(request.getParameter("npage"));
 
 	// 레코드개수 세기  ----------------------------------------------
-	String where = text1=="" ? "" : "where name like '"+text1+"%'";
-	query="select count(*) from teacher "+where;
-	int count=rowcount(query);
+	//String where = text1=="" ? "" : "where name like '"+text1+"%'";
+	//query="select count(*) from teacher "+where;
+	//int count=rowcount(query);
 
 	// 현재 페이지의 레코드위치 계산 및 해당 페이지 읽기 -------------------------------
-	int	start = (npage-1) * page_line;
+	//int	start = (npage-1) * page_line;
 
-	query="select * from teacher "+where+" order by name limit "+start+","+page_line+";";
-	rs = stmt.executeQuery(query);
+	//query="select * from teacher "+where+" order by name limit "+start+","+page_line+";";
+	//rs = stmt.executeQuery(query);
 
 %>
 
@@ -170,8 +169,8 @@
 								</table>
 
 								<%
-									String nurl = "TeacherController?text1="+text1;
-									out.println(pagination(npage, count, nurl));
+									//String nurl = "TeacherController?text1="+text1;
+									//out.println(pagination(npage, count, nurl));
 								%>
 
 							</div>		<!-- card body end -->

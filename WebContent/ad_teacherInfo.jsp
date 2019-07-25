@@ -5,10 +5,10 @@
 <!-- 교수 : 윤형태 (2019.5 -        )                                                                         -->
 <!-- 학생 : 유소영(3), 김해리(3), 이민호(2), 김진혁(2)                                              -->
 <!-------------------------------------------------------------------------------->	
-<%@ page contentType="text/html;charset=utf-8" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <%@ page import="java.util.*, java.sql.*, java.io.*" %>
 <% request.setCharacterEncoding("utf-8"); %>
-<%@ include file="common.jsp" %>
 <!DOCTYPE html>
 <html lang="kr">
 <head>

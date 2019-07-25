@@ -9,30 +9,29 @@ import java.util.ArrayList;
 
 import javax.servlet.http.HttpSession;
 
-public class DepartDAO extends DAOBase{
+public class HolidayDAO extends DAOBase{
 	
 	Connection conn = null; 
 	Statement stmt = null;
 	PreparedStatement pstmt = null;
 	ResultSet rs = null; 
-	ArrayList<DepartDTO> dtoList = null;
-	DepartDTO dto = null;
+	ArrayList<HolidayDTO> dtoList = null;
+	HolidayDTO dto = null;
 	HttpSession sesobj = null;
 	
 	
-	public int insert(DepartDTO dto) {
+	public int insert(HolidayDTO dto) {
 		int result = 0;	
 				
 		try {
 			
 			conn = getConnection();
-			pstmt = conn.prepareStatement("insert into depart " + 
-					"values(?, ?, ?, ?)");
+			pstmt = conn.prepareStatement("insert into Holiday " + 
+					"values(?, ?, ?)");
 			
-			pstmt.setInt(1, dto.getId());
-			pstmt.setString(2, dto.getName()); 
-			pstmt.setByte(3, dto.getClassnum());
-			pstmt.setByte(4, dto.getGradesystem());
+			pstmt.setInt(1, dto.getYyyy()); 
+			pstmt.setDate(2, dto.getHoliday());
+			pstmt.setString(3, dto.getReason());
 			
 			result = pstmt.executeUpdate();
 			return result;
@@ -46,18 +45,18 @@ public class DepartDAO extends DAOBase{
 		return result;
 	}
 	
-	public int update(DepartDTO dto) {
+	public int update(HolidayDTO dto) {
 		int result = 0;
 		
 		try {
 			conn = getConnection();
-			pstmt = conn.prepareStatement("update Depart " + 
-			"set name=?, classnum=?, gradesystem=? where id=?");
+			pstmt = conn.prepareStatement("update Holiday " + 
+			"set yyyy=?, holiday=?, reason=? where id=?");
 			
 			
-			pstmt.setString(1, dto.getName()); 
-			pstmt.setByte(2, dto.getClassnum());
-			pstmt.setByte(3, dto.getGradesystem());
+			pstmt.setInt(1, dto.getYyyy()); 
+			pstmt.setDate(2, dto.getHoliday());
+			pstmt.setString(3, dto.getReason());
 			pstmt.setInt(4, dto.getId());
 			
 			result = pstmt.executeUpdate();	
@@ -76,7 +75,7 @@ public class DepartDAO extends DAOBase{
 		int result = 0;
 		try {
 			conn = getConnection();
-			pstmt = conn.prepareStatement("delete from depart where id=? ");
+			pstmt = conn.prepareStatement("delete from Holiday where id=? ");
 			pstmt.setInt(1, id);
 			result = pstmt.executeUpdate();	
 			return result;
@@ -90,18 +89,16 @@ public class DepartDAO extends DAOBase{
 		return result;			
 	}
 
-	public ArrayList<DepartDTO> List(){		
+	public ArrayList<HolidayDTO> List(){		
 		try {
 			conn = getConnection();
 			stmt = conn.createStatement();
-			dtoList = new ArrayList<DepartDTO>();
-			rs = stmt.executeQuery("select * from depart");
+			dtoList = new ArrayList<HolidayDTO>();
+			rs = stmt.executeQuery("select * from Holiday");
 			while(rs.next()) {
-				dto = new DepartDTO();
-				dto.setId(rs.getInt(1));
-				dto.setName(rs.getString(2));
-				dto.setClassnum(rs.getByte(3));
-				dto.setGradesystem(rs.getByte(4));
+				dto = new HolidayDTO(); 
+				pstmt.setDate(1, dto.getHoliday());
+				pstmt.setString(2, dto.getReason());
 				dtoList.add(dto);
 			}
 			return dtoList;
@@ -112,18 +109,17 @@ public class DepartDAO extends DAOBase{
 		return dtoList;	
 	}
 	
-	public DepartDTO selectOne(DepartDTO dtoInfo){
+	public HolidayDTO selectOne(HolidayDTO dtoInfo){
 		try {
 	  		conn = getConnection();
 	  		stmt = conn.createStatement();
-	  		rs = stmt.executeQuery("select * from depart" + 
+	  		rs = stmt.executeQuery("select * from Holiday" + 
 	  		" where id = " + dtoInfo.getId());
 	  		if(rs.next()) {
-	  			dto = new DepartDTO();
-	  			dto.setId(rs.getInt(1));
-				dto.setName(rs.getString(2));
-				dto.setClassnum(rs.getByte(3));
-				dto.setGradesystem(rs.getByte(4));
+	  			dto = new HolidayDTO();
+	  			pstmt.setInt(1, dto.getYyyy()); 
+				pstmt.setDate(2, dto.getHoliday());
+				pstmt.setString(3, dto.getReason());
 	  		}      			
 	  		return dto;
 	  	} catch (SQLException e) {	
@@ -135,19 +131,17 @@ public class DepartDAO extends DAOBase{
 	  	return dto;
 	  }
 	
-	public ArrayList<DepartDTO> selectSearchList(String text){		
+	public ArrayList<HolidayDTO> selectSearchList(String text){		
 		try {
 			conn = getConnection();
 			stmt = conn.createStatement();
 			
-			dtoList = new ArrayList<DepartDTO>();
-			rs = stmt.executeQuery("select * from depart where name="+text);
+			dtoList = new ArrayList<HolidayDTO>();
+			rs = stmt.executeQuery("select * from holiday where yyyy="+text);
 			while(rs.next()) {
-				dto = new DepartDTO();
-				dto.setId(rs.getInt(1));
-				dto.setName(rs.getString(2));
-				dto.setClassnum(rs.getByte(3));
-				dto.setGradesystem(rs.getByte(4));
+				dto = new HolidayDTO();
+				pstmt.setDate(1, dto.getHoliday());
+				pstmt.setString(2, dto.getReason());
 				dtoList.add(dto);
 			}
 			return dtoList;
@@ -159,3 +153,4 @@ public class DepartDAO extends DAOBase{
 	}
 
 }
+
