@@ -1,9 +1,9 @@
 insert into student(depart_id, grade, class, schoolno, name, phone, sex, pwd, pic, state) values(1, 1, '1','1','1','1',1, '1','1','1');
 
 select  * from student;
-   
+
 delete from student where id = 2;
-   
+
 create table attendcontrol ( 
    id   int     not null    auto_increment,
    subjecttime   tinyint,

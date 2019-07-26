@@ -2,7 +2,7 @@ package model;
 
 public class AssistDTO {
 	int id;
-	int depart_id;
+	DepartDTO depart_id;
 	String uid;
 	String pwd;
 	String name;
@@ -16,10 +16,10 @@ public class AssistDTO {
 	public void setId(int id) {
 		this.id = id;
 	}
-	public int getDepart_id() {
+	public DepartDTO getDepart_id() {
 		return depart_id;
 	}
-	public void setDepart_id(int depart_id) {
+	public void setDepart_id(DepartDTO depart_id) {
 		this.depart_id = depart_id;
 	}
 	public String getUid() {

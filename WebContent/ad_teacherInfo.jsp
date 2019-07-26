@@ -9,6 +9,8 @@
     pageEncoding="UTF-8"%>
 <%@ page import="java.util.*, java.sql.*, java.io.*" %>
 <% request.setCharacterEncoding("utf-8"); %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html lang="kr">
 <head>
@@ -17,17 +19,6 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 	<title>인덕대학교 전자출석 Demo (겜지기)</title>
-
-	<link rel="shortcut icon" href="my/images/favicon.ico">
-
-	<!-- css 선언부 ---------------------------------------------------------------->
-	<link href="my/css/bootstrap.min.css" rel="stylesheet" type="text/css">
-	<link href="my/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-	<link href="my/css/style.css" rel="stylesheet" type="text/css" />
-
-	<link href="my/css/dataTables.bootstrap4.min.css" rel="stylesheet">	<!-- datatable.net -->
-
-	<link href="my/css/my.css" rel="stylesheet" type="text/css">
 
 </head>
 
@@ -44,7 +35,7 @@
 <!-- 내용 시작 -->
 <!------------------------------------------------------------------------------>
 
-<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+
 <!------------------------------------------------------------------------------>
 <!-- 내용 시작 -->
 <!------------------------------------------------------------------------------>
@@ -72,7 +63,7 @@
 
 							<div class="card-body" style="padding:10px">
 
-								<form name="form1" method="get" action="TeacherUpdate" enctype="multipart/form-data">
+								<form name="form1" method="get" action="teacher-update.do" enctype="multipart/form-data">
 									<input type="hidden" name="id" value="${member.id}">
 									<table class="table table-bordered mytable-centermiddle" style="width:100%;">
 										<tr>
@@ -80,16 +71,17 @@
 											<td>
 												<div class="form-inline">
 													<select name="depart_id" class="form-control form-control-sm">
-														<option value="1">1</option>
-														<%/*
-															for(int i = 0; i < DepKindsN; i++)
-															{
-																if("r".equals(Integer.toString(i)))
-																	out.println("<option value='"+i+"' selected>"+DepKinds[i]+"</option>");
-																else
-																	out.println("<option value='"+i+"'>"+DepKinds[i]+"</option>");
-															}
-														*/%>
+														<c:forEach var="item" items="${Depart}">
+															<c:choose>
+																<c:when test="${item.getId() eq member.getDepart_id().getId() }">
+
+																	<option value="${item.getId()}" selected>${item.getName()}</option>
+																</c:when>
+																<c:otherwise>
+																	<option value="${item.getId()}">${item.getName()}</option>
+																</c:otherwise>											
+															</c:choose>
+														</c:forEach>
 													</select>
 												</div>
 											</td>
@@ -99,16 +91,16 @@
 											<td>
 												<div class="form-inline">
 													<select name="kind" class="form-control form-control-sm">
-														<option value="교수">1</option>
-														<%/*
-															for(int i = 0; i < ProkindsN; i++)
-															{
-																if(kind.equals(ProKinds[i]))
-																	out.println("<option value='"+ProKinds[i]+"' selected>"+ProKinds[i]+"</option>");
-																else
-																	out.println("<option value='"+ProKinds[i]+"'>"+ProKinds[i]+"</option>");
-															}
-														*/%>
+														<c:forEach var="item" items="${kind}">
+															<c:choose>																
+																	<c:when test="${item eq member.getKind()}">
+																		<option value="${item}" selected>${item}</option>
+																	</c:when>
+																	<c:otherwise>
+																		<option value="${item}">${item}</option>
+																	</c:otherwise>
+															</c:choose>
+														</c:forEach>
 													</select>
 												</div>
 											</td>
@@ -187,6 +179,16 @@
 					</div>
 
 				</div>	<!-- row end -->
+					<link rel="shortcut icon" href="my/images/favicon.ico">
+
+	<!-- css 선언부 ---------------------------------------------------------------->
+	<link href="my/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+	<link href="my/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+	<link href="my/css/style.css" rel="stylesheet" type="text/css" />
+
+	<link href="my/css/dataTables.bootstrap4.min.css" rel="stylesheet">	<!-- datatable.net -->
+
+	<link href="my/css/my.css" rel="stylesheet" type="text/css">
 <!------------------------------------------------------------------------------>
 <!-- 내용 끝 -->
 <!------------------------------------------------------------------------------>

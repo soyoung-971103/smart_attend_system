@@ -10,6 +10,8 @@
 <%@ page import="java.util.*, java.sql.*, java.io.*" %>
 <% request.setCharacterEncoding("utf-8"); %>
 <!DOCTYPE html>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <html lang="kr">
 <head>
 	<meta charset="utf-8">
@@ -44,7 +46,7 @@
 <!-- 내용 시작 -->
 <!------------------------------------------------------------------------------>
 
-<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+
 
 <!------------------------------------------------------------------------------>
 <!-- 내용 시작 -->
@@ -73,7 +75,7 @@
 
 							<div class="card-body" style="padding:10px">
 
-								<form name="form1" method="get" action="AssistUpdate" enctype="multipart/form-data"">
+								<form name="form1" method="get" action="assist-update.do" enctype="multipart/form-data">
 								
 								<table class="table table-bordered mytable-centermiddle" style="width:100%;">
 									<tr>
@@ -81,16 +83,17 @@
 										<td>
 											<div class="form-inline">
 												<select name="depart_id" class="form-control form-control-sm">
-													<option value="1">1</option>
-													<%/*
-														for(int i = 0; i < DepKindsN; i++)
-														{
-															if(depart_id.equals(Integer.toString(i)))
-																out.println("<option value='"+i+"' selected>"+DepKinds[i]+"</option>");
-															else
-																out.println("<option value='"+i+"'>"+DepKinds[i]+"</option>");
-														}*/
-													%>
+													<c:forEach var="item" items="${Depart}">
+															<c:choose>
+																<c:when test="${item.getId() eq member.getDepart_id().getId() }">
+
+																	<option value="${item.getId()}" selected>${item.getName()}</option>
+																</c:when>
+																<c:otherwise>
+																	<option value="${item.getId()}">${item.getName()}</option>
+																</c:otherwise>											
+															</c:choose>
+														</c:forEach>
 												</select>
 											</div>
 										</td>

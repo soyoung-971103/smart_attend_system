@@ -20,14 +20,15 @@
 
 	<link rel="shortcut icon" href="my/images/favicon.ico">
 
-	<!-- css 선언부 ---------------------------------------------------------------->
 	<link href="my/css/bootstrap.min.css" rel="stylesheet" type="text/css">
 	<link href="my/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-	<link href="my/css/style.css" rel="stylesheet" type="text/css" />
+	<link href="my/css/style.css" rel="stylesheet" type="text/css" />		
 
 	<link href="my/css/dataTables.bootstrap4.min.css" rel="stylesheet">	<!-- datatable.net -->
 
 	<link href="my/css/my.css" rel="stylesheet" type="text/css">
+	
+	
 
 </head>
 
@@ -81,102 +82,103 @@
 						</div>
 					</div>
 				</div>
-
+				
 				<div class="row">
-
+				
 					<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
 						<div class="card mb-3">
 							<div class="card-header mycolor3" style="padding:10px">
 								<h3><i class="fa fa-table"></i> 교수</h3>
 							</div>
-
+							
 							<div class="card-body" style="padding:10px">
-
-								<script>
-									function find_text()
-									{
-										if (!form1.text1.value)
-											form1.action="/member/lists/page";
-										else
-											form1.action="/member/lists/text1/" + form1.text1.value+"/page";
-										form1.submit();
-									}
-								</script>
-<!--onKeydown="if (event.keyCode == 13) { find_text(); }" -->
-								<form name="form1" method="post" action="TeacherInquiry">
-								<div class="row" style="margin-bottom:5px">
-									<div class="col-auto" align="left">
-										<div class="form-inline">
-											<div class="input-group input-group-sm">
-												<div class="input-group-prepend">
-													<span class="input-group-text">이름</span>
-												</div>
-												<input type="text" name="text1" size="10" value="${text1}" class="form-control">
-												<div class="input-group-append">
-													<button class="btn btn-sm mycolor1" type="button">검색</button>
-												</div>
-											</div>
-										</div>
+								<div class="col" align="right" style="padding:10px">
+										<a href="teacher-inputdata.do" class="btn btn-sm mycolor1">추가</a>
 									</div>
-									<div class="col" align="right">
-										<a href="ad_teachernew.jsp" class="btn btn-sm mycolor1">추가</a>
-									</div>
-								</div>
-								</form>
-
-								<table class="table table-bordered table-hover table-responsive-sm mytable" style="width:100%;" id="example">
-									<tr class="mycolor1">
-										<th>학과</th>
-										<th>구분</th>
-										<th>이름</th>
-										<th>전화</th>
-										<th>핸드폰</th>
-										<th>이메일</th>
-										<th width="95"></th>
-									</tr>
-								<c:forEach var="item" items="${alMember}">
-									<tr>
-										<td>
-											<c:choose>
-												<c:when test="${item.getDepart_id() eq '1' }">
-													컴소과
-												</c:when>
-												<c:when test="${item.getDepart_id() eq '2' }">
-													전자과
-												</c:when>
-											</c:choose>
-										</td>
-										<td>
-										<c:choose>
-											<c:when test="${item.getKind() eq '교수' }">
-												전임교수
-											</c:when>
-											<c:when test="${item.getKind() eq '강사' }">
-												시간강사
-											</c:when>
-										</c:choose>
-										</td>
-										<td>${item.getName() }</td>
-										<td>${item.getTel() }</td>
-										<td>${item.getPhone() }</td>
-										<td>${item.getEmail() }</td>
-										<td>
-											<a href="TeacherInfo?id=${item.id }" class="btn btn-xs btn-outline-primary">수정</a>
-											<a href="TeacherDelete?id=${item.id }" class="btn btn-xs btn-outline-danger" onClick="return confirm('삭제할까요 ?');">삭제</a>
-										</td>
-									</tr>
-								</c:forEach>
+								<style>
+									th { text-align: center }
+									td { text-align: center }
+								</style>
+								<table class="table table-bordered table-sm table-hover" style="width:100%" id="example">
+									<thead>
+										<tr class="alert-secondary">
+											<th>학과</th>
+											<th>구분</th>
+											<th>이름</th>
+											<th>전화</th>
+											<th>핸드폰</th>
+											<th>이메일</th>
+											<th width="95"></th>
+										</tr>
+									</thead>
+									<tbody>
+										<c:forEach var="item" items="${alMember}">
+											<tr>
+												<th scope="col">${item.getDepart_id().getName() }	</th>
+												<td>${item.getKind() }</td>
+												<td>${item.getName() }</td>
+												<td>${item.getTel() }</td>
+												<td>${item.getPhone() }</td>
+												<td>${item.getEmail() }</td>
+												<td>
+													<a href="teacher-info.do?id=${item.id }" class="btn btn-xs btn-outline-primary">수정</a>
+													<a href="teacher-delete.do?id=${item.id }" class="btn btn-xs btn-outline-danger" onClick="return confirm('삭제할까요 ?');">삭제</a>
+												</td>
+											</tr>
+										</c:forEach>
+									</tbody>
 								</table>
 
-								<%
-									//String nurl = "TeacherController?text1="+text1;
-									//out.println(pagination(npage, count, nurl));
-								%>
-
-							</div>		<!-- card body end -->
-						</div>		<!-- card end -->
+							</div>														
+						</div>
 					</div>
+						
+				</div>	
+				
+				<script src="my/js/jquery.min.js"></script>
+<script src="my/js/moment.min.js"></script>
 
-				</div>	<!-- row end -->
+<script src="my/js/popper.min.js"></script>
+<script src="my/js/bootstrap.min.js"></script>
+
+<script src="my/js/detect.js"></script>
+<script src="my/js/fastclick.js"></script>
+<script src="my/js/jquery.blockUI.js"></script>
+<script src="my/js/jquery.nicescroll.js"></script>
+
+<script src="my/js/pikeadmin.js"></script>
+
+<script src="my/js/jquery.dataTables.min.js"></script>
+<script src="my/js/dataTables.bootstrap4.min.js"></script>
+
+<script>
+					$(document).ready(function() {
+						$('#example').DataTable( { 
+							lengthChange: true,		// 표시 건수기능 숨기기
+							lengthMenu: [ 5, 10, 20, 30, 40, 50 ],
+							searching: true,			// 검색 기능 숨기기
+							ordering: true,				// 정렬 기능 숨기기
+							info: true,					// 정보 표시 숨기기
+							paging: true,				// 페이징 기능 숨기기
+							order: [ [ 0, "asc" ] ],	// 0번째칼럼 정렬,복합정렬 가능
+							scrollX: true,				// 가로 스크롤바
+							scrollY: false,				// 세로스크롤바 : 세로길이(px) 지정가능
+							language: {
+									"emptyTable": "데이터가 없음.",
+									"lengthMenu": "페이지당 _MENU_ 개",
+									"info": "현재: _START_ - _END_ / _TOTAL_건",
+									"infoEmpty": "데이터 없음",
+									"infoFiltered": "( _MAX_건의 데이터에서 필터링됨 )",
+									"search": "이름검색: ",
+									"zeroRecords": "일치하는 데이터가 없음.",
+									"loadingRecords": "로딩중...",
+									"processing":     "잠시만 기다려 주세요...",
+									"paginate": { "first":"◀", "previous": "◁","next": " ▷","last": "▶" }
+								},
+							columns: [ { "searchable": true },{ "searchable":false },{ "searchable":false },{ "searchable":false },{ "searchable":false },{ "searchable":false },{ "searchable":false } ],
+							pagingType: "full_numbers"
+						} );
+					} );
+				</script>
 <!---------------------------------------- --------------------->
 <%@ include file="main_bottom.jsp" %>

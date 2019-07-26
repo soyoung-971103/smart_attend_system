@@ -8,6 +8,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <% request.setCharacterEncoding("utf-8"); %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html lang="kr">
 <head>
@@ -67,7 +68,7 @@
 								
 							<div class="card-body" style="padding:10px">
 
-								<form name="form1" method="post" action="" enctype="multipart/form-data"">
+								<form name="form1" method="get" action="teacher-register.do" enctype="multipart/form-data"">
 
 								<table class="table table-bordered mytable-centermiddle" style="width:100%;">
 									<tr>
@@ -75,11 +76,10 @@
 										<td>
 											<div class="form-inline">
 												<select name="depart_id" class="form-control form-control-sm">
-													<option value="0" selected></option>
-													<option value='1'>컴퓨터소프트에어학과</option>
-													<option value='2'>전자과</option>
-													<option value='3'>영어과</option>
-													<option value='4'>교무처</option>
+													<option value="0"></option>
+													<c:forEach var="item" items="${Depart}">
+														<option value="${item.getId()}">${item.getName()}</option>
+													</c:forEach>
 												</select>
 											</div>
 										</td>
@@ -89,9 +89,9 @@
 										<td>
 											<div class="form-inline">
 												<select name="kind" class="form-control form-control-sm">
-													<option value='전임교수'>전임교수</option>
-													<option value='겸임교수'>겸임교수</option>
-													<option value='시간강사'>시간강사</option>
+													<c:forEach var="item" items="${kind}">
+															<option value="${item}">${item}</option>
+													</c:forEach>
 												</select>
 											</div>
 										</td>

@@ -1,10 +1,5 @@
-<!-------------------------------------------------------------------------------->	
-<!-- 프로그램 : 인덕대학교 컴퓨터소프트웨어학과 전자출석 Demo                              -->
-<!--                                                                                                                  -->
-<!-- 소속 : 인덕대학교  컴퓨터소프트웨어학과  창업동아리 겜지기                              -->
-<!-- 교수 : 윤형태 (2019.5 -        )                                                                         -->
-<!-- 학생 : 유소영(3), 김해리(3), 이민호(2), 김진혁(2)                                              -->
-<!-------------------------------------------------------------------------------->	
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="kr">
 <head>
@@ -196,7 +191,7 @@
 									<div class="col" align="right" style="margin:10px 0px 3px 0px">
 										<a href="" class="btn btn-xs btn-primary">출석시작->완료</a>
 										<a href="" class="btn btn-xs btn-primary">전체출석</a>
-										<a href="te_lec.html" class="btn btn-xs btn-primary">목록</a><br>
+										<a href="te_lec.jsp" class="btn btn-xs btn-primary">목록</a><br>
 									</div>
 								</div>
 
