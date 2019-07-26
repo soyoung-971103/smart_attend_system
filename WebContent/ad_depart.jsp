@@ -114,8 +114,8 @@
 			<tr>
 				<td>${ depart.id}</td>
 				<td>${ depart.name}</td>
-				<td>${ depart.classnum}</td>
 				<td>${ depart.gradesystem}</td>
+				<td>${ depart.classnum}</td>
 				<td>
 				<a href="depart-info.do?id=${ depart.id}" class="btn btn-xs btn-outline-primary">수정</a>
 				<a href="depart-delete.do?id=${ depart.id}" class="btn btn-xs btn-outline-danger" onClick="return confirm('삭제할까요 ?');">삭제</a>
