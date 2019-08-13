@@ -27,7 +27,7 @@ public class MemberDAO extends DAOBase{
 			conn = getConnection();
 			stmt = conn.createStatement();
 			rs = stmt.executeQuery("select * from student where " + 
-					"id=" + loginmember.getId() + " and " + 
+					"schoolno=" + loginmember.getSchoolno() + " and " + 
 							"pwd='" + loginmember.getPwd() + "'");
 			if(rs.next()) {
 				dto = new MemberDTO();
@@ -35,6 +35,7 @@ public class MemberDAO extends DAOBase{
 				dto.setPwd(rs.getString(2));
 				dto.setName(rs.getString(3));
 				dto.setPhone(rs.getString(4));
+				dto.setSchoolno(rs.getString(5));
 			}				
 			
 			return dto;

@@ -99,7 +99,7 @@
 							<li><a href="st_time.html" style="padding:5px 0 5px 40px;">시간표</a></li>
 							<li><a href="st_lecall.html" style="padding:5px 0 5px 40px;">출석부</a></li>
 							<li><hr style="background-color:gray;margin:0 25px 0 25px;"></li>
-							<li><a href="st_lec.html" style="padding:5px 0 5px 40px;">수강신청</a></li>
+							<li><a href="student-lec.do" style="padding:5px 0 5px 40px;">수강신청</a></li>
 							<li><a href="st_lecsj.html" style="padding:5px 0 5px 40px;">수강과목</a></li>
 							<li><a href="st_lecqa.html" style="padding:5px 0 5px 40px;">교과목 문의</a></li>
 						</ul>

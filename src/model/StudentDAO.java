@@ -233,4 +233,34 @@ public class StudentDAO extends DAOBase {
 		}
 		return alStudent;
 	}
+
+	public StudentDTO list_id(String uid){
+		try {
+			conn = getConnection();
+			stmt = conn.createStatement();	
+			rs = stmt.executeQuery("select * from student where schoolno= " + uid);
+			if(rs.next()) {
+				student = new StudentDTO();
+				student.setId(rs.getInt(1));
+				student.setDepart_id(rs.getInt(2));
+				student.setGrade(rs.getByte(3));
+				student.setStudent_class(rs.getString(4));
+				student.setSchoolno(rs.getString(5));
+				student.setName(rs.getString(6));
+				student.setPhone(rs.getString(7));
+				student.setSex(rs.getByte(8));
+				student.setPwd(rs.getString(9));
+				student.setPic(rs.getString(10));
+				student.setState(rs.getString(11));
+				student.setBirthday(rs.getString(12));
+				student.setEmail(rs.getString(13));
+			}
+			return student;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return student;	
+	}
+
 }
