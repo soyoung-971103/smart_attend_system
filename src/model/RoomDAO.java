@@ -30,7 +30,8 @@ public class RoomDAO extends DAOBase{
 			stmt = conn.createStatement();
 			
 			dtoList = new ArrayList<RoomDTO>();
-			rs = stmt.executeQuery("SELECT room.*, building.name, building.floor, depart.name FROM room LEFT JOIN building ON room.building_id = building.id LEFT JOIN depart ON room.depart_id = depart.id");
+			rs = stmt.executeQuery("SELECT room.*, building.name, building.floor, depart.name FROM room LEFT JOIN "
+					+ "building ON room.building_id = building.id LEFT JOIN depart ON room.depart_id = depart.id");
 			while(rs.next()) {
 				dto = new RoomDTO();
 				dtoBuilding = new BuildingDTO();

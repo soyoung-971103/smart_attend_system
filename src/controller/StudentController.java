@@ -18,13 +18,15 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
 
+import model.DepartDAO;
+import model.DepartDTO;
 import model.StudentDAO;
 import model.StudentDTO;
 //import service.Pagination;
 /**
  * Servlet implementation class StudentController
  */
-@WebServlet({"/student-list.do","/student-search.do","/student-register.do","/student-delete.do","/student-detail.do","/student-update.do"})
+@WebServlet({"/student-list.do","/student-studentnew.do","/student-register.do","/student-delete.do","/student-detail.do","/student-update.do"})
 @MultipartConfig(location="", 
 fileSizeThreshold=1024*1024, 
 maxFileSize=1024*1024*5, 
@@ -45,14 +47,14 @@ public class StudentController extends HttpServlet {
     StudentDTO student = null;
     HttpSession sesobj = null;
     StudentDAO dao = new StudentDAO();
+    ArrayList<DepartDTO> dtoListDepart = null;
+    DepartDAO daoDepart = new DepartDAO();
     //Pagination pn = new Pagination();
     
 	protected void process(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
 		// TODO Auto-generated method stub
 		request.setCharacterEncoding("UTF-8");		
-		sesobj = request.getSession();
-		
-		System.out.println("process");		
+		sesobj = request.getSession();	
 		
 		String uri = request.getRequestURI();
 		int lastIndex = uri.lastIndexOf('/'); 
@@ -68,29 +70,30 @@ public class StudentController extends HttpServlet {
 			detail(request, response);
 		else if(action.equals("student-update.do")) 
 			update(request, response);
-		else if(action.equals("student-search.do")) 
-			search(request, response);
+		else if(action.equals("student-studentnew.do")) 
+			studentnew(request, response);
     	else 
     		;
 		
 	}
 	
 	protected void list(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException{
-		 alStudent = dao.list();
+		 alStudent = dao.list(request.getParameter("text1"));
 			request.setAttribute("studentlist", alStudent);
 			request.getRequestDispatcher("ad_student.jsp").forward(request, response);
 	}
 	
+	private void studentnew(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
+    	
+    	dtoListDepart = daoDepart.List();
+ 
+    	request.setAttribute("listDepart", dtoListDepart);    	   		
+    	request.getRequestDispatcher("ad_studentnew.jsp").forward(request, response);
 	
-	protected void search(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException{
-		 alStudent = dao.search(request.getParameter("text1"));
-			request.setAttribute("studentlist", alStudent);
-			request.getRequestDispatcher("ad_student.jsp").forward(request, response);
-	}
+	} 
 	
 	private void detail(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
 		int id = Integer.parseInt(request.getParameter("id"));
-		System.out.println(id);
 		student = dao.detail(id);
 		request.setAttribute("student", student);
 		String phone[]=student.getPhone().split("-");
@@ -139,7 +142,6 @@ public class StudentController extends HttpServlet {
 	    }
 	    
     	int result = dao.update(request, response); // 질의를 통해 수정된 레코드의 수
-    	System.out.println("result값: "+result);
     	if(result > 0) {// 성공 가입
     		request.setAttribute("id", request.getParameter("id"));
     		request.getRequestDispatcher("student-list.do").forward(request, response);

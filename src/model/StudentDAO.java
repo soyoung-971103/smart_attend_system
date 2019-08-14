@@ -20,6 +20,7 @@ public class StudentDAO extends DAOBase {
 	private PreparedStatement pstmt = null;
 	private ResultSet rs = null;
 	private StudentDTO student = null;
+	private DepartDTO depart = null;
 	private ArrayList<StudentDTO> alStudent = null;
 	
 	
@@ -170,47 +171,18 @@ public class StudentDAO extends DAOBase {
 			return result;
 	}
 	
-	public ArrayList<StudentDTO> list(){
+	public ArrayList<StudentDTO> list(String text1){
 		try {
 			conn = getConnection();
 			stmt = conn.createStatement();
-			rs = stmt.executeQuery("select * from student");
-			alStudent = new ArrayList<StudentDTO>();
-			while(rs.next()) {
-				student = new StudentDTO();
-				student.setId(rs.getInt(1));
-				student.setDepart_id(rs.getInt(2));
-				student.setGrade(rs.getByte(3));
-				student.setStudent_class(rs.getString(4));
-				student.setSchoolno(rs.getString(5));
-				student.setName(rs.getString(6));
-				student.setPhone(rs.getString(7));
-				student.setSex(rs.getByte(8));
-				student.setPwd(rs.getString(9));
-				student.setPic(rs.getString(10));
-				student.setState(rs.getString(11));
-				student.setBirthday(rs.getString(12));
-				student.setEmail(rs.getString(13));
-				alStudent.add(student);
-			}
-			return alStudent;
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return alStudent;	
-	}
-
-	public ArrayList<StudentDTO> search(String text1){
-		try {
-			conn = getConnection();
-			stmt = conn.createStatement();
-			if (text1 == null) rs=stmt.executeQuery("select * from student");
-			else rs=stmt.executeQuery("select * from student where name like '%"+ text1 +"%' order by name");
+			if (text1 == null) rs=stmt.executeQuery("SELECT student.*, depart.name, depart.classnum FROM student LEFT JOIN depart ON student.depart_id=depart.id");
+													//"SELECT room.*, depart.name FROM room LEFT JOIN depart ON room.depart_id = depart.id"
+			else rs=stmt.executeQuery("select student.*, depart.name, depart.classnum from student left join depart on student.depart_id=depart.id where name like '%"+ text1 +"%' order by name");
 			// email, pw는 form을 구성하는 각 요소의 이름
 			alStudent = new ArrayList<StudentDTO>();
 			while(rs.next()) {
 				student = new StudentDTO();
+				depart = new DepartDTO();
 				student.setId(rs.getInt(1));
 				student.setDepart_id(rs.getInt(2));
 				student.setGrade(rs.getByte(3));
@@ -224,6 +196,8 @@ public class StudentDAO extends DAOBase {
 				student.setState(rs.getString(11));
 				student.setBirthday(rs.getString(12));
 				student.setEmail(rs.getString(13));
+				student.setDepart(depart);
+				depart.setName(rs.getString(14));
 				alStudent.add(student);
 			}
 			return alStudent;
@@ -233,4 +207,5 @@ public class StudentDAO extends DAOBase {
 		}
 		return alStudent;
 	}
+
 }

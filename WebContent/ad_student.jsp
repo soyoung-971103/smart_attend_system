@@ -92,7 +92,7 @@
 										</div>
 									</div>
 									<div class="col" align="right">
-										<a href="ad_studentnew.jsp" class="btn btn-sm mycolor1">추가</a>
+										<a href="student-studentnew.do" class="btn btn-sm mycolor1">추가</a>
 									</div>
 								</div>
 								</form>
@@ -115,7 +115,7 @@
 								<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 									<c:forEach var="dto" items="${ studentlist }">
 									<tr>
-										<td>${ dto.depart_id }</td>
+										<td>${ dto.depart.name }</td>
 										<td>${ dto.grade }</td>
 										<td>${ dto.student_class }</td>
 										<td>${ dto.schoolno }</td>

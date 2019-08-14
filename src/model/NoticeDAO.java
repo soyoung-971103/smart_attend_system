@@ -21,31 +21,7 @@ public class NoticeDAO extends DAOBase {
 	private NoticeDTO notice = null;
 	private ArrayList<NoticeDTO> alNotice = null;
 	
-	public ArrayList<NoticeDTO> list(){
-		try {
-			conn = getConnection();
-			stmt = conn.createStatement();
-			rs = stmt.executeQuery("select * from notice");
-			// email, pw는 form을 구성하는 각 요소의 이름
-			alNotice = new ArrayList<NoticeDTO>();
-			while(rs.next()) {
-				notice = new NoticeDTO();
-				notice.setId(rs.getInt(1));
-				notice.setWriteday(rs.getDate(2));;
-				notice.setTitle(rs.getString(3));
-				notice.setTxt1(rs.getString(4));
-				alNotice.add(notice);
-			} return alNotice;
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} finally {
-			this.closeDBResources(rs, stmt, pstmt, conn);
-		}
-		return alNotice;
-	}
-	
-	public ArrayList<NoticeDTO> search(String text1){
+	public ArrayList<NoticeDTO> list(String text1){
 		try {
 			conn = getConnection();
 			stmt = conn.createStatement();

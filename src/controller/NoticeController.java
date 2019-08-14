@@ -22,7 +22,7 @@ import com.sun.xml.internal.bind.v2.schemagen.xmlschema.List;
 import model.NoticeDTO;
 import model.NoticeDAO;
 
-@WebServlet({ "/NoticeController","/notice-detail.do", "/notice-register.do","/notice-update.do", "/notice-list.do", "/notice-delete.do", "/notice-search.do" })
+@WebServlet({"/notice-detail.do", "/notice-register.do","/notice-update.do", "/notice-list.do", "/notice-delete.do" })
 @MultipartConfig(location="", 
 fileSizeThreshold=1024*1024, 
 maxFileSize=1024*1024*5, 
@@ -54,8 +54,6 @@ private static final long serialVersionUID = 1L;
     	dao = new NoticeDAO();
     	conn = dao.getConnection();
     	
-    	System.out.println("process");
-    	
     	String uri = request.getRequestURI();
     	int lastIndex = uri.lastIndexOf('/');
     	String action = uri.substring(lastIndex + 1);
@@ -70,27 +68,18 @@ private static final long serialVersionUID = 1L;
 			update(request, response);
     	else if(action.equals("notice-detail.do")) 
 			detail(request, response);
-    	else if(action.equals("notice-search.do")) 
-			search(request, response);
 		else
     		;
     }
     
     protected void list(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException{
-		 alNotice = dao.list();
-			request.setAttribute("noticelist", alNotice);
-			request.getRequestDispatcher("ad_notice.jsp").forward(request, response);
-	}
-    
-    protected void search(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException{
-		 alNotice = dao.search(request.getParameter("text1"));
+		 alNotice = dao.list(request.getParameter("text1"));
 			request.setAttribute("noticelist", alNotice);
 			request.getRequestDispatcher("ad_notice.jsp").forward(request, response);
 	}
     
     protected void detail(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
     	int id = Integer.parseInt(request.getParameter("id"));
-    	System.out.println(id);
     	notice = dao.detail(id);
 		request.setAttribute("notice", notice);
 		request.getRequestDispatcher("ad_noticeupdate.jsp").forward(request, response);

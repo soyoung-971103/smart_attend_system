@@ -63,7 +63,8 @@
 							</div>
 								
 							<div class="card-body" style="padding:10px">
-
+							<%@ page import="java.util.*, model.StudentDTO, model.DepartDTO" %>
+							<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 								<form method="post" action="student-register.do" enctype="multipart/form-data">
 
 								<table class="table table-bordered mytable-centermiddle" style="width:100%;">
@@ -84,11 +85,10 @@
 										<td>
 											<div class="form-inline">
 												<select name="depart_id" class="form-control form-control-sm">
-													<option value='0' selected></option>
-													<option value='1'>컴퓨터소프트에어학과</option>
-													<option value='2'>전자과</option>
-													<option value='3'>영어과</option>
-													<option value='4'>교무처</option>
+													<option value="0" selected></option>
+													<c:forEach var="depart" items="${listDepart}">
+														<option value='${depart.id }'>${depart.name }</option>		
+													</c:forEach>
 												</select>
 											</div>
 										</td>
@@ -104,8 +104,20 @@
 												</select>
 												&nbsp;
 												<select name="student_class" class="form-control form-control-sm" style="width:80px">
-													<option value="A">A 반</option>
-													<option value="B">B 반</option>
+													<c:forEach var="depart" items="${listDepart}">
+															<c:if test="${depart.classnum eq 1 }">
+															<option value="A">A 반</option>
+															</c:if>
+															<c:if test="${depart.classnum eq 2 }">
+															<option value="A">A 반</option>
+															<option value="B">B 반</option>
+															</c:if>
+															<c:if test="${depart.classnum eq 3 }">
+															<option value="A">A 반</option>
+															<option value="B">B 반</option>
+															<option value="C">C 반</option>
+															</c:if>
+													</c:forEach>
 												</select>
 											</div>
 										</td>
