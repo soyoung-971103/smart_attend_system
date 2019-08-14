@@ -54,7 +54,7 @@
 
 				<!--- 시간표 관련 JS  ---------------------------------------------->
 				<%@ page import="java.util.*,model.TimeTableDTO, model.SubjectDTO, model.TeacherDTO" %>
-				<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+				<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%> 
 				<script>
 					function init()			// 해당학기 시간표읽어 모두 표시
 					{	
