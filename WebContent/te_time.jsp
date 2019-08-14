@@ -59,7 +59,7 @@
 					function init()			// 해당학기 시간표읽어 모두 표시
 					{	
 						// 학년^반^요일^시작교시^시간^과목명^교수님^강의실
-						var timetable = [
+						var timetable1 = [
 							${timetable.subject.grade}+'^A^'+${timetable.weekday}'+^'+${timetable.istart}+'^'+${timetable.ihour}+'^'+${timetable.subject.name}+'^'+${timetable.teacher.name}+'^'+${timetable.room.name}
 							];
 						
