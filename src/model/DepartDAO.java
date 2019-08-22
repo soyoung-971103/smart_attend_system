@@ -134,28 +134,4 @@ public class DepartDAO extends DAOBase{
 		}
 	  	return dto;
 	  }
-	
-	public ArrayList<DepartDTO> selectSearchList(String text){		
-		try {
-			conn = getConnection();
-			stmt = conn.createStatement();
-			
-			dtoList = new ArrayList<DepartDTO>();
-			rs = stmt.executeQuery("select * from depart where name="+text);
-			while(rs.next()) {
-				dto = new DepartDTO();
-				dto.setId(rs.getInt(1));
-				dto.setName(rs.getString(2));
-				dto.setClassnum(rs.getByte(3));
-				dto.setGradesystem(rs.getByte(4));
-				dtoList.add(dto);
-			}
-			return dtoList;
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return dtoList;	
-	}
-
 }

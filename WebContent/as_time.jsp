@@ -5,6 +5,11 @@
 <!-- 교수 : 윤형태 (2019.5 -        )                                                                         -->
 <!-- 학생 : 유소영(3), 김해리(3), 이민호(2), 김진혁(2)                                              -->
 <!-------------------------------------------------------------------------------->	
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ page import="java.util.*,model.TimeTableDTO, model.BuildingDTO, model.RoomDTO, model.LectureDTO, model.SubjectDTO, model.TeacherDTO" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!DOCTYPE html>
 <html lang="kr">
 <head>
@@ -26,121 +31,11 @@
 		
 </head>
 
+
 <body class="adminbody">
 
 <div id="main">
-
-	<!--상단 메뉴 시작 -->
-	<div class="headerbar">
-
-        <div class="headerbar-left">
-			<a href="index.html" class="logo"><img src="my/images/induk_logo.png"> <span>전자출석 Demo</span></a>
-        </div>
-
-        <nav class="navbar-custom">
-			<ul class="list-inline float-right mb-0">
-				<li class="list-inline-item dropdown notif">
-					<a class="nav-link dropdown-toggle nav-user" data-toggle="dropdown" href="#" role="button" ariaaspopup="false" aria-expanded="false">
-						<img src="my/images/avatars/admin.png" alt="Profile image" class="avatar-rounded">
-					</a>
-					<div class="dropdown-menu dropdown-menu-right profile-dropdown">
-						<div class="dropdown-item noti-title">
-							<h5 class="text-overflow"><small>Hello, admin</small> </h5>
-						</div>
-						<a href="#" class="dropdown-item notify-item">
-							<i class="fa fa-power-off"></i> <span>Logout</span>
-						</a>
-					</div>
-				</li>
-			</ul>
-
-			<ul class="list-inline menu-left mb-0">
-				<li class="float-left">
-					<button class="button-menu-mobile open-left">
-						<i class="fa fa-fw fa-bars"></i>
-					</button>
-				</li>                        
-			</ul>
-        </nav>
-
-	</div>
-	<!--상단 메뉴 끝 -->
-	
- 
-	<!-- 좌측 Sidebar 메뉴 시작-->
-	<div class="left main-sidebar">
-		<div class="sidebar-inner leftscroll">
-			<div id="sidebar-menu">
-				<ul>
-
-					<li class="submenu">
-						<a href="#"><i class="fa fa-fw fa-table"></i> <span> 직원(학사행정) </span> <span class="menu-arrow"></span></a>
-						<ul class="list-unstyled">
-							<li><a href="ad_main.html" style="padding:5px 0 5px 40px;">직원 메인</a></li>
-							<li><a href="ad_control.html" style="padding:5px 0 5px 40px;">제어판</a></li>
-							<li><a href="ad_notice.html" style="padding:5px 0 5px 40px;">공지사항</a></li>
-							<li><hr style="background-color:gray;margin:0 25px 0 25px;"></li>
-							<li><a href="ad_student.html" style="padding:5px 0 5px 40px;">학생정보</a></li>
-							<li><a href="ad_teacher.html" style="padding:5px 0 5px 40px;">교수정보</a></li>
-							<li><a href="ad_assist.html" style="padding:5px 0 5px 40px;">조교정보</a></li>
-							<li><hr style="background-color:gray;margin:0 25px 0 25px;"></li>
-							<li><a href="ad_depart.html" style="padding:5px 0 5px 40px;">학과/부서</a></li>
-							<li><a href="ad_room.html" style="padding:5px 0 5px 40px;">강의실</a></li>
-							<li><a href="ad_building.html "style="padding:5px 0 5px 40px;">건물</a></li>
-							<li><a href="ad_holiday.html" style="padding:5px 0 5px 40px;">휴일</a></li>
-						</ul>
-					</li>
-					<li class="submenu">
-						<a href="#"><i class="fa fa-fw fa-table"></i> <span> 직원(전자출석) </span> <span class="menu-arrow"></span></a>
-						<ul class="list-unstyled">
-							<li><a href="ad_timeall.html" style="padding:5px 0 5px 40px;">학과별 시간표</a></li>
-							<li><a href="ad_timeteacher.html" style="padding:5px 0 5px 40px;">교수별 강의현황</a></li>
-							<li><a href="ad_lecmove.html" style="padding:5px 0 5px 40px;">휴보강</a></li>
-						</ul>
-					</li>
-					<li class="submenu">
-						<a href="#"><i class="fa fa-fw fa-male"></i> <span>조교</span> <span class="menu-arrow"></span></a>
-						<ul class="list-unstyled">
-							<li><a href="as_main.html" style="padding:5px 0 5px 40px;">조교 메인</a></li>
-							<li><a href="as_sub.html" style="padding:5px 0 5px 40px;">학년별 교과목</a></li>
-							<li><a href="as_lec.html" style="padding:5px 0 5px 40px;">반별 교과목</a></li>
-							<li><a href="as_time.html" style="padding:5px 0 5px 40px;">시간표 작성</a></li>
-							<li><a href="as_timeall.html" style="padding:5px 0 5px 40px;">학과별 시간표</a></li>
-							<li><a href="as_lecall.html" style="padding:5px 0 5px 40px;">과목별 출석부</a></li>
-							<li><a href="as_lecmove.html" style="padding:5px 0 5px 40px;">휴보강</a></li>
-						</ul>
-					</li>
-					<li class="submenu">
-						<a href="#"><i class="fa fa-fw fa-user"></i> <span> 교수 </span> <span class="menu-arrow"></span></a>
-						<ul class="list-unstyled">
-							<li><a href="te_main.html" style="padding:5px 0 5px 40px;">교수 메인</a></li>
-							<li><a href="te_time.html" style="padding:5px 0 5px 40px;">시간표</a></li>
-							<li><a href="te_lec.html" style="padding:5px 0 5px 40px;">일별 출석부</a></li>
-							<li><a href="te_lecall.html" style="padding:5px 0 5px 40px;">과목별 출석부</a></li>
-							<li><a href="te_lecmove.html" style="padding:5px 0 5px 40px;">휴보강</a></li>
-							<li><a href="te_lecqa.html" style="padding:5px 0 5px 40px;">교과목 문의</a></li>
-						</ul>
-					</li>
-					<li class="submenu">
-						<a href="#"><i class="fa fa-fw fa-table"></i> <span> 학생 </span> <span class="menu-arrow"></span></a>
-						<ul class="list-unstyled">
-							<li><a href="st_main.html" style="padding:5px 0 5px 40px;">학생 메인</a></li>
-							<li><a href="st_time.html" style="padding:5px 0 5px 40px;">시간표</a></li>
-							<li><a href="st_lecall.html" style="padding:5px 0 5px 40px;">출석부</a></li>
-							<li><hr style="background-color:gray;margin:0 25px 0 25px;"></li>
-							<li><a href="st_lec.html" style="padding:5px 0 5px 40px;">수강신청</a></li>
-							<li><a href="st_lecsj.html" style="padding:5px 0 5px 40px;">수강과목</a></li>
-							<li><a href="st_lecqa.html" style="padding:5px 0 5px 40px;">교과목 문의</a></li>
-						</ul>
-					</li>
-
-				</ul>
-				<div class="clearfix"></div>
-			</div>
-			<div class="clearfix"></div>
-		</div>
-	</div>
-	<!-- 좌측 Sidebar 메뉴 끝-->
+	<%@ include file="main_menu.jsp" %>
 
     <div class="content-page">
 	    <div class="content">
@@ -160,6 +55,7 @@
 						</div>
 					</div>
 				</div>
+				
 
 				<!--- 시간표 관련 JS  ---------------------------------------------->
 				<script>
@@ -191,9 +87,16 @@
 
 					function make_lecture(h)	// 새강의 그리기
 					{
-						form1.lec_count.value=Number(form1.lec_count.value)+1;
+						<c:forEach items="${list}" var="item">
+						var c = ${item.id};
+						</c:forEach>
+						
+						c=Number(c)+1;
+						alert(c);
 						str = form1.sel4.value;
-						str = form1.lec_count.value+"^"+str;
+						str = c+"^"+str;
+						str2 = form1.sel6.value;
+						str = str+"^"+str2;
 
 						str = str.split("^");
 						str[7]=h;
@@ -202,23 +105,25 @@
 						draw_lecture(1,str,"");
 						sel_lecture(str);
 					}
+					
 
 					function load_lec()			// 해당학기 시간표읽어 모두 표시
 					{	
 						// 번호^학년^반^시간^요일^시작교시^시간^과목명^교수님번호^교수님^강의실번호^강의실
 						var timetable = [
-							'1^2^A^4^1^1^4^PHP^1^교수님1^2^아몰랑',
-							'2^2^B^4^2^1^4^PHP^1^교수님1^2^컴실2',
-							'3^1^A^3^3^2^3^C^2^교수님2^1^컴실1',
-							'4^1^B^3^4^6^3^C^2^교수님2^1^컴실1'	];
+							<c:forEach items="${list}" var="item2">
+							'${item2.id}^${item2.lecture_id}^${item2.lecture.subject.grade}^${item2.lecture._class}^${item2.lecture.subject.ihour}^${item2.weekday}^${item2.istart}^${item2.ihour}^${item2.lecture.subject.name}^${item2.lecture.teacher.id}^${item2.lecture.teacher.name}^${item2.room.id}^${item2.room.name}',
+							</c:forEach>
+							];
 
 						n_time=timetable.length;
 						for (i=0;i<n_time;i++)
 						{
-							str=(i+1)+"^"+timetable[i];
+							str=timetable[i];
 							draw_lecture(0,str,"");
 						}
 						form1.lec_count.value=n_time;
+
 					}
 
 					function clear_lecture()	// 시간표내의 모든 강의 선택 취소
@@ -235,10 +140,13 @@
 								document.getElementById( pos1 ).childNodes[0].style.borderColor="#cccccc";
 							}
 						}}}}
+						
 					}
-
+					
+					
 					function save_lecture()	// 작성한 시간표 강의내용 저장
-					{	
+					{
+						
 						for (h=1;h<=10 ;h++){		// 시간(1-10)
 						for (w=1;w<=5 ;w++) {		// 요일(1-5)
 						for (g=1;g<=3 ;g++)	{		// 학년(1,2,3)
@@ -248,19 +156,33 @@
 							if (h<10) pos="0"+pos;
 							if (typeof(document.getElementById( pos ).childNodes[0]) != 'undefined')
 							{
-								str = str.split("^");
-								str[5]=w;
-								str[6]=h;
-								str=str.join("^");
 								alert( document.getElementById( pos ).childNodes[0].id + " pos:"+pos );
+								var s = document.getElementById( pos ).childNodes[0].id
+								var a = s.split("^");
+								if(h<10) var is = pos.substring(0,2)
+								else var is = pos.substring(1,2)
+								location.href="timetable-insert.do?id="+a[0]+"&lid="+a[1]+"&w="+pos[3]+"&is="+is+"&ih="+a[7]+"&ri="+a[11];	
 							}
+							//document.form1.action="timetable-insert.do";
+							//form1.submit();
 						}}}}
+						
 					}
+					
 
 					function del_lecture() 	// 선택한 강의 삭제
 					{	
+						if (!form1.selpos.value) {	alert("먼저 강의를 선택하세요." + form1.selpos.value); return; }
+						pos=form1.selpos.value;
+						var a = pos.split("^");
+						document.getElementById( pos ).remove();
+						form1.selpos.value="";
+						location.href="timetable-delete.do?id="+a[0];
+					}
+					
+					function del_lecture2() 	// 선택한 강의 삭제
+					{	
 						if (!form1.selpos.value) {	alert("먼저 강의를 선택하세요."); return; }
-
 						pos=form1.selpos.value;
 						document.getElementById( pos ).remove();
 						form1.selpos.value="";
@@ -290,6 +212,7 @@
 					{
 						//   0         1        2    3     4      5         6         7       8            9            10          11          12 
 						// 번호 강의번호^학년^반^시간^요일^시작교시^시간^과목명^교수님번호^교수님^강의실번호^강의실
+								
 						lec_id=str;
 						str = str.split("^");
 						lec_count=str[0];
@@ -334,7 +257,7 @@
 								
 							<div class="card-body" style="padding:10px">
 
-								<form name="form1" action="" method="post">
+								<form name="form1"  method="post" action="">
 								<div class="row" style="margin-bottom:3px">
 									<div class="col" align="left">
 										<div class="form-inline">
@@ -376,16 +299,16 @@
 												<div class="input-group-append">
 													<!-- 번호^학년^반^과목명 -->
 													<select name="sel3" class="form-control form-control-sm" >
-														<option value='1'>1학년</option>
-														<option value='2'>2학년</option>
-														<option value='3'>3학년</option>
+													<c:forEach var="i" begin="1" end="3">
+														<option value='${ i}'>${ i}학년</option>
+													</c:forEach>
 													</select>
 													<!-- 번호^학년^반^시간^요일^시작교시^시간^과목명^교수님번호^교수님^강의실번호^강의실 -->
 													<select name="sel4" class="form-control form-control-sm" >
-														<option value='1^2^A^4^0^0^0^PHP^1^교수님1^2^컴실2'>2-A (4h) : PHP</option>
-														<option value='2^2^B^4^0^0^0^PHP^1^교수님1^2^컴실2'>2-B (4h) : PHP</option>
-														<option value='3^1^A^3^0^0^0^C^2^교수님2^1^컴실1'>1-A (3h) : C</option>
-														<option value='4^1^B^3^0^0^0^C^2^교수님2^1^컴실1'>1-B (3h) : C</option>
+														<c:forEach var="lecture" items="${lectureList }">
+															<option value='${lecture.id }^${lecture.subject.grade }^${lecture._class }^${lecture.subject.ihour }^0^0^0^${lecture.subject.name }^${lecture.teacher.id }^${lecture.teacher.name }'>${lecture.subject.grade }-${lecture._class } (${lecture.subject.ihour }h) : ${lecture.subject.name }</option>
+															
+														</c:forEach>
 													</select>
 												</div>
 											</div>
@@ -394,6 +317,7 @@
 											&nbsp;<input type="button" class="btn btn-sm btn-warning" value="3h" onclick="make_lecture(3);">
 											&nbsp;<input type="button" class="btn btn-sm btn-warning" value="4h" onclick="make_lecture(4);">
 											&nbsp;<input type="button" class="btn btn-sm btn-primary" value="삭제" onclick="del_lecture();">
+											&nbsp;<input type="button" class="btn btn-sm btn-primary" value="비우기" onclick="del_lecture2();">
 
 											<div class="input-group input-group-sm">
 												<div class="input-group-prepend">
@@ -401,17 +325,15 @@
 												</div>
 												<div class="input-group-append">
 													<select name="sel5" class="form-control form-control-sm" >
-														<option value='1'>인관</option>
-														<option value='2'>덕관</option>
-														<option value='3'>응봉관</option>
-														<option value='4'>조형관</option>
+													<c:forEach var="building" items="${buildingList}">
+														<option value='${building.id }'>${building.name }</option>
+													</c:forEach>
 													</select>
 													&nbsp;
 													<select name="sel6" class="form-control form-control-sm" >
-														<option value='1^컴실습실1'>컴실습실1</option>
-														<option value='2^컴실습실2'>컴실습실2</option>
-														<option value='3^컴실습실3'>컴실습실3</option>
-														<option value='4^컴실습실4'>컴실습실4</option>
+													<c:forEach var="room" items="${roomList}">
+														<option value='${room.id }^${room.name}'>${room.name }</option>
+													</c:forEach>
 													</select>
 												</div>
 												&nbsp;<input type="button" class="btn btn-sm btn-primary" value="변경" onclick="change_room();">
@@ -419,7 +341,9 @@
 
 										</div>
 									</div>
-								</div>
+								</div>								
+								
+
 
 								<input type="hidden" name="lec_count" value="0">
 								<input type="hidden" name="selpos" value="">
