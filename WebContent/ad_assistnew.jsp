@@ -31,7 +31,6 @@
 </head>
 
 <body class="adminbody">
-
 <div id="main">
 
 	<%@include file="main_menu.jsp" %>

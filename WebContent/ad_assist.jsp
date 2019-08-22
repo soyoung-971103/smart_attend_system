@@ -32,7 +32,6 @@
 </head>
 
 <body class="adminbody">
-	<%@include file="main_menu.jsp" %>
 <div id="main">
 	<%@include file="main_menu.jsp" %>
     <div class="content-page">

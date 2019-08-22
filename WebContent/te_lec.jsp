@@ -20,13 +20,29 @@
 	<link href="my/css/my.css" rel="stylesheet" type="text/css">
 
 <link href="my/css/daterangepicker.css" rel="stylesheet" /> 
-
+	
     <link rel="stylesheet" href="my/flatpickr_datetime/flatpickr.css">
 	<link rel="stylesheet" type="text/css" href="my/flatpickr_datetime/material_blue.css">
-
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+	<script type="text/javascript">
+			var f = function(n) {
+				var str = $('#text1').val();
+				var lecture = "";
+				document.getElementById('ajaxtest').innerHTML="";
+				var xhttp = new XMLHttpRequest();
+				xhttp.onreadystatechange=function() {
+				    if (this.readyState == 4 && this.status == 200) {
+				    	document.getElementById("ajaxtest").innerHTML=xhttp.responseText;
+				    }
+				  };
+			    xhttp.open("GET", "teacher-lecture-search.do?text1=" + str + "&n=1", true);
+			    xhttp.send();
+			};
+	  </script>
 </head>
 
-<body class="adminbody">
+<body class="adminbody" onLoad = "f(1)">
 
 <div id="main">
 
@@ -75,16 +91,16 @@
 												<div class="input-group-prepend">
 													<span class="input-group-text">날짜</span>
 												</div>
-												<input type="text" id="text1" name="text1" size="12" class="flatpickr form-control" style="text-align:center;background-color:white">
+												<input type="text" id="text1" name="text1" size="12" class="flatpickr form-control" style="text-align:center;background-color:white" onchange="f(1)">
 											</div>
 										</div>
 									</div>
 								</div>
 								</form>
-
-								<div class="row mymargin5">
-
-									<div class="col-12 col-lg-6" align="left">
+							
+								<div class="row mymargin5" id="ajaxtest">
+									
+									<!--<div class="col-12 col-lg-6" align="left">
 										<div class="card border-dark mb-3" style="max-width: 20rem;">
 											<div class="card-header bg-info text-white"  style="padding:10px">
 												<h5 class="card-title" style="margin:0px">PHP</h5>
@@ -125,7 +141,7 @@
 												<center><a href="te_leccall.html" class="btn btn-sm btn-primary mymargin5"> 강의완료 </a></center>
 											</div>
 										</div>
-									</div>
+									</div>-->
 								</div>
 
 							</div>		<!-- card body end -->

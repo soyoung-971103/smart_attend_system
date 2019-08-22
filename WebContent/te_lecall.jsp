@@ -5,6 +5,7 @@
 <!-- 교수 : 윤형태 (2019.5 -        )                                                                         -->
 <!-- 학생 : 유소영(3), 김해리(3), 이민호(2), 김진혁(2)                                              -->
 <!-------------------------------------------------------------------------------->	
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="kr">
 <head>
@@ -180,7 +181,7 @@
 								<script>
 									function find_text()
 									{
-										form1.action="<i class="text-warning fa fa-question fa-1x"></i><i class="text-warning fa fa-question fa-1x"></i><i class="text-warning fa fa-question fa-1x"></i>.html<i class="text-warning fa fa-question fa-1x"></i>text1=" + form1.text1.value+"&text2=" + form1.text2.value";
+										form1.action="<i class="text-warning fa fa-question fa-1x"></i><i class="text-warning fa fa-question fa-1x"></i><i class="text-warning fa fa-question fa-1x"></i>.html<i class="text-warning fa fa-question fa-1x"></i>text1=" + form1.text1.value+"&text2=" + form1.text2.value;
 										form1.submit();
 									}
 								</script>
@@ -241,7 +242,7 @@
 														<option value='3'>데이터베이스실무2</option>
 													</select>
 												</div>
-												&nbsp
+												&nbsp;
 												<input type="button" value= "검색" onchange="javascript:find_text();" class="btn btn-sm btn-primary">
 											</div>
 
