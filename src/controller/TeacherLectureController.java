@@ -128,7 +128,7 @@ import model.TeacherLectureDAO;
 					re.append("수강생 "+ list.get(i).getNumber() +"명<br>");
 					re.append("<center>");
 					
-					re.append("<a href='te_leccall.jsp?id="+list.get(i).getId()+'.'+a[0]+a[1]+a[2]+"'class='btn btn-sm btn-primary mymargin5'> "+(list.get(i).getClassification() == 1 ? "강의 완료" : "강의전")+" </a>");
+					re.append("<a href='te_leccall.jsp?id="+list.get(i).getId()+'.'+a[0].toString()+a[1].toString()+a[2].toString()+"'class='btn btn-sm btn-primary mymargin5'> "+(list.get(i).getClassification() == 1 ? "강의 완료" : "강의전")+" </a>");
 					re.append("</center>");
 					re.append("</div>");
 					re.append("</div>");
@@ -143,8 +143,9 @@ import model.TeacherLectureDAO;
 		//해당 과목 학생 리스트
 		public void info(HttpServletRequest request, HttpServletResponse response) throws Exception 
 		{//
-			double dId = Double.parseDouble(request.getParameter("id"));
-			String test = Double.toString(dId);
+			String test = request.getParameter("id");
+			if(test.length() == 9) test += "0";
+
 			String text = "";
 			String id = test.substring(0,1);
 			String day = "";
@@ -166,7 +167,7 @@ import model.TeacherLectureDAO;
 			TeacherLectureDTO info = lectureDAO.lectureInfo(text, id);
 			ArrayList<StudentLectureInfoDTO> list = lectureDAO.stuList(text, id, nStuCheck);
 			
-			
+			System.out.println(info.getTeacher_id().getName());
 			re.append("<div class='card-header mycolor3' style='padding:10px'>" + 
 			"<div class='row'>" + 
 			"<div class='col' align='left'>" + 
