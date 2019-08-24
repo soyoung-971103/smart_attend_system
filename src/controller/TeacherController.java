@@ -74,7 +74,7 @@ public class TeacherController extends HttpServlet {
 		stmt.executeUpdate(query);
 		response.sendRedirect("TeacherInquiry");
 	}
-	private void Inquiry(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException{
+	public void Inquiry(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException{
 		alMember = new ArrayList<TeacherDTO>();
 		String text1 = request.getParameter("text1") == null ? null : request.getParameter("text1");
 		if(text1 != null)  query = "select * from teacher where name like '"+text1+"%'";

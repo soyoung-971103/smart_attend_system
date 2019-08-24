@@ -1,13 +1,12 @@
 package model;
 
-import java.util.Date;
-
 public class LectureDTO {
-	int id;
+	private int id;
 	int subject_id;
 	int teacher_id;
 	String lec_class;
 	
+	DepartDTO depart;
 	SubjectDTO subject;
 	TeacherDTO teacher;
 	
@@ -46,6 +45,12 @@ public class LectureDTO {
 	}
 	public void setTeacher(TeacherDTO teacher) {
 		this.teacher = teacher;
+	}
+	public DepartDTO getDepart() {
+		return depart;
+	}
+	public void setDepart(DepartDTO depart) {
+		this.depart = depart;
 	}
 	
 }

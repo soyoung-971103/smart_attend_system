@@ -13,6 +13,7 @@ public class SubjectDTO {
 	String name;
 	float ipoint;
 	byte ihour;
+	DepartDTO depart;
 	
 	public int getId() {
 		return id;
@@ -85,5 +86,11 @@ public class SubjectDTO {
 	}
 	public void setIhour(byte ihour) {
 		this.ihour = ihour;
-	}	
+	}
+	public DepartDTO getDepart() {
+		return depart;
+	}
+	public void setDepart(DepartDTO depart) {
+		this.depart = depart;
+	}
 }

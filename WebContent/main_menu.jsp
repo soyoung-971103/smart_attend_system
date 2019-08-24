@@ -73,8 +73,8 @@
 						<a href="#"><i class="fa fa-fw fa-male"></i> <span>조교</span> <span class="menu-arrow"></span></a>
 						<ul class="list-unstyled">
 							<li><a href="as_main.html" style="padding:5px 0 5px 40px;">조교 메인</a></li>
-							<li><a href="as_sub.html" style="padding:5px 0 5px 40px;">학년별 교과목</a></li>
-							<li><a href="as_lec.html" style="padding:5px 0 5px 40px;">반별 교과목</a></li>
+							<li><a href="subject-list.do" style="padding:5px 0 5px 40px;">학년별 교과목</a></li>
+							<li><a href="lecture-list.do" style="padding:5px 0 5px 40px;">반별 교과목</a></li>
 							<li><a href="as_time.html" style="padding:5px 0 5px 40px;">시간표 작성</a></li>
 							<li><a href="as_timeall.html" style="padding:5px 0 5px 40px;">학과별 시간표</a></li>
 							<li><a href="as_lecall.html" style="padding:5px 0 5px 40px;">과목별 출석부</a></li>
