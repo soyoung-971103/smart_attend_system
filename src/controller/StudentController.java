@@ -95,6 +95,9 @@ public class StudentController extends HttpServlet {
 	private void detail(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
 		int id = Integer.parseInt(request.getParameter("id"));
 		student = dao.detail(id);
+		dtoListDepart = daoDepart.List();
+
+       	request.setAttribute("listDepart", dtoListDepart);
 		request.setAttribute("student", student);
 		String phone[]=student.getPhone().split("-");
 		String birthday[]=student.getBirthday().split("-");

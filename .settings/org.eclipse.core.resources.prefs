@@ -1,5 +1,8 @@
 eclipse.preferences.version=1
 encoding//WebContent/ad_building.jsp=UTF-8
+encoding//WebContent/as_sub.jsp=UTF-8
+encoding//WebContent/as_subnew.jsp=UTF-8
+encoding//WebContent/as_subupdate.jsp=UTF-8
 encoding//WebContent/common.jsp=UTF-8
 encoding//WebContent/login.jsp=UTF-8
 encoding//WebContent/te_time.html=UTF-8
