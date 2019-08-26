@@ -84,6 +84,7 @@
         									<th>학과/부서명</th>
 									        <th>학제</th>
 									        <th>반수</th>
+									        <th>약어</th>
 									        <th width="95"></th>
 										</tr>
 									</thead>
@@ -96,6 +97,7 @@
 													<td>${ depart.name}</td>
 													<td>${ depart.gradesystem}</td>
 													<td>${ depart.classnum}</td>
+													<td>${ depart.abbreviation}</td>
 													<td>
 													<a href="depart-info.do?id=${ depart.id}" class="btn btn-xs btn-outline-primary">수정</a>
 													<a href="depart-delete.do?id=${ depart.id}" class="btn btn-xs btn-outline-danger" onClick="return confirm('삭제할까요 ?');">삭제</a>
@@ -169,7 +171,7 @@
 					"processing":     "잠시만 기다려 주세요...",
 					"paginate": { "first":"◀", "previous": "◁","next": " ▷","last": "▶" }
 				},
-			columns: [ { "searchable": false },{ "searchable":true },{ "searchable":false },{ "searchable":false },{ "searchable":false }],
+			columns: [ { "searchable": false },{ "searchable":true },{ "searchable":false },{ "searchable":false },{ "searchable":false }, { "searchable":true }],
 			pagingType: "full_numbers"
 
 		} );

@@ -26,7 +26,7 @@ public class LectureDAO extends DAOBase{
 			conn = getConnection();
 			stmt = conn.createStatement();
 			dtoList = new ArrayList<LectureDTO>();
-			rs = stmt.executeQuery("SELECT lecture.id, lecture.class, subject.grade, subject.ihour, subject.name, teacher.id, teacher.name FROM lecture LEFT JOIN subject ON lecture.subject_id = subject.id LEFT JOIN teacher ON lecture.teacher_id = teacher.id");
+			rs = stmt.executeQuery("SELECT lecture.id, lecture.class, subject.grade, subject.ihour, subject.name, subject.depart_id, teacher.id, teacher.name FROM lecture LEFT JOIN subject ON lecture.subject_id = subject.id LEFT JOIN teacher ON lecture.teacher_id = teacher.id");
 			while(rs.next()) {
 				dto = new LectureDTO(); 
 				dtoSubject = new SubjectDTO();
@@ -36,9 +36,10 @@ public class LectureDAO extends DAOBase{
 				dtoSubject.setGrade(rs.getByte(3));
 				dtoSubject.setIhour(rs.getByte(4));
 				dtoSubject.setName(rs.getString(5));
+				dtoSubject.setDepart_id(rs.getInt(6));
 				dto.setSubject(dtoSubject);
-				dtoTeacher.setId(rs.getInt(6));
-				dtoTeacher.setName(rs.getString(7));
+				dtoTeacher.setId(rs.getInt(7));
+				dtoTeacher.setName(rs.getString(8));
 				dto.setTeacher(dtoTeacher);
 				dtoList.add(dto);
 			}

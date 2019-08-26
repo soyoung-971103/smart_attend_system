@@ -27,12 +27,13 @@ public class DepartDAO extends DAOBase{
 			
 			conn = getConnection();
 			pstmt = conn.prepareStatement("insert into depart " + 
-					"values(?, ?, ?, ?)");
+					"values(?, ?, ?, ?, ?)");
 			
 			pstmt.setInt(1, dto.getId());
 			pstmt.setString(2, dto.getName()); 
 			pstmt.setByte(3, dto.getClassnum());
 			pstmt.setByte(4, dto.getGradesystem());
+			pstmt.setString(5, dto.getAbbreviation());
 			
 			result = pstmt.executeUpdate();
 			return result;
@@ -52,13 +53,15 @@ public class DepartDAO extends DAOBase{
 		try {
 			conn = getConnection();
 			pstmt = conn.prepareStatement("update depart " + 
-			"set name=?, classnum=?, gradesystem=? where id=?");
+			"set name=?, classnum=?, gradesystem=?, abbreviation=? where id=?");
 			
 			
 			pstmt.setString(1, dto.getName()); 
 			pstmt.setByte(2, dto.getClassnum());
 			pstmt.setByte(3, dto.getGradesystem());
-			pstmt.setInt(4, dto.getId());
+			pstmt.setString(4, dto.getAbbreviation());
+			pstmt.setInt(5, dto.getId());
+			
 			
 			result = pstmt.executeUpdate();	
 			return result;
@@ -102,6 +105,7 @@ public class DepartDAO extends DAOBase{
 				dto.setName(rs.getString(2));
 				dto.setClassnum(rs.getByte(3));
 				dto.setGradesystem(rs.getByte(4));
+				dto.setAbbreviation(rs.getString(5));
 				dtoList.add(dto);
 			}
 			return dtoList;
@@ -124,6 +128,7 @@ public class DepartDAO extends DAOBase{
 				dto.setName(rs.getString(2));
 				dto.setClassnum(rs.getByte(3));
 				dto.setGradesystem(rs.getByte(4));
+				dto.setAbbreviation(rs.getString(5));
 	  		}      			
 	  		return dto;
 	  	} catch (SQLException e) {	

@@ -23,6 +23,7 @@ public class TimeTableDAO extends DAOBase {
 	LectureDTO dtoLecture = null;
 	SubjectDTO dtoSubject = null;
 	TeacherDTO dtoTeacher = null;
+	DepartDTO dtoDepart = null;
 	
 	
 	public ArrayList<TimeTableDTO> Load(){		
@@ -31,7 +32,7 @@ public class TimeTableDAO extends DAOBase {
 			stmt = conn.createStatement();
 			
 			dtoList = new ArrayList<TimeTableDTO>();
-			rs = stmt.executeQuery("SELECT timetable.*, room.id, room.name, lecture.class, subject.grade, subject.ihour, subject.name, teacher.id, teacher.name FROM timetable LEFT JOIN room ON timetable.room_id = room.id LEFT JOIN lecture ON timetable.lecture_id = lecture.id LEFT JOIN subject ON subject.id = lecture.subject_id LEFT JOIN teacher ON teacher.id = lecture.teacher_id");
+			rs = stmt.executeQuery("SELECT timetable.*, room.id, room.name, lecture.class, subject.grade, subject.ihour, subject.name, subject.depart_id, teacher.id, teacher.name FROM timetable LEFT JOIN room ON timetable.room_id = room.id LEFT JOIN lecture ON timetable.lecture_id = lecture.id LEFT JOIN subject ON subject.id = lecture.subject_id LEFT JOIN teacher ON teacher.id = lecture.teacher_id");
 			while(rs.next()) {
 				// 번호^학년^반^시간^요일^시작교시^시간^과목명^교수님번호^교수님^강의실번호^강의실
 				///번호 id
@@ -65,9 +66,10 @@ public class TimeTableDAO extends DAOBase {
 				dtoSubject.setGrade(rs.getByte(10));
 				dtoSubject.setIhour(rs.getByte(11));
 				dtoSubject.setName(rs.getString(12));
+				dtoSubject.setDepart_id(rs.getInt(13));
 				dtoLecture.setSubject(dtoSubject);
-				dtoTeacher.setId(rs.getInt(13));
-				dtoTeacher.setName(rs.getString(14));
+				dtoTeacher.setId(rs.getInt(14));
+				dtoTeacher.setName(rs.getString(15));
 				dtoLecture.setTeacher(dtoTeacher);
 				dtoList.add(dto);
 			}
@@ -100,26 +102,6 @@ public class TimeTableDAO extends DAOBase {
 		}
 		return result;
     }
-
-	public int update(TimeTableDTO dto) {
-		int result = 0;
-		
-		try {
-			conn = getConnection();			
-			pstmt = conn.prepareStatement("update room " + 
-			"set building_id=?, floor=?, ho=?, depart_id=?, name=?, kind=?, area=? where id=?");
-    		
-    		result = pstmt.executeUpdate();	
-			return result;
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		finally {
-			this.closeDBResources(rs, stmt, pstmt, conn);
-		}
-		return result;				
-	}
 	
 	public int delete(int id) {
 		int result = 0;

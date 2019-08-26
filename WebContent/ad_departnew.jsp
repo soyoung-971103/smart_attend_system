@@ -111,6 +111,14 @@
 											</div>
 										</td>
 									</tr>
+									<tr>
+										<td class="mycolor2">학과/부서 약어</td>
+										<td>
+											<div class="form-inline">
+												<input type="text" name="abbreviation" value="" class="form-control form-control-sm" required>
+											</div>
+										</td>
+									</tr>
 								</table>
 
 								<div align="center">

@@ -95,6 +95,7 @@ public class DepartController extends HttpServlet {
 		dto.setName(request.getParameter("name"));
 		dto.setClassnum(Byte.parseByte(request.getParameter("classnum")));
 		dto.setGradesystem(Byte.parseByte(request.getParameter("gradesystem")));
+		dto.setAbbreviation(request.getParameter("abbreviation"));
 		
 		int result = dao.update(dto);
 		
@@ -114,6 +115,7 @@ public class DepartController extends HttpServlet {
 		dto.setName(request.getParameter("name"));
 		dto.setClassnum(Byte.parseByte(request.getParameter("classnum")));
 		dto.setGradesystem(Byte.parseByte(request.getParameter("gradesystem")));
+		dto.setAbbreviation(request.getParameter("abbreviation"));
 		
 		int result = dao.insert(dto);
 		

@@ -7,7 +7,7 @@
 <!-------------------------------------------------------------------------------->	
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ page import="java.util.*,model.TimeTableDTO, model.BuildingDTO, model.RoomDTO, model.LectureDTO, model.SubjectDTO, model.TeacherDTO" %>
+<%@ page import="java.util.*,model.TimeTableDTO, model.BuildingDTO, model.RoomDTO, model.LectureDTO, model.SubjectDTO, model.TeacherDTO, model.DepartDTO" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!DOCTYPE html>
@@ -32,7 +32,7 @@
 </head>
 
 
-<body class="adminbody">
+<body class="adminbody" onload="change_Lecture(); change_Rm();">
 
 <div id="main">
 	<%@ include file="main_menu.jsp" %>
@@ -59,7 +59,10 @@
 
 				<!--- 시간표 관련 JS  ---------------------------------------------->
 				<script>
-
+					<c:forEach items="${list}" var="item">
+					var c = ${item.id};
+					</c:forEach>
+					var abc = 1;
 					function dragEnter(ev) { ev.preventDefault(); }
 					function drag(ev) {	ev.dataTransfer.setData("text", ev.target.id); }
 					function drop(ev,target) 
@@ -87,12 +90,10 @@
 
 					function make_lecture(h)	// 새강의 그리기
 					{
-						<c:forEach items="${list}" var="item">
-						var c = ${item.id};
-						</c:forEach>
 						
-						c=Number(c)+1;
 						alert(c);
+						if(c==null) c=1;
+						else c=Number(c)+1;
 						str = form1.sel4.value;
 						str = c+"^"+str;
 						str2 = form1.sel6.value;
@@ -104,26 +105,23 @@
 
 						draw_lecture(1,str,"");
 						sel_lecture(str);
+						
 					}
 					
 
 					function load_lec()			// 해당학기 시간표읽어 모두 표시
 					{	
+						var dp = form1.sel_dp.value;
 						// 번호^학년^반^시간^요일^시작교시^시간^과목명^교수님번호^교수님^강의실번호^강의실
-						var timetable = [
-							<c:forEach items="${list}" var="item2">
-							'${item2.id}^${item2.lecture_id}^${item2.lecture.subject.grade}^${item2.lecture._class}^${item2.lecture.subject.ihour}^${item2.weekday}^${item2.istart}^${item2.ihour}^${item2.lecture.subject.name}^${item2.lecture.teacher.id}^${item2.lecture.teacher.name}^${item2.room.id}^${item2.room.name}',
-							</c:forEach>
-							];
-
-						n_time=timetable.length;
-						for (i=0;i<n_time;i++)
-						{
-							str=timetable[i];
+						<c:forEach items="${list}" var="item2">
+						if(dp == "${item2.lecture.subject.depart_id}"){
+						var timetable=
+							'${item2.id}^${item2.lecture_id}^${item2.lecture.subject.grade}^${item2.lecture._class}^${item2.lecture.subject.ihour}^${item2.weekday}^${item2.istart}^${item2.ihour}^${item2.lecture.subject.name}^${item2.lecture.teacher.id}^${item2.lecture.teacher.name}^${item2.room.id}^${item2.room.name}';
+						
+							str=timetable;
 							draw_lecture(0,str,"");
 						}
-						form1.lec_count.value=n_time;
-
+						</c:forEach>
 					}
 
 					function clear_lecture()	// 시간표내의 모든 강의 선택 취소
@@ -159,9 +157,10 @@
 								alert( document.getElementById( pos ).childNodes[0].id + " pos:"+pos );
 								var s = document.getElementById( pos ).childNodes[0].id
 								var a = s.split("^");
-								if(h<10) var is = pos.substring(0,2)
-								else var is = pos.substring(1,2)
-								location.href="timetable-insert.do?id="+a[0]+"&lid="+a[1]+"&w="+pos[3]+"&is="+is+"&ih="+a[7]+"&ri="+a[11];	
+								var dp = form1.sel_dp.value;
+								if(h<10) var is = pos.substring(0,2);
+								else var is = pos.substring(1,2);
+								location.href="timetable-insert.do?lid="+a[1]+"&w="+pos[2]+"&is="+is+"&ih="+a[7]+"&ri="+a[11]+"&dp="+dp;	
 							}
 							//document.form1.action="timetable-insert.do";
 							//form1.submit();
@@ -172,6 +171,7 @@
 
 					function del_lecture() 	// 선택한 강의 삭제
 					{	
+						location.href="timetable-delete.do"
 						if (!form1.selpos.value) {	alert("먼저 강의를 선택하세요." + form1.selpos.value); return; }
 						pos=form1.selpos.value;
 						var a = pos.split("^");
@@ -244,7 +244,28 @@
 
 						document.getElementById( pos ).innerHTML="<div  class='lecbox_text' style='height:"+hh+"' id='"+lec_id+"' draggable='true' ondragstart='drag(event)' onclick='sel_lecture(\""+lec_id+"\")'>"+lec_caption+"</div>";
 					}
-
+					
+					function change_Lecture(){
+						document.getElementById( "optr" ).innerHTML="";
+						var abc = form1.sel3.value;
+						var de = form1.sel_dp.value;
+						<c:forEach items="${lectureList}" var="item2">
+						if(abc=="${item2.subject.grade}" && de=="${item2.subject.depart_id}"){
+							$("#optr").append("<option value='${item2.id }^${item2.subject.grade }^${item2._class }^${item2.subject.ihour }^0^0^0^${item2.subject.name }^${item2.teacher.id }^${item2.teacher.name }'>"+"${item2.subject.grade }-${item2._class } (${item2.subject.ihour }h) : ${item2.subject.name }"+"</option>");
+						}
+						</c:forEach>
+					}
+					
+					
+					function change_Rm(){
+						document.getElementById( "optr2" ).innerHTML="";
+						var abcd = form1.sel5.value;
+						<c:forEach items="${roomList}" var="item3">
+						if(abcd=="${item3.building_id}"){
+							$("#optr2").append("<option value='${item3.id }^${item3.name}'>"+"${item3.name }"+"</option>");
+						}
+						</c:forEach>
+					}
 				</script>
 
 				<div class="row">
@@ -275,9 +296,14 @@
 														<option value='2015'>2015</option>
 													</select>
 													&nbsp;
-													<select name="sel3" class="form-control form-control-sm" onchange="javascript:find_text();">
+													<select name="sel2" class="form-control form-control-sm" onchange="javascript:find_text();">
 														<option value='1' selected>1학기</option>
 														<option value='2'>2학기</option>
+													</select>
+													<select name="sel_dp" class="form-control form-control-sm" onchange="change_Lecture();">
+														<c:forEach items="${departList}" var="depart">
+															<option value='${depart.id }'>${depart.name }</option>
+														</c:forEach>
 													</select>
 												</div>
 												&nbsp;<input type="button" class="btn btn-sm btn-primary" value="검색" onclick="load_lec();">
@@ -298,17 +324,13 @@
 												</div>
 												<div class="input-group-append">
 													<!-- 번호^학년^반^과목명 -->
-													<select name="sel3" class="form-control form-control-sm" >
+													<select name="sel3" class="form-control form-control-sm" onchange="change_Lecture();">
 													<c:forEach var="i" begin="1" end="3">
 														<option value='${ i}'>${ i}학년</option>
 													</c:forEach>
 													</select>
 													<!-- 번호^학년^반^시간^요일^시작교시^시간^과목명^교수님번호^교수님^강의실번호^강의실 -->
-													<select name="sel4" class="form-control form-control-sm" >
-														<c:forEach var="lecture" items="${lectureList }">
-															<option value='${lecture.id }^${lecture.subject.grade }^${lecture._class }^${lecture.subject.ihour }^0^0^0^${lecture.subject.name }^${lecture.teacher.id }^${lecture.teacher.name }'>${lecture.subject.grade }-${lecture._class } (${lecture.subject.ihour }h) : ${lecture.subject.name }</option>
-															
-														</c:forEach>
+													<select name="sel4" class="form-control form-control-sm" id="optr">
 													</select>
 												</div>
 											</div>
@@ -318,22 +340,20 @@
 											&nbsp;<input type="button" class="btn btn-sm btn-warning" value="4h" onclick="make_lecture(4);">
 											&nbsp;<input type="button" class="btn btn-sm btn-primary" value="삭제" onclick="del_lecture();">
 											&nbsp;<input type="button" class="btn btn-sm btn-primary" value="비우기" onclick="del_lecture2();">
+											
 
 											<div class="input-group input-group-sm">
 												<div class="input-group-prepend">
 													&nbsp;&nbsp;&nbsp;<span class="input-group-text">강의실</span>
 												</div>
 												<div class="input-group-append">
-													<select name="sel5" class="form-control form-control-sm" >
+													<select name="sel5" class="form-control form-control-sm" onchange="change_Rm();">
 													<c:forEach var="building" items="${buildingList}">
 														<option value='${building.id }'>${building.name }</option>
 													</c:forEach>
 													</select>
 													&nbsp;
-													<select name="sel6" class="form-control form-control-sm" >
-													<c:forEach var="room" items="${roomList}">
-														<option value='${room.id }^${room.name}'>${room.name }</option>
-													</c:forEach>
+													<select name="sel6" class="form-control form-control-sm" id="optr2">
 													</select>
 												</div>
 												&nbsp;<input type="button" class="btn btn-sm btn-primary" value="변경" onclick="change_room();">
