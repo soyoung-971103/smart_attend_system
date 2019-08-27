@@ -25,7 +25,7 @@ import model.LectureDTO;
 /**
  * Servlet implementation class TimeController
  */
-@WebServlet({ "/timetable-list.do", "/timetable-insert.do", "/timetable-delete.do" })
+@WebServlet({ "/timetable-list.do", "/timetable-insert.do", "/timetable-delete.do", "/as-timetable-all.do", "/ad-timetable-all.do" })
 public class TimeTableController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -67,6 +67,10 @@ public class TimeTableController extends HttpServlet {
 			insert(request, response);
 		}else if(action.equals("timetable-delete.do")) {
 			delete(request, response);			
+		}else if(action.equals("as-timetable-all.do")){
+			as_ShowAll(request, response);
+		}else if(action.equals("ad-timetable-all.do")){
+			ad_ShowAll(request, response);
 		}
 		else
 			;
@@ -106,7 +110,25 @@ public class TimeTableController extends HttpServlet {
     	request.getRequestDispatcher("as_time.jsp").forward(request, response);
 	}
     
-private void delete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
+    private void as_ShowAll(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
+    	dtoList = dao.Load();
+    	dtoListDepart = daoDepart.List();
+    	
+    	request.setAttribute("list", dtoList);
+    	request.setAttribute("departList", dtoListDepart);
+    	request.getRequestDispatcher("as_timeall.jsp").forward(request, response);
+	}
+    
+    private void ad_ShowAll(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
+    	dtoList = dao.Load();
+    	dtoListDepart = daoDepart.List();
+    	
+    	request.setAttribute("list", dtoList);
+    	request.setAttribute("departList", dtoListDepart);
+    	request.getRequestDispatcher("ad_timeall.jsp").forward(request, response);
+	}
+    
+    private void delete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
 		
 		int result = dao.delete(Integer.parseInt(request.getParameter("id")));
 	
