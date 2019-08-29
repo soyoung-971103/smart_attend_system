@@ -82,12 +82,13 @@ import model.TeacherLectureDAO;
 			double dId = Double.parseDouble(request.getParameter("id"));
 			String test = Double.toString(dId);
 			String text = "";
-			String id = test.substring(0,1);
+			String id = test.substring(0,test.indexOf("."));
 			String day = "";
 			try {
 				SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
 				SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy-MM-dd");
-				Date date = sdf.parse(test.substring(2,test.length()));
+				String dat = test.substring(test.indexOf(".") + 1, test.length());
+				Date date = sdf.parse(dat);
 				text=sdf2.format(date);
 				day = getDateDay(text,"yyyy-MM-dd");
 			} catch (ParseException e) {
@@ -105,34 +106,56 @@ import model.TeacherLectureDAO;
 				
 				String text = request.getParameter("text1");
 				if(text == null) text=sdf.format(curToday);
-				String[] a = text.split("-");
 				StringBuffer re = new StringBuffer("");
 				TeacherLectureDAO lectureDAO = new TeacherLectureDAO();
 				ArrayList<TeacherLectureDTO> list = lectureDAO.search(text);
 				
 				for(int i = 0; i < list.size(); i++)
 				{
-					re.append("<div class='col-12 col-lg-6' align='left'>");
-					re.append("<div class='card border-dark mb-3' style='max-width: 20rem;'>");
-					re.append("<div class='card-header bg-info text-white'  style='padding:10px'>");
-					re.append("<h5 class='card-title' style='margin:0px'>"+list.get(i).getSubject_name()+"</h5>");
-					re.append("</div>");
-					re.append("<div class='card-body' style='padding:10px' id='t'>");
-					re.append(list.get(i).getTeacher_id().getName() + "<br>");
-					re.append(list.get(i).getTeacher_id().getDepart_id().getName() + "	: "+list.get(i).getRoomName()+
-				"("+list.get(i).getBuildName().charAt(0)+list.get(i).getHo()+")<br>");
+					String[] str = list.get(i).getNormdate().split("-");
 					
-					re.append((list.get(i).getNormstart() - 8) + "교시~"+(list.get(i).getNormstart() + list.get(i).getNormhour()- 9)+
-				"교시("+list.get(i).getNormstart()+":00 ~ "+ (list.get(i).getNormstart() + list.get(i).getNormhour() - 1) +":50)<br>");
+					if(list.get(i).getNormstate() != 4) {
+						re.append("<div class='col-12 col-lg-6' align='left'>");
+						re.append("<div class='card border-dark mb-3' style='max-width: 20rem;'>");
+						re.append("<div class='card-header bg-info text-white'  style='padding:10px'>");
+						re.append("<h5 class='card-title' style='margin:0px'>"+list.get(i).getSubject_name()+"</h5>");
+						re.append("</div>");
+						re.append("<div class='card-body' style='padding:10px' id='t'>");
+						re.append(list.get(i).getTeacher_id().getName() + "<br>");
+						re.append(list.get(i).getTeacher_id().getDepart_id().getName() + "	: "+list.get(i).getRoomName()+
+					"("+list.get(i).getBuildName().charAt(0)+list.get(i).getHo()+")<br>");
+						
+						re.append((list.get(i).getNormstart() - 8) + "교시~"+(list.get(i).getNormstart() + list.get(i).getNormhour()- 9)+
+					"교시("+list.get(i).getNormstart()+":00 ~ "+ (list.get(i).getNormstart() + list.get(i).getNormhour() - 1) +":50)<br>");
+						
+						re.append("수강생 "+ list.get(i).getNumber() +"명<br>");
+						re.append("<center>");
+						re.append("<a href='te_leccall.jsp?id="+list.get(i).getId()+'.'+str[0].toString()+str[1].toString()+str[2].toString()+"'class='btn btn-sm btn-primary mymargin5'> "+(list.get(i).getClassification() == 1 ? "강의 완료" : "강의전")+" </a>");
+						re.append("</center>");
+						re.append("</div></div></div>");
+
+					}else if(list.get(i).getNormstate() == 4 && list.get(i).getRestdate().equals(text))
+					{
+						re.append("<div class='col-12 col-lg-6' align='left'>");
+						re.append("<div class='card border-dark mb-3' style='max-width: 20rem;'>");
+						re.append("<div class='card-header bg-info text-white'  style='padding:10px'>");
+						re.append("<h5 class='card-title' style='margin:0px'>"+list.get(i).getSubject_name()+"</h5>");
+						re.append("</div>");
+						re.append("<div class='card-body' style='padding:10px' id='t'>");
+						re.append(list.get(i).getTeacher_id().getName() + "<br>");
+						re.append(list.get(i).getTeacher_id().getDepart_id().getName() + "	: "+list.get(i).getRoomName()+
+					"("+list.get(i).getBuildName().charAt(0)+list.get(i).getHo()+")<br>");
+						
+						re.append((list.get(i).getReststart() - 8) + "교시~"+(list.get(i).getReststart() + list.get(i).getResthour()- 9)+
+					"교시("+list.get(i).getReststart()+":00 ~ "+ (list.get(i).getReststart() + list.get(i).getResthour() - 1) +":50)<br>");
+						
+						re.append("수강생 "+ list.get(i).getNumber() +"명<br>");
+						re.append("<center>");
+						re.append("<a href='te_leccall.jsp?id="+list.get(i).getId()+'.'+str[0].toString()+str[1].toString()+str[2].toString()+"'class='btn btn-sm btn-primary mymargin5'> "+(list.get(i).getClassification() == 1 ? "강의 완료" : "강의전")+" </a>");
+						re.append("</center>");
+						re.append("</div></div></div>");
+					}
 					
-					re.append("수강생 "+ list.get(i).getNumber() +"명<br>");
-					re.append("<center>");
-					
-					re.append("<a href='te_leccall.jsp?id="+list.get(i).getId()+'.'+a[0].toString()+a[1].toString()+a[2].toString()+"'class='btn btn-sm btn-primary mymargin5'> "+(list.get(i).getClassification() == 1 ? "강의 완료" : "강의전")+" </a>");
-					re.append("</center>");
-					re.append("</div>");
-					re.append("</div>");
-					re.append("</div>");
 				}
 				response.getWriter().write(re.toString());
 			} catch (IOException e) {
@@ -144,17 +167,19 @@ import model.TeacherLectureDAO;
 		public void info(HttpServletRequest request, HttpServletResponse response) throws Exception 
 		{//
 			String test = request.getParameter("id");
-			if(test.length() == 9) test += "0";
-
+			
 			String text = "";
-			String id = test.substring(0,1);
+			String id = test.substring(0,test.indexOf("."));
 			String day = "";
 			int [] nStuCheck = new int[3];
 			
 			try {
+				String dat = test.substring(test.indexOf(".") + 1, test.length());
+				System.out.println(dat);
+				if(dat.length() <= 7) dat += "0";
 				SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
 				SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy-MM-dd");
-				Date date = sdf.parse(test.substring(2,test.length()));
+				Date date = sdf.parse(dat);
 				text=sdf2.format(date);
 				day = getDateDay(text,"yyyy-MM-dd");
 			} catch (ParseException e) {
@@ -166,8 +191,7 @@ import model.TeacherLectureDAO;
 			TeacherLectureDAO lectureDAO = new TeacherLectureDAO();
 			TeacherLectureDTO info = lectureDAO.lectureInfo(text, id);
 			ArrayList<StudentLectureInfoDTO> list = lectureDAO.stuList(text, id, nStuCheck);
-			
-			System.out.println(info.getTeacher_id().getName());
+
 			re.append("<div class='card-header mycolor3' style='padding:10px'>" + 
 			"<div class='row'>" + 
 			"<div class='col' align='left'>" + 
@@ -260,16 +284,21 @@ import model.TeacherLectureDAO;
 				double dId = Double.parseDouble(request.getParameter("id"));
 				String test = Double.toString(dId);
 				String text = "";
-				String id = test.substring(0,1);
+				String id = test.substring(0,test.indexOf("."));
 				String rowno = request.getParameter("rowno");
 				String colno = request.getParameter("colno");
 				String v = request.getParameter("v");
 				SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
 				SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy-MM-dd");
-				Date date = sdf.parse(test.substring(2,test.length()));
+				
+				String dat = test.substring(test.indexOf(".") + 1, test.length());
+				if(dat.length() <= 7) dat += "0";
+				
+				
+				Date date = sdf.parse(dat);
 				text=sdf2.format(date);
 				dao.stuCheck(text, id, rowno, colno, v);
-				ArrayList<StudentLectureInfoDTO> list = dao.stuList(text, id, nStuCheck);
+				dao.stuList(text, id, nStuCheck);
 				re.append("<i class='fa fa-circle-o fa-1x'></i> 출석 : "+nStuCheck[0]+"<br>" + 
 						"<i class='text-primary fa fa-times-circle-o fa-1x'></i> 지각 : "+nStuCheck[1]+"<br>" + 
 						"<i class='text-danger fa fa-close fa-1x'></i> 결석 : "+nStuCheck[2]);

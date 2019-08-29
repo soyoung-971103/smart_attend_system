@@ -29,7 +29,7 @@
 			var f = function(n) {
 				var str = $('#text1').val();
 				var lecture = "";
-				document.getElementById('ajaxtest').innerHTML="";
+				//document.getElementById('ajaxtest').innerHTML="";
 				var xhttp = new XMLHttpRequest();
 				xhttp.onreadystatechange=function() {
 				    if (this.readyState == 4 && this.status == 200) {

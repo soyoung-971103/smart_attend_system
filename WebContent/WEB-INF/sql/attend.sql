@@ -1,1 +1,2 @@
-SELECT * FROM lecture left join lectureday on lecture.id = lectureday.lecture_id left join mylecture on lecture.id = mylecture.lecture_id left join student on mylecture.strudent_id = student.id left join depart on student.depart_id = depart.id where lectureday.normdate = DATE('2019-08-16') and lectureday.lecture_id = 4;
+DELETE FROM lectureday WHERE id = 30;
+DELETE FROM lectureday WHERE id = 29;

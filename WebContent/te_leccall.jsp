@@ -38,7 +38,7 @@
 			var id = <%=request.getParameter("id")%>;
 			var lecture = "";
 
-			document.getElementById('stuList').innerHTML="";
+			//document.getElementById('stuList').innerHTML="";
 			var xhttp = new XMLHttpRequest();
 			xhttp.onreadystatechange=function() {
 			    if (this.readyState == 4 && this.status == 200) {
@@ -127,8 +127,10 @@
 <script type="text/javascript">
 	//학생 개인 출석을 직접 눌렀을 때
 	var j = function(rowno,colno, v) {
+		
 		var k = <%=request.getParameter("id")%>;
-		document.getElementById('nStuCheck').innerHTML="";
+	
+		//document.getElementById('nStuCheck').innerHTML="";
 		var xhttp = new XMLHttpRequest();
 		xhttp.onreadystatechange=function() {
 		    if (this.readyState == 4 && this.status == 200) {

@@ -6,9 +6,17 @@ public class TeacherLectureDTO {
 	String subject_id;
 	TeacherDTO teacher_id;
 	String _class;
+	int th;
 	int number;
 	int normstart;
 	int normhour;
+	int normstate;
+	int reststart;
+	int resthour;
+	int reststate;
+	int state;
+	String normdate;
+	String restdate;
 	String buildName;
 	String ho;
 	String roomName;
@@ -86,5 +94,52 @@ public class TeacherLectureDTO {
 	public void setHo(String ho) {
 		this.ho = ho;
 	}
-	
+	public int getNormstate() {
+		return normstate;
+	}
+	public void setNormstate(int normstate) {
+		this.normstate = normstate;
+	}
+	public int getReststart() {
+		return reststart;
+	}
+	public void setReststart(int reststart) {
+		this.reststart = reststart;
+	}
+	public int getResthour() {
+		return resthour;
+	}
+	public void setResthour(int resthour) {
+		this.resthour = resthour;
+	}
+	public int getReststate() {
+		return reststate;
+	}
+	public void setReststate(int reststate) {
+		this.reststate = reststate;
+	}
+	public int getState() {
+		return state;
+	}
+	public void setState(int state) {
+		this.state = state;
+	}
+	public int getTh() {
+		return th;
+	}
+	public void setTh(int th) {
+		this.th = th;
+	}
+	public String getNormdate() {
+		return normdate;
+	}
+	public void setNormdate(String normdate) {
+		this.normdate = normdate;
+	}
+	public String getRestdate() {
+		return restdate;
+	}
+	public void setRestdate(String restdate) {
+		this.restdate = restdate;
+	}
 }
