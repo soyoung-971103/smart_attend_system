@@ -26,7 +26,7 @@ import model.StudentDTO;
 /**
  * Servlet implementation class StudentController
  */
-@WebServlet({"/student-list.do","/student-search.do","/student-register.do","/student-delete.do","/student-detail.do","/student-update.do", "/student-lec.do"})
+@WebServlet({"/student-list.do","/student-search.do","/student-register.do","/student-delete.do","/student-detail.do","/student-update.do",})
 @MultipartConfig(location="", 
 fileSizeThreshold=1024*1024, 
 maxFileSize=1024*1024*5, 
@@ -75,8 +75,6 @@ public class StudentController extends HttpServlet {
 			update(request, response);
 		else if(action.equals("student-search.do")) 
 			search(request, response);
-		else if(action.equals("student-lec.do")) 
-			lec(request, response);
     	else 
     		;
 		
@@ -196,21 +194,6 @@ public class StudentController extends HttpServlet {
     	return null;
     }
 
-	protected void lec(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException{
-		
-		String uid = (String)sesobj.getAttribute("uid");
-		student = dao.list_id(uid);		
-		
-		alLecture = lecture_dao.selectAllList();
-		System.out.print("uid : " + uid);
-		System.out.print(" grade : " + student.getSchoolno());
-		
-		System.out.println("class" + alLecture.get(1).getLecture_class());
-	
-		request.setAttribute("list", alLecture);
-		//request.setAttribute("grade", arg1);
-		request.getRequestDispatcher("st_lec.jsp").forward(request, response);
-	}	
 	
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     	try {

@@ -31,7 +31,7 @@
 <div id="main">
 
 	<%@ include file="main_menu.jsp" %>
-
+	<%int cookie_count =0; %>
     <div class="content-page">
 	    <div class="content">
 			<div class="container-fluid">
@@ -52,47 +52,87 @@
 				</div>
 
 				<!--- My JS  --------------------------------------------------->
-				<script>
+				<script>		
+					window.onload = function(){
+						 filter_lecture(${student.grade});
+						 add_mylecture_cookie();
+					}				
 				
-				$(function(){
-					$("#save_button").click(function(){ //지정한 아이디의 버튼 클릭하면시작
-						var nodes=document.getElementById("mylecture_list").childNodes;
-						for(i=0;i<nodes.length;i++)
-						{
-							var node=nodes[i].childNodes;
-							for(j=0;j<node.length;j++)
-							{
-								var idname=node[j].id;
-								if (idname != undefined && idname.indexOf("rowno")==0)
-								{
-									$.ajax({
-										url:"lecture-save.do",
-										type:"POST 또는 GET",
-										data:{
-										 "데이터 이름":값,
-										 "데이터 이름":값,
-										},
-										
-									});
-									alert(idname+" "+idname.substr(5));
-								}
-							}
-						}						
-					});
-				});
-		
-				
-				
+					function setCookie(cookie_name, value, days) { //쿠키추가
+					  var exdate = new Date();
+					  exdate.setDate(exdate.getDate() + days);
+					  // 설정 일수만큼 현재시간에 만료값으로 지정
+					
+					  //var cookie_value = escape(value) + ((days == null) ? '' : ';    expires=' + exdate.toUTCString());
+					  document.cookie = cookie_name + '=' + value;
+					}
+					
+					function getCookie(cookie_name) {//쿠키조회
+					  var x, y;
+					  var val = document.cookie.split(';');
+
+					  for (var i = 0; i < val.length; i++) {
+					    x = val[i].substr(0, val[i].indexOf('='));
+					    y = val[i].substr(val[i].indexOf('=') + 1);
+					    x = x.replace(/^\s+|\s+$/g, ''); // 앞과 뒤의 공백 제거하기
+					    if (x == cookie_name) {
+					      return unescape(y); 
+					    }
+					  }
+					}
+					
+					var deleteCookie = function(name) {	//쿠키삭제
+						document.cookie = name + '=; expires=Thu, 01 Jan 1999 00:00:10 GMT;';
+					}
+					
+					function add_mylecture_cookie()
+					{
+						var count = getCookie("count");
+						if(!count) return;
+						
+						for(var i =1; i<=count; i++){
+							var le = getCookie("lec"+i);
+							if(le){
+								var lec = le.split('^');
+								$("#mylecture_list").append("<tr id='rowno"+lec[0]+"'><td>"+lec[1]+"</td><td>"+lec[2]+"</td><td>"+lec[3]+"</td><td>"+lec[4]+"</td><td>"+lec[5]+"</td><td>"+lec[6]+"</td><td>"+lec[7]+"</td><td>"+lec[8]+"</td><td>"+lec[9]+"</td><td>"+lec[10]+"</td><td>"+lec[11]+"</td><td><a href='javascript:del_mylecture(\""+lec[0]+"\",\""+i+"\");' class='btn btn-xs btn-outline-danger'>삭제</a></td></tr>");
+							}	
+						}	
+					}
+					
 					// 강의번호, 학과명, 학년, 반, 전공일반/교양, 선택/필수, 과목코드, 과목명, 학점, 시간, 교수님, 수강구분
 					function add_mylecture(lec0,lec1,lec2,lec3,lec4,lec5,lec6,lec7,lec8,lec9,lec10,lec11)
 					{
 						if ($("#rowno"+lec0).length!=0) { alert("동일과목이 있습니다."); return; }
-						$("#mylecture_list").append("<tr id='rowno"+lec0+"'><td>"+lec1+"</td><td>"+lec2+"</td><td>"+lec3+"</td><td>"+lec4+"</td><td>"+lec5+"</td><td>"+lec6+"</td><td>"+lec7+"</td><td>"+lec8+"</td><td>"+lec9+"</td><td>"+lec10+"</td><td>"+lec11+"</td><td><a href='javascript:del_mylecture(\""+lec0+"\");' class='btn btn-xs btn-outline-danger'>삭제</a></td></tr>");
+						$("#mylecture_list").append("<tr id='rowno"+lec0+"'><td id='depart_name"+lec0+"'>"+lec1+"</td><td>"+lec2+"</td><td>"+lec3+"</td><td>"+lec4+"</td><td>"+lec5+"</td><td>"+lec6+"</td><td>"+lec7+"</td><td>"+lec8+"</td><td>"+lec9+"</td><td>"+lec10+"</td><td>"+lec11+"</td><td><a href='javascript:del_mylecture(\""+lec0+"\");' class='btn btn-xs btn-outline-danger'>삭제</a></td></tr>");
+						
+						var value = lec0.concat("^", lec1, "^", lec2, "^", lec3, "^", lec4, "^", lec5, "^", lec6, "^", lec7, "^", lec8, "^", lec9, "^", lec10, "^", lec11);
+						var count = getCookie("count");
+						if(!count){
+							setCookie("count", 0, 1);							
+							count  = 0;
+						}
+						count++;
+						setCookie("count", count, 1);						
+						setCookie("lec"+count, value, 1);
+						
 					}
 
-					function del_mylecture(lec0)
+					function del_mylecture(lec0, num)
 					{
 						$("#rowno"+lec0).remove();
+						var count = getCookie("count");
+						
+						for(i=1; i<count; i++){
+							if(i>=num){								
+								var j = i +1;
+								var lec = getCookie("lec"+j);
+								setCookie("lec"+i, lec, 1);	
+							}							
+						}
+						
+						deleteCookie("lec"+count);
+						count --;
+						setCookie("count", count, 1);
 					}
 
 					function save_mylecture()
@@ -103,13 +143,12 @@
 							var node=nodes[i].childNodes;
 							for(j=0;j<node.length;j++)
 							{
-								var idname=node[j].id;
+								var idname=node[j].id;								
 								if (idname != undefined && idname.indexOf("rowno")==0)
-								{
-									alert(idname+" "+idname.substr(5));
-								}
+									alert(idname+" "+idname.substr(5));								
 							}
-						}
+						}						
+						location.href = "lecture-save.do";
 					}
 
 					function filter_lecture(kind)
@@ -121,13 +160,13 @@
 							for(j=0;j<node.length;j++)
 							{
 								var idname=node[j].id;
-								if (idname != undefined && idname.indexOf("row1")==0)
-								{										
+								if (idname != undefined && idname.indexOf("row")==0)
+								{
 									str=idname.split("^");
 									if (str[1]==kind)
 									{
 										document.getElementById(idname).style.display="table-row";
-										document.getElementById(idname).style.visibility="visible";										
+										document.getElementById(idname).style.visibility="visible";
 									}
 									else
 									{
@@ -161,7 +200,7 @@
 										<h6>&nbsp;<font color="gray">2019년 1학기</font></h6>
 									</div>
 									<div class="col" align="right">
-										<h6>&nbsp;<font color="gray">201912001 홍길동</font>&nbsp;</h6>
+										<h6>&nbsp;<font color="gray">${student.schoolno } ${student.name }</font>&nbsp;</h6>
 									</div>
 								</div>
 
@@ -203,8 +242,9 @@
 										</tr>
 									</thead>
 									<tbody>
-										<c:forEach var="lecture" items="${list}">
-											<tr id="row1^${lecture.subject.grade }">
+										<% int count = 1; %>
+										<c:forEach var="lecture" items="${list}">											
+											<tr id="row<%=count %>^${lecture.subject.grade }">
 												<td>${lecture.subject.depart.name }</td>
 												<td>${lecture.subject.grade }</td>
 												<td>${lecture.lecture_class }</td>
@@ -216,16 +256,16 @@
 												<td>${lecture.subject.ihour }</td>
 												<td>${lecture.teacher.name }</td>
 												<td>
-													<a href="javascript:add_mylecture('1','컴소과','2','A','전공','선택','CS1','PHP','3','4','교수님1','정상')" class="btn btn-xs btn-outline-primary">정상</a>
-													<a href="javascript:add_mylecture('1','컴소과','2','A','전공','선택','CS1','PHP','3','4','교수님1','재수강')" class="btn btn-xs btn-outline-warning">재수강</a>
+													<a href="javascript:add_mylecture('${lecture.id }','${lecture.subject.depart.name }','${lecture.subject.grade }','${lecture.lecture_class }','${lecture.subject.ismajor }','${lecture.subject.ischoice }','${lecture.subject.code }','${lecture.subject.name }','${lecture.subject.ipoint }','${lecture.subject.ihour }','${lecture.teacher.name }','정상')" class="btn btn-xs btn-outline-primary">정상</a>
+													<a href="javascript:add_mylecture('${lecture.id }','${lecture.subject.depart.name }','${lecture.subject.grade }','${lecture.lecture_class }','${lecture.subject.ismajor }','${lecture.subject.ischoice }','${lecture.subject.code }','${lecture.subject.name }','${lecture.subject.ipoint }','${lecture.subject.ihour }','${lecture.teacher.name }','재수강')" class="btn btn-xs btn-outline-warning">재수강</a>
 												</td>
 											</tr>
+											<%count++; %>
 										</c:forEach>
 									</tbody>
 									</table>
 								</div>
 								<br>
-
 
 								<div class="row">
 									<div class="col" align="left">
@@ -250,38 +290,22 @@
 										<td>구분</td>
 										<td width="60"></td>
 									</tr>
-									<tr id="rowno1">
-										<td>컴소과</td>
-										<td>2</td>
-										<td>A</td>
-										<td>전공</td>
-										<td>선택</td>
-										<td>CS1</td>
-										<td>PHP</td>
-										<td>3</td>
-										<td>4</td>
-										<td>교수님1</td>
-										<td>정상</td>
-										<td>
-											<a href="javascript:del_mylecture('1');" class="btn btn-xs btn-outline-danger">삭제</a>
-										</td>
-									</tr>
-									<tr id="rowno2">
-										<td>컴소과</td>
-										<td>2</td>
-										<td>B</td>
-										<td>전공</td>
-										<td>선택</td>
-										<td>CS1</td>
-										<td>PHP</td>
-										<td>3</td>
-										<td>4</td>
-										<td>교수님1</td>
-										<td>재수강</td>
-										<td>
-											<a href="javascript:del_mylecture('2');" class="btn btn-xs btn-outline-danger">삭제</a>
-										</td>
-									</tr>
+<!-- 									<tr id="rowno1"> -->
+<!-- 										<td>컴소과</td> -->
+<!-- 										<td>2</td> -->
+<!-- 										<td>A</td> -->
+<!-- 										<td>전공</td> -->
+<!-- 										<td>선택</td> -->
+<!-- 										<td>CS1</td> -->
+<!-- 										<td>PHP</td> -->
+<!-- 										<td>3</td> -->
+<!-- 										<td>4</td> -->
+<!-- 										<td>교수님1</td> -->
+<!-- 										<td>정상</td> -->
+<!-- 										<td> -->
+<!-- 											<a href="javascript:del_mylecture('1');" class="btn btn-xs btn-outline-danger">삭제</a> -->
+<!-- 										</td> -->
+<!-- 									</tr> -->
 								</table>
 
 							</div>		<!-- card body end -->
