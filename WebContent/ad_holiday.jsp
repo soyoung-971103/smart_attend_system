@@ -38,15 +38,17 @@
 			<div class="container-fluid">
 <!------------------------------------------------------------------------------>
 <!-- 내용 시작 -->
-<!------------------------------------------------------------------------------>
+<!------------------------------------------------------------------------------>	
+ <div class="container-fluid">
+										
 				<div class="row">
 					<div class="col-xl-12">
 						<div class="breadcrumb-holder">
-							<h1 class="main-title float-left">교무처</h1>
-							<ol class="breadcrumb float-right">
-								<li class="breadcrumb-item">Home</li>
-								<li class="breadcrumb-item">직원</li>
-								<li class="breadcrumb-item active">휴일</li>
+							 <h1 class="main-title float-left">교무처</h1>
+        						<ol class="breadcrumb float-right">
+        							<li class="breadcrumb-item">Home</li>
+        							<li class="breadcrumb-item">직원</li>
+        							<li class="breadcrumb-item active">휴일</li>
 							</ol>
 							<div class="clearfix"></div>
 						</div>
@@ -57,77 +59,57 @@
 				
 					<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
 						<div class="card mb-3">
+							
 							<div class="card-header mycolor3" style="padding:10px">
-								<h3><i class="fa fa-table"></i> 건물</h3>
+								<h3><i class="fa fa-table"></i> 휴일</h3>
 							</div>
-								
+							
 							<div class="card-body" style="padding:10px">
-
-								<script>
-									function find_text()
-									{
-										if (!form1.text1.value)
-											form1.action="/member/lists/page";
-										else
-											form1.action="/member/lists/text1/" + form1.text1.value+"/page";
-										form1.submit();
-									}
-								</script>
-
-								<form name="form1" method="post" action="holiday-list.do">
-								<div class="row" style="margin-bottom:3px">
-									<div class="col">
-										<div class="form-inline">
-
-											<div class="input-group input-group-sm">
-												<div class="input-group-prepend">
-													<span class="input-group-text">년도</span>
-												</div>
-												<div class="input-group-append">
-													<select name="sel1" class="form-control form-control-sm" onclick="find_text();">
-														<option value="2019" selected>2019</option>
-														<option value='2018'>2018</option>
-														<option value='2017'>2017</option>
-														<option value='2016'>2016</option>
-														<option value='2015'>2015</option>
-													</select>
-												</div>
-											</div>
-
-										</div>
-									</div>
-									<div class="col" align="right">
-										<a href="ad_holidaynew.jsp" class="btn btn-sm mycolor1">추가</a>
-									</div>
-								</div>
-								</form>
+							<form name="form1" method="post" action="holiday-list.do">
+								<style>
+									th { text-align: center }
+									td { text-align: center }
+								</style>
+        					<div class="col" align="right">
+							<a href="ad_holidaynew.jsp" class="btn btn-sm mycolor1">추가</a>
+							<br></br>
+							</div>
+							</form>
+        					
+								<table class="table table-bordered table-sm table-hover" style="width:100%" id="example">
 								
-
-								<table class="table table-bordered table-hover mytable" style="width:100%;">
-									<tr class="mycolor1">
-										<th>날짜</th>
-										<th>내용</th>
-										<th width="95"></th>
-									</tr>
-									<%@ page import="java.util.*,model.HolidayDTO" %>
-        							<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-									<c:forEach var="holiday" items="${list}">
-									<tr>
-										<td>${ holiday.holiday}</td>
-										<td style="text-align:left">${ holiday.reason}</td>
-										<td>
-											<a href="holiday-info.do?id=${ holiday.id}" class="btn btn-xs btn-outline-primary">수정</a>
-											<a href="holiday-delete.do?id=${ holiday.id}" class="btn btn-xs btn-outline-danger" onClick="return confirm('삭제할까요 ?');">삭제</a>
-										</td>
-									</tr>
-									</c:forEach>
-								</table>
-
-							</div>		<!-- card body end -->
-						</div>		<!-- card end -->
+									<thead>
+										<tr class="mycolor1">
+											<th>날짜</th>
+											<th>내용</th>
+											<th width="95"></th>
+										</tr>
+									</thead>
+									       <%@ page import="java.util.*,model.HolidayDTO" %>
+        								   <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+									
+									        <tbody>
+									        <c:forEach var="holiday" items="${list}">
+												<tr>
+													<td>${ holiday.holiday}</td>
+													<td style="text-align:left">${ holiday.reason}</td>
+													<td>
+														<a href="holiday-info.do?id=${ holiday.id}" class="btn btn-xs btn-outline-primary">수정</a>
+														<a href="holiday-delete.do?id=${ holiday.id}" class="btn btn-xs btn-outline-danger" onClick="return confirm('삭제할까요 ?');">삭제</a>
+													</td>
+												</tr>
+												</c:forEach>
+									        </tbody>
+										</table>
+							</div>														
+						</div>
 					</div>
 						
-				</div>	<!-- row end -->
+				</div>	
+
+			</div>
+        
+
 <!------------------------------------------------------------------------------>
 <!-- 내용 끝 -->
 <!------------------------------------------------------------------------------>
@@ -159,6 +141,39 @@
 
 <script src="my/js/jquery.dataTables.min.js"></script>
 <script src="my/js/dataTables.bootstrap4.min.js"></script>
+
+<script>
+
+	$(document).ready(function() {
+		$('#example').DataTable( { 
+			lengthChange: true,		// 표시 건수기능 숨기기
+			lengthMenu: [ 10, 20, 30, 40, 50 ],
+			searching: true,			// 검색 기능 숨기기
+			ordering: true,				// 정렬 기능 숨기기
+			info: true,					// 정보 표시 숨기기
+			paging: true,				// 페이징 기능 숨기기
+			order: [ [ 0, "asc" ] ],	// 0번째칼럼 정렬,복합정렬 가능
+			scrollX: true,				// 가로 스크롤바
+			scrollY: false,				// 세로스크롤바 : 세로길이(px) 지정가능
+			language: {
+					"emptyTable": "데이터가 없음.",
+					"lengthMenu": "페이지당 _MENU_ 개",
+					"info": "현재: _START_ - _END_ / _TOTAL_건",
+					"infoEmpty": "데이터 없음",
+					"infoFiltered": "( _MAX_건의 데이터에서 필터링됨 )",
+					"search": "년도: ",
+					"zeroRecords": "일치하는 데이터가 없음.",
+					"loadingRecords": "로딩중...",
+					"processing":     "잠시만 기다려 주세요...",
+					"paginate": { "first":"◀", "previous": "◁","next": " ▷","last": "▶" }
+				},
+			columns: [ { "searchable": true },{ "searchable":false },{ "searchable":false }],
+			pagingType: "full_numbers"
+
+		} );
+	} );
+
+</script>
 
 </body>
 </html>

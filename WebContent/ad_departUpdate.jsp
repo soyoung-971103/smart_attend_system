@@ -91,7 +91,7 @@
 												<option value="0">없음</option>
 												<option value='1'>1</option>
 												<option value='2' selected>2</option>
-												<option value='3'>3C</option>
+												<option value='3'>3</option>
 												<option value='4'>4</option>
 												<option value='5'>5</option>
 												<option value='6'>6</option>
@@ -108,6 +108,14 @@
 												<option value='2'>2년제</option>
 												<option value='3'>3년제</option>
 											</select>
+											</div>
+										</td>
+									</tr>
+									<tr>
+										<td class="mycolor2">학과/부서 약어</td>
+										<td>
+											<div class="form-inline">
+												<input type="text" name="abbreviation" value="${depart.abbreviation }" class="form-control form-control-sm" required>
 											</div>
 										</td>
 									</tr>

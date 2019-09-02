@@ -39,111 +39,81 @@
 <!------------------------------------------------------------------------------>
 <!-- 내용 시작 -->
 <!------------------------------------------------------------------------------>
+        <div class="container-fluid">
+										
+				<div class="row">
+					<div class="col-xl-12">
+						<div class="breadcrumb-holder">
+							 <h1 class="main-title float-left">교무처</h1>
+        						<ol class="breadcrumb float-right">
+        							<li class="breadcrumb-item">Home</li>
+        							<li class="breadcrumb-item">직원</li>
+        							<li class="breadcrumb-item active">학과 및 부서</li>
+							</ol>
+							<div class="clearfix"></div>
+						</div>
+					</div>
+				</div>
 
-        <div class="row">
-        <div class="col-xl-12">
-        <div class="breadcrumb-holder">
-        <h1 class="main-title float-left">교무처</h1>
-        <ol class="breadcrumb float-right">
-        <li class="breadcrumb-item">Home</li>
-        <li class="breadcrumb-item">직원</li>
-        <li class="breadcrumb-item active">학과 및 부서</li>
-        </ol>
-        <div class="clearfix"></div>
-        </div>
-        </div>
-        </div>
+				<div class="row">
+				
+					<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+						<div class="card mb-3">
+							
+							<div class="card-header mycolor3" style="padding:10px">
+								<h3><i class="fa fa-table"></i> 학과 및 부서</h3>
+							</div>
+							
+							<div class="card-body" style="padding:10px">
+							<form name="form1" method="post" action="depart-list.do">
+								<style>
+									th { text-align: center }
+									td { text-align: center }
+								</style>
+        					<div class="col" align="right">
+							<a href="ad_departnew.jsp" class="btn btn-sm mycolor1">추가</a>
+							<br></br>
+							</div>
+							</form>
+        					
+								<table class="table table-bordered table-sm table-hover" style="width:100%" id="example">
+								
+									<thead>
+										<tr class="mycolor1">
+											<th>번호</th>
+        									<th>학과/부서명</th>
+									        <th>학제</th>
+									        <th>반수</th>
+									        <th>약어</th>
+									        <th width="95"></th>
+										</tr>
+									</thead>
+									        <%@ page import="java.util.*,model.DepartDTO" %>
+									        <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+									        <tbody>
+									        <c:forEach var="depart" items="${list}">
+												<tr>
+													<td>${ depart.id}</td>
+													<td>${ depart.name}</td>
+													<td>${ depart.gradesystem}</td>
+													<td>${ depart.classnum}</td>
+													<td>${ depart.abbreviation}</td>
+													<td>
+													<a href="depart-info.do?id=${ depart.id}" class="btn btn-xs btn-outline-primary">수정</a>
+													<a href="depart-delete.do?id=${ depart.id}" class="btn btn-xs btn-outline-danger" onClick="return confirm('삭제할까요 ?');">삭제</a>
+												</td>
+											</tr>
+											</c:forEach>
+									        </tbody>
+										</table>
+							</div>														
+						</div>
+					</div>
+						
+				</div>	
 
-        <div class="row">
-
-        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
-        <div class="card mb-3">
-        <div class="card-header mycolor3" style="padding:10px">
-        <h3><i class="fa fa-table"></i> 학과 및 부서</h3>
-        </div>
-
-        <div class="card-body" style="padding:10px">
-
-        <script>
-        function find_text()
-        {
-        if (!form1.text1.value)
-        form1.action="/member/lists/page";
-        else
-        form1.action="/member/lists/text1/" + form1.text1.value+"/page";
-        form1.submit();
-        }
-        </script>
-
-        <form name="form1" method="post" action="depart-list.do">
-        <div class="row" style="margin-bottom:5px">
-        <div class="col-auto" style="text-align:left">
-        <div class="form-inline">
-        <div class="input-group input-group-sm">
-        <div class="input-group-prepend">
-        <span class="input-group-text">이름</span>
-        </div>
-        <input type="text" name="text1" size="10" value="" class="form-control"
-        onKeydown="if (event.keyCode == 13) { find_text(); }" >
-        <div class="input-group-append">
-        <button class="btn btn-sm mycolor1" type="button" onClick="find_text();">검색</button>
-        </div>
-        </div>
-        </div>
-        </div>
-        <div class="col" align="right">
-        <a href="ad_departnew.jsp" class="btn btn-sm mycolor1">추가</a>
-        </div>
-        </div>
-        </form>
-
-        <table class="table table-bordered table-hover table-responsive-sm mytable" style="width:100%">
-        <thead>
-        <tr class="mycolor1">
-        <th>번호</th>
-        <th>학과/부서명</th>
-        <th>학제</th>
-        <th>반수</th>
-        <th width="95"></th>
-        </tr>
-        </thead>
-        <%@ page import="java.util.*,model.DepartDTO" %>
-        <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-        <tbody>
-        <c:forEach var="depart" items="${list}">
-			<tr>
-				<td>${ depart.id}</td>
-				<td>${ depart.name}</td>
-				<td>${ depart.classnum}</td>
-				<td>${ depart.gradesystem}</td>
-				<td>
-				<a href="depart-info.do?id=${ depart.id}" class="btn btn-xs btn-outline-primary">수정</a>
-				<a href="depart-delete.do?id=${ depart.id}" class="btn btn-xs btn-outline-danger" onClick="return confirm('삭제할까요 ?');">삭제</a>
-			</td>
-		</tr>
-		</c:forEach>
-        </tbody>
-        </table>
-
-        <nav>
-        <ul class='pagination pagination-sm justify-content-center'>
-        <li class='page-item'><a class="page-link" href="#">◀</a></li>
-        <li class='page-item'><a class="page-link" href="#">◁</a></li>
-        <li class='page-item'><a class="page-link" href="#">2</a></li>
-        <li class='page-item'><a class="page-link" href="#">3</a></li>
-        <li class='page-item active'><span class='page-link' style='background-color:steelblue'>4</span></li>
-        <li class='page-item'><a class="page-link" href="#">5</a></li>
-        <li class='page-item'><a class="page-link" href="#">6</a></li>
-        <li class='page-item'><a class="page-link" href="#">▷</a></li>
-        <li class='page-item'><a class="page-link" href="#">▶</a></li>
-        </ul>
-        </nav>
-
-        </div> <!-- card body end -->
-        </div> <!-- card end -->
-        </div>
-
-        </div> <!-- row end -->
+			</div>
+        
 <!------------------------------------------------------------------------------>
 <!-- 내용 끝 -->
 <!------------------------------------------------------------------------------>
@@ -175,6 +145,39 @@
 
 <script src="my/js/jquery.dataTables.min.js"></script>
 <script src="my/js/dataTables.bootstrap4.min.js"></script>
+
+<script>
+
+	$(document).ready(function() {
+		$('#example').DataTable( { 
+			lengthChange: true,		// 표시 건수기능 숨기기
+			lengthMenu: [ 10, 20, 30, 40, 50 ],
+			searching: true,			// 검색 기능 숨기기
+			ordering: true,				// 정렬 기능 숨기기
+			info: true,					// 정보 표시 숨기기
+			paging: true,				// 페이징 기능 숨기기
+			order: [ [ 0, "asc" ] ],	// 0번째칼럼 정렬,복합정렬 가능
+			scrollX: true,				// 가로 스크롤바
+			scrollY: false,				// 세로스크롤바 : 세로길이(px) 지정가능
+			language: {
+					"emptyTable": "데이터가 없음.",
+					"lengthMenu": "페이지당 _MENU_ 개",
+					"info": "현재: _START_ - _END_ / _TOTAL_건",
+					"infoEmpty": "데이터 없음",
+					"infoFiltered": "( _MAX_건의 데이터에서 필터링됨 )",
+					"search": "학과/부서: ",
+					"zeroRecords": "일치하는 데이터가 없음.",
+					"loadingRecords": "로딩중...",
+					"processing":     "잠시만 기다려 주세요...",
+					"paginate": { "first":"◀", "previous": "◁","next": " ▷","last": "▶" }
+				},
+			columns: [ { "searchable": false },{ "searchable":true },{ "searchable":false },{ "searchable":false },{ "searchable":false }, { "searchable":true }],
+			pagingType: "full_numbers"
+
+		} );
+	} );
+
+</script>
 
 </body>
 </html>

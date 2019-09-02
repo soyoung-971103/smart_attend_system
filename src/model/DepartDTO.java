@@ -6,8 +6,15 @@ public class DepartDTO {
 	String name;
 	byte classnum;
 	byte gradesystem;
+	String abbreviation;
 	
 	
+	public String getAbbreviation() {
+		return abbreviation;
+	}
+	public void setAbbreviation(String abbreviation) {
+		this.abbreviation = abbreviation;
+	}
 	public int getId() {
 		return id;
 	}
