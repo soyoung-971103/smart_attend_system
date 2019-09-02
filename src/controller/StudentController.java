@@ -18,13 +18,15 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
 
+import model.LectureDAO;
+import model.LectureDTO;
 import model.StudentDAO;
 import model.StudentDTO;
 //import service.Pagination;
 /**
  * Servlet implementation class StudentController
  */
-@WebServlet({"/student-list.do","/student-search.do","/student-register.do","/student-delete.do","/student-detail.do","/student-update.do"})
+@WebServlet({"/student-list.do","/student-search.do","/student-register.do","/student-delete.do","/student-detail.do","/student-update.do",})
 @MultipartConfig(location="", 
 fileSizeThreshold=1024*1024, 
 maxFileSize=1024*1024*5, 
@@ -45,6 +47,9 @@ public class StudentController extends HttpServlet {
     StudentDTO student = null;
     HttpSession sesobj = null;
     StudentDAO dao = new StudentDAO();
+    ArrayList<LectureDTO> alLecture = null;
+    LectureDTO lecture = null;
+    LectureDAO lecture_dao = new LectureDAO();
     //Pagination pn = new Pagination();
     
 	protected void process(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
@@ -189,6 +194,7 @@ public class StudentController extends HttpServlet {
     	return null;
     }
 
+	
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     	try {
 			process(request,response);

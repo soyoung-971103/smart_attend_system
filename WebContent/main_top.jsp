@@ -1,6 +1,32 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-    
+    pageEncoding="UTF-8"%>  
+
+<!DOCTYPE html>
+<html lang="kr">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<title>인덕대학교 전자출석 Demo (겜지기)</title>
+
+	<link rel="shortcut icon" href="my/images/favicon.ico">
+
+	<!-- css 선언부 ---------------------------------------------------------------->
+	<link href="my/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+	<link href="my/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+	<link href="my/css/style.css" rel="stylesheet" type="text/css" />
+
+	<link href="my/css/dataTables.bootstrap4.min.css" rel="stylesheet">	<!-- datatable.net -->
+
+	<link href="my/css/my.css" rel="stylesheet" type="text/css">
+
+</head>
+
+<body class="adminbody">
+
+<div id="main">
+
 	<!--상단 메뉴 시작 -->
 	<div class="headerbar">
 
@@ -30,14 +56,14 @@
 					<button class="button-menu-mobile open-left">
 						<i class="fa fa-fw fa-bars"></i>
 					</button>
-				</li>                        
+				</li>
 			</ul>
         </nav>
 
 	</div>
 	<!--상단 메뉴 끝 -->
-	
- 
+
+
 	<!-- 좌측 Sidebar 메뉴 시작-->
 	<div class="left main-sidebar">
 		<div class="sidebar-inner leftscroll">
@@ -52,13 +78,13 @@
 							<li><a href="notice-list.do" style="padding:5px 0 5px 40px;">공지사항</a></li>
 							<li><hr style="background-color:gray;margin:0 25px 0 25px;"></li>
 							<li><a href="student-list.do" style="padding:5px 0 5px 40px;">학생정보</a></li>
-							<li><a href="TeacherInquiry" style="padding:5px 0 5px 40px;">교수정보</a></li>
-							<li><a href="AssistInquiry" style="padding:5px 0 5px 40px;">조교정보</a></li>
+							<li><a href="ad_teacher.jsp" style="padding:5px 0 5px 40px;">교수정보</a></li>
+							<li><a href="ad_assist.jsp" style="padding:5px 0 5px 40px;">조교정보</a></li>
 							<li><hr style="background-color:gray;margin:0 25px 0 25px;"></li>
-							<li><a href="depart-list.do" style="padding:5px 0 5px 40px;">학과/부서</a></li>
-							<li><a href="room-list.do" style="padding:5px 0 5px 40px;">강의실</a></li>
-							<li><a href="building-list.do"style="padding:5px 0 5px 40px;">건물</a></li>
-							<li><a href="holiday-list.do" style="padding:5px 0 5px 40px;">휴일</a></li>
+							<li><a href="ad_depart.jsp" style="padding:5px 0 5px 40px;">학과/부서</a></li>
+							<li><a href="ad_room.html" style="padding:5px 0 5px 40px;">강의실</a></li>
+							<li><a href="ad_building.html "style="padding:5px 0 5px 40px;">건물</a></li>
+							<li><a href="ad_holiday.jsp" style="padding:5px 0 5px 40px;">휴일</a></li>
 						</ul>
 					</li>
 					<li class="submenu">
@@ -77,7 +103,7 @@
 							<li><a href="as_lec.html" style="padding:5px 0 5px 40px;">반별 교과목</a></li>
 							<li><a href="as_time.html" style="padding:5px 0 5px 40px;">시간표 작성</a></li>
 							<li><a href="as_timeall.html" style="padding:5px 0 5px 40px;">학과별 시간표</a></li>
-							<li><a href="lecture-sublecture.do" style="padding:5px 0 5px 40px;">과목별 출석부</a></li>
+							<li><a href="as_lecall.html" style="padding:5px 0 5px 40px;">과목별 출석부</a></li>
 							<li><a href="as_lecmove.html" style="padding:5px 0 5px 40px;">휴보강</a></li>
 						</ul>
 					</li>
@@ -97,9 +123,9 @@
 						<ul class="list-unstyled">
 							<li><a href="st_main.html" style="padding:5px 0 5px 40px;">학생 메인</a></li>
 							<li><a href="st_time.html" style="padding:5px 0 5px 40px;">시간표</a></li>
-							<li><a href="lecture-mylecture.do" style="padding:5px 0 5px 40px;">출석부</a></li>
+							<li><a href="st_lecall.html" style="padding:5px 0 5px 40px;">출석부</a></li>
 							<li><hr style="background-color:gray;margin:0 25px 0 25px;"></li>
-							<li><a href="lecture-list.do" style="padding:5px 0 5px 40px;">수강신청</a></li>
+							<li><a href="st_lec.html" style="padding:5px 0 5px 40px;">수강신청</a></li>
 							<li><a href="st_lecsj.html" style="padding:5px 0 5px 40px;">수강과목</a></li>
 							<li><a href="st_lecqa.html" style="padding:5px 0 5px 40px;">교과목 문의</a></li>
 						</ul>
@@ -108,7 +134,13 @@
 				</ul>
 				<div class="clearfix"></div>
 			</div>
-			<div class="clearfix"></div>
 		</div>
 	</div>
 	<!-- 좌측 Sidebar 메뉴 끝-->
+
+    <div class="content-page">
+	    <div class="content">
+			<div class="container-fluid">
+<!------------------------------------------------------------------------------>
+<!-- 내용 시작 -->
+<!------------------------------------------------------------------------------>

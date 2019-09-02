@@ -44,7 +44,7 @@ public class MemberController extends HttpServlet {
 	protected void process(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
 		// TODO Auto-generated method stub
 		request.setCharacterEncoding("UTF-8");		
-		sesobj = request.getSession();
+		sesobj = request.getSession(true);
 		
 		System.out.println("process");		
 		
@@ -126,21 +126,14 @@ public class MemberController extends HttpServlet {
 	}
 	
 	*/
-	private void login(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
-		
-		System.out.println("login-1");		
-		
-		MemberDTO loginmember = new MemberDTO();
-		
-		loginmember.setId(Integer.parseInt(request.getParameter("login_uid")));
-		loginmember.setPwd(request.getParameter("login_password"));
-				
-		member = dao.loginCheck(loginmember);	
-		
-		
+	private void login(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {			
+		MemberDTO loginmember = new MemberDTO();		
+		loginmember.setSchoolno(request.getParameter("login_uid"));
+		loginmember.setPwd(request.getParameter("login_password"));				
+		member = dao.loginCheck(loginmember);					
 		if(member!= null) {	
 			request.setAttribute("name", member.getName());
-			sesobj.setAttribute("uid", member.getId());
+			sesobj.setAttribute("uid", member.getSchoolno());
 			request.getRequestDispatcher("main.jsp").forward(request, response);
 		}else {
 			request.getRequestDispatcher("login.jsp").forward(request, response);
