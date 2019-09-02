@@ -7,6 +7,21 @@ public class LectureDTO {
 	SubjectDTO subject;
 	TeacherDTO teacher;	
 	String lecture_class;
+	String _class; //min
+	byte number; //min
+	
+	public byte getNumber() {
+		return number;
+	}
+	public void setNumber(byte number) {
+		this.number = number;
+	}	
+	public String get_class() {
+		return _class;
+	}
+	public void set_class(String _class) {
+		this._class = _class;
+	}	
 	
 	public int getId() {
 		return id;

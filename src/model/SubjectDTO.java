@@ -3,6 +3,7 @@ package model;
 public class SubjectDTO {
 
 	int id;
+	int depart_id;
 	DepartDTO depart;
 	String code;
 	int yyyy;
@@ -15,11 +16,18 @@ public class SubjectDTO {
 	float ipoint;
 	byte ihour;
 	
+	
 	public int getId() {
 		return id;
 	}
 	public void setId(int id) {
 		this.id = id;
+	}
+	public int getDepart_id() {
+		return depart_id;
+	}
+	public void setDepart_id(int depart_id) {
+		this.depart_id = depart_id;
 	}
 	
 	public DepartDTO getDepart() {
