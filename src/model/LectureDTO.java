@@ -1,20 +1,46 @@
 package model;
 
 public class LectureDTO {
-
 	int id;
 	int subject_id;
-	int teacher_id ;
-	String _class;
-	byte number;
+	int teacher_id;
 	SubjectDTO subject;
-	TeacherDTO teacher;
+	TeacherDTO teacher;	
+	String lecture_class;
+	String _class; //min
+	byte number; //min
 	
 	public byte getNumber() {
 		return number;
 	}
 	public void setNumber(byte number) {
 		this.number = number;
+	}	
+	public String get_class() {
+		return _class;
+	}
+	public void set_class(String _class) {
+		this._class = _class;
+	}	
+	
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
+	
+	public int getSubject_id() {
+		return subject_id;
+	}
+	public void setSubject_id(int subject_id) {
+		this.subject_id = subject_id;
+	}
+	public int getTeacher_id() {
+		return teacher_id;
+	}
+	public void setTeacher_id(int teacher_id) {
+		this.teacher_id = teacher_id;
 	}
 	public SubjectDTO getSubject() {
 		return subject;
@@ -28,32 +54,10 @@ public class LectureDTO {
 	public void setTeacher(TeacherDTO teacher) {
 		this.teacher = teacher;
 	}
-	
-	public String get_class() {
-		return _class;
+	public String getLecture_class() {
+		return lecture_class;
 	}
-	public void set_class(String _class) {
-		this._class = _class;
-	}
-	public int getId() {
-		return id;
-	}
-	public void setId(int id) {
-		this.id = id;
-	}
-	public int getSubject_id() {
-		return subject_id;
-	}
-	public void setSubject_id(int subject_id) {
-		this.subject_id = subject_id;
-	}
-	public int getTeacher_id() {
-		return teacher_id;
-	}
-	public void setTeacher_id(int teacher_id) {
-		this.teacher_id = teacher_id;
-	}
-	
-	
-	
+	public void setLecture_class(String lecture_class) {
+		this.lecture_class = lecture_class;
+	}	
 }
