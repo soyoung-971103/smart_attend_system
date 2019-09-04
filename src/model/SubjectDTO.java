@@ -1,19 +1,21 @@
 package model;
 
 public class SubjectDTO {
-	private int id;
+
+	int id;
 	int depart_id;
+	DepartDTO depart;
 	String code;
 	int yyyy;
 	byte grade;
-    byte term;
+	byte term;
 	String ismajor;
 	String ischoice;
 	String ispractice;
 	String name;
 	float ipoint;
 	byte ihour;
-	DepartDTO depart;
+	
 	
 	public int getId() {
 		return id;
@@ -26,6 +28,13 @@ public class SubjectDTO {
 	}
 	public void setDepart_id(int depart_id) {
 		this.depart_id = depart_id;
+	}
+	
+	public DepartDTO getDepart() {
+		return depart;
+	}
+	public void setDepart(DepartDTO depart) {
+		this.depart = depart;
 	}
 	public String getCode() {
 		return code;
@@ -87,10 +96,5 @@ public class SubjectDTO {
 	public void setIhour(byte ihour) {
 		this.ihour = ihour;
 	}
-	public DepartDTO getDepart() {
-		return depart;
-	}
-	public void setDepart(DepartDTO depart) {
-		this.depart = depart;
-	}
+	
 }
