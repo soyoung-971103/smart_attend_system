@@ -69,20 +69,39 @@ public class LectureController extends HttpServlet {
     	
     	if(action.equals("lecture-list.do")) 
 			list(request, response);
-    	/* else if(action.equals("lecture-register.do")) 
+    	else if(action.equals("lecture-register.do")) 
     		register(request, response);
-    	else if(action.equals("lecture-update.do")) 
-    		//update(request, response);
+    	/*else if(action.equals("lecture-update.do")) 
+    		update(request, response);*/
     	else if(action.equals("lecture-delete.do")) 
-    		//delete(request, response); */
+    		delete(request, response);
     	else
     		;
 	}
 	
 	protected void list(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException{
-		alLecture = dao.list();
+		String sel1, sel2, sel3;
+		sel1 = request.getParameter("sel1");
+		sel2 = request.getParameter("sel2");
+		sel3 = request.getParameter("sel3");
+
+		alLecture = dao.list(sel1, sel2, sel3);
     	request.setAttribute("list", alLecture);
     	request.getRequestDispatcher("as_lec.jsp").forward(request, response);
+	}
+	
+	protected void register(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
+    	response.setContentType("text/html;charset=UTF-8");
+    	request.setCharacterEncoding("utf-8");
+    	
+    	dao.register(request, response);
+    	request.getRequestDispatcher("lecture-list.do").forward(request, response);
+
+    }
+	
+	 protected void delete(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException {
+    	dao.delete(); // 질의를 통해 수정된 레코드의 수
+		request.getRequestDispatcher("lecture-list.do").forward(request, response);
 	}
     
     /**

@@ -9,6 +9,7 @@ public class LectureDTO {
 	DepartDTO depart;
 	SubjectDTO subject;
 	TeacherDTO teacher;
+	LectureDTO lecture;
 	
 	public int getId() {
 		return id;
@@ -51,6 +52,12 @@ public class LectureDTO {
 	}
 	public void setDepart(DepartDTO depart) {
 		this.depart = depart;
+	}
+	public LectureDTO getLecture() {
+		return lecture;
+	}
+	public void setLecture(LectureDTO lecture) {
+		this.lecture = lecture;
 	}
 	
 }

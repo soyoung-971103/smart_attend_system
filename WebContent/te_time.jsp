@@ -7,6 +7,9 @@
 <!-------------------------------------------------------------------------------->	
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ page import="java.util.*,model.TimeTableDTO, model.BuildingDTO, model.RoomDTO, model.LectureDTO, model.SubjectDTO, model.TeacherDTO, model.DepartDTO" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!DOCTYPE html>
 <html lang="kr">
 <head>
@@ -53,26 +56,16 @@
 				</div>
 
 				<!--- 시간표 관련 JS  ---------------------------------------------->
-				<%@ page import="java.util.*,model.TimeTableDTO, model.SubjectDTO, model.TeacherDTO" %>
-				<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%> 
 				<script>
 					function init()			// 해당학기 시간표읽어 모두 표시
 					{	
 						// 학년^반^요일^시작교시^시간^과목명^교수님^강의실
-						var timetable1 = [
-							${timetable.subject.grade}+'^A^'+${timetable.weekday}'+^'+${timetable.istart}+'^'+${timetable.ihour}+'^'+${timetable.subject.name}+'^'+${timetable.teacher.name}+'^'+${timetable.room.name}
-							];
-						
-						var timetable = [
-							'2^A^1^1^4^PHP^교수님1^컴실2',
-							'2^B^2^1^4^PHP^교수님1^컴실2',
-							'1^A^3^2^3^C^교수님2^컴실1',
-							'1^B^4^6^3^C^교수님2^컴실1'	];
-
-						for (i=0;i<timetable.length;i++)
-						{
-							show_lecture(0,timetable[i]);
-						}
+						<c:forEach items="${list}" var="item2">
+						var timetable=
+							'${item2.lecture.subject.grade}^${item2.lecture._class}^${item2.weekday}^${item2.istart}^${item2.ihour}^${item2.lecture.subject.name}^${item2.lecture.teacher.name}^${item2.room.name}';
+							
+							show_lecture(0,timetable);
+						</c:forEach>
 					}
 				</script>
 

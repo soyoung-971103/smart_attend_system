@@ -20,9 +20,21 @@ import com.sun.corba.se.impl.protocol.giopmsgheaders.RequestMessage;
 import com.sun.xml.internal.bind.v2.schemagen.xmlschema.List;
 
 import model.TimeTableDTO;
+import model.BuildingDAO;
+import model.BuildingDTO;
+import model.DepartDAO;
+import model.DepartDTO;
+import model.LectureDAO;
+import model.LectureDTO;
+import model.RoomDAO;
+import model.RoomDTO;
+import model.SubjectDAO;
+import model.SubjectDTO;
+import model.TeacherDAO;
+import model.TeacherDTO;
 import model.TimeTableDAO;
 
-@WebServlet({"/timetable-list.do" })
+@WebServlet({"/timetable-detail.do" })
 @MultipartConfig(location="", 
 fileSizeThreshold=1024*1024, 
 maxFileSize=1024*1024*5, 
@@ -45,6 +57,16 @@ private static final long serialVersionUID = 1L;
 	ResultSet rs = null;
 	TimeTableDTO TimeTable = null;
 	ArrayList<TimeTableDTO> alTimeTable = null;
+	LectureDAO daoLecture = new LectureDAO();
+	ArrayList<LectureDTO> dtoListLecture = null;
+	SubjectDAO daoSubject = new SubjectDAO();
+	ArrayList<SubjectDTO> dtoListSubject = null;
+	RoomDAO daoRoom = new RoomDAO();
+	ArrayList<RoomDTO> dtoListRoom = null;
+	BuildingDAO daoBuilding = new BuildingDAO();
+	ArrayList<BuildingDTO> dtoListBuilding = null;
+	DepartDAO daoDepart = new DepartDAO();
+	ArrayList<DepartDTO> dtoListDepart = null;
 	HttpSession session = null;
 	TimeTableDAO dao = null;
 
@@ -58,16 +80,29 @@ private static final long serialVersionUID = 1L;
     	int lastIndex = uri.lastIndexOf('/');
     	String action = uri.substring(lastIndex + 1);
     	
-    	if(action.equals("timetable-list.do")) 
-			list(request, response);
+    	if(action.equals("timetable-detail.do")) 
+    		detail(request, response);
     	else
     		;
     }
     
-    protected void list(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException{
-		 alTimeTable = dao.list();
-			request.setAttribute("timetablelist", alTimeTable);
-			request.getRequestDispatcher("te_time.jsp").forward(request, response);
+    protected void detail(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException{
+		int id=2; 
+		alTimeTable = dao.detail(id);
+    	dtoListDepart = daoDepart.List();
+    	dtoListLecture = daoLecture.list();
+    	dtoListSubject = daoSubject.List();
+    	dtoListRoom = daoRoom.selectAllList();
+    	dtoListBuilding = daoBuilding.selectAllList();
+    	
+    	request.setAttribute("listDepart", dtoListDepart);	
+    	request.setAttribute("listLecture", dtoListLecture);	
+    	request.setAttribute("listSubject", dtoListSubject);	
+    	request.setAttribute("listRoom", dtoListRoom);	
+       	request.setAttribute("listBuilding", dtoListBuilding);	
+		request.setAttribute("list", alTimeTable);
+
+		request.getRequestDispatcher("te_time.jsp").forward(request, response);
 	}
     
     /**
