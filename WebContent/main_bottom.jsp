@@ -1,11 +1,11 @@
 <!------------------------------------------------------------------------------>
-<!-- 내용 끝 -->
+<!-- ë´ì© ë -->
 <!------------------------------------------------------------------------------>
 			</div>
 		</div>
 	</div>
 
-	<!-- 하단 정보 -->
+	<!-- íë¨ ì ë³´ -->
 	<footer class="footer">
 		<span class="text-right">	Copyright <a target="_blank" href="#">Induk University</a></span>
 		<span class="float-right">Programmed by <a target="_blank" href="#"><b>Gamejigi</b></a></span>
@@ -13,24 +13,8 @@
 
 </div>
 
-<!-- js 선언부 ----------------------------------------------------------------->
-<script src="my/js/my.js"></script>
+<!-- js ì ì¸ë¶ ----------------------------------------------------------------->
 
-<script src="my/js/jquery.min.js"></script>
-<script src="my/js/moment.min.js"></script>
-
-<script src="my/js/popper.min.js"></script>
-<script src="my/js/bootstrap.min.js"></script>
-
-<script src="my/js/detect.js"></script>
-<script src="my/js/fastclick.js"></script>
-<script src="my/js/jquery.blockUI.js"></script>
-<script src="my/js/jquery.nicescroll.js"></script>
-
-<script src="my/js/pikeadmin.js"></script>
-
-<script src="my/js/jquery.dataTables.min.js"></script>
-<script src="my/js/dataTables.bootstrap4.min.js"></script>
 
 </body>
 </html>

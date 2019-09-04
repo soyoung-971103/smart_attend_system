@@ -43,7 +43,6 @@
 		<div class="sidebar-inner leftscroll">
 			<div id="sidebar-menu">
 				<ul>
-
 					<li class="submenu">
 						<a href="#"><i class="fa fa-fw fa-table"></i> <span> 직원(학사행정) </span> <span class="menu-arrow"></span></a>
 						<ul class="list-unstyled">
@@ -52,8 +51,8 @@
 							<li><a href="notice-list.do" style="padding:5px 0 5px 40px;">공지사항</a></li>
 							<li><hr style="background-color:gray;margin:0 25px 0 25px;"></li>
 							<li><a href="student-list.do" style="padding:5px 0 5px 40px;">학생정보</a></li>
-							<li><a href="TeacherInquiry" style="padding:5px 0 5px 40px;">교수정보</a></li>
-							<li><a href="AssistInquiry" style="padding:5px 0 5px 40px;">조교정보</a></li>
+							<li><a href="teacher-list.do" style="padding:5px 0 5px 40px;">교수정보</a></li>
+							<li><a href="assist-list.do" style="padding:5px 0 5px 40px;">조교정보</a></li>
 							<li><hr style="background-color:gray;margin:0 25px 0 25px;"></li>
 							<li><a href="depart-list.do" style="padding:5px 0 5px 40px;">학과/부서</a></li>
 							<li><a href="room-list.do" style="padding:5px 0 5px 40px;">강의실</a></li>
@@ -86,8 +85,8 @@
 						<ul class="list-unstyled">
 							<li><a href="te_main.html" style="padding:5px 0 5px 40px;">교수 메인</a></li>
 							<li><a href="te_time.html" style="padding:5px 0 5px 40px;">시간표</a></li>
-							<li><a href="te_lec.html" style="padding:5px 0 5px 40px;">일별 출석부</a></li>
-							<li><a href="te_lecall.html" style="padding:5px 0 5px 40px;">과목별 출석부</a></li>
+							<li><a href="te_lec.jsp" style="padding:5px 0 5px 40px;">일별 출석부</a></li>
+							<li><a href="te-lecall.do" style="padding:5px 0 5px 40px;">과목별 출석부</a></li>
 							<li><a href="te_lecmove.html" style="padding:5px 0 5px 40px;">휴보강</a></li>
 							<li><a href="te_lecqa.html" style="padding:5px 0 5px 40px;">교과목 문의</a></li>
 						</ul>

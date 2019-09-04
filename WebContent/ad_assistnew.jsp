@@ -7,6 +7,7 @@
 <!-------------------------------------------------------------------------------->	
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>  
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html lang="kr">
 <head>
@@ -30,7 +31,6 @@
 </head>
 
 <body class="adminbody">
-
 <div id="main">
 
 	<%@include file="main_menu.jsp" %>
@@ -69,7 +69,7 @@
 								
 							<div class="card-body" style="padding:10px">
 
-								<form name="form1" method="get" action="AssistInsert" enctype="multipart/form-data"">
+								<form name="form1" method="get" action="assist-register.do" enctype="multipart/form-data"">
 
 								<table class="table table-bordered mytable-centermiddle" style="width:100%;">
 									<tr>
@@ -77,12 +77,10 @@
 										<td>
 											<div class="form-inline">
 												<select name="depart_id" class="form-control form-control-sm">
-													<option value="0" selected></option>
-													<option value='1'>컴퓨터소프트에어학과</option>
-													<option value='2'>전자과</option>
-													<option value='3'>영어과</option>
-													<option value='99'>교양과</option>
-													<option value='999'>교무처</option>
+													<option value="0"></option>
+													<c:forEach var="item" items="${Depart}">
+														<option value="${item.getId()}">${item.getName()}</option>
+													</c:forEach>
 												</select>
 											</div>
 										</td>
