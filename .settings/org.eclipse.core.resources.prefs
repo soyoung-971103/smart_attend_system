@@ -1,11 +1,6 @@
 eclipse.preferences.version=1
 encoding//WebContent/ad_building.jsp=UTF-8
-encoding//WebContent/as_lec.jsp=UTF-8
 encoding//WebContent/common.jsp=UTF-8
 encoding//WebContent/login.jsp=UTF-8
-encoding//WebContent/main_bottom.jsp=UTF-8
-encoding//WebContent/te_lec.jsp=UTF-8
-encoding//WebContent/te_lecall.jsp=UTF-8
-encoding//WebContent/te_leccall.jsp=UTF-8
-encoding//WebContent/test.jsp=UTF-8
+encoding//WebContent/st_lec.jsp=UTF-8
 encoding/<project>=UTF-8
