@@ -4,7 +4,8 @@ public class LectureDTO {
 	private int id;
 	int subject_id;
 	int teacher_id;
-	String lec_class;
+	String _class;
+	int number;
 	
 	DepartDTO depart;
 	SubjectDTO subject;
@@ -29,11 +30,17 @@ public class LectureDTO {
 	public void setTeacher_id(int teacher_id) {
 		this.teacher_id = teacher_id;
 	}
-	public String getLec_class() {
-		return lec_class;
+	public String get_class() {
+		return _class;
 	}
-	public void setLec_class(String lec_class) {
-		this.lec_class = lec_class;
+	public void set_class(String _class) {
+		this._class = _class;
+	}
+	public int getNumber() {
+		return number;
+	}
+	public void setNumber(int number) {
+		this.number = number;
 	}
 	public SubjectDTO getSubject() {
 		return subject;

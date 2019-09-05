@@ -71,8 +71,8 @@ public class LectureController extends HttpServlet {
 			list(request, response);
     	else if(action.equals("lecture-register.do")) 
     		register(request, response);
-    	/*else if(action.equals("lecture-update.do")) 
-    		update(request, response);*/
+    	else if(action.equals("lecture-update.do")) 
+    		update(request, response);
     	else if(action.equals("lecture-delete.do")) 
     		delete(request, response);
     	else
@@ -86,7 +86,9 @@ public class LectureController extends HttpServlet {
 		sel3 = request.getParameter("sel3");
 
 		alLecture = dao.list(sel1, sel2, sel3);
+		dtoListTeacher = daoTeacher.list();
     	request.setAttribute("list", alLecture);
+    	request.setAttribute("teacher", dtoListTeacher);
     	request.getRequestDispatcher("as_lec.jsp").forward(request, response);
 	}
 	
@@ -97,6 +99,18 @@ public class LectureController extends HttpServlet {
     	dao.register(request, response);
     	request.getRequestDispatcher("lecture-list.do").forward(request, response);
 
+    }
+	
+	protected void update(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException {
+		int id = Integer.parseInt(request.getParameter("id"));
+		int result = dao.update(request, response, id); // 질의를 통해 수정된 레코드의 수
+    	
+    	if(result > 0) {
+    		request.setAttribute("id", request.getParameter("id"));
+    		request.getRequestDispatcher("lecture-list.do").forward(request, response);
+    	}
+    	else
+    		response.sendRedirect("fail.jsp"); // 실패
     }
 	
 	 protected void delete(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException {

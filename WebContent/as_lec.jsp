@@ -77,6 +77,7 @@
 									}
 									function update_teacher(pos) 
 									{
+										form2.action="lecture-update.do?id=" + pos;
 										form2.teacherno.value=eval("form2.teacher"+pos).value;
 										form2.submit();
 									}
@@ -157,7 +158,7 @@
 								</div>
 								</form>
 				
-								<form name="form2" method="post" action="lecture-update.do">
+								<form name="form2" method="post" action="">
 
 								<input type="hidden" name="teacherno" value="">
 
@@ -174,18 +175,25 @@
 									</thead>
 									<tbody>
 										<c:forEach var="lecture" items="${ list }">
+											<input type="hidden" name="id" id="id" value="${lecture.id }" class="form-control form-control-sm" required>
 											<tr>
 												<td>${ lecture.subject.code}</td>
 												<td>${ lecture.subject.name}</td>
 												<td>${ lecture.subject.ipoint}</td>
 												<td>${ lecture.subject.ihour}</td>
-
-												<td>${ lecture.lec_class }</td>
+												<td>${ lecture._class }</td>
 												<td>
 													<div class="form-inline justify-content-center">
-														<select name="teacher1" class="form-control form-control-sm" onchange="update_teacher('1');">
-															<c:forEach var="lecture" items="${ list }">
-																<option value='1'>${lecture.teacher.name }</option>
+														<select name="teacher${lecture.id }" class="form-control form-control-sm" onchange="update_teacher('${lecture.id }');">
+															<c:forEach var="teacher" items="${ teacher }">
+																<c:choose>
+																    <c:when test="${lecture.teacher_id eq teacher.id}">
+																       <option value='${teacher.id }' selected>${teacher.name }</option>
+																    </c:when>
+																    <c:otherwise>
+																       <option value='${teacher.id }'>${teacher.name }</option>
+																    </c:otherwise>
+																</c:choose>
 															</c:forEach>
 														</select>
 													</div>

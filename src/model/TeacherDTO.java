@@ -2,7 +2,7 @@ package model;
 
 public class TeacherDTO {
 	int id;
-	String depart_id;
+	DepartDTO depart_id;
 	String kind;
 	String uid;
 	String pwd;
@@ -18,11 +18,11 @@ public class TeacherDTO {
 	public void setId(int id) {
 		this.id = id;
 	}
-	public String getDepart_id() {
+	public DepartDTO getDepart_id() {
 		return depart_id;
 	}
-	public void setDepart_id(String depart_id) {
-		this.depart_id = depart_id;
+	public void setDepart_id(DepartDTO Depart) {
+		this.depart_id = Depart;
 	}
 	public String getKind() {
 		return kind;
