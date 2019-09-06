@@ -72,8 +72,8 @@
 						<a href="#"><i class="fa fa-fw fa-male"></i> <span>조교</span> <span class="menu-arrow"></span></a>
 						<ul class="list-unstyled">
 							<li><a href="as_main.html" style="padding:5px 0 5px 40px;">조교 메인</a></li>
-							<li><a href="as_sub.html" style="padding:5px 0 5px 40px;">학년별 교과목</a></li>
-							<li><a href="as_lec.html" style="padding:5px 0 5px 40px;">반별 교과목</a></li>
+							<li><a href="subject-list.do" style="padding:5px 0 5px 40px;">학년별 교과목</a></li>
+							<li><a href="lecture-list.do" style="padding:5px 0 5px 40px;">반별 교과목</a></li>
 							<li><a href="timetable-list.do" style="padding:5px 0 5px 40px;">시간표 작성</a></li>
 							<li><a href="as-timetable-all.do" style="padding:5px 0 5px 40px;">학과별 시간표</a></li>
 							<li><a href="lecture-sublecture.do" style="padding:5px 0 5px 40px;">과목별 출석부</a></li>
@@ -84,7 +84,7 @@
 						<a href="#"><i class="fa fa-fw fa-user"></i> <span> 교수 </span> <span class="menu-arrow"></span></a>
 						<ul class="list-unstyled">
 							<li><a href="te_main.html" style="padding:5px 0 5px 40px;">교수 메인</a></li>
-							<li><a href="te_time.html" style="padding:5px 0 5px 40px;">시간표</a></li>
+							<li><a href="timetable-tdetail.do" style="padding:5px 0 5px 40px;">시간표</a></li>
 							<li><a href="te_lec.jsp" style="padding:5px 0 5px 40px;">일별 출석부</a></li>
 							<li><a href="te-lecall.do" style="padding:5px 0 5px 40px;">과목별 출석부</a></li>
 							<li><a href="te_lecmove.html" style="padding:5px 0 5px 40px;">휴보강</a></li>
@@ -95,7 +95,7 @@
 						<a href="#"><i class="fa fa-fw fa-table"></i> <span> 학생 </span> <span class="menu-arrow"></span></a>
 						<ul class="list-unstyled">
 							<li><a href="st_main.html" style="padding:5px 0 5px 40px;">학생 메인</a></li>
-							<li><a href="st_time.html" style="padding:5px 0 5px 40px;">시간표</a></li>
+							<li><a href="mylecture-sdetail.do" style="padding:5px 0 5px 40px;">시간표</a></li>
 							<li><a href="lecture-mylecture.do" style="padding:5px 0 5px 40px;">출석부</a></li>
 							<li><hr style="background-color:gray;margin:0 25px 0 25px;"></li>
 							<li><a href="lecture-list.do" style="padding:5px 0 5px 40px;">수강신청</a></li>
