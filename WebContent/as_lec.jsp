@@ -5,6 +5,8 @@
 <!-- 교수 : 윤형태 (2019.5 -        )                                                                         -->
 <!-- 학생 : 유소영(3), 김해리(3), 이민호(2), 김진혁(2)                                              -->
 <!-------------------------------------------------------------------------------->	
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="kr">
 <head>
@@ -30,117 +32,7 @@
 
 <div id="main">
 
-	<!--상단 메뉴 시작 -->
-	<div class="headerbar">
-
-        <div class="headerbar-left">
-			<a href="index.html" class="logo"><img src="my/images/induk_logo.png"> <span>전자출석 Demo</span></a>
-        </div>
-
-        <nav class="navbar-custom">
-			<ul class="list-inline float-right mb-0">
-				<li class="list-inline-item dropdown notif">
-					<a class="nav-link dropdown-toggle nav-user" data-toggle="dropdown" href="#" role="button" ariaaspopup="false" aria-expanded="false">
-						<img src="my/images/avatars/admin.png" alt="Profile image" class="avatar-rounded">
-					</a>
-					<div class="dropdown-menu dropdown-menu-right profile-dropdown">
-						<div class="dropdown-item noti-title">
-							<h5 class="text-overflow"><small>Hello, admin</small> </h5>
-						</div>
-						<a href="#" class="dropdown-item notify-item">
-							<i class="fa fa-power-off"></i> <span>Logout</span>
-						</a>
-					</div>
-				</li>
-			</ul>
-
-			<ul class="list-inline menu-left mb-0">
-				<li class="float-left">
-					<button class="button-menu-mobile open-left">
-						<i class="fa fa-fw fa-bars"></i>
-					</button>
-				</li>                        
-			</ul>
-        </nav>
-
-	</div>
-	<!--상단 메뉴 끝 -->
-	
- 
-	<!-- 좌측 Sidebar 메뉴 시작-->
-	<div class="left main-sidebar">
-		<div class="sidebar-inner leftscroll">
-			<div id="sidebar-menu">
-				<ul>
-
-					<li class="submenu">
-						<a href="#"><i class="fa fa-fw fa-table"></i> <span> 직원(학사행정) </span> <span class="menu-arrow"></span></a>
-						<ul class="list-unstyled">
-							<li><a href="ad_main.html" style="padding:5px 0 5px 40px;">직원 메인</a></li>
-							<li><a href="ad_control.html" style="padding:5px 0 5px 40px;">제어판</a></li>
-							<li><a href="ad_notice.html" style="padding:5px 0 5px 40px;">공지사항</a></li>
-							<li><hr style="background-color:gray;margin:0 25px 0 25px;"></li>
-							<li><a href="ad_student.html" style="padding:5px 0 5px 40px;">학생정보</a></li>
-							<li><a href="ad_teacher.html" style="padding:5px 0 5px 40px;">교수정보</a></li>
-							<li><a href="ad_assist.html" style="padding:5px 0 5px 40px;">조교정보</a></li>
-							<li><hr style="background-color:gray;margin:0 25px 0 25px;"></li>
-							<li><a href="ad_depart.html" style="padding:5px 0 5px 40px;">학과/부서</a></li>
-							<li><a href="ad_room.html" style="padding:5px 0 5px 40px;">강의실</a></li>
-							<li><a href="ad_building.html "style="padding:5px 0 5px 40px;">건물</a></li>
-							<li><a href="ad_holiday.html" style="padding:5px 0 5px 40px;">휴일</a></li>
-						</ul>
-					</li>
-					<li class="submenu">
-						<a href="#"><i class="fa fa-fw fa-table"></i> <span> 직원(전자출석) </span> <span class="menu-arrow"></span></a>
-						<ul class="list-unstyled">
-							<li><a href="ad_timeall.html" style="padding:5px 0 5px 40px;">학과별 시간표</a></li>
-							<li><a href="ad_timeteacher.html" style="padding:5px 0 5px 40px;">교수별 강의현황</a></li>
-							<li><a href="ad_lecmove.html" style="padding:5px 0 5px 40px;">휴보강</a></li>
-						</ul>
-					</li>
-					<li class="submenu">
-						<a href="#"><i class="fa fa-fw fa-male"></i> <span>조교</span> <span class="menu-arrow"></span></a>
-						<ul class="list-unstyled">
-							<li><a href="as_main.html" style="padding:5px 0 5px 40px;">조교 메인</a></li>
-							<li><a href="as_sub.html" style="padding:5px 0 5px 40px;">학년별 교과목</a></li>
-							<li><a href="as_lec.html" style="padding:5px 0 5px 40px;">반별 교과목</a></li>
-							<li><a href="as_time.html" style="padding:5px 0 5px 40px;">시간표 작성</a></li>
-							<li><a href="as_timeall.html" style="padding:5px 0 5px 40px;">학과별 시간표</a></li>
-							<li><a href="as_lecall.html" style="padding:5px 0 5px 40px;">과목별 출석부</a></li>
-							<li><a href="as_lecmove.html" style="padding:5px 0 5px 40px;">휴보강</a></li>
-						</ul>
-					</li>
-					<li class="submenu">
-						<a href="#"><i class="fa fa-fw fa-user"></i> <span> 교수 </span> <span class="menu-arrow"></span></a>
-						<ul class="list-unstyled">
-							<li><a href="te_main.html" style="padding:5px 0 5px 40px;">교수 메인</a></li>
-							<li><a href="te_time.html" style="padding:5px 0 5px 40px;">시간표</a></li>
-							<li><a href="te_lec.html" style="padding:5px 0 5px 40px;">일별 출석부</a></li>
-							<li><a href="te_lecall.html" style="padding:5px 0 5px 40px;">과목별 출석부</a></li>
-							<li><a href="te_lecmove.html" style="padding:5px 0 5px 40px;">휴보강</a></li>
-							<li><a href="te_lecqa.html" style="padding:5px 0 5px 40px;">교과목 문의</a></li>
-						</ul>
-					</li>
-					<li class="submenu">
-						<a href="#"><i class="fa fa-fw fa-table"></i> <span> 학생 </span> <span class="menu-arrow"></span></a>
-						<ul class="list-unstyled">
-							<li><a href="st_main.html" style="padding:5px 0 5px 40px;">학생 메인</a></li>
-							<li><a href="st_time.html" style="padding:5px 0 5px 40px;">시간표</a></li>
-							<li><a href="st_lecall.html" style="padding:5px 0 5px 40px;">출석부</a></li>
-							<li><hr style="background-color:gray;margin:0 25px 0 25px;"></li>
-							<li><a href="st_lec.html" style="padding:5px 0 5px 40px;">수강신청</a></li>
-							<li><a href="st_lecsj.html" style="padding:5px 0 5px 40px;">수강과목</a></li>
-							<li><a href="st_lecqa.html" style="padding:5px 0 5px 40px;">교과목 문의</a></li>
-						</ul>
-					</li>
-
-				</ul>
-				<div class="clearfix"></div>
-			</div>
-			<div class="clearfix"></div>
-		</div>
-	</div>
-	<!-- 좌측 Sidebar 메뉴 끝-->
+	<%@ include file="main_menu.jsp" %>
 
     <div class="content-page">
 	    <div class="content">
@@ -175,16 +67,17 @@
 								<script>
 									function find_text()
 									{
-										form1.action="???.html?text1=" + form1.text1.value+"&text2=" + form1.text2.value+"&text3=" + form1.text3.value;
+										form1.action="lecture-list.do?sel1=" + form1.sel1.value+"&sel2=" + form1.sel2.value+"&sel3=" + form1.sel3.value;
 										form1.submit();
 									}
 									function make_lecure()
 									{
-										form1.action="lecture_allupdate.html?text1=" + form1.text1.value+"&text2=" + form1.text2.value";
+										form1.action="lecture-list.do?sel1=" + form1.sel1.value+"&sel2=" + form1.sel2.value;
 										form1.submit();
 									}
 									function update_teacher(pos) 
 									{
+										form2.action="lecture-update.do?id=" + pos;
 										form2.teacherno.value=eval("form2.teacher"+pos).value;
 										form2.submit();
 									}
@@ -199,39 +92,73 @@
 													<span class="input-group-text">년도</span>
 												</div>
 												<div class="input-group-append">
-													<select name="sel1" class="form-control form-control-sm" onchange="javascript:find_text();">
-														<option value="2019" selected>2019</option>
-														<option value='2018'>2018</option>
-														<option value='2017'>2017</option>
-														<option value='2016'>2016</option>
-														<option value='2015'>2015</option>
+													<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+													<select name="sel1" id="sel1" class="form-control form-control-sm" onchange="">
+														<c:forEach var="i" step="1" begin="0" end="4">
+															<c:choose>
+															    <c:when test="${sel1 eq 2019-i}">
+															       <option value="${ 2019-i}" selected>${2019-i }</option>
+															    </c:when>
+															    <c:otherwise>
+																	<option value="${2019-i }">${2019-i }</option>
+																</c:otherwise>
+															</c:choose>
+														</c:forEach>
 													</select>
 													&nbsp;
-													<select name="sel2" class="form-control form-control-sm" onchange="javascript:find_text();">
-														<option value='1' selected>1 학기</option>
-														<option value='2'>2 학기</option>
+													<select name="sel2" id="sel2" class="form-control form-control-sm" onchange="">
+														<c:forEach var="i" step="1" begin="1" end="2">
+															<c:choose>
+															    <c:when test="${sel1 eq i}">
+															       <option value="${i}" selected>${i }학기</option>
+															    </c:when>
+															    <c:otherwise>
+																	<option value="${i}">${i }학기</option>
+																</c:otherwise>
+															</c:choose>
+														</c:forEach>
 													</select>
 													&nbsp;
-													<select name="sel3" class="form-control form-control-sm" onchange="javascript:find_text();">
-														<option value='1' selected>1 학년</option>
-														<option value='2'>2 학년</option>
-														<option value='3'>3 학년</option>
-														<option value='4'>4 학년</option>
+													<select name="sel3" id="sel3" class="form-control form-control-sm" onchange="">
+														<c:forEach var="i" step="1" begin="0" end="4">
+															<c:choose>
+																<c:when test="${sel2 eq i}">
+																	<c:choose>
+																		<c:when test="${i eq 0}">
+																			<option value='0' selected>전체</option>
+																		</c:when>
+																		<c:otherwise>
+																			<option value='${i }' selected>${i }</option>
+																		</c:otherwise>
+																	</c:choose>
+																</c:when>
+																<c:otherwise>
+																	<c:choose>
+																		<c:when test="${i eq 0}">
+																			<option value='0'>전체</option>
+																		</c:when>
+																		<c:otherwise>
+																			<option value='${i }'>${i }</option>
+																		</c:otherwise>
+																	</c:choose>
+																</c:otherwise>
+															</c:choose>
+														</c:forEach>
 													</select>
 												</div>
-												&nbsp;<input type="button" class="btn btn-sm btn-primary" value="검색" onclick="">
+												&nbsp;<input type="button" class="btn btn-sm btn-primary" value="검색" onclick="javascript:find_text();">
 											</div>
 
 										</div>
 									</div>
 									<div class="col" align="right">
-										<a href="make_lecture();" class="btn btn-sm btn-primary">반별과목 생성</a>
-										<a href="make_lecture();" class="btn btn-sm btn-danger">반별과목 삭제</a>
+										<a href="lecture-register.do" class="btn btn-sm btn-primary">반별과목 생성</a>
+										<a href="lecture-delete.do" class="btn btn-sm btn-danger">반별과목 삭제</a>
 									</div>
 								</div>
 								</form>
-
-								<form name="form2" method="post" action="lecture_update.html">
+				
+								<form name="form2" method="post" action="">
 
 								<input type="hidden" name="teacherno" value="">
 
@@ -247,45 +174,36 @@
 										</tr>
 									</thead>
 									<tbody>
-										<tr>
-											<td>CS1</td>
-											<td>PHP</td>
-											<td>3</td>
-											<td>4</td>
-											<td>A</td>
-											<td>
-												<div class="form-inline justify-content-center">
-													<select name="teacher1" class="form-control form-control-sm" onchange="update_teacher('1');">
-														<option value='0' selected>&nbsp;</option>
-														<option value='1'>교수님1</option>
-														<option value='2'>교수님2</option>
-														<option value='3'>교수님3</option>
-														<option value='4'>교수님4</option>
-													</select>
-												</div>
-											</td>
-										</tr>
-										<tr>
-											<td>CS1</td>
-											<td>PHP</td>
-											<td>3</td>
-											<td>4</td>
-											<td>B</td>
-											<td>
-												<div class="form-inline justify-content-center">
-													<select name="teacher2" class="form-control form-control-sm" onchange="update_teacher('2');">
-														<option value='0' selected>&nbsp;</option>
-														<option value='1'>교수님1</option>
-														<option value='2'>교수님2</option>
-														<option value='3'>교수님3</option>
-														<option value='4'>교수님4</option>
-													</select>
-												</div>
-											</td>
-										</tr>
+										<c:forEach var="lecture" items="${ list }">
+											<input type="hidden" name="id" id="id" value="${lecture.id }" class="form-control form-control-sm" required>
+											<tr>
+												<td>${ lecture.subject.code}</td>
+												<td>${ lecture.subject.name}</td>
+												<td>${ lecture.subject.ipoint}</td>
+												<td>${ lecture.subject.ihour}</td>
+												<td>${ lecture._class }</td>
+												<td>
+													<div class="form-inline justify-content-center">
+														<select name="teacher${lecture.id }" class="form-control form-control-sm" onchange="update_teacher('${lecture.id }');">
+															<c:forEach var="teacher" items="${ teacher }">
+																<c:choose>
+																    <c:when test="${lecture.teacher_id eq teacher.id}">
+																       <option value='${teacher.id }' selected>${teacher.name }</option>
+																    </c:when>
+																    <c:otherwise>
+																       <option value='${teacher.id }'>${teacher.name }</option>
+																    </c:otherwise>
+																</c:choose>
+															</c:forEach>
+														</select>
+													</div>
+												</td>
+											</tr>
+										</c:forEach>
+										
 									</tbody>
-									</form>
 								</table>
+								</form>
 
 							<!------------------------------------------------------------>
 							</div>		<!-- card body end -->
