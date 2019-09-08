@@ -17,7 +17,7 @@ import model.DepartDTO;
 import model.TeacherDAO;
 import model.TeacherDTO;
 
-/**
+/** 
  * Servlet implementation class TeacherController
  */
 //"/building-register.do", "/building-list.do", "/building-info.do", "/building-delete.do", "/building-update.do", "/building-search.do"

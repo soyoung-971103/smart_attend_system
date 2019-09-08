@@ -26,7 +26,7 @@ import model.DepartDTO;
 import model.LectureDAO;
 import model.LectureDTO;
 
-/**
+/** 
  * Servlet implementation class TimeController
  */
 @WebServlet({ "/timetable-list.do", "/timetable-tdetail.do", "/timetable-insert.do", "/timetable-delete.do", "/as-timetable-all.do", "/ad-timetable-all.do" })

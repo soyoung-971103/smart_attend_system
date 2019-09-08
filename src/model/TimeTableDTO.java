@@ -4,7 +4,7 @@ public class TimeTableDTO {
 	int id;
 	int lecture_id;
 	String weekday;
-	byte istart;
+	byte istart; 
 	byte ihour;
 	int room_id;
 	

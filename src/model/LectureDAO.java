@@ -10,9 +10,9 @@ import java.util.ArrayList;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
+ 
 public class LectureDAO extends DAOBase{
-	
+	 
 	Connection conn = null; 
 	Statement stmt = null;
 	PreparedStatement pstmt = null;
@@ -212,7 +212,6 @@ public class LectureDAO extends DAOBase{
 	public int updateN(HttpServletRequest request, HttpServletResponse response, int id) {
 		int result = 0;
 		lecture = new LectureDTO();
-		System.out.println(request.getParameter("numberno"));
 		lecture.setNumber(Integer.parseInt(request.getParameter("numberno")));
 		
 		String sql = "update lecture set number=? where id="+id;

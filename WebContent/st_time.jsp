@@ -11,7 +11,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!DOCTYPE html>
-<html lang="kr">
+<html lang="kr"> 
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -228,7 +228,7 @@
 	</div>
 
 	<!-- 하단 정보 -->
-	<footer class="footer">
+	<footer class="footer"> 
 		<span class="text-right">	Copyright <a target="_blank" href="#">Induk University</a></span>
 		<span class="float-right">Programmed by <a target="_blank" href="#"><b>Gamejigi</b></a></span>
 	</footer>

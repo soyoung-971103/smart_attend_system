@@ -1,5 +1,5 @@
 package model;
-
+ 
 public class LectureDTO {
 	private int id;
 	int subject_id;

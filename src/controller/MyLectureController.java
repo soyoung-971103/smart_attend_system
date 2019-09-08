@@ -36,7 +36,7 @@ import controller.TeacherController;
 @WebServlet({"/mylecture-sdetail.do" })
 @MultipartConfig(location="", 
 fileSizeThreshold=1024*1024, 
-maxFileSize=1024*1024*5, 
+maxFileSize=1024*1024*5,  
 maxRequestSize=1024*1024*5*5)
 public class MyLectureController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -108,7 +108,7 @@ public class MyLectureController extends HttpServlet {
 		
 		request.getRequestDispatcher("st_time.jsp").forward(request, response);
 	}
-    
+     
     /**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
