@@ -25,7 +25,7 @@ import model.TeacherDAO;
 import model.TeacherDTO;
 import controller.TeacherController;
 
-@WebServlet({"/lecture-list.do","/lecture-register.do", "/lecture-update.do", "/lecture-delete.do" })
+@WebServlet({"/as-lecture-list.do","/as-lecture-register.do", "/as-lecture-updateT.do", "/as-lecture-updateN.do", "/as-lecture-delete.do" })
 @MultipartConfig(location="", 
 fileSizeThreshold=1024*1024, 
 maxFileSize=1024*1024*5, 
@@ -67,19 +67,21 @@ public class LectureController extends HttpServlet {
     	int lastIndex = uri.lastIndexOf('/');
     	String action = uri.substring(lastIndex + 1);
     	
-    	if(action.equals("lecture-list.do")) 
-			list(request, response);
-    	else if(action.equals("lecture-register.do")) 
-    		register(request, response);
-    	else if(action.equals("lecture-update.do")) 
-    		update(request, response);
-    	else if(action.equals("lecture-delete.do")) 
-    		delete(request, response);
+    	if(action.equals("as-lecture-list.do")) 
+			ASlist(request, response);
+    	else if(action.equals("as-lecture-register.do")) 
+    		ASregister(request, response);
+    	else if(action.equals("as-lecture-updateT.do")) 
+    		ASupdateT(request, response);
+    	else if(action.equals("as-lecture-updateN.do")) 
+    		ASupdateN(request, response);
+    	else if(action.equals("as-lecture-delete.do")) 
+    		ASdelete(request, response);
     	else
     		;
 	}
 	
-	protected void list(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException{
+	protected void ASlist(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException{
 		String sel1, sel2, sel3;
 		sel1 = request.getParameter("sel1");
 		sel2 = request.getParameter("sel2");
@@ -87,35 +89,50 @@ public class LectureController extends HttpServlet {
 
 		alLecture = dao.list(sel1, sel2, sel3);
 		dtoListTeacher = daoTeacher.list();
+		request.setAttribute("sel1", sel1);
+		request.setAttribute("sel2", sel2);
+		request.setAttribute("sel3", sel3);
     	request.setAttribute("list", alLecture);
     	request.setAttribute("teacher", dtoListTeacher);
     	request.getRequestDispatcher("as_lec.jsp").forward(request, response);
 	}
 	
-	protected void register(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
+	protected void ASregister(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
     	response.setContentType("text/html;charset=UTF-8");
     	request.setCharacterEncoding("utf-8");
     	
     	dao.register(request, response);
-    	request.getRequestDispatcher("lecture-list.do").forward(request, response);
+    	request.getRequestDispatcher("as-lecture-list.do").forward(request, response);
 
     }
 	
-	protected void update(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException {
+	protected void ASupdateT(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException {
 		int id = Integer.parseInt(request.getParameter("id"));
-		int result = dao.update(request, response, id); // 질의를 통해 수정된 레코드의 수
+		int result = dao.updateT(request, response, id); // 질의를 통해 수정된 레코드의 수
     	
     	if(result > 0) {
     		request.setAttribute("id", request.getParameter("id"));
-    		request.getRequestDispatcher("lecture-list.do").forward(request, response);
+    		request.getRequestDispatcher("as-lecture-list.do").forward(request, response);
     	}
     	else
     		response.sendRedirect("fail.jsp"); // 실패
     }
 	
-	 protected void delete(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException {
+	protected void ASupdateN(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException {
+		int id = Integer.parseInt(request.getParameter("id"));
+		int result = dao.updateN(request, response, id); // 질의를 통해 수정된 레코드의 수
+    	
+    	if(result > 0) {
+    		request.setAttribute("id", request.getParameter("id"));
+    		request.getRequestDispatcher("as-lecture-list.do").forward(request, response);
+    	}
+    	else
+    		response.sendRedirect("fail.jsp"); // 실패
+    }
+	
+	 protected void ASdelete(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException {
     	dao.delete(); // 질의를 통해 수정된 레코드의 수
-		request.getRequestDispatcher("lecture-list.do").forward(request, response);
+		request.getRequestDispatcher("as-lecture-list.do").forward(request, response);
 	}
     
     /**

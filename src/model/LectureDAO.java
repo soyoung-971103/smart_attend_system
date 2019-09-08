@@ -31,19 +31,19 @@ public class LectureDAO extends DAOBase{
 			
 			alLecture = new ArrayList<LectureDTO>();
 			if(sel1 != null && sel2 != null && !sel3.equals("0"))
-				rs=stmt.executeQuery("SELECT lecture.*, subject.name, subject.code, subject.ihour, subject.ipoint, subject.yyyy, subject.term, subject.grade, teacher.id, teacher.name FROM lecture "
+				rs=stmt.executeQuery("SELECT lecture.*, subject.id, subject.name, subject.code, subject.ihour, subject.ipoint, subject.yyyy, subject.term, subject.grade, teacher.id, teacher.name FROM lecture "
 						+ "LEFT JOIN subject ON lecture.subject_id=subject.id "
 						+ "LEFT JOIN teacher ON lecture.teacher_id=teacher.id "
 						+ "LEFT JOIN depart ON subject.depart_id=depart.id "
 						+ "Where subject.yyyy="+sel1+" and subject.term="+sel2+" and subject.grade="+sel3);
 			else if(sel1 != null && sel2 != null && sel3.equals("0"))
-				rs=stmt.executeQuery("SELECT lecture.*, subject.name, subject.code, subject.ihour, subject.ipoint, subject.yyyy, subject.term, subject.grade, teacher.id, teacher.name FROM lecture "
+				rs=stmt.executeQuery("SELECT lecture.*, subject.id, subject.name, subject.code, subject.ihour, subject.ipoint, subject.yyyy, subject.term, subject.grade, teacher.id, teacher.name FROM lecture "
 						+ "LEFT JOIN subject ON lecture.subject_id=subject.id "
 						+ "LEFT JOIN teacher ON lecture.teacher_id=teacher.id "
 						+ "LEFT JOIN depart ON subject.depart_id=depart.id "
 						+ "Where subject.yyyy="+sel1+" and subject.term="+sel2);
 			else
-				rs=stmt.executeQuery("SELECT lecture.*, subject.name, subject.code, subject.ihour, subject.ipoint, teacher.id, teacher.name FROM lecture "
+				rs=stmt.executeQuery("SELECT lecture.*, subject.id, subject.name, subject.code, subject.ihour, subject.ipoint, teacher.id, teacher.name FROM lecture "
 						+ "LEFT JOIN subject ON lecture.subject_id=subject.id "
 						+ "LEFT JOIN teacher ON lecture.teacher_id=teacher.id "
 						+ "LEFT JOIN depart ON subject.depart_id=depart.id");
@@ -59,13 +59,14 @@ public class LectureDAO extends DAOBase{
 				lecture.setSubject_id(rs.getInt(2));
 				lecture.setTeacher_id(rs.getInt(3));
 				lecture.set_class(rs.getString(4));
-				subject.setId(rs.getInt(5));
-				subject.setCode(rs.getString(7));
-				subject.setName(rs.getString(6));
-				subject.setIhour(rs.getByte(8));
-				subject.setIpoint(rs.getFloat(9));
-				teacher.setId(10);
-				teacher.setName(rs.getString(11));
+				lecture.setNumber(rs.getInt(5));
+				subject.setId(rs.getInt(6));
+				subject.setName(rs.getString(7));
+				subject.setCode(rs.getString(8));
+				subject.setIhour(rs.getByte(9));
+				subject.setIpoint(rs.getFloat(10));
+				teacher.setId(11);
+				teacher.setName(rs.getString(12));
 				lecture.setSubject(subject);
 				lecture.setDepart(depart);
 				lecture.setTeacher(teacher);
@@ -186,7 +187,7 @@ public class LectureDAO extends DAOBase{
     	return result;
 	}
 	
-	public int update(HttpServletRequest request, HttpServletResponse response, int id) {
+	public int updateT(HttpServletRequest request, HttpServletResponse response, int id) {
 		int result = 0;
 		lecture = new LectureDTO();
 		lecture.setTeacher_id(Integer.parseInt(request.getParameter("teacherno")));
@@ -197,6 +198,29 @@ public class LectureDAO extends DAOBase{
 			conn = getConnection();
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, lecture.getTeacher_id());
+	    	result = pstmt.executeUpdate(); // 질의를 통해 수정된 레코드의 수
+	    	return result;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			this.closeDBResources(rs, stmt, pstmt, conn);
+		}
+			return result;
+	}
+	
+	public int updateN(HttpServletRequest request, HttpServletResponse response, int id) {
+		int result = 0;
+		lecture = new LectureDTO();
+		System.out.println(request.getParameter("numberno"));
+		lecture.setNumber(Integer.parseInt(request.getParameter("numberno")));
+		
+		String sql = "update lecture set number=? where id="+id;
+		
+		try {
+			conn = getConnection();
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, lecture.getNumber());
 	    	result = pstmt.executeUpdate(); // 질의를 통해 수정된 레코드의 수
 	    	return result;
 		} catch (SQLException e) {

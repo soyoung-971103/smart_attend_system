@@ -7,6 +7,7 @@
 <!-------------------------------------------------------------------------------->	
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html lang="kr">
 <head>
@@ -67,18 +68,24 @@
 								<script>
 									function find_text()
 									{
-										form1.action="lecture-list.do?sel1=" + form1.sel1.value+"&sel2=" + form1.sel2.value+"&sel3=" + form1.sel3.value;
+										form1.action="as-lecture-list.do?sel1=" + form1.sel1.value+"&sel2=" + form1.sel2.value+"&sel3=" + form1.sel3.value;
 										form1.submit();
 									}
 									function make_lecure()
 									{
-										form1.action="lecture-list.do?sel1=" + form1.sel1.value+"&sel2=" + form1.sel2.value;
+										form1.action="as-lecture-list.do?sel1=" + form1.sel1.value+"&sel2=" + form1.sel2.value;
 										form1.submit();
 									}
 									function update_teacher(pos) 
 									{
-										form2.action="lecture-update.do?id=" + pos;
+										form2.action="as-lecture-updateT.do?id=" + pos;
 										form2.teacherno.value=eval("form2.teacher"+pos).value;
+										form2.submit();
+									}
+									function update_number(pos) 
+									{
+										form2.action="as-lecture-updateN.do?id=" + pos;
+										form2.numberno.value=eval("form2.number"+pos).value;
 										form2.submit();
 									}
 								</script>
@@ -92,7 +99,6 @@
 													<span class="input-group-text">년도</span>
 												</div>
 												<div class="input-group-append">
-													<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 													<select name="sel1" id="sel1" class="form-control form-control-sm" onchange="">
 														<c:forEach var="i" step="1" begin="0" end="4">
 															<c:choose>
@@ -109,7 +115,7 @@
 													<select name="sel2" id="sel2" class="form-control form-control-sm" onchange="">
 														<c:forEach var="i" step="1" begin="1" end="2">
 															<c:choose>
-															    <c:when test="${sel1 eq i}">
+															    <c:when test="${sel2 eq i}">
 															       <option value="${i}" selected>${i }학기</option>
 															    </c:when>
 															    <c:otherwise>
@@ -122,7 +128,7 @@
 													<select name="sel3" id="sel3" class="form-control form-control-sm" onchange="">
 														<c:forEach var="i" step="1" begin="0" end="4">
 															<c:choose>
-																<c:when test="${sel2 eq i}">
+																<c:when test="${sel3 eq i}">
 																	<c:choose>
 																		<c:when test="${i eq 0}">
 																			<option value='0' selected>전체</option>
@@ -152,8 +158,8 @@
 										</div>
 									</div>
 									<div class="col" align="right">
-										<a href="lecture-register.do" class="btn btn-sm btn-primary">반별과목 생성</a>
-										<a href="lecture-delete.do" class="btn btn-sm btn-danger">반별과목 삭제</a>
+										<a href="as-lecture-register.do" class="btn btn-sm btn-primary">반별과목 생성</a>
+										<a href="as-lecture-delete.do" class="btn btn-sm btn-danger">반별과목 삭제</a>
 									</div>
 								</div>
 								</form>
@@ -161,6 +167,7 @@
 								<form name="form2" method="post" action="">
 
 								<input type="hidden" name="teacherno" value="">
+								<input type="hidden" name="numberno" value="">
 
 								<table class="table table-bordered table-hover table-responsive-sm mytable" style="width:100%">
 									<thead>
@@ -171,6 +178,8 @@
 											<th>시간</th>
 											<th>반</th>
 											<th width="120">담당교수</th>
+											<th width="70">인원수</th>
+											<th></th>
 										</tr>
 									</thead>
 									<tbody>
@@ -185,18 +194,27 @@
 												<td>
 													<div class="form-inline justify-content-center">
 														<select name="teacher${lecture.id }" class="form-control form-control-sm" onchange="update_teacher('${lecture.id }');">
+															<c:if test="${lecture.teacher_id eq 0}">
+															<option value='0' selected> </option>
+															</c:if>
 															<c:forEach var="teacher" items="${ teacher }">
 																<c:choose>
 																    <c:when test="${lecture.teacher_id eq teacher.id}">
 																       <option value='${teacher.id }' selected>${teacher.name }</option>
 																    </c:when>
 																    <c:otherwise>
-																       <option value='${teacher.id }'>${teacher.name }</option>
+																    	<option value='${teacher.id }'>${teacher.name }</option>
 																    </c:otherwise>
 																</c:choose>
 															</c:forEach>
 														</select>
 													</div>
+												</td>
+												<td>
+													<input type="text" name="number${ lecture.id }" value="${ lecture.number }" class="form-control form-control-sm">
+												</td>
+												<td>
+													<button onclick="update_number('${lecture.id }');" class="btn btn-xs btn-outline-primary">수정</button>
 												</td>
 											</tr>
 										</c:forEach>
