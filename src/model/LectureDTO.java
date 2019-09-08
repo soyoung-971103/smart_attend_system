@@ -4,7 +4,7 @@ public class LectureDTO {
 	private int id;
 	int subject_id;
 	int teacher_id;
-	String _class;
+	String _class; 
 	int number;
 	
 	DepartDTO depart;

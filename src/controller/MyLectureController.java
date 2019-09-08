@@ -39,7 +39,7 @@ fileSizeThreshold=1024*1024,
 maxFileSize=1024*1024*5,  
 maxRequestSize=1024*1024*5*5)
 public class MyLectureController extends HttpServlet {
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L; 
 	
     /**
      * @see HttpServlet#HttpServlet()

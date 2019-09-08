@@ -4,7 +4,7 @@ public class SubjectDTO {
 	private int id;
 	int depart_id;
 	String code;
-	int yyyy;
+	int yyyy; 
 	byte grade;
     byte term;
 	String ismajor;

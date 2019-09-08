@@ -19,7 +19,7 @@ public class LectureDAO extends DAOBase{
 	ResultSet rs = null; 
 	ArrayList<LectureDTO> alLecture = null;
 	SubjectDTO subject = null;
-	DepartDTO depart = null;
+	DepartDTO depart = null; 
 	TeacherDTO teacher = null;
 	LectureDTO lecture = null;
 	HttpSession sesobj = null;
@@ -212,7 +212,7 @@ public class LectureDAO extends DAOBase{
 	public int updateN(HttpServletRequest request, HttpServletResponse response, int id) {
 		int result = 0;
 		lecture = new LectureDTO();
-		lecture.setNumber(Integer.parseInt(request.getParameter("numberno")));
+		lecture.setNumber(Integer.parseInt(request.getParameter("numberno"))); 
 		
 		String sql = "update lecture set number=? where id="+id;
 		

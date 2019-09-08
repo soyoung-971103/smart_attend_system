@@ -5,13 +5,13 @@
 <!-- 교수 : 윤형태 (2019.5 -        )                                                                         -->
 <!-- 학생 : 유소영(3), 김해리(3), 이민호(2), 김진혁(2)                                              -->
 <!-------------------------------------------------------------------------------->	
-<%@ page language="java" contentType="text/html; charset=UTF-8"
+<%@ page language="java" contentType="text/html; charset=UTF-8" 
     pageEncoding="UTF-8"%>
 <%@ page import="java.util.*,model.TimeTableDTO, model.BuildingDTO, model.RoomDTO, model.LectureDTO, model.SubjectDTO, model.TeacherDTO, model.DepartDTO" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!DOCTYPE html>
-<html lang="kr"> 
+<html lang="kr">  
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">

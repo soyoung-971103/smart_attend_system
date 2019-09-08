@@ -11,7 +11,7 @@ import javax.servlet.http.HttpSession;
 
 public class MyLectureDAO extends DAOBase{ 
 	
-	Connection conn = null; 
+	Connection conn = null;  
 	Statement stmt = null;
 	PreparedStatement pstmt = null;
 	ResultSet rs = null; 

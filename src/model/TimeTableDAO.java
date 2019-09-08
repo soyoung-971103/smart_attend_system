@@ -14,7 +14,7 @@ import javax.servlet.http.HttpSession;
 public class TimeTableDAO extends DAOBase {
 	
 	Connection conn = null; 
-	Statement stmt = null;
+	Statement stmt = null; 
 	PreparedStatement pstmt = null;
 	ResultSet rs = null;  
 	ArrayList<TimeTableDTO> dtoList = null;

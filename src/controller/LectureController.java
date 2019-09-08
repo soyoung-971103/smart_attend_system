@@ -28,7 +28,7 @@ import controller.TeacherController;
 @WebServlet({"/as-lecture-list.do","/as-lecture-register.do", "/as-lecture-updateT.do", "/as-lecture-updateN.do", "/as-lecture-delete.do" })
 @MultipartConfig(location="", 
 fileSizeThreshold=1024*1024, 
-maxFileSize=1024*1024*5, 
+maxFileSize=1024*1024*5,  
 maxRequestSize=1024*1024*5*5)
 public class LectureController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
