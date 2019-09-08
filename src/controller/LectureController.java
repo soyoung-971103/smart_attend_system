@@ -98,7 +98,7 @@ public class LectureController extends HttpServlet {
 	}
 	
 	protected void ASregister(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
-    	response.setContentType("text/html;charset=UTF-8");
+    	response.setContentType("text/html;charset=UTF-8"); 
     	request.setCharacterEncoding("utf-8");
     	
     	dao.register(request, response);

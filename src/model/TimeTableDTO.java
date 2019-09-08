@@ -9,7 +9,7 @@ public class TimeTableDTO {
 	int room_id;
 	
 	LectureDTO lecture;
-	SubjectDTO subject;
+	SubjectDTO subject; 
 	TeacherDTO teacher;
 	RoomDTO room;
 	

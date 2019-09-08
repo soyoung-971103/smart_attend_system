@@ -16,7 +16,7 @@ public class TimeTableDAO extends DAOBase {
 	Connection conn = null; 
 	Statement stmt = null;
 	PreparedStatement pstmt = null;
-	ResultSet rs = null; 
+	ResultSet rs = null;  
 	ArrayList<TimeTableDTO> dtoList = null;
 	TimeTableDTO dto = null;
 	HttpSession sesobj = null;

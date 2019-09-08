@@ -58,7 +58,7 @@ public class LectureDAO extends DAOBase{
 				lecture.setId(rs.getInt(1));
 				lecture.setSubject_id(rs.getInt(2));
 				lecture.setTeacher_id(rs.getInt(3));
-				lecture.set_class(rs.getString(4));
+				lecture.set_class(rs.getString(4)); 
 				lecture.setNumber(rs.getInt(5));
 				subject.setId(rs.getInt(6));
 				subject.setName(rs.getString(7));

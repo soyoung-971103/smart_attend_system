@@ -156,7 +156,7 @@
 											</div>
 
 										</div>
-									</div>
+									</div> 
 									<div class="col" align="right">
 										<a href="as-lecture-register.do" class="btn btn-sm btn-primary">반별과목 생성</a>
 										<a href="as-lecture-delete.do" class="btn btn-sm btn-danger">반별과목 삭제</a>

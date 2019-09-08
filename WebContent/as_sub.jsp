@@ -103,7 +103,7 @@
 																	<c:choose>
 																		<c:when test="${i eq 0}">
 																			<option value='0' selected>전체</option>
-																		</c:when>
+																		</c:when> 
 																		<c:otherwise>
 																			<option value='${i }' selected>${i }</option>
 																		</c:otherwise>

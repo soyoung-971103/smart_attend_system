@@ -123,7 +123,7 @@ public class SubjectController extends HttpServlet {
     		request.setAttribute("id", request.getParameter("id"));
     		request.getRequestDispatcher("subject-list.do").forward(request, response);
     	}
-    	else
+    	else 
     		response.sendRedirect("fail.jsp"); // 실패
     }
     
