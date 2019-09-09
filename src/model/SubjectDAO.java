@@ -16,7 +16,7 @@ public class SubjectDAO extends DAOBase{
 	private Connection conn = null;
 	private Statement stmt = null;
 	private PreparedStatement pstmt = null;
-	private ResultSet rs = null; 
+	private ResultSet rs = null;
 	private SubjectDTO subject = null;
 	private DepartDTO depart = null;
 	private ArrayList<SubjectDTO> alSubject = null;
@@ -26,7 +26,7 @@ public class SubjectDAO extends DAOBase{
 			conn = getConnection();
 			stmt = conn.createStatement();
 			if(sel1 != null && !(sel2.equals("0"))) rs=stmt.executeQuery("SELECT subject.*, depart.name FROM subject LEFT JOIN depart ON subject.depart_id=depart.id "
-					+ "where yyyy="+sel1+" and grade="+sel2); 
+					+ "where yyyy="+sel1+" and grade="+sel2);
 			else if(sel1 != null && sel2.equals("0")) rs=stmt.executeQuery("SELECT subject.*, depart.name FROM subject LEFT JOIN depart ON subject.depart_id=depart.id where yyyy="+sel1);
 			
 			else rs=stmt.executeQuery("SELECT subject.*, depart.name FROM subject LEFT JOIN depart ON subject.depart_id=depart.id");
