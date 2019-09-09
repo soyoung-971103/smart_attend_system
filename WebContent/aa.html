@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.js"></script>
+    <script>var $j = jQuery.noConflict();</script>
+    
+
+    <link rel="import" href="frevvo-date-time.html">
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.19.1/moment.js"></script>
+
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>    
+    
+  </head>
+  <body>
+
+    <div class="w3-container w3-padding w3-border-top">
+      Testing of flatpickr wrapped in custom element:    
+
+      <div>
+        <frevvo-date-time date="true" required="true"
+                     placeholder="Enter a date value">
+        </frevvo-date-time>
+      </div>
+	</div>
+
+ 
+    <div class="w3-container w3-padding w3-border-top"> 
+      
+      <div>
+        <label for="myDatePicker">Pick a date</label>
+        <input id="myDatePicker" placeholder="Pick a date">
+      </div>
+
+            
+      <script>
+        $j(document).ready(function() {
+          flatpickr("#myDatePicker", { 
+            "dateFormat":"n/j/Y", 
+            "allowInput":true,
+            "onOpen": function(selectedDates, dateStr, instance) {
+              instance.setDate(instance.input.value, false);
+            }
+          });
+        });
+      </script>
+      
+      <script>
+        // test moment
+        if (moment("12-02-1995", "MM-DD-YYYY", true).isValid())
+          console.log('moment date parse is ok');
+        else
+          console.log('moment date parse is invalid');
+
+        if (moment("1995-12-30T13:59:59+04:00", "YYYY-MM-DDTHH:mm:ssZ", true).isValid())
+          console.log('moment dateTime parse is ok');
+        else
+          console.log('moment dateTime parse is invalid');
+
+
+
+      </script>
+      
+    </div>
+
+
+  </body>
+</html>
