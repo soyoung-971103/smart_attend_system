@@ -26,7 +26,7 @@ import model.DepartDTO;
 import model.LectureDAO;
 import model.LectureDTO;
 
-/** 
+/**
  * Servlet implementation class TimeController
  */
 @WebServlet({ "/timetable-list.do", "/timetable-tdetail.do", "/timetable-insert.do", "/timetable-delete.do", "/as-timetable-all.do", "/ad-timetable-all.do" })
@@ -34,7 +34,7 @@ public class TimeTableController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
-     * @see HttpServlet#HttpServlet() 
+     * @see HttpServlet#HttpServlet()
      */
     public TimeTableController() {
         super();
@@ -43,25 +43,25 @@ public class TimeTableController extends HttpServlet {
     
     HttpSession sesobj = null;
     TimeTableDTO dto = null;
+    ArrayList<SubjectDTO> dtoListSubject = null;
+    ArrayList<TeacherDTO> dtoListTeacher = null;
     ArrayList<TimeTableDTO> dtoList = null;
     ArrayList<RoomDTO> dtoListRoom = null;
     ArrayList<BuildingDTO> dtoListBuilding = null;
     ArrayList<LectureDTO> dtoListLecture = null;
     ArrayList<DepartDTO> dtoListDepart = null;
-    ArrayList<SubjectDTO> dtoListSubject = null;
-    ArrayList<TeacherDTO> dtoListTeacher = null;
     TimeTableDAO dao = new TimeTableDAO();
     RoomDAO daoRoom = new RoomDAO();
-    SubjectDAO daoSubject = new SubjectDAO();
     BuildingDAO daoBuilding = new BuildingDAO();
     LectureDAO daoLecture = new LectureDAO();
     DepartDAO daoDepart = new DepartDAO();
-    TeacherDAO daoTeacher = new TeacherDAO();
+	 SubjectDAO daoSubject = new SubjectDAO();
+	TeacherDAO daoTeacher = new TeacherDAO();
     
     protected void process(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
 		// TODO Auto-generated method stub
 		request.setCharacterEncoding("UTF-8");		
-		sesobj = request.getSession();	
+		sesobj = request.getSession();			
 		
 		String uri = request.getRequestURI();
 		int lastIndex = uri.lastIndexOf('/'); 
@@ -71,14 +71,14 @@ public class TimeTableController extends HttpServlet {
 			list(request, response);
 		}else if(action.equals("timetable-insert.do")) {
 			insert(request, response);
-		}else if(action.equals("timetable-tdetail.do")) {
-			Tdetail(request, response);
 		}else if(action.equals("timetable-delete.do")) {
 			delete(request, response);			
 		}else if(action.equals("as-timetable-all.do")){
 			as_ShowAll(request, response);
 		}else if(action.equals("ad-timetable-all.do")){
 			ad_ShowAll(request, response);
+		}else if(action.equals("timetable-tdetail.do")) {
+			Tdetail(request, response);
 		}
 		else
 			;
@@ -110,33 +110,15 @@ public class TimeTableController extends HttpServlet {
     	dtoListLecture = daoLecture.list();
     	dtoListDepart = daoDepart.List();
     	dtoListTeacher = daoTeacher.list();
+	    
     	
     	request.setAttribute("list", dtoList);
     	request.setAttribute("roomList", dtoListRoom);
     	request.setAttribute("buildingList", dtoListBuilding);
     	request.setAttribute("lectureList", dtoListLecture);
     	request.setAttribute("departList", dtoListDepart);
-    	request.setAttribute("teacherList", dtoListTeacher);
+	    request.setAttribute("teacherList", dtoListTeacher);
     	request.getRequestDispatcher("as_time.jsp").forward(request, response);
-	}
-    
-    protected void Tdetail(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException{
-		dtoList = dao.Tdetail(sesobj);
-		
-		dtoListRoom = daoRoom.selectAllList();
-    	dtoListBuilding = daoBuilding.selectAllList();
-    	dtoListLecture = daoLecture.list();
-    	dtoListDepart = daoDepart.List();
-    	dtoListTeacher = daoTeacher.list();
-    	
-    	request.setAttribute("list", dtoList);
-    	request.setAttribute("roomList", dtoListRoom);
-    	request.setAttribute("buildingList", dtoListBuilding);
-    	request.setAttribute("lectureList", dtoListLecture);
-    	request.setAttribute("departList", dtoListDepart);
-    	request.setAttribute("teacherList", dtoListTeacher);
-		
-		request.getRequestDispatcher("te_time.jsp").forward(request, response);
 	}
     
     private void as_ShowAll(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
@@ -167,6 +149,27 @@ public class TimeTableController extends HttpServlet {
 			request.getRequestDispatcher("main.jsp").forward(request, response);
 		}
 	}
+	
+	
+protected void Tdetail(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException{
+		dtoList = dao.Tdetail(sesobj);
+		
+		dtoListRoom = daoRoom.selectAllList();
+    	dtoListBuilding = daoBuilding.selectAllList();
+    	dtoListLecture = daoLecture.list();
+    	dtoListDepart = daoDepart.List();
+    	dtoListTeacher = daoTeacher.list();
+    	
+    	request.setAttribute("list", dtoList);
+    	request.setAttribute("roomList", dtoListRoom);
+    	request.setAttribute("buildingList", dtoListBuilding);
+    	request.setAttribute("lectureList", dtoListLecture);
+    	request.setAttribute("departList", dtoListDepart);
+    	request.setAttribute("teacherList", dtoListTeacher);
+		
+		request.getRequestDispatcher("te_time.jsp").forward(request, response);
+	}
+    
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
