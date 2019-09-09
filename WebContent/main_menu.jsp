@@ -73,7 +73,7 @@
 						<ul class="list-unstyled">
 							<li><a href="as_main.html" style="padding:5px 0 5px 40px;">조교 메인</a></li>
 							<li><a href="subject-list.do" style="padding:5px 0 5px 40px;">학년별 교과목</a></li>
-							<li><a href="lecture-list.do" style="padding:5px 0 5px 40px;">반별 교과목</a></li>
+							<li><a href="as-lecture-list.do" style="padding:5px 0 5px 40px;">반별 교과목</a></li>
 							<li><a href="timetable-list.do" style="padding:5px 0 5px 40px;">시간표 작성</a></li>
 							<li><a href="as-timetable-all.do" style="padding:5px 0 5px 40px;">학과별 시간표</a></li>
 							<li><a href="lecture-sublecture.do" style="padding:5px 0 5px 40px;">과목별 출석부</a></li>
