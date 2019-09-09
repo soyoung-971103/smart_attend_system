@@ -97,30 +97,19 @@
 										<td>
 											<div class="form-inline">
 												<select name="depart_id" class="form-control form-control-sm">
-													<c:if test="${student.depart_id eq 1 }">
-													<option value='1' selected>컴퓨터소프트에어학과</option>
-													<option value='2'>전자과</option>
-													<option value='3'>영어과</option>
-													<option value='4'>교무처</option>
-													</c:if>
-													<c:if test="${student.depart_id eq 2 }">
-													<option value='1'>컴퓨터소프트에어학과</option>
-													<option value='2' selected>전자과</option>
-													<option value='3'>영어과</option>
-													<option value='4'>교무처</option>
-													</c:if>
-													<c:if test="${student.depart_id eq 3 }">
-													<option value='1'>컴퓨터소프트에어학과</option>
-													<option value='2'>전자과</option>
-													<option value='3' selected>영어과</option>
-													<option value='4'>교무처</option>
-													</c:if>
-													<c:if test="${student.depart_id eq 4 }">
-													<option value='1'>컴퓨터소프트에어학과</option>
-													<option value='2'>전자과</option>
-													<option value='3'>영어과</option>
-													<option value='4' selected>교무처</option>
-													</c:if>
+													<option value="0" selected></option>
+													
+													<c:forEach var="depart" items="${listDepart}">
+													<c:choose>
+														<c:when  test="${subject.depart_id eq depart.id }">
+														<option value='${depart.id }' selected>${depart.name }</option>	
+														</c:when >
+														<c:otherwise>
+														<option value='${depart.id }'>${depart.name }</option>	
+														</c:otherwise>
+													</c:choose>
+													</c:forEach>
+													
 												</select>
 											</div>
 										</td>

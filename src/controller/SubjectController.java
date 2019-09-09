@@ -1,8 +1,6 @@
 package controller;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -16,25 +14,24 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.sun.corba.se.impl.protocol.giopmsgheaders.RequestMessage;
-import com.sun.xml.internal.bind.v2.schemagen.xmlschema.List;
-
-import model.NoticeDTO;
+import model.SubjectDAO;
+import model.SubjectDTO;
+import model.DepartDAO;
+import model.DepartDTO;
 import model.NoticeDAO;
 
-@WebServlet({"/notice-detail.do", "/notice-register.do","/notice-update.do", "/notice-list.do", "/notice-delete.do" })
+@WebServlet({"/subject-list.do","/subject-detail.do","/subject-register.do", "/subject-update.do", "/subject-delete.do", "/subject-subjectnew.do" })
 @MultipartConfig(location="", 
 fileSizeThreshold=1024*1024, 
 maxFileSize=1024*1024*5, 
-maxRequestSize=1024*1024*5*5)
-public class NoticeController extends HttpServlet {
-private static final long serialVersionUID = 1L;
-	
+maxRequestSize=1024*1024*5*5) 
+public class SubjectController extends HttpServlet {
+	private static final long serialVersionUID = 1L;
 	
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public NoticeController() {
+    public SubjectController() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -43,46 +40,68 @@ private static final long serialVersionUID = 1L;
 	java.sql.Statement stmt = null;
 	PreparedStatement pstmt = null;
 	ResultSet rs = null;
-	NoticeDTO notice = null;
-	ArrayList<NoticeDTO> alNotice = null;
+	SubjectDTO subject = null;
+	ArrayList<SubjectDTO> alSubject = null;
 	HttpSession session = null;
-	NoticeDAO dao = null;
-
-    protected void process(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException {
+	SubjectDAO dao = null;
+	DepartDAO daoDepart = new DepartDAO();
+	ArrayList<DepartDTO> dtoListDepart = null;
+	
+	protected void process(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException {
     	request.setCharacterEncoding("UTF-8");
     	session = request.getSession();
-    	dao = new NoticeDAO();
+    	dao = new SubjectDAO();
     	conn = dao.getConnection();
     	
     	String uri = request.getRequestURI();
     	int lastIndex = uri.lastIndexOf('/');
     	String action = uri.substring(lastIndex + 1);
     	
-    	if(action.equals("notice-list.do")) 
+    	if(action.equals("subject-list.do")) 
 			list(request, response);
-    	else if(action.equals("notice-register.do")) 
-			register(request, response);
-    	else if(action.equals("notice-delete.do")) 
-			delete(request, response);
-    	else if(action.equals("notice-update.do")) 
-			update(request, response);
-    	else if(action.equals("notice-detail.do")) 
-			detail(request, response);
-		else
+    	else if(action.equals("subject-detail.do")) 
+    		detail(request, response);
+    	else if(action.equals("subject-register.do")) 
+    		register(request, response);
+    	else if(action.equals("subject-update.do")) 
+    		update(request, response);
+    	else if(action.equals("subject-delete.do")) 
+    		delete(request, response);
+    	else if(action.equals("subject-subjectnew.do")) 
+    		subjectnew(request, response);
+    	else
     		;
-    }
-    
-    protected void list(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException{
-		 alNotice = dao.list(request.getParameter("text1"));
-			request.setAttribute("noticelist", alNotice);
-			request.getRequestDispatcher("ad_notice.jsp").forward(request, response);
 	}
-    
-    protected void detail(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
+	
+	protected void list(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException{
+		String sel1;
+		String sel2;
+		sel1 = request.getParameter("sel1");
+		sel2 = request.getParameter("sel2");
+		alSubject = dao.list(sel1, sel2);
+		request.setAttribute("sel1", sel1);
+		request.setAttribute("sel2", sel2);
+		request.setAttribute("subjectlist", alSubject);
+		request.getRequestDispatcher("as_sub.jsp").forward(request, response);
+	}
+	
+	private void subjectnew(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
+   	
+   	dtoListDepart = daoDepart.List();
+
+   	request.setAttribute("listDepart", dtoListDepart);    	   		
+   	request.getRequestDispatcher("as_subnew.jsp").forward(request, response);
+	
+	} 
+	
+	protected void detail(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
     	int id = Integer.parseInt(request.getParameter("id"));
-    	notice = dao.detail(id);
-		request.setAttribute("notice", notice);
-		request.getRequestDispatcher("ad_noticeupdate.jsp").forward(request, response);
+    	subject = dao.detail(id);
+    	dtoListDepart = daoDepart.List();
+
+       	request.setAttribute("listDepart", dtoListDepart);
+		request.setAttribute("subject", subject);
+		request.getRequestDispatcher("as_subupdate.jsp").forward(request, response);
     }
     
     protected void register(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
@@ -91,19 +110,20 @@ private static final long serialVersionUID = 1L;
     	
     	int result = dao.register(request, response);
     	if(result > 0) {
-    		request.getRequestDispatcher("notice-list.do").forward(request, response);
+    		request.getRequestDispatcher("subject-list.do").forward(request, response);
     	}
     	else
-    		response.sendRedirect("register-fail.jsp");
+    		response.sendRedirect("subject-fail.jsp");
     }
     
     protected void update(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException {
     	int result = dao.update(request, response); // 질의를 통해 수정된 레코드의 수
+    	
     	if(result > 0) {
     		request.setAttribute("id", request.getParameter("id"));
-    		request.getRequestDispatcher("notice-list.do").forward(request, response);
+    		request.getRequestDispatcher("subject-list.do").forward(request, response);
     	}
-    	else
+    	else 
     		response.sendRedirect("fail.jsp"); // 실패
     }
     
@@ -111,7 +131,7 @@ private static final long serialVersionUID = 1L;
     	int result = dao.delete(request, response); // 질의를 통해 수정된 레코드의 수
     	if(result > 0) {// 삭제 성공 : 영향 받은 row(record)의 수
     		request.setAttribute("id", request.getParameter("id"));
-    		request.getRequestDispatcher("notice-list.do").forward(request, response);
+    		request.getRequestDispatcher("subject-list.do").forward(request, response);
     	}
     	else
     		response.sendRedirect("fail.jsp"); // 실패
@@ -143,5 +163,4 @@ private static final long serialVersionUID = 1L;
 			e.printStackTrace();
 		}
 	}
-    
 }

@@ -34,7 +34,6 @@
 <div id="main">
 
 	<%@include file="main_menu.jsp" %>
-
     <div class="content-page">
 	    <div class="content">
 			<div class="container-fluid">

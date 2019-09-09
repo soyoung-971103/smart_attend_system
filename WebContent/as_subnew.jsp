@@ -8,7 +8,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<html lang="kr">
+<html lang="kr"> 
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -33,7 +33,7 @@
 <div id="main">
 
 	<%@include file="main_menu.jsp" %>
-	
+
     <div class="content-page">
 	    <div class="content">
 			<div class="container-fluid">
@@ -43,11 +43,11 @@
 				<div class="row">
 					<div class="col-xl-12">
 						<div class="breadcrumb-holder">
-							<h1 class="main-title float-left">교무처</h1>
+							<h1 class="main-title float-left">컴퓨터소프트웨어학과</h1>
 							<ol class="breadcrumb float-right">
 								<li class="breadcrumb-item">Home</li>
-								<li class="breadcrumb-item">직원</li>
-								<li class="breadcrumb-item active">학생 정보</li>
+								<li class="breadcrumb-item">조교</li>
+								<li class="breadcrumb-item active">교과목</li>
 							</ol>
 							<div class="clearfix"></div>
 						</div>
@@ -59,27 +59,15 @@
 					<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
 						<div class="card mb-3">
 							<div class="card-header mycolor3" style="padding:10px">
-								<h3><i class="fa fa-table"></i> 학생 입력</h3>
+								<h3><i class="fa fa-table"></i> 교과목 : 입력</h3>
 							</div>
 								
 							<div class="card-body" style="padding:10px">
-							<%@ page import="java.util.*, model.StudentDTO, model.DepartDTO" %>
-							<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-								<form method="post" action="student-register.do" enctype="multipart/form-data">
+							<%@ page import="java.util.*, model.SubjectDTO, model.DepartDTO" %>
+							<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+								<form name="form1" method="post" action="subject-register.do">
 
 								<table class="table table-bordered mytable-centermiddle" style="width:100%;">
-									<tr>
-										<td class="mycolor2" style="vertical-align:middle;width:60px">상태</td>
-										<td>
-											<div class="form-inline">
-												<select name="state" class="form-control form-control-sm" style="width:80px">
-													<option value="재학" selected>재학</option>
-													<option value="휴학">휴학</option>
-													<option value="자퇴">자퇴</option>
-												</select>
-											</div>
-										</td>
-									</tr>
 									<tr>
 										<td class="mycolor2">학과</td>
 										<td>
@@ -94,103 +82,106 @@
 										</td>
 									</tr>
 									<tr>
-										<td class="mycolor2">학년/반</td>
+										<td class="mycolor2" width="80">전공구분</td>
 										<td>
 											<div class="form-inline">
-												<select name="grade" class="form-control form-control-sm" style="width:80px">
-													<option value='1'>1학년</option>
-													<option value='2'>2학년</option>
-													<option value='3'>3학년</option>
+												<input type="radio" name="ismajor" value="전공일반" checked>&nbsp;전공일반 &nbsp;&nbsp;
+												<input type="radio" name="ismajor" value="전공교양">&nbsp;전공교양 &nbsp;&nbsp;
+												<input type="radio" name="ismajor" value="교양">&nbsp;교양
+											</div>
+										</td>
+									</tr>
+									<tr>
+										<td class="mycolor2">필수/선택</td>
+										<td>
+											<div class="form-inline">
+												<input type="radio" name="ischoice" value="선택" checked>&nbsp;선택 &nbsp;&nbsp;
+												<input type="radio" name="ischoice" value="필수">&nbsp;필수
+											</div>
+										</td>
+									</tr>
+									<tr>
+										<td class="mycolor2">과목구분</td>
+										<td>
+											<div class="form-inline">
+												<input type="radio" name="ispractice" value="실습" checked>&nbsp;실습 &nbsp;&nbsp;
+												<input type="radio" name="ispractice" value="이론">&nbsp;이론 &nbsp;&nbsp;
+												<input type="radio" name="ispractice" value="현장실습">&nbsp;현장실습
+											</div>
+										</td>
+									</tr>
+									<tr>
+										<td class="mycolor2">과목코드</td>
+										<td>
+											<div class="form-inline">
+												<input type="text" name="code" value="" class="form-control form-control-sm">
+											</div>
+										</td>
+									</tr>
+									<tr>
+										<td class="mycolor2">년도</td>
+										<td>
+											<div class="form-inline">
+												<input type="text" name="yyyy" value="2019" size="4" maxlength="4" class="form-control form-control-sm">
+											</div>
+										</td>
+									</tr>
+									<tr>
+										<td class="mycolor2">학년</td>
+										<td>
+											<div class="form-inline">
+													<select name="grade" class="form-control form-control-sm">
+														<option value='1' selected>1학년</option>
+														<option value='2'>2학년</option>
+														<option value='3'>3학년</option>
+														<option value='4'>4학년</option>
+													</select>
+											</div>
+										</td>
+									</tr>
+									<tr>
+										<td class="mycolor2">학기</td>
+										<td>
+											<div class="form-inline">
+												<input type="radio" name="term" value="1" checked>&nbsp;1 학기&nbsp;&nbsp;
+												<input type="radio" name="term" value="2">&nbsp;2 학기
+											</div>
+										</td>
+									</tr>
+									<tr>
+										<td class="mycolor2">과목명</td>
+										<td>
+											<input type="text" name="name" value="" class="form-control form-control-sm">
+										</td>
+									</tr>
+									<tr>
+										<td class="mycolor2">학점</td>
+										<td>
+											<div class="form-inline">
+												<select name="ipoint" class="form-control form-control-sm">
+													<option value='1' selected>1</option>
+													<option value='2'>2</option>
+													<option value='3'>3</option>
+													<option value='4'>4</option>
+													<option value='5'>5</option>
 												</select>
-												&nbsp;
-												<select name="student_class" class="form-control form-control-sm" style="width:80px">
-													<c:forEach var="depart" items="${listDepart}">
-															<c:if test="${depart.classnum eq 1 }">
-															<option value="A">A 반</option>
-															</c:if>
-															<c:if test="${depart.classnum eq 2 }">
-															<option value="A">A 반</option>
-															<option value="B">B 반</option>
-															</c:if>
-															<c:if test="${depart.classnum eq 3 }">
-															<option value="A">A 반</option>
-															<option value="B">B 반</option>
-															<option value="C">C 반</option>
-															</c:if>
-													</c:forEach>
+											</div>
+										</td>
+									</tr>
+									<tr>
+										<td class="mycolor2">시간</td>
+										<td>
+											<div class="form-inline">
+												<select name="ihour" class="form-control form-control-sm">
+													<option value='1' selected>1</option>
+													<option value='2'>2</option>
+													<option value='3'>3</option>
+													<option value='4'>4</option>
+													<option value='5'>5</option>
 												</select>
 											</div>
 										</td>
 									</tr>
-									<tr>
-										<td class="mycolor2">학번</td>
-										<td>
-											<div class="form-inline">
-												<input type="text" name="schoolno" value="" class="form-control form-control-sm" required>
-											</div>
-										</td>
-									</tr>
-									<tr>
-										<td class="mycolor2">이름</td>
-										<td>
-											<div class="form-inline">
-												<input type="text" name="name" value="" class="form-control form-control-sm" required>
-											</div>
-										</td>
-									</tr>
-									<tr>
-										<td class="mycolor2">핸드폰</td>
-										<td>
-											<div class="form-inline">
-												<input type="text" name="phone1" size="3" maxlength="3" value="010" class="form-control form-control-sm">-
-												<input type="text" name="phone2" size="4" maxlength="4" value=""	class="form-control form-control-sm">-
-												<input type="text" name="phone3" size="4" maxlength="4" value="" class="form-control form-control-sm">
-											</div>
-										</td>
-									</tr>
-									<tr>
-										<td class="mycolor2">성별</td>
-										<td>
-											<div class="form-inline">
-												<input type="radio" name="sex" value="0" checked> &nbsp; 남자 &nbsp;&nbsp;
-												<input type="radio" name="sex" value="1"> &nbsp; 여자
-											</div>
-										</td>
-									</tr>
-									<tr>
-										<td class="mycolor2">E-Mail</td>
-										<td>
-											<input type="text" name="email" value="" class="form-control form-control-sm">
-										</td>
-									</tr>
-									<tr>
-										<td class="mycolor2">암호</td>
-										<td>
-											<div class="form-inline">
-												<input type="text" name="pwd" value="" class="form-control form-control-sm">
-											</div>
-										</td>
-									</tr>
-									<tr>
-										<td class="mycolor2">생일</td>
-										<td>
-											<div class="form-inline">
-												<input type="text" name="birthday1" size="4" maxlength="4" value="" class="form-control form-control-sm">-
-												<input type="text" name="birthday2" size="2" maxlength="2" value=""	class="form-control form-control-sm">-
-												<input type="text" name="birthday3" size="2" maxlength="2" value="" class="form-control form-control-sm">
-											</div>
-										</td>
-									</tr>
-									<tr>
-										<td class="mycolor2">사진</td>
-										<td style="text-align:left">
-											<div class="form-inline mymargin5">
-												<input type="file" name="pic" value="" class="form-control form-control-sm">
-											</div>
-											<img src="pic/st/hgd.bmp" class="img-thumbnail" width="120" height="160" border="1">
-										</td>
-									</tr>
-
 
 								</table>
 
@@ -202,9 +193,43 @@
 								</form>
 
 
+
 							</div>		<!-- card body end -->
 						</div>		<!-- card end -->
 					</div>
 						
 				</div>	<!-- row end -->
-<%@ include file="main_bottom.jsp" %>
+<!------------------------------------------------------------------------------>
+<!-- 내용 끝 -->
+<!------------------------------------------------------------------------------>
+			</div>
+		</div>
+	</div>
+
+	<!-- 하단 정보 -->
+	<footer class="footer">
+		<span class="text-right">	Copyright <a target="_blank" href="#">Induk University</a></span>
+		<span class="float-right">Programmed by <a target="_blank" href="#"><b>Gamejigi</b></a></span>
+	</footer>
+
+</div>
+
+<!-- js 선언부 ----------------------------------------------------------------->
+<script src="my/js/jquery.min.js"></script>
+<script src="my/js/moment.min.js"></script>
+
+<script src="my/js/popper.min.js"></script>
+<script src="my/js/bootstrap.min.js"></script>
+
+<script src="my/js/detect.js"></script>
+<script src="my/js/fastclick.js"></script>
+<script src="my/js/jquery.blockUI.js"></script>
+<script src="my/js/jquery.nicescroll.js"></script>
+
+<script src="my/js/pikeadmin.js"></script>
+
+<script src="my/js/jquery.dataTables.min.js"></script>
+<script src="my/js/dataTables.bootstrap4.min.js"></script>
+
+</body>
+</html>

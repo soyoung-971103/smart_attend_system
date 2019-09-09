@@ -18,7 +18,7 @@ public class StudentDTO {
 	String state;
 	String birthday;
 	String email;
-	
+	DepartDTO depart;
 	
 	public DepartDTO getDepart() {
 		return depart;
@@ -103,6 +103,12 @@ public class StudentDTO {
 	}
 	public void setEmail(String email) {
 		this.email = email;
+	}
+	public DepartDTO getDepart() {
+		return depart;
+	}
+	public void setDepart(DepartDTO depart) {
+		this.depart = depart;
 	}
 	
 }
