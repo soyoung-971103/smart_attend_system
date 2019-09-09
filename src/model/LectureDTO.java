@@ -9,6 +9,10 @@ public class LectureDTO {
 	String lecture_class;
 	String _class; //min
 	byte number; //min
+	int number;
+	
+	DepartDTO depart;
+	LectureDTO lecture;
 	
 	public byte getNumber() {
 		return number;
@@ -59,5 +63,23 @@ public class LectureDTO {
 	}
 	public void setLecture_class(String lecture_class) {
 		this.lecture_class = lecture_class;
-	}	
+	}
+	public int getNumber() {
+		return number;
+	}
+	public void setNumber(int number) {
+		this.number = number;
+	}
+	public DepartDTO getDepart() {
+		return depart;
+	}
+	public void setDepart(DepartDTO depart) {
+		this.depart = depart;
+	}
+	public LectureDTO getLecture() {
+		return lecture;
+	}
+	public void setLecture(LectureDTO lecture) {
+		this.lecture = lecture;
+	}
 }
