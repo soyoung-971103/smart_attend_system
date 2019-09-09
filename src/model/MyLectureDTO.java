@@ -29,7 +29,7 @@ public class MyLectureDTO {
 	String qatitle;
 	String qaask;
 	String qaanswer;
-	ArrayList<Byte> hn;	
+	ArrayList<Byte> hn;
 	TimeTableDTO timetable;
 	RoomDTO room;
 	
@@ -194,6 +194,7 @@ public class MyLectureDTO {
 	}
 	public void setRoom(RoomDTO room) {
 		this.room = room;
+	
 	}
 	
 }
