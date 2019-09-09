@@ -195,6 +195,6 @@ public class MyLectureDTO {
 	public void setRoom(RoomDTO room) {
 		this.room = room;
 	
-	
+	}
 	
 }
