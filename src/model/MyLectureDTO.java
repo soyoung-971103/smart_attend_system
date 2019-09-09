@@ -29,7 +29,9 @@ public class MyLectureDTO {
 	String qatitle;
 	String qaask;
 	String qaanswer;
-	ArrayList<Byte> hn;	
+	ArrayList<Byte> hn;
+	TimeTableDTO timetable;
+	RoomDTO room;
 	
 	public ArrayList<Byte> getHn() {
 		return hn;
@@ -181,6 +183,17 @@ public class MyLectureDTO {
 	public void setQaanswer(String qaanswer) {
 		this.qaanswer = qaanswer;
 	}
+	public TimeTableDTO getTimetable() {
+		return timetable;
+	}
+	public void setTimetable(TimeTableDTO timetable) {
+		this.timetable = timetable;
+	}
+	public RoomDTO getRoom() {
+		return room;
+	}
+	public void setRoom(RoomDTO room) {
+		this.room = room;
 	
 	
 	
