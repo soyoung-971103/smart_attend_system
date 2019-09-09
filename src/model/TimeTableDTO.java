@@ -4,24 +4,15 @@ public class TimeTableDTO {
 	int id;
 	int lecture_id;
 	String weekday;
-	byte istart;
+	byte istart; 
 	byte ihour;
-	int room_id;
-	RoomDTO room;
-	LectureDTO lecture;
+	int room_id; 
 	
-	public LectureDTO getLecture() {
-		return lecture;
-	}
-	public void setLecture(LectureDTO lecture) {
-		this.lecture = lecture;
-	}
-	public RoomDTO getRoom() {
-		return room;
-	}
-	public void setRoom(RoomDTO room) {
-		this.room = room;
-	}
+	LectureDTO lecture;
+	SubjectDTO subject; 
+	TeacherDTO teacher;
+	RoomDTO room;
+	
 	public int getId() {
 		return id;
 	}
@@ -58,5 +49,28 @@ public class TimeTableDTO {
 	public void setRoom_id(int room_id) {
 		this.room_id = room_id;
 	}
-	
+	public LectureDTO getLecture() {
+		return lecture;
+	}
+	public void setLecture(LectureDTO lecture) {
+		this.lecture = lecture;
+	}
+	public SubjectDTO getSubject() {
+		return subject;
+	}
+	public void setSubject(SubjectDTO subject) {
+		this.subject = subject;
+	}
+	public TeacherDTO getTeacher() {
+		return teacher;
+	}
+	public void setTeacher(TeacherDTO teacher) {
+		this.teacher = teacher;
+	}
+	public RoomDTO getRoom() {
+		return room;
+	}
+	public void setRoom(RoomDTO room) {
+		this.room = room;
+	}
 }
