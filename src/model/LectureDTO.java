@@ -1,16 +1,31 @@
 package model;
- 
+
 public class LectureDTO {
-	private int id;
+	int id;
 	int subject_id;
 	int teacher_id;
-	String _class; 
+	SubjectDTO subject;
+	TeacherDTO teacher;	
+	String lecture_class;
+	String _class; //min
+	byte number; //min
 	int number;
 	
 	DepartDTO depart;
-	SubjectDTO subject;
-	TeacherDTO teacher;
 	LectureDTO lecture;
+	
+	public byte getNumber() {
+		return number;
+	}
+	public void setNumber(byte number) {
+		this.number = number;
+	}	
+	public String get_class() {
+		return _class;
+	}
+	public void set_class(String _class) {
+		this._class = _class;
+	}	
 	
 	public int getId() {
 		return id;
@@ -18,6 +33,7 @@ public class LectureDTO {
 	public void setId(int id) {
 		this.id = id;
 	}
+	
 	public int getSubject_id() {
 		return subject_id;
 	}
@@ -29,18 +45,6 @@ public class LectureDTO {
 	}
 	public void setTeacher_id(int teacher_id) {
 		this.teacher_id = teacher_id;
-	}
-	public String get_class() {
-		return _class;
-	}
-	public void set_class(String _class) {
-		this._class = _class;
-	}
-	public int getNumber() {
-		return number;
-	}
-	public void setNumber(int number) {
-		this.number = number;
 	}
 	public SubjectDTO getSubject() {
 		return subject;
@@ -54,6 +58,18 @@ public class LectureDTO {
 	public void setTeacher(TeacherDTO teacher) {
 		this.teacher = teacher;
 	}
+	public String getLecture_class() {
+		return lecture_class;
+	}
+	public void setLecture_class(String lecture_class) {
+		this.lecture_class = lecture_class;
+	}
+	public int getNumber() {
+		return number;
+	}
+	public void setNumber(int number) {
+		this.number = number;
+	}
 	public DepartDTO getDepart() {
 		return depart;
 	}
@@ -66,5 +82,4 @@ public class LectureDTO {
 	public void setLecture(LectureDTO lecture) {
 		this.lecture = lecture;
 	}
-	
 }
