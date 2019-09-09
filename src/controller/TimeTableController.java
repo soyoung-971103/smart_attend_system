@@ -15,6 +15,10 @@ import model.TimeTableDAO;
 import model.TimeTableDTO;
 import model.RoomDAO;
 import model.RoomDTO;
+import model.SubjectDAO;
+import model.SubjectDTO;
+import model.TeacherDAO;
+import model.TeacherDTO;
 import model.BuildingDAO;
 import model.BuildingDTO;
 import model.DepartDAO;
@@ -25,7 +29,7 @@ import model.LectureDTO;
 /**
  * Servlet implementation class TimeController
  */
-@WebServlet({ "/timetable-list.do", "/timetable-insert.do", "/timetable-delete.do", "/as-timetable-all.do", "/ad-timetable-all.do" })
+@WebServlet({ "/timetable-list.do", "/timetable-tdetail.do", "/timetable-insert.do", "/timetable-delete.do", "/as-timetable-all.do", "/ad-timetable-all.do" })
 public class TimeTableController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -39,6 +43,8 @@ public class TimeTableController extends HttpServlet {
     
     HttpSession sesobj = null;
     TimeTableDTO dto = null;
+    ArrayList<SubjectDTO> dtoListSubject = null;
+    ArrayList<TeacherDTO> dtoListTeacher = null;
     ArrayList<TimeTableDTO> dtoList = null;
     ArrayList<RoomDTO> dtoListRoom = null;
     ArrayList<BuildingDTO> dtoListBuilding = null;
@@ -49,13 +55,13 @@ public class TimeTableController extends HttpServlet {
     BuildingDAO daoBuilding = new BuildingDAO();
     LectureDAO daoLecture = new LectureDAO();
     DepartDAO daoDepart = new DepartDAO();
+	 SubjectDAO daoSubject = new SubjectDAO();
+	TeacherDAO daoTeacher = new TeacherDAO();
     
     protected void process(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
 		// TODO Auto-generated method stub
 		request.setCharacterEncoding("UTF-8");		
-		sesobj = request.getSession();
-		
-		System.out.println("process");		
+		sesobj = request.getSession();			
 		
 		String uri = request.getRequestURI();
 		int lastIndex = uri.lastIndexOf('/'); 
@@ -71,6 +77,8 @@ public class TimeTableController extends HttpServlet {
 			as_ShowAll(request, response);
 		}else if(action.equals("ad-timetable-all.do")){
 			ad_ShowAll(request, response);
+		}else if(action.equals("timetable-tdetail.do")) {
+			Tdetail(request, response);
 		}
 		else
 			;
@@ -99,14 +107,17 @@ public class TimeTableController extends HttpServlet {
     	dtoList = dao.Load();
     	dtoListRoom = daoRoom.selectAllList();
     	dtoListBuilding = daoBuilding.selectAllList();
-    	dtoListLecture = daoLecture.List();
+    	dtoListLecture = daoLecture.list();
     	dtoListDepart = daoDepart.List();
+    	dtoListTeacher = daoTeacher.list();
+	    
     	
     	request.setAttribute("list", dtoList);
     	request.setAttribute("roomList", dtoListRoom);
     	request.setAttribute("buildingList", dtoListBuilding);
     	request.setAttribute("lectureList", dtoListLecture);
     	request.setAttribute("departList", dtoListDepart);
+	    request.setAttribute("teacherList", dtoListTeacher);
     	request.getRequestDispatcher("as_time.jsp").forward(request, response);
 	}
     
@@ -138,6 +149,27 @@ public class TimeTableController extends HttpServlet {
 			request.getRequestDispatcher("main.jsp").forward(request, response);
 		}
 	}
+	
+	
+protected void Tdetail(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException{
+		dtoList = dao.Tdetail(sesobj);
+		
+		dtoListRoom = daoRoom.selectAllList();
+    	dtoListBuilding = daoBuilding.selectAllList();
+    	dtoListLecture = daoLecture.list();
+    	dtoListDepart = daoDepart.List();
+    	dtoListTeacher = daoTeacher.list();
+    	
+    	request.setAttribute("list", dtoList);
+    	request.setAttribute("roomList", dtoListRoom);
+    	request.setAttribute("buildingList", dtoListBuilding);
+    	request.setAttribute("lectureList", dtoListLecture);
+    	request.setAttribute("departList", dtoListDepart);
+    	request.setAttribute("teacherList", dtoListTeacher);
+		
+		request.getRequestDispatcher("te_time.jsp").forward(request, response);
+	}
+    
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
