@@ -66,10 +66,6 @@
 							
 							<div class="card-body" style="padding:10px">
 							<form name="form1" method="post" action="depart-list.do">
-								<style>
-									th { text-align: center }
-									td { text-align: center }
-								</style>
         					<div class="col" align="right">
 							<a href="ad_departnew.jsp" class="btn btn-sm mycolor1">추가</a>
 							<br></br>
@@ -128,56 +124,5 @@
 	</footer>
 
 </div>
-
-<!-- js 선언부 ----------------------------------------------------------------->
-<script src="my/js/jquery.min.js"></script>
-<script src="my/js/moment.min.js"></script>
-
-<script src="my/js/popper.min.js"></script>
-<script src="my/js/bootstrap.min.js"></script>
-
-<script src="my/js/detect.js"></script>
-<script src="my/js/fastclick.js"></script>
-<script src="my/js/jquery.blockUI.js"></script>
-<script src="my/js/jquery.nicescroll.js"></script>
-
-<script src="my/js/pikeadmin.js"></script>
-
-<script src="my/js/jquery.dataTables.min.js"></script>
-<script src="my/js/dataTables.bootstrap4.min.js"></script>
-
-<script>
-
-	$(document).ready(function() {
-		$('#example').DataTable( { 
-			lengthChange: true,		// 표시 건수기능 숨기기
-			lengthMenu: [ 10, 20, 30, 40, 50 ],
-			searching: true,			// 검색 기능 숨기기
-			ordering: true,				// 정렬 기능 숨기기
-			info: true,					// 정보 표시 숨기기
-			paging: true,				// 페이징 기능 숨기기
-			order: [ [ 0, "asc" ] ],	// 0번째칼럼 정렬,복합정렬 가능
-			scrollX: true,				// 가로 스크롤바
-			scrollY: false,				// 세로스크롤바 : 세로길이(px) 지정가능
-			language: {
-					"emptyTable": "데이터가 없음.",
-					"lengthMenu": "페이지당 _MENU_ 개",
-					"info": "현재: _START_ - _END_ / _TOTAL_건",
-					"infoEmpty": "데이터 없음",
-					"infoFiltered": "( _MAX_건의 데이터에서 필터링됨 )",
-					"search": "학과/부서: ",
-					"zeroRecords": "일치하는 데이터가 없음.",
-					"loadingRecords": "로딩중...",
-					"processing":     "잠시만 기다려 주세요...",
-					"paginate": { "first":"◀", "previous": "◁","next": " ▷","last": "▶" }
-				},
-			columns: [ { "searchable": false },{ "searchable":true },{ "searchable":false },{ "searchable":false },{ "searchable":false }, { "searchable":true }],
-			pagingType: "full_numbers"
-
-		} );
-	} );
-
-</script>
-
 </body>
 </html>
