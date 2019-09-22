@@ -16,8 +16,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import model.AssistDTO;
 import model.MemberDAO;
 import model.MemberDTO;
+import model.StudentDTO;
+import model.TeacherDTO;
 //import service.Pagination;
 /**
  * Servlet implementation class MemberController
@@ -37,6 +40,9 @@ public class MemberController extends HttpServlet {
 	
     ArrayList<MemberDTO> alMember = null;
     MemberDTO member = null;
+    StudentDTO student = null;
+	TeacherDTO teacher = null;
+	AssistDTO assist = null;
     HttpSession sesobj = null;
     MemberDAO dao = new MemberDAO();
     //Pagination pn = new Pagination();
@@ -46,7 +52,7 @@ public class MemberController extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");		
 		sesobj = request.getSession(true);
 		
-		System.out.println("process");		
+		System.out.println("process1");		
 		
 		String uri = request.getRequestURI();
 		int lastIndex = uri.lastIndexOf('/'); 
@@ -127,13 +133,35 @@ public class MemberController extends HttpServlet {
 	
 	*/
 	private void login(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {			
-		MemberDTO loginmember = new MemberDTO();		
-		loginmember.setSchoolno(request.getParameter("login_uid"));
-		loginmember.setPwd(request.getParameter("login_password"));				
-		member = dao.loginCheck(loginmember);					
-		if(member!= null) {	
-			request.setAttribute("name", member.getName());
-			sesobj.setAttribute("uid", member.getSchoolno());
+		String kind = request.getParameter("login_kind");
+		member = new MemberDTO();
+		
+		if(kind.equals("student")) {
+			student = new StudentDTO();
+			student.setSchoolno(request.getParameter("login_uid"));
+			student.setPwd(request.getParameter("login_password"));				
+			member = dao.loginCheckStudent(student);		
+			
+		}else if(kind.equals("teacher")) {
+			teacher = new TeacherDTO();
+			teacher.setUid(request.getParameter("login_uid"));
+			teacher.setPwd(request.getParameter("login_password"));				
+			member = dao.loginCheckTeacher(teacher);	
+			
+		}else if(kind.equals("assist")) {
+			assist = new AssistDTO();
+			assist.setUid(request.getParameter("login_uid"));
+			assist.setPwd(request.getParameter("login_password"));				
+			member = dao.loginCheckAssist(assist);	
+			
+		}else {
+			member = null;
+		}		
+		
+		if(member != null) {	
+			sesobj.setAttribute("name", member.getName());
+			sesobj.setAttribute("uid", member.getUid());
+			sesobj.setAttribute("kind", kind);
 			request.getRequestDispatcher("main.jsp").forward(request, response);
 		}else {
 			request.getRequestDispatcher("login.jsp").forward(request, response);

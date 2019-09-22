@@ -6,7 +6,7 @@ public class MemberDTO {
 	int depart_id;
 	byte grade;
 	String student_class;
-	String schoolno;
+	String uid;
 	String name;
 	String phone;
 	byte sex;
@@ -39,11 +39,11 @@ public class MemberDTO {
 	public void setStudent_class(String student_class) {
 		this.student_class = student_class;
 	}
-	public String getSchoolno() {
-		return schoolno;
+	public String getUid() {
+		return uid;
 	}
-	public void setSchoolno(String schoolno) {
-		this.schoolno = schoolno;
+	public void setUid(String uid) {
+		this.uid = uid;
 	}
 	public String getName() {
 		return name;

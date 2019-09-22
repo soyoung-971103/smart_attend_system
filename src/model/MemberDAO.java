@@ -19,10 +19,14 @@ public class MemberDAO extends DAOBase{
 	ResultSet rs = null; 
 	ArrayList<MemberDTO> dtoList = null;
 	MemberDTO dto = null;
+	StudentDTO dtoStudent = null;
+	TeacherDTO dtoTeacher = null;
+	AssistDTO dtoAssist = null;
+	DepartDTO dtoDepart = null;
 	HttpSession sesobj = null;
 	
 	
-	public MemberDTO loginCheck(MemberDTO loginmember) {
+	public MemberDTO loginCheckStudent(StudentDTO loginmember) {
 		try {
 			conn = getConnection();
 			stmt = conn.createStatement();
@@ -34,8 +38,7 @@ public class MemberDAO extends DAOBase{
 				dto.setId(rs.getInt(1));
 				dto.setPwd(rs.getString(2));
 				dto.setName(rs.getString(3));
-				dto.setPhone(rs.getString(4));
-				dto.setSchoolno(rs.getString(5));
+				dto.setUid(rs.getString(5));
 			}				
 			
 			return dto;
@@ -50,6 +53,59 @@ public class MemberDAO extends DAOBase{
 		return dto;			
 	}
 	
+	public MemberDTO loginCheckTeacher(TeacherDTO loginmember) {
+		try {
+			conn = getConnection();
+			stmt = conn.createStatement();
+			rs = stmt.executeQuery("select * from teacher where " + 
+					"uid=" + loginmember.getUid() + " and " + 
+							"pwd='" + loginmember.getPwd() + "'");
+			if(rs.next()) {
+				dto = new MemberDTO();
+				dto.setId(rs.getInt(1));
+				dto.setUid(rs.getString(4));				
+				dto.setPwd(rs.getString(5));
+				dto.setName(rs.getString(6));				
+			}				
+			
+			return dto;
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		finally {
+			this.closeDBResources(rs, stmt, pstmt, conn);
+		}
+		return dto;			
+	}
+	
+	public MemberDTO loginCheckAssist(AssistDTO loginmember) {
+		try {
+			conn = getConnection();
+			stmt = conn.createStatement();
+			rs = stmt.executeQuery("select * from staff where " + 
+					"uid=" + loginmember.getUid() + " and " + 
+							"pwd='" + loginmember.getPwd() + "'");
+			if(rs.next()) {
+				dto = new MemberDTO();
+				dto.setId(rs.getInt(1));
+				dto.setUid(rs.getString(3));				
+				dto.setPwd(rs.getString(4));
+				dto.setName(rs.getString(5));	
+			}				
+			
+			return dto;
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		finally {
+			this.closeDBResources(rs, stmt, pstmt, conn);
+		}
+		return dto;			
+	}
 	
 	/*
 	public int insert(MemberDTO dto) {

@@ -81,6 +81,12 @@
 							</div>
 						</div>
 					</div>
+
+					<div class="form-inline">
+						<input type="radio" name="login_kind" value="student" checked>&nbsp;학생&nbsp;&nbsp;&nbsp;
+						<input type="radio" name="login_kind" value="teacher">&nbsp;교수&nbsp;&nbsp;&nbsp;
+						<input type="radio" name="login_kind" value="assist" checked>&nbsp;직원
+					</div>
 					<br>
 					<div class="row">
 						<div class="col-md-12">
