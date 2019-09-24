@@ -18,8 +18,8 @@ public class NoticeDAO extends DAOBase {
 	private Statement stmt = null;
 	private PreparedStatement pstmt = null;
 	private ResultSet rs = null;
-	private NoticeDTO notice = null;
-	private ArrayList<NoticeDTO> alNotice = null;
+	private NoticeDTO dto = null;
+	private ArrayList<NoticeDTO> dtoList = null;
 	
 	public ArrayList<NoticeDTO> list(String text1){
 		try {
@@ -28,22 +28,22 @@ public class NoticeDAO extends DAOBase {
 			if (text1 == null) rs=stmt.executeQuery("select * from notice order by writeday");
 			else rs=stmt.executeQuery("select * from notice where title like '%"+ text1 +"%' order by writeday");
 			// email, pw는 form을 구성하는 각 요소의 이름
-			alNotice = new ArrayList<NoticeDTO>();
+			dtoList = new ArrayList<NoticeDTO>();
 			while(rs.next()) {
-				notice = new NoticeDTO();
-				notice.setId(rs.getInt(1));
-				notice.setWriteday(rs.getDate(2));;
-				notice.setTitle(rs.getString(3));
-				notice.setTxt1(rs.getString(4));
-				alNotice.add(notice);
-			} return alNotice;
+				dto = new NoticeDTO();
+				dto.setId(rs.getInt(1));
+				dto.setWriteday(rs.getDate(2));;
+				dto.setTitle(rs.getString(3));
+				dto.setTxt1(rs.getString(4));
+				dtoList.add(dto);
+			} return dtoList;
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
 			this.closeDBResources(rs, stmt, pstmt, conn);
 		}
-		return alNotice;
+		return dtoList;
 	}
 	
 	public NoticeDTO detail(int id) {
@@ -54,31 +54,31 @@ public class NoticeDAO extends DAOBase {
 			// email, pw는 form을 구성하는 각 요소의 이름
 			
 			if(rs.next()) {
-				notice = new NoticeDTO();
-				notice.setId(rs.getInt(1));
-				notice.setWriteday(rs.getDate(2));
-				notice.setTitle(rs.getString(3));
-				notice.setTxt1(rs.getString(4));
+				dto = new NoticeDTO();
+				dto.setId(rs.getInt(1));
+				dto.setWriteday(rs.getDate(2));
+				dto.setTitle(rs.getString(3));
+				dto.setTxt1(rs.getString(4));
 			}
-			return notice;
+			return dto;
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}finally {
 			this.closeDBResources(rs, stmt, pstmt, conn);
 		}
-		return notice;
+		return dto;
 	}
 	
 	public int register(HttpServletRequest request, HttpServletResponse response) {
 		int result = 0;
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss a");
 		String today = formatter.format(new java.util.Date());
-		notice = new NoticeDTO();
-		notice.setTitle(request.getParameter("title"));
-		notice.setTxt1(request.getParameter("txt1"));
+		dto = new NoticeDTO();
+		dto.setTitle(request.getParameter("title"));
+		dto.setTxt1(request.getParameter("txt1"));
 		try {
-			notice.setWriteday(formatter.parse(today));			
+			dto.setWriteday(formatter.parse(today));			
     	} catch(ParseException e) {
     		e.printStackTrace();
     	}
@@ -86,10 +86,10 @@ public class NoticeDAO extends DAOBase {
 		try {
 			conn = getConnection();
 			pstmt = conn.prepareStatement("insert into notice values(?, ?, ?, ?)");
-			pstmt.setInt(1, notice.getId());
-	    	pstmt.setDate(2, new java.sql.Date(notice.getWriteday().getTime()));
-	    	pstmt.setString(3, notice.getTitle());
-	    	pstmt.setString(4, notice.getTxt1());
+			pstmt.setInt(1, dto.getId());
+	    	pstmt.setDate(2, new java.sql.Date(dto.getWriteday().getTime()));
+	    	pstmt.setString(3, dto.getTitle());
+	    	pstmt.setString(4, dto.getTxt1());
 	    	result = pstmt.executeUpdate(); // 질의를 통해 수정된 레코드의 수
 	    	return result;
 		} catch (SQLException e) {
@@ -103,16 +103,16 @@ public class NoticeDAO extends DAOBase {
 	
 	public int update(HttpServletRequest request, HttpServletResponse response) {
 		int result = 0;
-		notice = new NoticeDTO();
-		notice.setId(Integer.parseInt(request.getParameter("id")));
-		notice.setTitle(request.getParameter("title"));
-		notice.setTxt1(request.getParameter("txt1"));
+		dto = new NoticeDTO();
+		dto.setId(Integer.parseInt(request.getParameter("id")));
+		dto.setTitle(request.getParameter("title"));
+		dto.setTxt1(request.getParameter("txt1"));
 		try {
 			conn = getConnection();
 			pstmt = conn.prepareStatement("update notice set title=?, txt1=? where id=?");
-			pstmt.setString(1, notice.getTitle());
-	    	pstmt.setString(2, notice.getTxt1());
-	    	pstmt.setInt(3, notice.getId());
+			pstmt.setString(1, dto.getTitle());
+	    	pstmt.setString(2, dto.getTxt1());
+	    	pstmt.setInt(3, dto.getId());
 	    	result = pstmt.executeUpdate(); // 질의를 통해 수정된 레코드의 수
 	    	return result;
 		} catch (SQLException e) {

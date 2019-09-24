@@ -34,24 +34,19 @@ public class SubjectController extends HttpServlet {
     public SubjectController() {
         super();
         // TODO Auto-generated constructor stub
-    }
-    
-    java.sql.Connection conn = null;
-	java.sql.Statement stmt = null;
-	PreparedStatement pstmt = null;
-	ResultSet rs = null;
-	SubjectDTO subject = null;
-	ArrayList<SubjectDTO> alSubject = null;
-	HttpSession session = null;
+    }       
+	
+	ArrayList<SubjectDTO> dtoList = null;
+	ArrayList<DepartDTO> dtoListDepart = null;
+	SubjectDTO dto = null;
 	SubjectDAO dao = null;
 	DepartDAO daoDepart = new DepartDAO();
-	ArrayList<DepartDTO> dtoListDepart = null;
+	HttpSession session = null;
 	
 	protected void process(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException {
     	request.setCharacterEncoding("UTF-8");
     	session = request.getSession();
     	dao = new SubjectDAO();
-    	conn = dao.getConnection();
     	
     	String uri = request.getRequestURI();
     	int lastIndex = uri.lastIndexOf('/');
@@ -78,10 +73,10 @@ public class SubjectController extends HttpServlet {
 		String sel2;
 		sel1 = request.getParameter("sel1");
 		sel2 = request.getParameter("sel2");
-		alSubject = dao.list(sel1, sel2);
+		dtoList = dao.list(sel1, sel2);
 		request.setAttribute("sel1", sel1);
 		request.setAttribute("sel2", sel2);
-		request.setAttribute("subjectlist", alSubject);
+		request.setAttribute("subjectlist", dtoList);
 		request.getRequestDispatcher("as_sub.jsp").forward(request, response);
 	}
 	
@@ -96,11 +91,11 @@ public class SubjectController extends HttpServlet {
 	
 	protected void detail(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
     	int id = Integer.parseInt(request.getParameter("id"));
-    	subject = dao.detail(id);
+    	dto = dao.detail(id);
     	dtoListDepart = daoDepart.List();
 
        	request.setAttribute("listDepart", dtoListDepart);
-		request.setAttribute("subject", subject);
+		request.setAttribute("subject", dto);
 		request.getRequestDispatcher("as_subupdate.jsp").forward(request, response);
     }
     

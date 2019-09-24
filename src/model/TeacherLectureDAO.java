@@ -12,9 +12,11 @@ public class TeacherLectureDAO extends DAOBase{
 	PreparedStatement pstmt = null;
 	ResultSet rs = null; 
 	
-	TeacherLectureDTO member = new TeacherLectureDTO();
-	TeacherDTO tea = null;
-	DepartDTO depart = null;
+	//TeacherLectureDTO dto = new TeacherLectureDTO();
+	TeacherDTO dtoTeacher = null;
+	DepartDTO dtoDepart = null;
+	
+	
 	public ArrayList<TeacherLectureDTO> search(String text1) {
 		String SQL = "select * from lecture left join teacher on lecture.teacher_id = teacher.id left join subject on lecture.subject_id = subject.id left join lectureday on lecture.id = lectureday.lecture_id left join depart on depart.id = teacher.depart_id left join room on lectureday.room_id = room.id left join building on room.building_id = building.id  WHERE teacher.id = 2 and DATE(lectureday.normdate)=DATE('"+text1+"') or DATE(lectureday.restdate)=DATE('"+text1+"')";
 		ArrayList<TeacherLectureDTO> list = new ArrayList<TeacherLectureDTO>();
@@ -24,17 +26,17 @@ public class TeacherLectureDAO extends DAOBase{
 			rs = pstmt.executeQuery();
 			while(rs.next())
 			{
-				tea = new TeacherDTO();
-				depart = new DepartDTO();
+				dtoTeacher = new TeacherDTO();
+				dtoDepart = new DepartDTO();
 				TeacherLectureDTO teacher = new TeacherLectureDTO();
 				teacher.setId(rs.getInt("lecture.id"));
 				teacher.setSubject_name(rs.getString("subject.name"));
 				teacher.setClassification(rs.getInt("lectureday.classification"));
-				depart.setName(rs.getString("depart.name"));
-				tea.setId(Integer.parseInt(rs.getString("teacher.id")));
-				tea.setName(rs.getString("teacher.name"));
-				tea.setDepart_id(depart);
-				teacher.setTeacher_id(tea);
+				dtoDepart.setName(rs.getString("depart.name"));
+				dtoTeacher.setId(Integer.parseInt(rs.getString("teacher.id")));
+				dtoTeacher.setName(rs.getString("teacher.name"));
+				dtoTeacher.setDepart_id(dtoDepart);
+				teacher.setTeacher_id(dtoTeacher);
 				teacher.set_class(rs.getString("lecture.class"));
 				teacher.setNumber(rs.getInt("lecture.number"));
 				teacher.setNormdate(rs.getString("lectureday.normdate"));
@@ -70,17 +72,17 @@ public class TeacherLectureDAO extends DAOBase{
 			rs = pstmt.executeQuery();
 			while(rs.next())
 			{
-				tea = new TeacherDTO();
-				depart = new DepartDTO();
+				dtoTeacher = new TeacherDTO();
+				dtoDepart = new DepartDTO();
 				TeacherLectureDTO teacher = new TeacherLectureDTO();
 				teacher.setId(rs.getInt("lecture.id"));
 				teacher.setSubject_name(rs.getString("subject.name"));
 				teacher.setClassification(rs.getInt("lectureday.classification"));
-				depart.setName(rs.getString("depart.name"));
-				tea.setId(Integer.parseInt(rs.getString("teacher.id")));
-				tea.setName(rs.getString("teacher.name"));
-				tea.setDepart_id(depart);
-				teacher.setTeacher_id(tea);
+				dtoDepart.setName(rs.getString("depart.name"));
+				dtoTeacher.setId(Integer.parseInt(rs.getString("teacher.id")));
+				dtoTeacher.setName(rs.getString("teacher.name"));
+				dtoTeacher.setDepart_id(dtoDepart);
+				teacher.setTeacher_id(dtoTeacher);
 				teacher.set_class(rs.getString("lecture.class"));
 				teacher.setNumber(rs.getInt("lecture.number"));
 				teacher.setNormstart(rs.getInt("lectureday.normstart"));
@@ -104,15 +106,15 @@ public class TeacherLectureDAO extends DAOBase{
 			rs = pstmt.executeQuery();
 			TeacherLectureDTO teacher = new TeacherLectureDTO();
 			while(rs.next()) {
-				tea = new TeacherDTO();
-				depart = new DepartDTO();
+				dtoTeacher = new TeacherDTO();
+				dtoDepart = new DepartDTO();
 				teacher.setId(rs.getInt("lecture.id"));
 				teacher.setSubject_name(rs.getString("subject.name"));
-				depart.setName(rs.getString("depart.name"));
-				tea.setId(Integer.parseInt(rs.getString("teacher.id")));
-				tea.setName(rs.getString("teacher.name"));
-				tea.setDepart_id(depart);
-				teacher.setTeacher_id(tea);
+				dtoDepart.setName(rs.getString("depart.name"));
+				dtoTeacher.setId(Integer.parseInt(rs.getString("teacher.id")));
+				dtoTeacher.setName(rs.getString("teacher.name"));
+				dtoTeacher.setDepart_id(dtoDepart);
+				teacher.setTeacher_id(dtoTeacher);
 				teacher.set_class(rs.getString("lecture.class"));
 				teacher.setNumber(rs.getInt("lecture.number"));
 				teacher.setNormstart(rs.getInt("lectureday.normstart"));

@@ -34,10 +34,10 @@ public class RoomController extends HttpServlet {
     }
     
     HttpSession sesobj = null;
-    RoomDTO dto = null;
     ArrayList<RoomDTO> dtoList = null;
     ArrayList<DepartDTO> dtoListDepart = null;
     ArrayList<BuildingDTO> dtoListBuilding = null;
+    RoomDTO dto = null;
     RoomDAO dao = new RoomDAO();
     DepartDAO daoDepart = new DepartDAO();
     BuildingDAO daoBuilding = new BuildingDAO();
@@ -65,12 +65,10 @@ public class RoomController extends HttpServlet {
 			delete(request, response);
 		}
 		else
-			;
-		
+			;		
 	}
     
-    private void register(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
-    	
+    private void register(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {    	
     	dto = new RoomDTO();
     	dto.setBuilding_id(Integer.parseInt(request.getParameter("building_id")));
     	dto.setFloor(Byte.parseByte(request.getParameter("floor")));
@@ -91,15 +89,13 @@ public class RoomController extends HttpServlet {
     }
     
     private void list(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
-
     	dtoList = dao.selectAllList();
     	request.setAttribute("list", dtoList);    	
     	request.getRequestDispatcher("ad_room.jsp").forward(request, response);
 		
 	}
     
-    private void roomNew(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
-    	
+    private void roomNew(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {    	
     	dtoListDepart = daoDepart.List();
     	dtoListBuilding = daoBuilding.selectAllList();
  
@@ -109,8 +105,7 @@ public class RoomController extends HttpServlet {
 	
 	} 
 
-    private void info(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
-        
+    private void info(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {        
     	RoomDTO dtoInfo = new RoomDTO();
     	dtoInfo.setId(Integer.parseInt(request.getParameter("id")));
     	dto = dao.selectOne(dtoInfo);
@@ -129,8 +124,7 @@ public class RoomController extends HttpServlet {
     	
     }
     
-    private void update(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
-        
+    private void update(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {        
     	dto = new RoomDTO();
     	dto.setId(Integer.parseInt(request.getParameter("id")));
     	dto.setBuilding_id(Integer.parseInt(request.getParameter("building_id")));

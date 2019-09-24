@@ -31,7 +31,6 @@ public class HolidayController extends HttpServlet {
         super();
         // TODO Auto-generated constructor stub
     }
-
 	
     ArrayList<HolidayDTO> dtoList = null;
     HolidayDTO dto = null;
@@ -42,8 +41,6 @@ public class HolidayController extends HttpServlet {
 		// TODO Auto-generated method stub
 		request.setCharacterEncoding("UTF-8");		
 		sesobj = request.getSession();
-		
-		System.out.println("process");		
 		
 		String uri = request.getRequestURI();
 		int lastIndex = uri.lastIndexOf('/'); 
@@ -66,8 +63,7 @@ public class HolidayController extends HttpServlet {
 	}
 	
 	
-	private void info(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
-		
+	private void info(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {		
 		HolidayDTO dtoInfo = new HolidayDTO();
     	dtoInfo.setId(Integer.parseInt(request.getParameter("id")));
     	dto = dao.selectOne(dtoInfo);
@@ -80,8 +76,7 @@ public class HolidayController extends HttpServlet {
   		}
 	}
 	
-	private void delete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
-		
+	private void delete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {		
 		int result = dao.delete(Integer.parseInt(request.getParameter("id")));
 		
 		if(result >= 1) {	
@@ -92,8 +87,7 @@ public class HolidayController extends HttpServlet {
 	}
 	
 	
-	private void update(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
-		
+	private void update(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {		
 		dto.setYyyy(Integer.parseInt(request.getParameter("yyyy")));
 		SimpleDateFormat utilDate = new SimpleDateFormat("yyyy-MM-dd");
 		String day = request.getParameter("holiday");
@@ -115,8 +109,7 @@ public class HolidayController extends HttpServlet {
 	}
 	
 	
-	private void insert(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException{
-		
+	private void insert(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException{		
 		dto = new HolidayDTO();
     	
 		dto.setYyyy(Integer.parseInt(request.getParameter("yyyy")));
@@ -142,8 +135,7 @@ public class HolidayController extends HttpServlet {
 	
 
 
-	private void list(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
-		
+	private void list(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {		
     	dtoList = dao.List();
     	request.setAttribute("list", dtoList);    	
     	request.getRequestDispatcher("ad_holiday.jsp").forward(request, response);

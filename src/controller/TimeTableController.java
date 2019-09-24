@@ -42,14 +42,14 @@ public class TimeTableController extends HttpServlet {
     }
     
     HttpSession sesobj = null;
-    TimeTableDTO dto = null;
+    ArrayList<TimeTableDTO> dtoList = null;
     ArrayList<SubjectDTO> dtoListSubject = null;
     ArrayList<TeacherDTO> dtoListTeacher = null;
-    ArrayList<TimeTableDTO> dtoList = null;
     ArrayList<RoomDTO> dtoListRoom = null;
     ArrayList<BuildingDTO> dtoListBuilding = null;
     ArrayList<LectureDTO> dtoListLecture = null;
     ArrayList<DepartDTO> dtoListDepart = null;
+    TimeTableDTO dto = null;
     TimeTableDAO dao = new TimeTableDAO();
     RoomDAO daoRoom = new RoomDAO();
     BuildingDAO daoBuilding = new BuildingDAO();
@@ -85,8 +85,7 @@ public class TimeTableController extends HttpServlet {
 		
 	}
     
-    private void insert(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
-    	
+    private void insert(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {    	
     	dto = new TimeTableDTO();
     	dto.setLecture_id(Integer.parseInt(request.getParameter("lid")));
     	dto.setWeekday(request.getParameter("w"));
@@ -109,8 +108,7 @@ public class TimeTableController extends HttpServlet {
     	dtoListBuilding = daoBuilding.selectAllList();
     	dtoListLecture = daoLecture.list();
     	dtoListDepart = daoDepart.List();
-    	dtoListTeacher = daoTeacher.list();
-	    
+    	dtoListTeacher = daoTeacher.list();	    
     	
     	request.setAttribute("list", dtoList);
     	request.setAttribute("roomList", dtoListRoom);
@@ -151,25 +149,25 @@ public class TimeTableController extends HttpServlet {
 	}
 	
 	
-protected void Tdetail(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException{
+    protected void Tdetail(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException{
 		dtoList = dao.Tdetail(sesobj);
 		
 		dtoListRoom = daoRoom.selectAllList();
-    	dtoListBuilding = daoBuilding.selectAllList();
-    	dtoListLecture = daoLecture.list();
-    	dtoListDepart = daoDepart.List();
-    	dtoListTeacher = daoTeacher.list();
-    	
-    	request.setAttribute("list", dtoList);
-    	request.setAttribute("roomList", dtoListRoom);
-    	request.setAttribute("buildingList", dtoListBuilding);
-    	request.setAttribute("lectureList", dtoListLecture);
-    	request.setAttribute("departList", dtoListDepart);
-    	request.setAttribute("teacherList", dtoListTeacher);
+		dtoListBuilding = daoBuilding.selectAllList();
+		dtoListLecture = daoLecture.list();
+		dtoListDepart = daoDepart.List();
+		dtoListTeacher = daoTeacher.list();
+		
+		request.setAttribute("list", dtoList);
+		request.setAttribute("roomList", dtoListRoom);
+		request.setAttribute("buildingList", dtoListBuilding);
+		request.setAttribute("lectureList", dtoListLecture);
+		request.setAttribute("departList", dtoListDepart);
+		request.setAttribute("teacherList", dtoListTeacher);
 		
 		request.getRequestDispatcher("te_time.jsp").forward(request, response);
 	}
-    
+
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)

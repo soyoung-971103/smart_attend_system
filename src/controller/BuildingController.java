@@ -40,8 +40,6 @@ public class BuildingController extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");		
 		sesobj = request.getSession();
 		
-		System.out.println("process");		
-		
 		String uri = request.getRequestURI();
 		int lastIndex = uri.lastIndexOf('/'); 
 		String action = uri.substring(lastIndex + 1); 
@@ -58,20 +56,17 @@ public class BuildingController extends HttpServlet {
 			delete(request, response);
 		}
 		else
-			;
-		
+			;		
 	}
     
-    private void list(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
-		
+    private void list(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {		
     	dtoList = dao.selectAllList();
     	request.setAttribute("list", dtoList);    	
     	request.getRequestDispatcher("ad_building.jsp").forward(request, response);
 		
 	}
 
-    private void register(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
-    	
+    private void register(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {    	
     	dto = new BuildingDTO();
     	
     	dto.setName(request.getParameter("name"));
@@ -87,8 +82,7 @@ public class BuildingController extends HttpServlet {
     	
     }
     
-    private void info(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
-    
+    private void info(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {    
     	BuildingDTO dtoInfo = new BuildingDTO();
     	dtoInfo.setId(Integer.parseInt(request.getParameter("id")));
     	dto = dao.selectOne(dtoInfo);
@@ -102,12 +96,10 @@ public class BuildingController extends HttpServlet {
     	
     }
     
-    private void update(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
-        
+    private void update(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {        
     	dto.setName(request.getParameter("name"));
     	dto.setFloor(Byte.parseByte(request.getParameter("floor")));
-    	dto.setId(Integer.parseInt(request.getParameter("id")));
-    	
+    	dto.setId(Integer.parseInt(request.getParameter("id")));    	
     	
     	int result = dao.update(dto);
     	
@@ -119,17 +111,15 @@ public class BuildingController extends HttpServlet {
     	
     }
     
-    private void delete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
-		
+    private void delete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {		
 		int result = dao.delete(Integer.parseInt(request.getParameter("id")));
 		
-		if(result >= 1) {	//(삭제)성공
+		if(result >= 1) {	
 			response.sendRedirect("building-list.do");
 		}else {
 			request.getRequestDispatcher("main.jsp").forward(request, response);
 		}
-	}
-    
+	}    
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */

@@ -21,8 +21,7 @@ public class RoomDAO extends DAOBase{
 	RoomDTO dto = null;
 	BuildingDTO dtoBuilding = null;
 	DepartDTO dtoDepart = null;
-	HttpSession sesobj = null;
-	
+	HttpSession sesobj = null;	
 	
 	public ArrayList<RoomDTO> selectAllList(){		
 		try {

@@ -16,8 +16,8 @@ public class MyLectureDAO extends DAOBase{
 	PreparedStatement pstmt = null;
 	ResultSet rs = null; 
 	ArrayList<MyLectureDTO> dtoList = null;
-	TimeTableDTO dtoTimetable = null;
 	MyLectureDTO dto = null;
+	TimeTableDTO dtoTimetable = null;
 	RoomDTO dtoRoom = null;
 	SubjectDTO dtoSubject = null;
 	DepartDTO dtoDepart = null;

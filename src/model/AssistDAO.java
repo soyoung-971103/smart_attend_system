@@ -20,8 +20,8 @@ public class AssistDAO extends DAOBase {
 	ResultSet rs = null; 
 	ArrayList<AssistDTO> dtoList = null;
 	HttpSession sesobj = null;
-	AssistDTO member = null;
-	DepartDTO depart = null;
+	AssistDTO dto = null;
+	DepartDTO dtoDepart = null;
 	
 	public ArrayList<AssistDTO> list()
 	{
@@ -35,21 +35,21 @@ public class AssistDAO extends DAOBase {
 			dtoList = new ArrayList<AssistDTO>();
 			
 			while(rs.next()) {
-				member = new AssistDTO();
-				depart = new DepartDTO();
+				dto = new AssistDTO();
+				dtoDepart = new DepartDTO();
 				
-				member.setId(Integer.parseInt(rs.getString("staff.id")));
-				depart.setName(rs.getString("depart.name"));
-				member.setDepart_id(depart);
-				member.setUid(rs.getString("staff.uid"));
-				member.setPwd(rs.getString("staff.pwd"));
-				member.setName(rs.getString("staff.name"));
-				member.setTel(rs.getString("staff.tel"));
-				member.setPhone(rs.getString("staff.phone"));
-				member.setEmail(rs.getString("staff.email"));
-				member.setPic(rs.getString("staff.pic"));
+				dto.setId(Integer.parseInt(rs.getString("staff.id")));
+				dtoDepart.setName(rs.getString("depart.name"));
+				dto.setDepart_id(dtoDepart);
+				dto.setUid(rs.getString("staff.uid"));
+				dto.setPwd(rs.getString("staff.pwd"));
+				dto.setName(rs.getString("staff.name"));
+				dto.setTel(rs.getString("staff.tel"));
+				dto.setPhone(rs.getString("staff.phone"));
+				dto.setEmail(rs.getString("staff.email"));
+				dto.setPic(rs.getString("staff.pic"));
 				
-				dtoList.add(member);
+				dtoList.add(dto);
 			}
 		} catch (SQLException e) { System.out.println("TeacherInquiry Error");e.printStackTrace(); }
 		finally{	closeDBResources(rs, stmt, pstmt, conn);	}
@@ -74,29 +74,29 @@ public class AssistDAO extends DAOBase {
 	{
 		String query = "select staff.*, depart.id, depart.name from staff left join depart on staff.depart_id = depart.id where staff.id = "+id+";";
 		
-		depart = new DepartDTO();
+		dtoDepart = new DepartDTO();
 		try {
 			conn = getConnection();
 			stmt = conn.createStatement();
 			rs = stmt.executeQuery(query);
 			rs.next();
-			member.setId(id);
-			depart.setName(rs.getString("depart.name"));
-			depart.setId(Integer.parseInt(rs.getString("depart.id")));
-			member.setDepart_id(depart);
-			member.setUid(rs.getString("staff.uid"));
-			member.setPwd(rs.getString("staff.pwd"));
-			member.setName(rs.getString("staff.name"));
-			member.setTel(rs.getString("staff.tel"));
-			member.setPhone(rs.getString("staff.phone"));
-			member.setEmail(rs.getString("staff.email"));
-			member.setPic(rs.getString("staff.pic"));
+			dto.setId(id);
+			dtoDepart.setName(rs.getString("depart.name"));
+			dtoDepart.setId(Integer.parseInt(rs.getString("depart.id")));
+			dto.setDepart_id(dtoDepart);
+			dto.setUid(rs.getString("staff.uid"));
+			dto.setPwd(rs.getString("staff.pwd"));
+			dto.setName(rs.getString("staff.name"));
+			dto.setTel(rs.getString("staff.tel"));
+			dto.setPhone(rs.getString("staff.phone"));
+			dto.setEmail(rs.getString("staff.email"));
+			dto.setPic(rs.getString("staff.pic"));
 			
 
 		} catch (SQLException e) { e.printStackTrace(); }
 		finally { closeDBResources(rs, stmt, pstmt, conn); }
 		
-		return member;
+		return dto;
 	}
 	
 	public void update(HttpServletRequest request, HttpServletResponse response)

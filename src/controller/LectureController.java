@@ -48,44 +48,30 @@ public class LectureController extends HttpServlet {
         super();
         // TODO Auto-generated constructor stub
     }
-
       
-    java.sql.Connection conn = null;
-    java.sql.Statement stmt = null;
-    PreparedStatement pstmt = null;
-    ResultSet rs = null;
-	
-    ArrayList<StudentDTO> alStudent = null;
-    StudentDTO student = null;
-    HttpSession sesobj = null;
-    HttpSession session = null;
-    StudentDAO daoStudent = new StudentDAO();
-    DepartDAO depart_dao = new DepartDAO();
-    ArrayList<LectureDTO> alLecture = null;
-    ArrayList<MyLectureDTO> alMyLec = null;
-    ArrayList<DepartDTO> alDepart = null;
-    DepartDTO depart = null;
-    LectureDTO lecture = null;
-    LectureDAO dao = null;
-    LectureDAO lecture_dao = new LectureDAO();
-    MyLectureDTO mylec = null;
-    //Pagination pn = new Pagination();
-	
-//heari
-	ArrayList<TeacherDTO> dtoListTeacher = null;
-	TeacherController TeacherController = null;
-	TeacherDAO daoTeacher = new TeacherDAO();
+    TeacherController controllerTeacher = null;
+    //ArrayList<StudentDTO> alStudent = null;
+    ArrayList<LectureDTO> dtoList = null;
+    ArrayList<MyLectureDTO> dtoListMyLecture = null;
+    ArrayList<DepartDTO> dtoListDepart = null;
+    ArrayList<TeacherDTO> dtoListTeacher = null;
 	ArrayList<SubjectDTO> dtoListSubject = null;
+    StudentDTO dtoStudent = null;
+    MyLectureDTO dtoMyLecture = null;
+    //DepartDTO dtoDepart = null;
+    //LectureDTO dto = null;
+    LectureDAO dao = new LectureDAO();   
+    StudentDAO daoStudent = new StudentDAO();
+    DepartDAO daoDepart = new DepartDAO(); 
+    TeacherDAO daoTeacher = new TeacherDAO();
 	SubjectDAO daoSubject = new SubjectDAO();
-	DepartDAO daoDepart = new DepartDAO();
-	ArrayList<DepartDTO> dtoListDepart = null;
+    HttpSession sesobj = null;
+    //Pagination pn = new Pagination();		
     
 	protected void process(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
 		// TODO Auto-generated method stub
 		request.setCharacterEncoding("UTF-8");		
 		sesobj = request.getSession();
-		dao = new LectureDAO();
-    		conn = dao.getConnection();	
 		
 		String uri = request.getRequestURI();
 		int lastIndex = uri.lastIndexOf('/'); 
@@ -101,14 +87,14 @@ public class LectureController extends HttpServlet {
 			subList(request, response);	
 		else if(action.equals("as-lecture-list.do")) 
 			ASlist(request, response);
-    	        else if(action.equals("as-lecture-register.do")) 
-    		        ASregister(request, response);
-    	        else if(action.equals("as-lecture-updateT.do")) 
-    	  	        ASupdateT(request, response);
-    	        else if(action.equals("as-lecture-updateN.do")) 
-    		        ASupdateN(request, response);
-                else if(action.equals("as-lecture-delete.do")) 
-    		        ASdelete(request, response);
+	    else if(action.equals("as-lecture-register.do")) 
+	        ASregister(request, response);
+	    else if(action.equals("as-lecture-updateT.do")) 
+	        ASupdateT(request, response);
+	    else if(action.equals("as-lecture-updateN.do")) 
+	        ASupdateN(request, response);
+	    else if(action.equals("as-lecture-delete.do")) 
+	        ASdelete(request, response);
 		else 
     		;
 		
@@ -121,11 +107,10 @@ public class LectureController extends HttpServlet {
 		int sta = 0;
 		
 		String uid = (String)sesobj.getAttribute("uid");
-		student = daoStudent.list_id(uid);		
-		alLecture = lecture_dao.selectAllList();		
-	
+		dtoStudent = daoStudent.list_id(uid);		
+		dtoList = dao.selectAllList();		
 		
-		 if(cookies != null){	         
+		if(cookies != null){	         
 			 for(int i=0; i < cookies.length; i++){
 	            Cookie c = cookies[i] ;	   
 	            if(c.getName().length() >= 5) {
@@ -137,11 +122,11 @@ public class LectureController extends HttpServlet {
 		 }
 			
 		 if(sta == 0) {
-			 alMyLec = lecture_dao.select_mylecture(student.getId());
-			 if(alMyLec != null) {
+			 dtoListMyLecture = dao.select_mylecture(dtoStudent.getId());
+			 if(dtoListMyLecture != null) {
 				 int z=1;
-				 for(MyLectureDTO alm : alMyLec) {
-					 for(LectureDTO al : alLecture) {
+				 for(MyLectureDTO alm : dtoListMyLecture) {
+					 for(LectureDTO al : dtoList) {
 						 if(al.getId() == alm.getLecture_id()) {						 
 							// 강의번호, 학과명, 학년, 반, 전공일반/교양, 선택/필수, 과목코드, 과목명, 학점, 시간, 교수님, 수강구분
 							 value = Integer.toString(al.getId()) + "^" + al.getSubject().getDepart().getName() + "^" + al.getSubject().getGrade() + "^" + al.getLecture_class() + "^" + al.getSubject().getIsmajor() + "^" + al.getSubject().getIschoice() + "^" + al.getSubject().getCode() + "^" + al.getSubject().getName() + "^" + al.getSubject().getIpoint() + "^" + al.getSubject().getIhour() + "^" + al.getTeacher().getName() + "^" + "정상";
@@ -158,13 +143,13 @@ public class LectureController extends HttpServlet {
 			 }
 		 }
 		
-		request.setAttribute("list", alLecture);
-		request.setAttribute("student", student);
+		request.setAttribute("list", dtoList);
+		request.setAttribute("student", dtoStudent);
 		request.getRequestDispatcher("st_lec.jsp").forward(request, response);
 	}	
 	
 	protected void save(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException{
-		alMyLec = new ArrayList<MyLectureDTO>();
+		dtoListMyLecture = new ArrayList<MyLectureDTO>();
 		sesobj = request.getSession(true);		
 		String uid = (String)sesobj.getAttribute("uid");
 		Cookie[] cookies = request.getCookies();
@@ -175,47 +160,44 @@ public class LectureController extends HttpServlet {
 		 if(cookies != null){	         
 			 for(int i=0; i < cookies.length; i++){
 	            Cookie c = cookies[i] ;		            
-	            mylec = new MyLectureDTO();
+	            dtoMyLecture = new MyLectureDTO();
 				 
 	            name = c.getName().substring(0, 3);
-	            System.out.println(name);
 	            
 	            if(name.equals("lec")) {
 	            	lec = c.getValue();
 	            	values = lec.split("\\^");
 	            	if(values.length != 0) {
-	            		mylec.setLecture_id(Integer.parseInt(values[0]));
-		            	mylec.setDepartname(values[1]);
-		            	mylec.setGrade(Byte.parseByte(values[2]));
-		            	mylec.setTerm((byte)2);
-		            	mylec.setStudent_id(lecture_dao.select_id((String)sesobj.getAttribute("uid")));
-		            	alMyLec.add(mylec);
+	            		dtoMyLecture.setLecture_id(Integer.parseInt(values[0]));
+		            	dtoMyLecture.setDepartname(values[1]);
+		            	dtoMyLecture.setGrade(Byte.parseByte(values[2]));
+		            	dtoMyLecture.setTerm((byte)2);
+		            	dtoMyLecture.setStudent_id(dao.select_id((String)sesobj.getAttribute("uid")));
+		            	dtoListMyLecture.add(dtoMyLecture);
 	            	}
 	            }    
-	        }
-	        
-			student = daoStudent.list_id(uid);
-	        lecture_dao.delete(student.getId());
-	        lecture_dao.insert(alMyLec);
+	        }	        
+			dtoStudent = daoStudent.list_id(uid);
+	        dao.delete(dtoStudent.getId());
+	        dao.insert(dtoListMyLecture);
 		 }
 		 request.getRequestDispatcher("lecture-list.do").forward(request, response);		
 	}	
 	
-	protected void myList(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException{
-		
+	protected void myList(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException{		
 		String uid = (String)sesobj.getAttribute("uid");
-		student = daoStudent.list_id(uid);		
-		alMyLec = lecture_dao.selectMyList(student.getId());
+		dtoStudent = daoStudent.list_id(uid);		
+		dtoListMyLecture = dao.selectMyList(dtoStudent.getId());
 		
-		request.setAttribute("list", alMyLec);
-		request.setAttribute("student", student);
+		request.setAttribute("list", dtoListMyLecture);
+		request.setAttribute("student", dtoStudent);
 		request.getRequestDispatcher("st_lecall.jsp").forward(request, response);
 	}	
 	
 	protected void subList(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException{
 		String sel1, sel2, sel3, sel4, sel5;
 
-		alDepart = depart_dao.List();
+		dtoListDepart = daoDepart.List();
 		
 		if((sel1 = request.getParameter("sel1"))!=null) {
 			sel2 = request.getParameter("sel2");
@@ -227,13 +209,13 @@ public class LectureController extends HttpServlet {
 			sel2 = "2";
 			sel3 = "1";
 			sel4 = "0";
-			sel5 = Integer.toString(alDepart.get(0).getId());
+			sel5 = Integer.toString(dtoListDepart.get(0).getId());
 		}
 		
-		alMyLec = lecture_dao.selectSubjectList(sel1, sel2, sel3, sel4, sel5);
+		dtoListMyLecture = dao.selectSubjectList(sel1, sel2, sel3, sel4, sel5);
 		
-		request.setAttribute("list", alMyLec);
-		request.setAttribute("depart_list", alDepart);
+		request.setAttribute("list", dtoListMyLecture);
+		request.setAttribute("depart_list", dtoListDepart);
 		request.setAttribute("sel1", sel1);
 		request.setAttribute("sel2", sel2);
 		request.setAttribute("sel3", sel3);
@@ -249,12 +231,12 @@ public class LectureController extends HttpServlet {
 		sel2 = request.getParameter("sel2");
 		sel3 = request.getParameter("sel3");
 
-		alLecture = dao.list(sel1, sel2, sel3);
+		dtoList = dao.list(sel1, sel2, sel3);
 		dtoListTeacher = daoTeacher.list();
 		request.setAttribute("sel1", sel1);
 		request.setAttribute("sel2", sel2);
 		request.setAttribute("sel3", sel3);
-    	request.setAttribute("list", alLecture);
+    	request.setAttribute("list", dtoList);
     	request.setAttribute("teacher", dtoListTeacher);
     	request.getRequestDispatcher("as_lec.jsp").forward(request, response);
 	}

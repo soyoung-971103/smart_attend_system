@@ -38,13 +38,9 @@ private static final long serialVersionUID = 1L;
         super();
         // TODO Auto-generated constructor stub
     }
-    
-    java.sql.Connection conn = null;
-	java.sql.Statement stmt = null;
-	PreparedStatement pstmt = null;
-	ResultSet rs = null;
-	NoticeDTO notice = null;
-	ArrayList<NoticeDTO> alNotice = null;
+
+	ArrayList<NoticeDTO> dtoList = null;
+	NoticeDTO dto = null;
 	HttpSession session = null;
 	NoticeDAO dao = null;
 
@@ -52,7 +48,6 @@ private static final long serialVersionUID = 1L;
     	request.setCharacterEncoding("UTF-8");
     	session = request.getSession();
     	dao = new NoticeDAO();
-    	conn = dao.getConnection();
     	
     	String uri = request.getRequestURI();
     	int lastIndex = uri.lastIndexOf('/');
@@ -73,15 +68,15 @@ private static final long serialVersionUID = 1L;
     }
     
     protected void list(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException{
-		 alNotice = dao.list(request.getParameter("text1"));
-			request.setAttribute("noticelist", alNotice);
-			request.getRequestDispatcher("ad_notice.jsp").forward(request, response);
+		 dtoList = dao.list(request.getParameter("text1"));
+		request.setAttribute("noticelist", dtoList);
+		request.getRequestDispatcher("ad_notice.jsp").forward(request, response);
 	}
     
     protected void detail(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
     	int id = Integer.parseInt(request.getParameter("id"));
-    	notice = dao.detail(id);
-		request.setAttribute("notice", notice);
+    	dto = dao.detail(id);
+		request.setAttribute("notice", dto);
 		request.getRequestDispatcher("ad_noticeupdate.jsp").forward(request, response);
     }
     

@@ -16,22 +16,14 @@ public class LectureDAO extends DAOBase{
 	Statement stmt = null;
 	PreparedStatement pstmt = null;
 	ResultSet rs = null; 
-	ArrayList<LectureDTO> alLecture = null;//hea
 	ArrayList<LectureDTO> dtoList = null;
-	ArrayList<MyLectureDTO> mylec_dtoList = null;
+	ArrayList<MyLectureDTO> dtoListMyLecture = null;
 	LectureDTO dto = null;
-	DepartDTO depart_dto = null;
-	SubjectDTO subject_dto = null;//so
-	TeacherDTO teacher_dto = null;//so
-	SubjectDTO dtoSubject = null;//min
-	TeacherDTO dtoTeacher = null;//min
-	StudentDTO studentdto = null;
-	DepartDTO departdto = null;
-	SubjectDTO subject = null; //h
-	DepartDTO depart = null; //h
-	TeacherDTO teacher = null;//h
-	LectureDTO lecture = null;//h
-	MyLectureDTO mylecdto = null;
+	DepartDTO dtoDepart = null;
+	SubjectDTO dtoSubject = null;
+	TeacherDTO dtoTeacher = null;
+	StudentDTO dtoStudent = null;
+	MyLectureDTO dtoMyLecture = null;
 	HttpSession sesobj = null;
 	
 	public ArrayList<LectureDTO> List(){		
@@ -71,29 +63,29 @@ public class LectureDAO extends DAOBase{
 			rs = stmt.executeQuery("select depart.name as depart_name, lecture.class as lecture_class, subject.*, teacher.name as teacher_name, lecture.id as lecture_lecture_id from lecture left join subject on lecture.subject_id = subject.id left join teacher on lecture.teacher_id = teacher.id left join depart on subject.depart_id = depart.id"); //where subject.grade = " + student.getGrade());
 			while(rs.next()) {
 				dto = new LectureDTO();
-				depart_dto = new DepartDTO();
-				subject_dto = new SubjectDTO();
-				teacher_dto = new TeacherDTO();
+				dtoDepart = new DepartDTO();
+				dtoSubject = new SubjectDTO();
+				dtoTeacher = new TeacherDTO();
 				
-				depart_dto.setName(rs.getString(1));				
+				dtoDepart.setName(rs.getString(1));				
 				dto.setLecture_class(rs.getString(2));
-				depart_dto.setId(rs.getInt(4));
-				subject_dto.setDepart(depart_dto);
+				dtoDepart.setId(rs.getInt(4));
+				dtoSubject.setDepart(dtoDepart);
 				
-				subject_dto.setCode(rs.getString(5));
-				subject_dto.setYyyy(rs.getInt(6));
-				subject_dto.setGrade(rs.getByte(7));
-				subject_dto.setTerm(rs.getByte(8));
-				subject_dto.setIsmajor(rs.getString(9));
-				subject_dto.setIschoice(rs.getString(10));
-				subject_dto.setIspractice(rs.getString(11));
-				subject_dto.setName(rs.getString(12));
-				subject_dto.setIpoint(rs.getFloat(13));
-				subject_dto.setIhour(rs.getByte(14));
-				dto.setSubject(subject_dto);
+				dtoSubject.setCode(rs.getString(5));
+				dtoSubject.setYyyy(rs.getInt(6));
+				dtoSubject.setGrade(rs.getByte(7));
+				dtoSubject.setTerm(rs.getByte(8));
+				dtoSubject.setIsmajor(rs.getString(9));
+				dtoSubject.setIschoice(rs.getString(10));
+				dtoSubject.setIspractice(rs.getString(11));
+				dtoSubject.setName(rs.getString(12));
+				dtoSubject.setIpoint(rs.getFloat(13));
+				dtoSubject.setIhour(rs.getByte(14));
+				dto.setSubject(dtoSubject);
 				
-				teacher_dto.setName(rs.getString(15));
-				dto.setTeacher(teacher_dto);
+				dtoTeacher.setName(rs.getString(15));
+				dto.setTeacher(dtoTeacher);
 				dto.setId(rs.getInt(16));
 				
 				dtoList.add(dto);				
@@ -113,10 +105,10 @@ public class LectureDAO extends DAOBase{
 			rs = stmt.executeQuery("select id from student where " + 
 					"schoolno=" + hakbun);
 			if(rs.next()) {
-				studentdto = new StudentDTO();
-				studentdto.setId(rs.getInt(1));
+				dtoStudent = new StudentDTO();
+				dtoStudent.setId(rs.getInt(1));
 			}				
-			return studentdto.getId();
+			return dtoStudent.getId();
 			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -125,7 +117,7 @@ public class LectureDAO extends DAOBase{
 		finally {
 			this.closeDBResources(rs, stmt, pstmt, conn);
 		}
-		return studentdto.getId();		
+		return dtoStudent.getId();		
 	}
 
 	public int insert(ArrayList<MyLectureDTO> dto) {    	
@@ -178,17 +170,17 @@ public class LectureDAO extends DAOBase{
 
 	public ArrayList<MyLectureDTO> select_mylecture(int id) {
 		try {
-			mylec_dtoList = new ArrayList<MyLectureDTO>();
+			dtoListMyLecture = new ArrayList<MyLectureDTO>();
 			conn = getConnection();
 			stmt = conn.createStatement();
 			rs = stmt.executeQuery("select lecture_id from mylecture where " + 
 					"student_id=" + id);
 			while(rs.next()) {
-				mylecdto = new MyLectureDTO();
-				mylecdto.setLecture_id(rs.getInt(1));
-				mylec_dtoList.add(mylecdto);
+				dtoMyLecture = new MyLectureDTO();
+				dtoMyLecture.setLecture_id(rs.getInt(1));
+				dtoListMyLecture.add(dtoMyLecture);
 			}				
-			return mylec_dtoList;
+			return dtoListMyLecture;
 			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -197,128 +189,128 @@ public class LectureDAO extends DAOBase{
 		finally {
 			this.closeDBResources(rs, stmt, pstmt, conn);
 		}
-		return mylec_dtoList;		
+		return dtoListMyLecture;		
 	}
 
 	public ArrayList<MyLectureDTO> selectMyList(int id){		
 		try {
 			conn = getConnection();
 			stmt = conn.createStatement();			
-			mylec_dtoList = new ArrayList<MyLectureDTO>();
+			dtoListMyLecture = new ArrayList<MyLectureDTO>();
 			rs = stmt.executeQuery("SELECT * FROM mylecture WHERE student_id= " +id);
 			while(rs.next()) {
-				mylecdto = new MyLectureDTO();
-				mylecdto.setId(rs.getInt(1));
-				mylecdto.setStudent_id(rs.getInt(2));
-				mylecdto.setLecture_id(rs.getInt(3));
-				mylecdto.setDepartname(rs.getString(4));
-				mylecdto.setGrade(rs.getByte(5));
-				mylecdto.setTerm(rs.getByte(6));
-				mylecdto.setIattend(rs.getByte(7));
-				mylecdto.setImiddle(rs.getByte(8));
-				mylecdto.setIlast(rs.getByte(9));
-				mylecdto.setInormal(rs.getByte(10));
-				mylecdto.setIpractice(rs.getByte(11));
-				mylecdto.setItotal(rs.getByte(12));
-				mylecdto.setIpoint(rs.getFloat(13));
-				mylecdto.setIgrade(rs.getString(14));
-				mylecdto.setRetake(rs.getByte(15));
-				mylecdto.setIlate(rs.getByte(16));
-				mylecdto.setIxhour(rs.getInt(17));
-				mylecdto.setQakind(rs.getByte(18));
-				mylecdto.setQaday(rs.getDate(19));
-				mylecdto.setQatitle(rs.getString(20));
-				mylecdto.setQaask(rs.getString(21));
-				mylecdto.setQaanswer(rs.getString(22));
+				dtoMyLecture = new MyLectureDTO();
+				dtoMyLecture.setId(rs.getInt(1));
+				dtoMyLecture.setStudent_id(rs.getInt(2));
+				dtoMyLecture.setLecture_id(rs.getInt(3));
+				dtoMyLecture.setDepartname(rs.getString(4));
+				dtoMyLecture.setGrade(rs.getByte(5));
+				dtoMyLecture.setTerm(rs.getByte(6));
+				dtoMyLecture.setIattend(rs.getByte(7));
+				dtoMyLecture.setImiddle(rs.getByte(8));
+				dtoMyLecture.setIlast(rs.getByte(9));
+				dtoMyLecture.setInormal(rs.getByte(10));
+				dtoMyLecture.setIpractice(rs.getByte(11));
+				dtoMyLecture.setItotal(rs.getByte(12));
+				dtoMyLecture.setIpoint(rs.getFloat(13));
+				dtoMyLecture.setIgrade(rs.getString(14));
+				dtoMyLecture.setRetake(rs.getByte(15));
+				dtoMyLecture.setIlate(rs.getByte(16));
+				dtoMyLecture.setIxhour(rs.getInt(17));
+				dtoMyLecture.setQakind(rs.getByte(18));
+				dtoMyLecture.setQaday(rs.getDate(19));
+				dtoMyLecture.setQatitle(rs.getString(20));
+				dtoMyLecture.setQaask(rs.getString(21));
+				dtoMyLecture.setQaanswer(rs.getString(22));
 				
-				mylecdto.hn = new ArrayList<Byte>();
-				mylecdto.hn.add((byte) 0);
+				dtoMyLecture.hn = new ArrayList<Byte>();
+				dtoMyLecture.hn.add((byte) 0);
 				for(int i = 23; i<=86; i ++) {
-					mylecdto.hn.add(rs.getByte(i));
+					dtoMyLecture.hn.add(rs.getByte(i));
 				}
 				
-				mylec_dtoList.add(mylecdto);				
+				dtoListMyLecture.add(dtoMyLecture);				
 			}
-			return mylec_dtoList;
+			return dtoListMyLecture;
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return mylec_dtoList;	
+		return dtoListMyLecture;	
 	}	
 
 	public ArrayList<MyLectureDTO> selectSubjectList(String sel1, String sel2, String sel3, String sel4, String sel5){		
 		try {
 			conn = getConnection();
 			stmt = conn.createStatement();			
-			mylec_dtoList = new ArrayList<MyLectureDTO>();
+			dtoListMyLecture = new ArrayList<MyLectureDTO>();
 			if(sel4.equals("0"))
 				rs = stmt.executeQuery("select mylecture.*, student.schoolno as student_schoolno, student.name as student_name, student.state as student_state, student.grade as student_grade, lecture.class as lecture_class, lecture.subject_id as lecture_subject_id, subject.yyyy as subject_yyyy, subject.grade as subject_grade, subject.term as subject_term, subject.name as subject_name, depart.name as depart_name FROM mylecture left join student on mylecture.student_id=student.id LEFT join lecture on mylecture.lecture_id = lecture.id LEFT JOIN subject on lecture.subject_id = subject.id left join depart on student.depart_id = depart.id where subject.yyyy = "+sel1+" and subject.term= "+sel2+" and subject.grade= "+sel3+" and depart.id="+sel5);
 			else
 				rs = stmt.executeQuery("select mylecture.*, student.schoolno as student_schoolno, student.name as student_name, student.state as student_state, student.grade as student_grade, lecture.class as lecture_class, lecture.subject_id as lecture_subject_id, subject.yyyy as subject_yyyy, subject.grade as subject_grade, subject.term as subject_term, subject.name as subject_name, depart.name as depart_name FROM mylecture left join student on mylecture.student_id=student.id LEFT join lecture on mylecture.lecture_id = lecture.id LEFT JOIN subject on lecture.subject_id = subject.id left join depart on student.depart_id = depart.id where subject.yyyy = "+sel1+" and subject.term= "+sel2+" and subject.grade= "+sel3+" and lecture.class= '"+sel4+"' and depart.id="+sel5);
 				
 			while(rs.next()) {
-				mylecdto = new MyLectureDTO();
-				studentdto = new StudentDTO();
+				dtoMyLecture = new MyLectureDTO();
+				dtoStudent = new StudentDTO();
 				dto = new LectureDTO();
-				subject_dto = new SubjectDTO();
-				departdto = new DepartDTO();
-				mylecdto.setId(rs.getInt(1));
-				mylecdto.setStudent_id(rs.getInt(2));
-				mylecdto.setLecture_id(rs.getInt(3));
-				mylecdto.setDepartname(rs.getString(4));
-				mylecdto.setGrade(rs.getByte(5));
-				mylecdto.setTerm(rs.getByte(6));
-				mylecdto.setIattend(rs.getByte(7));
-				mylecdto.setImiddle(rs.getByte(8));
-				mylecdto.setIlast(rs.getByte(9));
-				mylecdto.setInormal(rs.getByte(10));
-				mylecdto.setIpractice(rs.getByte(11));
-				mylecdto.setItotal(rs.getByte(12));
-				mylecdto.setIpoint(rs.getFloat(13));
-				mylecdto.setIgrade(rs.getString(14));
-				mylecdto.setRetake(rs.getByte(15));
-				mylecdto.setIlate(rs.getByte(16));
-				mylecdto.setIxhour(rs.getInt(17));
-				mylecdto.setQakind(rs.getByte(18));
-				mylecdto.setQaday(rs.getDate(19));
-				mylecdto.setQatitle(rs.getString(20));
-				mylecdto.setQaask(rs.getString(21));
-				mylecdto.setQaanswer(rs.getString(22));
+				dtoSubject = new SubjectDTO();
+				dtoDepart = new DepartDTO();
+				dtoMyLecture.setId(rs.getInt(1));
+				dtoMyLecture.setStudent_id(rs.getInt(2));
+				dtoMyLecture.setLecture_id(rs.getInt(3));
+				dtoMyLecture.setDepartname(rs.getString(4));
+				dtoMyLecture.setGrade(rs.getByte(5));
+				dtoMyLecture.setTerm(rs.getByte(6));
+				dtoMyLecture.setIattend(rs.getByte(7));
+				dtoMyLecture.setImiddle(rs.getByte(8));
+				dtoMyLecture.setIlast(rs.getByte(9));
+				dtoMyLecture.setInormal(rs.getByte(10));
+				dtoMyLecture.setIpractice(rs.getByte(11));
+				dtoMyLecture.setItotal(rs.getByte(12));
+				dtoMyLecture.setIpoint(rs.getFloat(13));
+				dtoMyLecture.setIgrade(rs.getString(14));
+				dtoMyLecture.setRetake(rs.getByte(15));
+				dtoMyLecture.setIlate(rs.getByte(16));
+				dtoMyLecture.setIxhour(rs.getInt(17));
+				dtoMyLecture.setQakind(rs.getByte(18));
+				dtoMyLecture.setQaday(rs.getDate(19));
+				dtoMyLecture.setQatitle(rs.getString(20));
+				dtoMyLecture.setQaask(rs.getString(21));
+				dtoMyLecture.setQaanswer(rs.getString(22));
 				
-				mylecdto.hn = new ArrayList<Byte>();
-				mylecdto.hn.add((byte) 0);
+				dtoMyLecture.hn = new ArrayList<Byte>();
+				dtoMyLecture.hn.add((byte) 0);
 				for(int i = 23; i<=86; i ++) {
-					mylecdto.hn.add(rs.getByte(i));
+					dtoMyLecture.hn.add(rs.getByte(i));
 				}
 				
-				studentdto.setSchoolno(rs.getString(87));//음.....
-				studentdto.setName(rs.getString(88));
-				studentdto.setState(rs.getString(89));
-				studentdto.setGrade(rs.getByte(90));
+				dtoStudent.setSchoolno(rs.getString(87));//음.....
+				dtoStudent.setName(rs.getString(88));
+				dtoStudent.setState(rs.getString(89));
+				dtoStudent.setGrade(rs.getByte(90));
 				
 				dto.setLecture_class(rs.getString(91));
 				dto.setSubject_id(rs.getInt(92));				
 				
-				subject_dto.setYyyy(rs.getInt(93));
-				subject_dto.setGrade(rs.getByte(94));
-				subject_dto.setTerm(rs.getByte(95));
-				subject_dto.setName(rs.getString(96));
-				dto.setSubject(subject_dto);
-				mylecdto.setLecture(dto);
+				dtoSubject.setYyyy(rs.getInt(93));
+				dtoSubject.setGrade(rs.getByte(94));
+				dtoSubject.setTerm(rs.getByte(95));
+				dtoSubject.setName(rs.getString(96));
+				dto.setSubject(dtoSubject);
+				dtoMyLecture.setLecture(dto);
 				
-				departdto.setName(rs.getString(97));
-				studentdto.setDepart(departdto);
+				dtoDepart.setName(rs.getString(97));
+				dtoStudent.setDepart(dtoDepart);
 				
-				mylecdto.setStudent(studentdto);
-				mylec_dtoList.add(mylecdto);				
+				dtoMyLecture.setStudent(dtoStudent);
+				dtoListMyLecture.add(dtoMyLecture);				
 			}
-			return mylec_dtoList;
+			return dtoListMyLecture;
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return mylec_dtoList;	
+		return dtoListMyLecture;	
 	}	
 	
 	public ArrayList<LectureDTO> list(String sel1, String sel2, String sel3){
@@ -326,7 +318,7 @@ public class LectureDAO extends DAOBase{
 			conn = getConnection();
 			stmt = conn.createStatement();
 			
-			alLecture = new ArrayList<LectureDTO>();
+			dtoList = new ArrayList<LectureDTO>();
 			if(sel1 != null && sel2 != null && !sel3.equals("0"))
 				rs=stmt.executeQuery("SELECT lecture.*, subject.id, subject.name, subject.code, subject.ihour, subject.ipoint, subject.yyyy, subject.term, subject.grade, teacher.id, teacher.name FROM lecture "
 						+ "LEFT JOIN subject ON lecture.subject_id=subject.id "
@@ -345,37 +337,37 @@ public class LectureDAO extends DAOBase{
 						+ "LEFT JOIN teacher ON lecture.teacher_id=teacher.id "
 						+ "LEFT JOIN depart ON subject.depart_id=depart.id");
 			
-			alLecture = new ArrayList<LectureDTO>();
+			dtoList = new ArrayList<LectureDTO>();
 			
 			while(rs.next()) {
-				lecture = new LectureDTO();
-				depart = new DepartDTO();
-				subject = new SubjectDTO();
-				teacher = new TeacherDTO();
-				lecture.setId(rs.getInt(1));
-				lecture.setSubject_id(rs.getInt(2));
-				lecture.setTeacher_id(rs.getInt(3));
-				lecture.set_class(rs.getString(4)); 
-				lecture.setNumber(rs.getByte(5));
-				subject.setId(rs.getInt(6));
-				subject.setName(rs.getString(7));
-				subject.setCode(rs.getString(8));
-				subject.setIhour(rs.getByte(9));
-				subject.setIpoint(rs.getFloat(10));
-				teacher.setId(11);
-				teacher.setName(rs.getString(12));
-				lecture.setSubject(subject);
-				lecture.setDepart(depart);
-				lecture.setTeacher(teacher);
-				alLecture.add(lecture);
-			} return alLecture;
+				dto = new LectureDTO();
+				dtoDepart = new DepartDTO();
+				dtoSubject = new SubjectDTO();
+				dtoTeacher = new TeacherDTO();
+				dto.setId(rs.getInt(1));
+				dto.setSubject_id(rs.getInt(2));
+				dto.setTeacher_id(rs.getInt(3));
+				dto.set_class(rs.getString(4)); 
+				dto.setNumber(rs.getByte(5));
+				dtoSubject.setId(rs.getInt(6));
+				dtoSubject.setName(rs.getString(7));
+				dtoSubject.setCode(rs.getString(8));
+				dtoSubject.setIhour(rs.getByte(9));
+				dtoSubject.setIpoint(rs.getFloat(10));
+				dtoTeacher.setId(11);
+				dtoTeacher.setName(rs.getString(12));
+				dto.setSubject(dtoSubject);
+				dto.setDepart(dtoDepart);
+				dto.setTeacher(dtoTeacher);
+				dtoList.add(dto);
+			} return dtoList;
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
 			this.closeDBResources(rs, stmt, pstmt, conn);
 		}
-		return alLecture;
+		return dtoList;
 	}
 	
 	public ArrayList<LectureDTO> list(){
@@ -383,43 +375,43 @@ public class LectureDAO extends DAOBase{
 			conn = getConnection();
 			stmt = conn.createStatement();
 			
-			alLecture = new ArrayList<LectureDTO>();
+			dtoList = new ArrayList<LectureDTO>();
 			rs=stmt.executeQuery("SELECT lecture.*, subject.id, subject.name, subject.code, subject.ihour, subject.ipoint, teacher.id, teacher.name FROM lecture "
 					+ "LEFT JOIN subject ON lecture.subject_id=subject.id "
 					+ "LEFT JOIN teacher ON lecture.teacher_id=teacher.id "
 					+ "LEFT JOIN depart ON subject.depart_id=depart.id");
 			
-			alLecture = new ArrayList<LectureDTO>();
+			dtoList = new ArrayList<LectureDTO>();
 			
 			while(rs.next()) {
-				lecture = new LectureDTO();
-				depart = new DepartDTO();
-				subject = new SubjectDTO();
-				teacher = new TeacherDTO();
-				lecture.setId(rs.getInt(1));
-				lecture.setSubject_id(rs.getInt(2));
-				lecture.setTeacher_id(rs.getInt(3));
-				lecture.set_class(rs.getString(4));
-				lecture.setNumber(rs.getByte(5));
-				subject.setId(rs.getInt(6));
-				subject.setName(rs.getString(7));
-				subject.setCode(rs.getString(8));
-				subject.setIhour(rs.getByte(9));
-				subject.setIpoint(rs.getFloat(10));
-				teacher.setId(11);
-				teacher.setName(rs.getString(12));
-				lecture.setSubject(subject);
-				lecture.setDepart(depart);
-				lecture.setTeacher(teacher);
-				alLecture.add(lecture);
-			} return alLecture;
+				dto = new LectureDTO();
+				dtoDepart = new DepartDTO();
+				dtoSubject = new SubjectDTO();
+				dtoTeacher = new TeacherDTO();
+				dto.setId(rs.getInt(1));
+				dto.setSubject_id(rs.getInt(2));
+				dto.setTeacher_id(rs.getInt(3));
+				dto.set_class(rs.getString(4));
+				dto.setNumber(rs.getByte(5));
+				dtoSubject.setId(rs.getInt(6));
+				dtoSubject.setName(rs.getString(7));
+				dtoSubject.setCode(rs.getString(8));
+				dtoSubject.setIhour(rs.getByte(9));
+				dtoSubject.setIpoint(rs.getFloat(10));
+				dtoTeacher.setId(11);
+				dtoTeacher.setName(rs.getString(12));
+				dto.setSubject(dtoSubject);
+				dto.setDepart(dtoDepart);
+				dto.setTeacher(dtoTeacher);
+				dtoList.add(dto);
+			} return dtoList;
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
 			this.closeDBResources(rs, stmt, pstmt, conn);
 		}
-		return alLecture;
+		return dtoList;
 	}
 	
 	public int register(HttpServletRequest request, HttpServletResponse response) {
@@ -486,15 +478,15 @@ public class LectureDAO extends DAOBase{
 	
 	public int updateT(HttpServletRequest request, HttpServletResponse response, int id) {
 		int result = 0;
-		lecture = new LectureDTO();
-		lecture.setTeacher_id(Integer.parseInt(request.getParameter("teacherno")));
+		dto = new LectureDTO();
+		dto.setTeacher_id(Integer.parseInt(request.getParameter("teacherno")));
 		
 		String sql = "update lecture set teacher_id=? where id="+id;
 		
 		try {
 			conn = getConnection();
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, lecture.getTeacher_id());
+			pstmt.setInt(1, dto.getTeacher_id());
 	    	result = pstmt.executeUpdate(); // 질의를 통해 수정된 레코드의 수
 	    	return result;
 		} catch (SQLException e) {
@@ -508,15 +500,15 @@ public class LectureDAO extends DAOBase{
 	
 	public int updateN(HttpServletRequest request, HttpServletResponse response, int id) {
 		int result = 0;
-		lecture = new LectureDTO();
-		lecture.setNumber(Byte.parseByte(request.getParameter("numberno"))); 
+		dto = new LectureDTO();
+		dto.setNumber(Byte.parseByte(request.getParameter("numberno"))); 
 		
 		String sql = "update lecture set number=? where id="+id;
 		
 		try {
 			conn = getConnection();
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, lecture.getNumber());
+			pstmt.setInt(1, dto.getNumber());
 	    	result = pstmt.executeUpdate(); // 질의를 통해 수정된 레코드의 수
 	    	return result;
 		} catch (SQLException e) {

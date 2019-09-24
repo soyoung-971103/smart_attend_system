@@ -36,19 +36,16 @@ public class AssistController extends HttpServlet {
         // TODO Auto-generated constructor stub
     }
 
-    ArrayList<AssistDTO> alMember = null;
-    AssistDTO member = null;
+    ArrayList<AssistDTO> dtoList = null;
+    AssistDTO dto = null;
     HttpSession sesobj = null;
     AssistDAO dao = new AssistDAO();
-    String query = null;
     
 	protected void process(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
 		// TODO Auto-generated method stub
 		request.setCharacterEncoding("UTF-8");		
 
 		sesobj = request.getSession();
-		
-		System.out.println("process");		
 		
 		String uri = request.getRequestURI();
 		int lastIndex = uri.lastIndexOf('/'); 
@@ -78,9 +75,9 @@ public class AssistController extends HttpServlet {
 		response.sendRedirect("assist-list.do");
 	}
 	private void Inquiry(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException{
-		alMember = dao.list();
+		dtoList = dao.list();
 
-		request.setAttribute("alMember", alMember);
+		request.setAttribute("alMember", dtoList);
 		
 		RequestDispatcher dis = request.getRequestDispatcher("ad_assist.jsp");
 		dis.forward(request, response);
@@ -88,19 +85,18 @@ public class AssistController extends HttpServlet {
 	private void Info(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
 		int id = Integer.parseInt(request.getParameter("id"));
 		
-		member = dao.info(id);
+		dto = dao.info(id);
 		
-		ArrayList<DepartDTO> daoDepartlist = new ArrayList<DepartDTO>();
+		ArrayList<DepartDTO> dtoListDepart = new ArrayList<DepartDTO>();
 		DepartDAO daoDepart = new DepartDAO();
-		daoDepartlist = daoDepart.List();
-		request.setAttribute("Depart", daoDepartlist);
+		dtoListDepart = daoDepart.List();
+		request.setAttribute("Depart", dtoListDepart);
 		
-		request.setAttribute("member", member);
+		request.setAttribute("member", dto);
 		RequestDispatcher dis = request.getRequestDispatcher("ad_assistInfo.jsp"); 
 		dis.forward(request, response);
 	}
 	private void Update(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException{
-
 		dao.update(request, response);
 	    response.sendRedirect("assist-list.do");
 	}
@@ -109,10 +105,10 @@ public class AssistController extends HttpServlet {
 	    response.sendRedirect("assist-list.do");
 	}
 	private void inputdata(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException{
-		ArrayList<DepartDTO> daoDepartlist = new ArrayList<DepartDTO>();
+		ArrayList<DepartDTO> dtoListDepart = new ArrayList<DepartDTO>();
 		DepartDAO daoDepart = new DepartDAO();
-		daoDepartlist = daoDepart.List();
-		request.setAttribute("Depart", daoDepartlist);
+		dtoListDepart = daoDepart.List();
+		request.setAttribute("Depart", dtoListDepart);
 		
 		RequestDispatcher dis = request.getRequestDispatcher("ad_assistnew.jsp"); 
 		dis.forward(request, response);

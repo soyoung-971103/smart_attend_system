@@ -43,13 +43,10 @@ public class StudentController extends HttpServlet {
     }
 
 	
-    ArrayList<StudentDTO> alStudent = null;
-    StudentDTO student = null;
-    HttpSession sesobj = null;
+    ArrayList<StudentDTO> dtoList = null;
+    StudentDTO dto = null;
     StudentDAO dao = new StudentDAO();
-    ArrayList<LectureDTO> alLecture = null;
-    LectureDTO lecture = null;
-    LectureDAO lecture_dao = new LectureDAO();
+    HttpSession sesobj = null;
     //Pagination pn = new Pagination();
     
 	protected void process(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
@@ -81,25 +78,25 @@ public class StudentController extends HttpServlet {
 	}
 	
 	protected void list(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException{
-		 alStudent = dao.list();
-			request.setAttribute("studentlist", alStudent);
+		 dtoList = dao.list();
+			request.setAttribute("studentlist", dtoList);
 			request.getRequestDispatcher("ad_student.jsp").forward(request, response);
 	}
 	
 	
 	protected void search(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException{
-		 alStudent = dao.search(request.getParameter("text1"));
-			request.setAttribute("studentlist", alStudent);
+		 dtoList = dao.search(request.getParameter("text1"));
+			request.setAttribute("studentlist", dtoList);
 			request.getRequestDispatcher("ad_student.jsp").forward(request, response);
 	}
 	
 	private void detail(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
 		int id = Integer.parseInt(request.getParameter("id"));
 		System.out.println(id);
-		student = dao.detail(id);
-		request.setAttribute("student", student);
-		String phone[]=student.getPhone().split("-");
-		String birthday[]=student.getBirthday().split("-");
+		dto = dao.detail(id);
+		request.setAttribute("student", dto);
+		String phone[]=dto.getPhone().split("-");
+		String birthday[]=dto.getBirthday().split("-");
 		request.setAttribute("phone1", phone[0]);
 		request.setAttribute("phone2", phone[1]);
 		request.setAttribute("phone3", phone[2]);
@@ -109,8 +106,7 @@ public class StudentController extends HttpServlet {
 		request.getRequestDispatcher("ad_studentupdate.jsp").forward(request, response);
     }
 	
-	private void delete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
-		
+	private void delete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {		
 		int result = dao.delete(request, response); // 질의를 통해 수정된 레코드의 수
     	if(result > 0) {// 삭제 성공 : 영향 받은 row(record)의 수
     		request.setAttribute("id", request.getParameter("id"));

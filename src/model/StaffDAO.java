@@ -16,8 +16,8 @@ public class StaffDAO extends DAOBase {
 	private Statement stmt = null;
 	private PreparedStatement pstmt = null;
 	private ResultSet rs = null;
-	private StaffDTO staff = null;
-	private ArrayList<StaffDTO> alStaff = null;
+	private StaffDTO dto = null;
+	private ArrayList<StaffDTO> dtoList = null;
 	
 	public int delete(HttpServletRequest request, HttpServletResponse response) {
 		int result=0;
@@ -48,24 +48,24 @@ public class StaffDAO extends DAOBase {
 					" where uid='" + (String) session.getAttribute("uid") + "'"); 
 			// email, pw는 form을 구성하는 각 요소의 이름
 			if(rs.next()) {
-				staff = new StaffDTO();
-				staff.setDepart_id(rs.getInt(2));
-         	    staff.setUid(rs.getString(3));
-         	    staff.setPwd(rs.getString(4));
-         	    staff.setName(rs.getString(5));
-         	    staff.setTel(rs.getString(6));
-         	    staff.setPhone(rs.getString(7));
-         	    staff.setEmail(rs.getString(8));
-         	    staff.setPic(rs.getString(9));
+				dto = new StaffDTO();
+				dto.setDepart_id(rs.getInt(2));
+				dto.setUid(rs.getString(3));
+				dto.setPwd(rs.getString(4));
+				dto.setName(rs.getString(5));
+				dto.setTel(rs.getString(6));
+				dto.setPhone(rs.getString(7));
+				dto.setEmail(rs.getString(8));
+				dto.setPic(rs.getString(9));
 			}
-			return staff;
+			return dto;
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
 			this.closeDBResources(rs, stmt, pstmt, conn);
 		}
-			return staff;
+			return dto;
 	}
 	
 	public int register(HttpServletRequest request, HttpServletResponse response) {
@@ -124,24 +124,24 @@ public class StaffDAO extends DAOBase {
 	               "' and pwd='" + request.getParameter("password") + "'");
 	               
 	               if(rs.next()) {
-	            	   staff = new StaffDTO();
-	            	   staff.setDepart_id(rs.getInt(2));
-	            	   staff.setUid(rs.getString(3));
-	            	   staff.setPwd(rs.getString(4));
-	            	   staff.setName(rs.getString(5));
-	            	   staff.setTel(rs.getString(6));
-	            	   staff.setPhone(rs.getString(7));
-	            	   staff.setEmail(rs.getString(8));
-	            	   staff.setPic(rs.getString(9));
+	            	   dto = new StaffDTO();
+	            	   dto.setDepart_id(rs.getInt(2));
+	            	   dto.setUid(rs.getString(3));
+	            	   dto.setPwd(rs.getString(4));
+	            	   dto.setName(rs.getString(5));
+	            	   dto.setTel(rs.getString(6));
+	            	   dto.setPhone(rs.getString(7));
+	            	   dto.setEmail(rs.getString(8));
+	            	   dto.setPic(rs.getString(9));
 	               }
-	               return staff;
+	               return dto;
 	      } catch (SQLException e) {
 	         // TODO Auto-generated catch block
 	         e.printStackTrace();
 	      } finally {
 				this.closeDBResources(rs, stmt, pstmt, conn);
 			}
-	      return staff;
+	      return dto;
 	   }
 	
 	public ArrayList<StaffDTO> list(){
@@ -150,25 +150,25 @@ public class StaffDAO extends DAOBase {
 			stmt = conn.createStatement();
 			rs = stmt.executeQuery("select * from staff");
 			// email, pw는 form을 구성하는 각 요소의 이름
-			alStaff = new ArrayList<StaffDTO>();
+			dtoList = new ArrayList<StaffDTO>();
 			while(rs.next()) {
-				staff = new StaffDTO();
-				staff.setDepart_id(rs.getInt(2));
-         	    staff.setUid(rs.getString(3));
-         	    staff.setPwd(rs.getString(4));
-         	    staff.setName(rs.getString(5));
-         	    staff.setTel(rs.getString(6));
-         	    staff.setPhone(rs.getString(7));
-         	    staff.setEmail(rs.getString(8));
-         	    staff.setPic(rs.getString(9));
-				alStaff.add(staff);
-			} return alStaff;
+				dto = new StaffDTO();
+				dto.setDepart_id(rs.getInt(2));
+         	    dto.setUid(rs.getString(3));
+         	    dto.setPwd(rs.getString(4));
+         	    dto.setName(rs.getString(5));
+         	    dto.setTel(rs.getString(6));
+         	    dto.setPhone(rs.getString(7));
+         	    dto.setEmail(rs.getString(8));
+         	    dto.setPic(rs.getString(9));
+				dtoList.add(dto);
+			} return dtoList;
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
 			this.closeDBResources(rs, stmt, pstmt, conn);
 		}
-		return alStaff;
+		return dtoList;
 	}
 }

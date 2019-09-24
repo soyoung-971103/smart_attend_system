@@ -36,13 +36,11 @@ public class MemberController extends HttpServlet {
         super();
         // TODO Auto-generated constructor stub
     }
-
 	
-    ArrayList<MemberDTO> alMember = null;
-    MemberDTO member = null;
-    StudentDTO student = null;
-	TeacherDTO teacher = null;
-	AssistDTO assist = null;
+    MemberDTO dto = null;
+    StudentDTO dtoStudent = null;
+	TeacherDTO dtoTeacher = null;
+	AssistDTO dtoAssist = null;
     HttpSession sesobj = null;
     MemberDAO dao = new MemberDAO();
     //Pagination pn = new Pagination();
@@ -64,103 +62,35 @@ public class MemberController extends HttpServlet {
 		
 	}
 	
-	/*
-	private void info(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
-		
-		String email = (String) sesobj.getAttribute("email");
-		
-		member = dao.selectRow(email);
-		
-		if(member!= null) {	
-			request.setAttribute("name", member.getName());
-			request.setAttribute("phone", member.getPhone());
-			request.getRequestDispatcher("customer-update.jsp").forward(request, response);
-		}else {
-			request.getRequestDispatcher("customer-fail.jsp").forward(request, response);
-		}
-	}
-	
-	
-	private void delete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
-		
-		int result = dao.delete(request.getParameter("email"));
-		
-		if(result >= 1) {	//ȸ��Ż��(����)����
-			response.sendRedirect("member-list.do");
-		}else {
-			request.getRequestDispatcher("fail.jsp").forward(request, response);
-		}
-	}	
-	
-	private void update(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
-			
-		member = new MemberDTO();
-		
-		member.setEmail(request.getParameter("email"));
-		member.setPw(request.getParameter("pw"));
-		member.setName(request.getParameter("name"));
-		member.setPhone(request.getParameter("phone"));
-		
-		int result = dao.update(member);
-		
-		if(result >= 1) {	
-			request.setAttribute("name", request.getParameter("email"));
-			request.getRequestDispatcher("update-success.jsp").forward(request, response);
-		}else {
-			request.getRequestDispatcher("update-fail.jsp").forward(request, response);
-		}
-	}
-	
-	
-	private void register(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
-		
-		member = new MemberDTO();
-    	
-		member.setEmail(request.getParameter("email"));
-		member.setPw(request.getParameter("pw"));
-		member.setName(request.getParameter("name"));
-		member.setPhone(request.getParameter("phone"));
-		
-		int result = dao.insert(member);
-		
-		if(result >= 1) {	
-			request.setAttribute("name", request.getParameter("email"));
-			request.getRequestDispatcher("register-success.jsp").forward(request, response);
-		}else {
-			request.getRequestDispatcher("register-fail.jsp").forward(request, response);
-		}
-	}
-	
-	*/
 	private void login(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {			
 		String kind = request.getParameter("login_kind");
-		member = new MemberDTO();
+		dto = new MemberDTO();
 		
 		if(kind.equals("student")) {
-			student = new StudentDTO();
-			student.setSchoolno(request.getParameter("login_uid"));
-			student.setPwd(request.getParameter("login_password"));				
-			member = dao.loginCheckStudent(student);		
+			dtoStudent = new StudentDTO();
+			dtoStudent.setSchoolno(request.getParameter("login_uid"));
+			dtoStudent.setPwd(request.getParameter("login_password"));				
+			dto = dao.loginCheckStudent(dtoStudent);		
 			
 		}else if(kind.equals("teacher")) {
-			teacher = new TeacherDTO();
-			teacher.setUid(request.getParameter("login_uid"));
-			teacher.setPwd(request.getParameter("login_password"));				
-			member = dao.loginCheckTeacher(teacher);	
+			dtoTeacher = new TeacherDTO();
+			dtoTeacher.setUid(request.getParameter("login_uid"));
+			dtoTeacher.setPwd(request.getParameter("login_password"));				
+			dto = dao.loginCheckTeacher(dtoTeacher);	
 			
 		}else if(kind.equals("assist")) {
-			assist = new AssistDTO();
-			assist.setUid(request.getParameter("login_uid"));
-			assist.setPwd(request.getParameter("login_password"));				
-			member = dao.loginCheckAssist(assist);	
+			dtoAssist = new AssistDTO();
+			dtoAssist.setUid(request.getParameter("login_uid"));
+			dtoAssist.setPwd(request.getParameter("login_password"));				
+			dto = dao.loginCheckAssist(dtoAssist);	
 			
 		}else {
-			member = null;
+			dto = null;
 		}		
 		
-		if(member != null) {	
-			sesobj.setAttribute("name", member.getName());
-			sesobj.setAttribute("uid", member.getUid());
+		if(dto != null) {	
+			sesobj.setAttribute("name", dto.getName());
+			sesobj.setAttribute("uid", dto.getUid());
 			sesobj.setAttribute("kind", kind);
 			request.getRequestDispatcher("main.jsp").forward(request, response);
 		}else {

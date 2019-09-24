@@ -40,8 +40,6 @@ public class DepartController extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");		
 		sesobj = request.getSession();
 		
-		System.out.println("process");		
-		
 		String uri = request.getRequestURI();
 		int lastIndex = uri.lastIndexOf('/'); 
 		String action = uri.substring(lastIndex + 1); 
@@ -63,8 +61,7 @@ public class DepartController extends HttpServlet {
 	}
 	
 	
-	private void info(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
-		
+	private void info(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {		
 		DepartDTO dtoInfo = new DepartDTO();
     	dtoInfo.setId(Integer.parseInt(request.getParameter("id")));
     	dto = dao.selectOne(dtoInfo);
@@ -78,7 +75,6 @@ public class DepartController extends HttpServlet {
 	}
 	
 	private void delete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
-		
 		int result = dao.delete(Integer.parseInt(request.getParameter("id")));
 		
 		if(result >= 1) {	
@@ -89,7 +85,8 @@ public class DepartController extends HttpServlet {
 	}
 	
 	
-	private void update(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
+	private void update(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {		
+		dto = new DepartDTO();
 		
 		dto.setId(Integer.parseInt(request.getParameter("id")));
 		dto.setName(request.getParameter("name"));
@@ -107,8 +104,7 @@ public class DepartController extends HttpServlet {
 	}
 	
 	
-	private void insert(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
-		
+	private void insert(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {		
 		dto = new DepartDTO();
     	
 		dto.setId(Integer.parseInt(request.getParameter("id")));
@@ -124,11 +120,9 @@ public class DepartController extends HttpServlet {
 		}else {
 			request.getRequestDispatcher("ad_departnew.jsp").forward(request, response);
 		}
-	}
-	
+	}	
 
-	private void list(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
-		
+	private void list(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {		
     	dtoList = dao.List();
     	request.setAttribute("list", dtoList);    	
     	request.getRequestDispatcher("ad_depart.jsp").forward(request, response);

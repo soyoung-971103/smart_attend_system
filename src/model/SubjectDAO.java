@@ -17,9 +17,9 @@ public class SubjectDAO extends DAOBase{
 	private Statement stmt = null;
 	private PreparedStatement pstmt = null;
 	private ResultSet rs = null;
-	private SubjectDTO subject = null;
-	private DepartDTO depart = null;
-	private ArrayList<SubjectDTO> alSubject = null;
+	private SubjectDTO dto = null;
+	private DepartDTO dtoDepart = null;
+	private ArrayList<SubjectDTO> dtoList = null;
 	
 	public ArrayList<SubjectDTO> list(String sel1, String sel2){
 		try {
@@ -31,34 +31,34 @@ public class SubjectDAO extends DAOBase{
 			
 			else rs=stmt.executeQuery("SELECT subject.*, depart.name FROM subject LEFT JOIN depart ON subject.depart_id=depart.id");
 			
-			alSubject = new ArrayList<SubjectDTO>();
+			dtoList = new ArrayList<SubjectDTO>();
 			
 			while(rs.next()) {
-				subject = new SubjectDTO();
-				depart = new DepartDTO();
-				subject.setId(rs.getInt(1));
-				subject.setDepart_id(rs.getInt(2));
-				subject.setCode(rs.getString(3));
-				subject.setYyyy(rs.getInt(4));
-				subject.setGrade(rs.getByte(5));
-				subject.setTerm(rs.getByte(6));
-				subject.setIsmajor(rs.getString(7));
-				subject.setIschoice(rs.getString(8));
-				subject.setIspractice(rs.getString(9));
-				subject.setName(rs.getString(10));
-				subject.setIpoint(rs.getFloat(11));
-				subject.setIhour(rs.getByte(12));
-				subject.setDepart(depart);
-				depart.setName(rs.getString(13));
-				alSubject.add(subject);
-			} return alSubject;
+				dto = new SubjectDTO();
+				dtoDepart = new DepartDTO();
+				dto.setId(rs.getInt(1));
+				dto.setDepart_id(rs.getInt(2));
+				dto.setCode(rs.getString(3));
+				dto.setYyyy(rs.getInt(4));
+				dto.setGrade(rs.getByte(5));
+				dto.setTerm(rs.getByte(6));
+				dto.setIsmajor(rs.getString(7));
+				dto.setIschoice(rs.getString(8));
+				dto.setIspractice(rs.getString(9));
+				dto.setName(rs.getString(10));
+				dto.setIpoint(rs.getFloat(11));
+				dto.setIhour(rs.getByte(12));
+				dto.setDepart(dtoDepart);
+				dtoDepart.setName(rs.getString(13));
+				dtoList.add(dto);
+			} return dtoList;
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
 			this.closeDBResources(rs, stmt, pstmt, conn);
 		}
-		return alSubject;
+		return dtoList;
 	}
 	
 	public ArrayList<SubjectDTO> List(){
@@ -68,51 +68,51 @@ public class SubjectDAO extends DAOBase{
 
 			rs=stmt.executeQuery("SELECT subject.*, depart.name FROM subject LEFT JOIN depart ON subject.depart_id=depart.id");
 			
-			alSubject = new ArrayList<SubjectDTO>();
+			dtoList = new ArrayList<SubjectDTO>();
 			
 			while(rs.next()) {
-				subject = new SubjectDTO();
-				depart = new DepartDTO();
-				subject.setId(rs.getInt(1));
-				subject.setDepart_id(rs.getInt(2));
-				subject.setCode(rs.getString(3));
-				subject.setYyyy(rs.getInt(4));
-				subject.setGrade(rs.getByte(5));
-				subject.setTerm(rs.getByte(6));
-				subject.setIsmajor(rs.getString(7));
-				subject.setIschoice(rs.getString(8));
-				subject.setIspractice(rs.getString(9));
-				subject.setName(rs.getString(10));
-				subject.setIpoint(rs.getFloat(11));
-				subject.setIhour(rs.getByte(12));
-				subject.setDepart(depart);
-				depart.setName(rs.getString(13));
-				alSubject.add(subject);
-			} return alSubject;
+				dto = new SubjectDTO();
+				dtoDepart = new DepartDTO();
+				dto.setId(rs.getInt(1));
+				dto.setDepart_id(rs.getInt(2));
+				dto.setCode(rs.getString(3));
+				dto.setYyyy(rs.getInt(4));
+				dto.setGrade(rs.getByte(5));
+				dto.setTerm(rs.getByte(6));
+				dto.setIsmajor(rs.getString(7));
+				dto.setIschoice(rs.getString(8));
+				dto.setIspractice(rs.getString(9));
+				dto.setName(rs.getString(10));
+				dto.setIpoint(rs.getFloat(11));
+				dto.setIhour(rs.getByte(12));
+				dto.setDepart(dtoDepart);
+				dtoDepart.setName(rs.getString(13));
+				dtoList.add(dto);
+			} return dtoList;
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
 			this.closeDBResources(rs, stmt, pstmt, conn);
 		}
-		return alSubject;
+		return dtoList;
 	}
 	
 public int register(HttpServletRequest request, HttpServletResponse response) {
 		
 		int result = 0;
-		subject = new SubjectDTO();
-		subject.setDepart_id(Integer.parseInt(request.getParameter("depart_id")));
-		subject.setCode(request.getParameter("code"));
-		subject.setYyyy(Integer.parseInt(request.getParameter("yyyy")));
-		subject.setGrade(Byte.parseByte(request.getParameter("grade")));
-		subject.setTerm(Byte.parseByte(request.getParameter("term")));
-		subject.setIsmajor(request.getParameter("ismajor"));
-		subject.setIschoice(request.getParameter("ischoice"));
-		subject.setIspractice(request.getParameter("ispractice"));
-		subject.setName(request.getParameter("name"));
-		subject.setIpoint(Float.parseFloat(request.getParameter("ipoint")));
-		subject.setIhour(Byte.parseByte(request.getParameter("ihour")));
+		dto = new SubjectDTO();
+		dto.setDepart_id(Integer.parseInt(request.getParameter("depart_id")));
+		dto.setCode(request.getParameter("code"));
+		dto.setYyyy(Integer.parseInt(request.getParameter("yyyy")));
+		dto.setGrade(Byte.parseByte(request.getParameter("grade")));
+		dto.setTerm(Byte.parseByte(request.getParameter("term")));
+		dto.setIsmajor(request.getParameter("ismajor"));
+		dto.setIschoice(request.getParameter("ischoice"));
+		dto.setIspractice(request.getParameter("ispractice"));
+		dto.setName(request.getParameter("name"));
+		dto.setIpoint(Float.parseFloat(request.getParameter("ipoint")));
+		dto.setIhour(Byte.parseByte(request.getParameter("ihour")));
     	
     	String sql = "insert into subject(id, depart_id, code, yyyy, grade, term, "
     			+ "ismajor, ischoice, ispractice, name, ipoint, ihour) " + 
@@ -121,18 +121,18 @@ public int register(HttpServletRequest request, HttpServletResponse response) {
     	try {
 			conn = getConnection();
 	    	pstmt = conn.prepareStatement(sql);
-	    	pstmt.setInt(1, subject.getId());
-	    	pstmt.setInt(2, subject.getDepart_id());
-	    	pstmt.setString(3, subject.getCode());
-	    	pstmt.setInt(4, subject.getYyyy());
-	    	pstmt.setByte(5, subject.getGrade());
-	    	pstmt.setByte(6, subject.getTerm());
-	    	pstmt.setString(7, subject.getIsmajor());
-	    	pstmt.setString(8, subject.getIschoice());
-	    	pstmt.setString(9, subject.getIspractice());
-	    	pstmt.setString(10, subject.getName());
-	    	pstmt.setFloat(11, subject.getIpoint());
-	    	pstmt.setByte(12, subject.getIhour());
+	    	pstmt.setInt(1, dto.getId());
+	    	pstmt.setInt(2, dto.getDepart_id());
+	    	pstmt.setString(3, dto.getCode());
+	    	pstmt.setInt(4, dto.getYyyy());
+	    	pstmt.setByte(5, dto.getGrade());
+	    	pstmt.setByte(6, dto.getTerm());
+	    	pstmt.setString(7, dto.getIsmajor());
+	    	pstmt.setString(8, dto.getIschoice());
+	    	pstmt.setString(9, dto.getIspractice());
+	    	pstmt.setString(10, dto.getName());
+	    	pstmt.setFloat(11, dto.getIpoint());
+	    	pstmt.setByte(12, dto.getIhour());
 	    	
 	    	result = pstmt.executeUpdate();
 	    	
@@ -148,19 +148,19 @@ public int register(HttpServletRequest request, HttpServletResponse response) {
 
 	public int update(HttpServletRequest request, HttpServletResponse response) {
 		int result = 0;
-		subject = new SubjectDTO();
-		subject.setId(Integer.parseInt(request.getParameter("id")));
-		subject.setDepart_id(Byte.parseByte(request.getParameter("depart_id")));
-		subject.setCode(request.getParameter("code"));
-		subject.setYyyy(Integer.parseInt(request.getParameter("yyyy")));
-		subject.setGrade(Byte.parseByte(request.getParameter("grade")));
-		subject.setTerm(Byte.parseByte(request.getParameter("term")));
-		subject.setIsmajor(request.getParameter("ismajor"));
-		subject.setIschoice(request.getParameter("ischoice"));
-		subject.setIspractice(request.getParameter("ispractice"));
-		subject.setName(request.getParameter("name"));
-		subject.setIpoint(Float.parseFloat(request.getParameter("ipoint")));
-		subject.setIhour(Byte.parseByte(request.getParameter("ihour")));
+		dto = new SubjectDTO();
+		dto.setId(Integer.parseInt(request.getParameter("id")));
+		dto.setDepart_id(Byte.parseByte(request.getParameter("depart_id")));
+		dto.setCode(request.getParameter("code"));
+		dto.setYyyy(Integer.parseInt(request.getParameter("yyyy")));
+		dto.setGrade(Byte.parseByte(request.getParameter("grade")));
+		dto.setTerm(Byte.parseByte(request.getParameter("term")));
+		dto.setIsmajor(request.getParameter("ismajor"));
+		dto.setIschoice(request.getParameter("ischoice"));
+		dto.setIspractice(request.getParameter("ispractice"));
+		dto.setName(request.getParameter("name"));
+		dto.setIpoint(Float.parseFloat(request.getParameter("ipoint")));
+		dto.setIhour(Byte.parseByte(request.getParameter("ihour")));
 		
 		String sql = "update subject set depart_id=?, code=?, yyyy=?, grade=?, term=?, "
 				+ "ismajor=?, ischoice=?, ispractice=?, name=?, ipoint=?, ihour=? where id=?";
@@ -168,18 +168,18 @@ public int register(HttpServletRequest request, HttpServletResponse response) {
 		try {
 			conn = getConnection();
 			pstmt = conn.prepareStatement(sql);
-	    	pstmt.setInt(1, subject.getDepart_id());
-	    	pstmt.setString(2, subject.getCode());
-	    	pstmt.setInt(3, subject.getYyyy());
-	    	pstmt.setByte(4, subject.getGrade());
-	    	pstmt.setByte(5, subject.getTerm());
-	    	pstmt.setString(6, subject.getIsmajor());
-	    	pstmt.setString(7, subject.getIschoice());
-	    	pstmt.setString(8, subject.getIspractice());
-	    	pstmt.setString(9, subject.getName());
-	    	pstmt.setFloat(10, subject.getIpoint());
-	    	pstmt.setByte(11, subject.getIhour());
-	    	pstmt.setInt(12, subject.getId());
+	    	pstmt.setInt(1, dto.getDepart_id());
+	    	pstmt.setString(2, dto.getCode());
+	    	pstmt.setInt(3, dto.getYyyy());
+	    	pstmt.setByte(4, dto.getGrade());
+	    	pstmt.setByte(5, dto.getTerm());
+	    	pstmt.setString(6, dto.getIsmajor());
+	    	pstmt.setString(7, dto.getIschoice());
+	    	pstmt.setString(8, dto.getIspractice());
+	    	pstmt.setString(9, dto.getName());
+	    	pstmt.setFloat(10, dto.getIpoint());
+	    	pstmt.setByte(11, dto.getIhour());
+	    	pstmt.setInt(12, dto.getId());
 	    	result = pstmt.executeUpdate(); // 질의를 통해 수정된 레코드의 수
 	    	return result;
 		} catch (SQLException e) {
@@ -214,27 +214,27 @@ public int register(HttpServletRequest request, HttpServletResponse response) {
 			stmt = conn.createStatement();
 			rs = stmt.executeQuery("select * from subject where id=" + id);
 			if(rs.next()) {
-				subject = new SubjectDTO();
-				subject.setId(rs.getInt(1));
-				subject.setDepart_id(rs.getInt(2));
-				subject.setCode(rs.getString(3));
-				subject.setYyyy(rs.getInt(4));
-				subject.setGrade(rs.getByte(5));
-				subject.setTerm(rs.getByte(6));
-				subject.setIsmajor(rs.getString(7));
-				subject.setIschoice(rs.getString(8));
-				subject.setIspractice(rs.getString(9));
-				subject.setName(rs.getString(10));
-				subject.setIpoint(rs.getFloat(11));
-				subject.setIhour(rs.getByte(12));
+				dto = new SubjectDTO();
+				dto.setId(rs.getInt(1));
+				dto.setDepart_id(rs.getInt(2));
+				dto.setCode(rs.getString(3));
+				dto.setYyyy(rs.getInt(4));
+				dto.setGrade(rs.getByte(5));
+				dto.setTerm(rs.getByte(6));
+				dto.setIsmajor(rs.getString(7));
+				dto.setIschoice(rs.getString(8));
+				dto.setIspractice(rs.getString(9));
+				dto.setName(rs.getString(10));
+				dto.setIpoint(rs.getFloat(11));
+				dto.setIhour(rs.getByte(12));
 			}
-			return subject;
+			return dto;
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
 			this.closeDBResources(rs, stmt, pstmt, conn);
 		}
-			return subject;
+			return dto;
 	}
 }

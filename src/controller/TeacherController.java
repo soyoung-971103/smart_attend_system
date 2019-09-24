@@ -34,19 +34,17 @@ public class TeacherController extends HttpServlet {
         // TODO Auto-generated constructor stub
     }
     
-    ArrayList<TeacherDTO> alMember = null;
-    TeacherDTO member = null;
-    HttpSession sesobj = null;
+    ArrayList<TeacherDTO> dtoList = null;
+    TeacherDTO dto = null;
     TeacherDAO dao = new TeacherDAO();
-    String query = null;
-	String [] kind = {"전임교수", "겸임교수", "시간강사"};
+    HttpSession sesobj = null;
+    String [] kind = {"전임교수", "겸임교수", "시간강사"};
+    
 	protected void process(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
 		// TODO Auto-generated method stub
 		request.setCharacterEncoding("UTF-8");		
 
 		sesobj = request.getSession();
-		
-		System.out.println("process");		
 		
 		String uri = request.getRequestURI();
 		int lastIndex = uri.lastIndexOf('/'); 
@@ -68,16 +66,16 @@ public class TeacherController extends HttpServlet {
 		else
 			;
 		
-	}//
+	}
 	private void Delete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException{
 		dao.delete(request, response);
 		response.sendRedirect("TeacherInquiry");
 	}
 	private void Inquiry(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException{
-		alMember = dao.list();
+		dtoList = dao.list();
 		
 
-		request.setAttribute("alMember", alMember);
+		request.setAttribute("alMember", dtoList);
 		
 		RequestDispatcher dis = request.getRequestDispatcher("ad_teacher.jsp");
 		dis.forward(request, response);
@@ -86,16 +84,16 @@ public class TeacherController extends HttpServlet {
 		int id = Integer.parseInt(request.getParameter("id"));
 		if(id > 0) {
 
-			member = dao.info(id);
+			dto = dao.info(id);
 			
-			ArrayList<DepartDTO> daoDepartlist = new ArrayList<DepartDTO>();
+			ArrayList<DepartDTO> dtoListDepart = new ArrayList<DepartDTO>();
 			DepartDAO daoDepart = new DepartDAO();
-			daoDepartlist = daoDepart.List();
+			dtoListDepart = daoDepart.List();
 			
-			request.setAttribute("Depart", daoDepartlist);
+			request.setAttribute("Depart", dtoListDepart);
 			
 			request.setAttribute("kind", kind);
-			request.setAttribute("member", member);
+			request.setAttribute("member", dto);
 			RequestDispatcher dis = request.getRequestDispatcher("ad_teacherInfo.jsp"); 
 			dis.forward(request, response);
 		}
@@ -112,10 +110,10 @@ public class TeacherController extends HttpServlet {
 	}
 	
 	private void inputdata(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException{
-		ArrayList<DepartDTO> daoDepartlist = new ArrayList<DepartDTO>();
+		ArrayList<DepartDTO> dtoListDepart = new ArrayList<DepartDTO>();
 		DepartDAO daoDepart = new DepartDAO();
-		daoDepartlist = daoDepart.List();
-		request.setAttribute("Depart", daoDepartlist);
+		dtoListDepart = daoDepart.List();
+		request.setAttribute("Depart", dtoListDepart);
 		request.setAttribute("kind", kind);
 		RequestDispatcher dis = request.getRequestDispatcher("ad_teachernew.jsp"); 
 		dis.forward(request, response);

@@ -49,14 +49,9 @@ public class MyLectureController extends HttpServlet {
         // TODO Auto-generated constructor stub
     }
     
-    java.sql.Connection conn = null;
-	java.sql.Statement stmt = null;
-	PreparedStatement pstmt = null;
-	HttpSession session = null;
-	ResultSet rs = null;
+	HttpSession sesobj = null;
 	LectureDTO lecture = null;
 	ArrayList<MyLectureDTO> dtoList = null;
-	MyLectureDAO dao = new MyLectureDAO();
 	ArrayList<TimeTableDTO> dtoListTime = null;
     ArrayList<RoomDTO> dtoListRoom = null;
     ArrayList<BuildingDTO> dtoListBuilding = null;
@@ -64,6 +59,7 @@ public class MyLectureController extends HttpServlet {
     ArrayList<DepartDTO> dtoListDepart = null;
     ArrayList<SubjectDTO> dtoListSubject = null;
     ArrayList<TeacherDTO> dtoListTeacher = null;
+	MyLectureDAO dao = new MyLectureDAO();
     TimeTableDAO daoTimetable = new TimeTableDAO();
     RoomDAO daoRoom = new RoomDAO();
     SubjectDAO daoSubject = new SubjectDAO();
@@ -74,9 +70,8 @@ public class MyLectureController extends HttpServlet {
 	
 	protected void process(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException {
     	request.setCharacterEncoding("UTF-8");
-    	session = request.getSession();
+    	sesobj = request.getSession();
     	dao = new MyLectureDAO();
-    	conn = dao.getConnection();
     	
     	String uri = request.getRequestURI();
     	int lastIndex = uri.lastIndexOf('/');
@@ -89,7 +84,7 @@ public class MyLectureController extends HttpServlet {
 	}
 	
 	protected void Sdetail(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException{
-		dtoList = dao.Sdetail(session);
+		dtoList = dao.Sdetail(sesobj);
 		
 		dtoListRoom = daoRoom.selectAllList();
 		dtoListTime = daoTimetable.Load();
