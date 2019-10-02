@@ -15,6 +15,8 @@ import java.util.Date;
 	import javax.servlet.http.HttpServletResponse;
 	import javax.servlet.http.HttpSession;
 
+import model.ControlDAO;
+import model.ControlDTO;
 import model.StudentLectureInfoDTO;
 import model.TeacherLectureDAO;
 	import model.TeacherLectureDTO;
@@ -42,6 +44,8 @@ import model.TeacherLectureDAO;
 		private static final long serialVersionUID = 1L;
 	    HttpSession sesobj = null;
 	    
+	    ArrayList<ControlDTO> dtoListControl = null;
+		ControlDAO daoControl = new ControlDAO();
 	    
 		protected void process(HttpServletRequest request, HttpServletResponse response) throws Exception {
 			// TODO Auto-generated method stub

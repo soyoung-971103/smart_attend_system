@@ -18,6 +18,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
 
+import model.ControlDAO;
+import model.ControlDTO;
 import model.LectureDAO;
 import model.LectureDTO;
 import model.StudentDAO;
@@ -48,6 +50,8 @@ public class StudentController extends HttpServlet {
     StudentDAO dao = new StudentDAO();
     HttpSession sesobj = null;
     //Pagination pn = new Pagination();
+    ArrayList<ControlDTO> dtoListControl = null;
+	ControlDAO daoControl = new ControlDAO();
     
 	protected void process(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
 		// TODO Auto-generated method stub
@@ -79,6 +83,8 @@ public class StudentController extends HttpServlet {
 	
 	protected void list(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException{
 		 dtoList = dao.list();
+		 dtoListControl = daoControl.List();
+		 request.setAttribute("controlList", dtoListControl);
 			request.setAttribute("studentlist", dtoList);
 			request.getRequestDispatcher("ad_student.jsp").forward(request, response);
 	}

@@ -12,6 +12,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import model.ControlDAO;
+import model.ControlDTO;
 import model.DepartDAO;
 import model.DepartDTO;
 import model.SubjectDTO;
@@ -34,6 +36,10 @@ public class TeacherLectureAllController extends HttpServlet {
         super();
         // TODO Auto-generated constructor stub
     }
+    
+    ArrayList<ControlDTO> dtoListControl = null;
+	ControlDAO daoControl = new ControlDAO();
+    
     protected void process(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		// TODO Auto-generated method stub
 		request.setCharacterEncoding("UTF-8");		
@@ -91,10 +97,13 @@ public class TeacherLectureAllController extends HttpServlet {
 		for(int i = 0; i < dto.getClassnum(); i++)
 			str[i] = (char)(i + 65);
 	
+		dtoListControl = daoControl.List();
 		
 		request.setAttribute("departInfo", dto);
 		request.setAttribute("classNum", str);
+		request.setAttribute("controlList", dtoListControl);
 		RequestDispatcher dis = request.getRequestDispatcher("te_lecall.jsp");
+		
 		dis.forward(request, response);
 	}
 	//telecSelect -> te_lecall.jsp 셀렉트 박스 과목 나타냄

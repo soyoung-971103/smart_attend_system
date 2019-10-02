@@ -14,6 +14,8 @@ import javax.servlet.http.HttpSession;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
+import model.ControlDAO;
+import model.ControlDTO;
 import model.HolidayDAO;
 import model.HolidayDTO;
 //import service.Pagination;
@@ -36,7 +38,9 @@ public class HolidayController extends HttpServlet {
     HolidayDTO dto = null;
     HttpSession sesobj = null;
     HolidayDAO dao = new HolidayDAO();
-    
+    ArrayList<ControlDTO> dtoListControl = null;
+	ControlDAO daoControl = new ControlDAO();
+	
 	protected void process(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
 		// TODO Auto-generated method stub
 		request.setCharacterEncoding("UTF-8");		
@@ -137,6 +141,8 @@ public class HolidayController extends HttpServlet {
 
 	private void list(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {		
     	dtoList = dao.List();
+    	dtoListControl = daoControl.List();
+    	request.setAttribute("controlList", dtoListControl);
     	request.setAttribute("list", dtoList);    	
     	request.getRequestDispatcher("ad_holiday.jsp").forward(request, response);
 		

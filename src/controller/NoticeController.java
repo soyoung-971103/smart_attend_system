@@ -20,6 +20,8 @@ import com.sun.corba.se.impl.protocol.giopmsgheaders.RequestMessage;
 import com.sun.xml.internal.bind.v2.schemagen.xmlschema.List;
 
 import model.NoticeDTO;
+import model.ControlDAO;
+import model.ControlDTO;
 import model.NoticeDAO;
 
 @WebServlet({"/notice-detail.do", "/notice-register.do","/notice-update.do", "/notice-list.do", "/notice-delete.do" })
@@ -43,6 +45,8 @@ private static final long serialVersionUID = 1L;
 	NoticeDTO dto = null;
 	HttpSession session = null;
 	NoticeDAO dao = null;
+	ArrayList<ControlDTO> dtoListControl = null;
+	ControlDAO daoControl = new ControlDAO();
 
     protected void process(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException {
     	request.setCharacterEncoding("UTF-8");
@@ -69,6 +73,8 @@ private static final long serialVersionUID = 1L;
     
     protected void list(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException{
 		 dtoList = dao.list(request.getParameter("text1"));
+		 dtoListControl = daoControl.List();
+		 request.setAttribute("controlList", dtoListControl);
 		request.setAttribute("noticelist", dtoList);
 		request.getRequestDispatcher("ad_notice.jsp").forward(request, response);
 	}

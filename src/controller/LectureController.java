@@ -15,6 +15,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import model.ControlDAO;
+import model.ControlDTO;
 import model.DepartDAO;
 import model.DepartDTO;
 import model.LectureDAO;
@@ -49,6 +51,8 @@ public class LectureController extends HttpServlet {
         // TODO Auto-generated constructor stub
     }
       
+    ArrayList<ControlDTO> dtoListControl = null;
+	ControlDAO daoControl = new ControlDAO();
     TeacherController controllerTeacher = null;
     //ArrayList<StudentDTO> alStudent = null;
     ArrayList<LectureDTO> dtoList = null;
@@ -109,6 +113,8 @@ public class LectureController extends HttpServlet {
 		String uid = (String)sesobj.getAttribute("uid");
 		dtoStudent = daoStudent.list_id(uid);		
 		dtoList = dao.selectAllList();		
+		dtoListControl = daoControl.List();
+		
 		
 		if(cookies != null){	         
 			 for(int i=0; i < cookies.length; i++){
@@ -145,6 +151,7 @@ public class LectureController extends HttpServlet {
 		
 		request.setAttribute("list", dtoList);
 		request.setAttribute("student", dtoStudent);
+		request.setAttribute("controlList", dtoListControl);
 		request.getRequestDispatcher("st_lec.jsp").forward(request, response);
 	}	
 	
@@ -188,7 +195,9 @@ public class LectureController extends HttpServlet {
 		String uid = (String)sesobj.getAttribute("uid");
 		dtoStudent = daoStudent.list_id(uid);		
 		dtoListMyLecture = dao.selectMyList(dtoStudent.getId());
+		dtoListControl = daoControl.List();
 		
+		request.setAttribute("controlList", dtoListControl);
 		request.setAttribute("list", dtoListMyLecture);
 		request.setAttribute("student", dtoStudent);
 		request.getRequestDispatcher("st_lecall.jsp").forward(request, response);
@@ -233,6 +242,9 @@ public class LectureController extends HttpServlet {
 
 		dtoList = dao.list(sel1, sel2, sel3);
 		dtoListTeacher = daoTeacher.list();
+		dtoListControl = daoControl.List();
+		
+		request.setAttribute("controlList", dtoListControl);
 		request.setAttribute("sel1", sel1);
 		request.setAttribute("sel2", sel2);
 		request.setAttribute("sel3", sel3);

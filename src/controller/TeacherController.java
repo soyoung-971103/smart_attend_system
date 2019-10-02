@@ -12,6 +12,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import model.ControlDAO;
+import model.ControlDTO;
 import model.DepartDAO;
 import model.DepartDTO;
 import model.TeacherDAO;
@@ -39,6 +41,8 @@ public class TeacherController extends HttpServlet {
     TeacherDAO dao = new TeacherDAO();
     HttpSession sesobj = null;
     String [] kind = {"전임교수", "겸임교수", "시간강사"};
+    ArrayList<ControlDTO> dtoListControl = null;
+	ControlDAO daoControl = new ControlDAO();
     
 	protected void process(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
 		// TODO Auto-generated method stub
@@ -73,9 +77,10 @@ public class TeacherController extends HttpServlet {
 	}
 	private void Inquiry(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException{
 		dtoList = dao.list();
-		
+		dtoListControl = daoControl.List();
 
 		request.setAttribute("alMember", dtoList);
+		request.setAttribute("controlList", dtoListControl);
 		
 		RequestDispatcher dis = request.getRequestDispatcher("ad_teacher.jsp");
 		dis.forward(request, response);
