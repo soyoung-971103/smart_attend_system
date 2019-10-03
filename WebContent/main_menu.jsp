@@ -87,7 +87,7 @@
 							<li><a href="timetable-tdetail.do" style="padding:5px 0 5px 40px;">시간표</a></li>
 							<li><a href="te_lec.jsp" style="padding:5px 0 5px 40px;">일별 출석부</a></li>
 							<li><a href="te-lecall.do" style="padding:5px 0 5px 40px;">과목별 출석부</a></li>
-							<li><a href="te_lecmove.html" style="padding:5px 0 5px 40px;">휴보강</a></li>
+							<li><a href="teacher-bogangList.do" style="padding:5px 0 5px 40px;">휴보강</a></li>
 							<li><a href="te_lecqa.html" style="padding:5px 0 5px 40px;">교과목 문의</a></li>
 						</ul>
 					</li>

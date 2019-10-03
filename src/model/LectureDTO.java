@@ -8,18 +8,11 @@ public class LectureDTO {
 	TeacherDTO teacher;	
 	String lecture_class;
 	String _class; //min
-	byte number; //min
 	int number;
 	
 	DepartDTO depart;
 	LectureDTO lecture;
 	
-	public byte getNumber() {
-		return number;
-	}
-	public void setNumber(byte number) {
-		this.number = number;
-	}	
 	public String get_class() {
 		return _class;
 	}

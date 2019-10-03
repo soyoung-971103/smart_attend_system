@@ -101,7 +101,7 @@
 													
 													<c:forEach var="depart" items="${listDepart}">
 													<c:choose>
-														<c:when  test="${subject.depart_id eq depart.id }">
+														<c:when  test="${student.depart_id eq depart.id }">
 														<option value='${depart.id }' selected>${depart.name }</option>	
 														</c:when >
 														<c:otherwise>

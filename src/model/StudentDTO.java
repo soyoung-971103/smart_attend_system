@@ -6,7 +6,6 @@ public class StudentDTO {
 	
 	int id;
 	int depart_id;
-	DepartDTO depart;
 	byte grade;
 	String student_class;
 	String schoolno;
@@ -20,12 +19,6 @@ public class StudentDTO {
 	String email;
 	DepartDTO depart;
 	
-	public DepartDTO getDepart() {
-		return depart;
-	}
-	public void setDepart(DepartDTO depart) {
-		this.depart = depart;
-	}
 	public int getId() {
 		return id;
 	}

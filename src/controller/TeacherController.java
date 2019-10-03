@@ -14,6 +14,8 @@ import javax.servlet.http.HttpSession;
 
 import model.DepartDAO;
 import model.DepartDTO;
+import model.LecturedayDAO;
+import model.LecturedayDTO;
 import model.TeacherDAO;
 import model.TeacherDTO;
 
@@ -21,7 +23,7 @@ import model.TeacherDTO;
  * Servlet implementation class TeacherController
  */
 //"/building-register.do", "/building-list.do", "/building-info.do", "/building-delete.do", "/building-update.do", "/building-search.do"
-@WebServlet({"/teacher-inputdata.do", "/teacher-info.do", "/teacher-register.do", "/teacher-list.do", "/teacher-delete.do", "/teacher-update.do"})
+@WebServlet({"/teacher-bogangList.do","/teacher-bogangDelete.do","/teacher-inputdata.do", "/teacher-info.do", "/teacher-register.do", "/teacher-list.do", "/teacher-delete.do", "/teacher-update.do"})
 
 public class TeacherController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -44,9 +46,7 @@ public class TeacherController extends HttpServlet {
 		// TODO Auto-generated method stub
 		request.setCharacterEncoding("UTF-8");		
 
-		sesobj = request.getSession();
-		
-		System.out.println("process");		
+		sesobj = request.getSession();	
 		
 		String uri = request.getRequestURI();
 		int lastIndex = uri.lastIndexOf('/'); 
@@ -64,6 +64,12 @@ public class TeacherController extends HttpServlet {
 			Inquiry(request, response);
 		}else if(action.equals("teacher-inputdata.do")) {
 			inputdata(request,response);
+		}
+		else if(action.equals("teacher-bogangList.do")) {
+			bogangList(request,response);
+		}
+		else if(action.equals("teacher-bogangDelete.do")) {
+			bogangDelete(request,response);
 		}
 		else
 			;
@@ -119,6 +125,25 @@ public class TeacherController extends HttpServlet {
 		request.setAttribute("kind", kind);
 		RequestDispatcher dis = request.getRequestDispatcher("ad_teachernew.jsp"); 
 		dis.forward(request, response);
+	}
+	
+	private void bogangList(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException{
+		ArrayList<LecturedayDTO> alLectureday = new ArrayList<LecturedayDTO>();
+		LecturedayDAO daoLectureday = new LecturedayDAO();
+		alLectureday = daoLectureday.list();
+		request.setAttribute("lectureday", alLectureday);
+		request.getRequestDispatcher("te_lecmove.jsp").forward(request, response);
+	}
+	
+	private void bogangDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException{
+		LecturedayDAO daoLectureday = new LecturedayDAO();
+		int result = daoLectureday.delete(request, response);
+		if(result > 0) {// 삭제 성공 : 영향 받은 row(record)의 수
+    		request.setAttribute("id", request.getParameter("id"));
+    		request.getRequestDispatcher("teacher-bogangList.do").forward(request, response);
+    	}
+    	else
+    		response.sendRedirect("fail.jsp"); // 실패
 	}
 	
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
