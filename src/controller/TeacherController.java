@@ -12,10 +12,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import model.ControlDAO;
-import model.ControlDTO;
 import model.DepartDAO;
 import model.DepartDTO;
+import model.LecturedayDAO;
+import model.LecturedayDTO;
 import model.TeacherDAO;
 import model.TeacherDTO;
 
@@ -23,7 +23,7 @@ import model.TeacherDTO;
  * Servlet implementation class TeacherController
  */
 //"/building-register.do", "/building-list.do", "/building-info.do", "/building-delete.do", "/building-update.do", "/building-search.do"
-@WebServlet({"/teacher-inputdata.do", "/teacher-info.do", "/teacher-register.do", "/teacher-list.do", "/teacher-delete.do", "/teacher-update.do"})
+@WebServlet({"/teacher-bogangList.do","/teacher-bogangUpdate.do","/teacher-inputdata.do", "/teacher-info.do", "/teacher-register.do", "/teacher-list.do", "/teacher-delete.do", "/teacher-update.do"})
 
 public class TeacherController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -36,19 +36,17 @@ public class TeacherController extends HttpServlet {
         // TODO Auto-generated constructor stub
     }
     
-    ArrayList<TeacherDTO> dtoList = null;
-    TeacherDTO dto = null;
-    TeacherDAO dao = new TeacherDAO();
+    ArrayList<TeacherDTO> alMember = null;
+    TeacherDTO member = null;
     HttpSession sesobj = null;
-    String [] kind = {"전임교수", "겸임교수", "시간강사"};
-    ArrayList<ControlDTO> dtoListControl = null;
-	ControlDAO daoControl = new ControlDAO();
-    
+    TeacherDAO dao = new TeacherDAO();
+    String query = null;
+	String [] kind = {"전임교수", "겸임교수", "시간강사"};
 	protected void process(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
 		// TODO Auto-generated method stub
 		request.setCharacterEncoding("UTF-8");		
 
-		sesobj = request.getSession();
+		sesobj = request.getSession();	
 		
 		String uri = request.getRequestURI();
 		int lastIndex = uri.lastIndexOf('/'); 
@@ -67,20 +65,25 @@ public class TeacherController extends HttpServlet {
 		}else if(action.equals("teacher-inputdata.do")) {
 			inputdata(request,response);
 		}
+		else if(action.equals("teacher-bogangList.do")) {
+			bogangList(request,response);
+		}
+		else if(action.equals("teacher-bogangUpdate.do")) {
+			bogangUpdate(request,response);
+		}
 		else
 			;
 		
-	}
+	}//
 	private void Delete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException{
 		dao.delete(request, response);
 		response.sendRedirect("TeacherInquiry");
 	}
 	private void Inquiry(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException{
-		dtoList = dao.list();
-		dtoListControl = daoControl.List();
+		alMember = dao.list();
+		
 
-		request.setAttribute("alMember", dtoList);
-		request.setAttribute("controlList", dtoListControl);
+		request.setAttribute("alMember", alMember);
 		
 		RequestDispatcher dis = request.getRequestDispatcher("ad_teacher.jsp");
 		dis.forward(request, response);
@@ -89,16 +92,16 @@ public class TeacherController extends HttpServlet {
 		int id = Integer.parseInt(request.getParameter("id"));
 		if(id > 0) {
 
-			dto = dao.info(id);
+			member = dao.info(id);
 			
-			ArrayList<DepartDTO> dtoListDepart = new ArrayList<DepartDTO>();
+			ArrayList<DepartDTO> daoDepartlist = new ArrayList<DepartDTO>();
 			DepartDAO daoDepart = new DepartDAO();
-			dtoListDepart = daoDepart.List();
+			daoDepartlist = daoDepart.List();
 			
-			request.setAttribute("Depart", dtoListDepart);
+			request.setAttribute("Depart", daoDepartlist);
 			
 			request.setAttribute("kind", kind);
-			request.setAttribute("member", dto);
+			request.setAttribute("member", member);
 			RequestDispatcher dis = request.getRequestDispatcher("ad_teacherInfo.jsp"); 
 			dis.forward(request, response);
 		}
@@ -115,13 +118,32 @@ public class TeacherController extends HttpServlet {
 	}
 	
 	private void inputdata(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException{
-		ArrayList<DepartDTO> dtoListDepart = new ArrayList<DepartDTO>();
+		ArrayList<DepartDTO> daoDepartlist = new ArrayList<DepartDTO>();
 		DepartDAO daoDepart = new DepartDAO();
-		dtoListDepart = daoDepart.List();
-		request.setAttribute("Depart", dtoListDepart);
+		daoDepartlist = daoDepart.List();
+		request.setAttribute("Depart", daoDepartlist);
 		request.setAttribute("kind", kind);
 		RequestDispatcher dis = request.getRequestDispatcher("ad_teachernew.jsp"); 
 		dis.forward(request, response);
+	}
+	
+	private void bogangList(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException{
+		ArrayList<LecturedayDTO> alLectureday = new ArrayList<LecturedayDTO>();
+		LecturedayDAO daoLectureday = new LecturedayDAO();
+		alLectureday = daoLectureday.list();
+		request.setAttribute("lectureday", alLectureday);
+		request.getRequestDispatcher("te_lecmove.jsp").forward(request, response);
+	}
+	
+	private void bogangUpdate(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException{
+		LecturedayDAO daoLectureday = new LecturedayDAO();
+		int result = daoLectureday.update(request, response);
+		if(result > 0) {// 삭제 성공 : 영향 받은 row(record)의 수
+    		request.setAttribute("id", request.getParameter("id"));
+    		request.getRequestDispatcher("teacher-bogangList.do").forward(request, response);
+    	}
+    	else
+    		response.sendRedirect("fail.jsp"); // 실패
 	}
 	
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

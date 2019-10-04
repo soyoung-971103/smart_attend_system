@@ -16,7 +16,42 @@ public class LecturedayDTO {
 	byte resthour;
 	String reststate;
 	String state;
+	DepartDTO depart;
+	LectureDTO lecture;
+	SubjectDTO subject;
+	RoomDTO room;
+	TeacherDTO teacher;
 	
+	public DepartDTO getDepart() {
+		return depart;
+	}
+	public void setDepart(DepartDTO depart) {
+		this.depart = depart;
+	}
+	public LectureDTO getLecture() {
+		return lecture;
+	}
+	public void setLecture(LectureDTO lecture) {
+		this.lecture = lecture;
+	}
+	public SubjectDTO getSubject() {
+		return subject;
+	}
+	public void setSubject(SubjectDTO subject) {
+		this.subject = subject;
+	}
+	public RoomDTO getRoom() {
+		return room;
+	}
+	public void setRoom(RoomDTO room) {
+		this.room = room;
+	}
+	public TeacherDTO getTeacher() {
+		return teacher;
+	}
+	public void setTeacher(TeacherDTO teacher) {
+		this.teacher = teacher;
+	}
 	public int getId() {
 		return id;
 	}

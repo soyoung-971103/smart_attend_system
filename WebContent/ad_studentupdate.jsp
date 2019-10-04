@@ -101,7 +101,7 @@
 													
 													<c:forEach var="depart" items="${listDepart}">
 													<c:choose>
-														<c:when  test="${subject.depart_id eq depart.id }">
+														<c:when  test="${student.depart_id eq depart.id }">
 														<option value='${depart.id }' selected>${depart.name }</option>	
 														</c:when >
 														<c:otherwise>
@@ -227,18 +227,12 @@
 											<img src="pic/st/${student.pic }" class="img-thumbnail" width="120" height="160" border="1">
 										</td>
 									</tr>
-
-
 								</table>
-
 								<div align="center">
 									<input type="submit" value="저장" class="btn btn-sm mycolor1">&nbsp;
 									<input type="button" value="이전화면" class="btn btn-sm mycolor1" onclick="history.back();">
 								</div>
-
 								</form>
-
-
 							</div>		<!-- card body end -->
 						</div>		<!-- card end -->
 					</div>
