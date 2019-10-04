@@ -6,7 +6,7 @@ public class LecturedayDTO {
 	int lecture_id;
 	int room_id;
 	byte th;
-	byte starth;
+	byte starth; 
 	Date normdate;
 	byte normstart;
 	byte normhour;

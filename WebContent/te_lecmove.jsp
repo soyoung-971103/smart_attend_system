@@ -83,7 +83,7 @@
 									<tr class="mycolor1">
 										<td>학과</td>
 										<td>교수님</td>
-										<td>교과목</td>
+										<td>교과목</td> 
 										<td>학년/반</td>
 										<td>휴강날짜</td>
 										<td>휴강교시</td>

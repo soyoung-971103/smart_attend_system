@@ -8,7 +8,7 @@
 <!-- 학생 : 유소영(3), 김해리(3), 이민호(2), 김진혁(2)                                              -->
 <!-------------------------------------------------------------------------------->	
 <!DOCTYPE html>
-<html lang="kr">
+<html lang="kr"> 
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">

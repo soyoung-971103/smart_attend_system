@@ -103,7 +103,7 @@ public class SubjectController extends HttpServlet {
        	request.setAttribute("listDepart", dtoListDepart);
 		request.setAttribute("subject", dto);
 		request.getRequestDispatcher("as_subupdate.jsp").forward(request, response);
-    }
+    } 
     
     protected void register(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
     	response.setContentType("text/html;charset=UTF-8");

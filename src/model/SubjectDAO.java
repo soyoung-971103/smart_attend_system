@@ -149,7 +149,7 @@ public int register(HttpServletRequest request, HttpServletResponse response) {
 	public int update(HttpServletRequest request, HttpServletResponse response) {
 		int result = 0;
 		dto = new SubjectDTO();
-		dto.setId(Integer.parseInt(request.getParameter("id")));
+		dto.setId(Integer.parseInt(request.getParameter("id"))); 
 		dto.setDepart_id(Byte.parseByte(request.getParameter("depart_id")));
 		dto.setCode(request.getParameter("code"));
 		dto.setYyyy(Integer.parseInt(request.getParameter("yyyy")));

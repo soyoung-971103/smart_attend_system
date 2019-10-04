@@ -55,7 +55,7 @@ public class LecturedayDAO extends DAOBase {
 				dtoTeacher.setName(rs.getString(16));
 				dtoSubject.setName(rs.getString(17));
 				dtoLecture.set_class(rs.getString(18));
-				dtoSubject.setGrade(rs.getByte(19));
+				dtoSubject.setGrade(rs.getByte(19)); 
 				dtoRoom.setName(rs.getString(20));
 				dtoLectureday.setDepart(dtoDepart);
 				dtoLectureday.setTeacher(dtoTeacher);

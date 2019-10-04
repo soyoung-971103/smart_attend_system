@@ -38,7 +38,7 @@ public class TeacherController extends HttpServlet {
     
     ArrayList<TeacherDTO> alMember = null;
     TeacherDTO member = null;
-    HttpSession sesobj = null;
+    HttpSession sesobj = null; 
     TeacherDAO dao = new TeacherDAO();
     String query = null;
 	String [] kind = {"전임교수", "겸임교수", "시간강사"};

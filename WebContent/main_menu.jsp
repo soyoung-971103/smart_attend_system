@@ -10,7 +10,7 @@
         <div class="headerbar-left">
 			<a href="index.html" class="logo"><img src="my/images/induk_logo.png"> <span>전자출석 Demo</span></a>
         </div>
-
+ 
         <nav class="navbar-custom">
 			<ul class="list-inline float-right mb-0">
 				<li class="list-inline-item dropdown notif">
