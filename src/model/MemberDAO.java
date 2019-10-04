@@ -58,7 +58,7 @@ public class MemberDAO extends DAOBase{
 			conn = getConnection();
 			stmt = conn.createStatement();
 			rs = stmt.executeQuery("select * from teacher where " + 
-					"uid=" + loginmember.getUid() + " and " + 
+					"uid='" + loginmember.getUid() + "' and " + 
 							"pwd='" + loginmember.getPwd() + "'");
 			if(rs.next()) {
 				dto = new MemberDTO();
@@ -85,7 +85,7 @@ public class MemberDAO extends DAOBase{
 			conn = getConnection();
 			stmt = conn.createStatement();
 			rs = stmt.executeQuery("select * from staff where " + 
-					"uid=" + loginmember.getUid() + " and " + 
+					"uid='" + loginmember.getUid() + "' and " + 
 							"pwd='" + loginmember.getPwd() + "'");
 			if(rs.next()) {
 				dto = new MemberDTO();

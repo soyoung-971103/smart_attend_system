@@ -19,9 +19,15 @@ public class TeacherDAO extends DAOBase {
 	ResultSet rs = null; 
 	HttpSession sesobj = null;
 	ArrayList<TeacherDTO> dtoList = null;
+	ArrayList<LectureDTO> dtoListLecture = null;
 	ArrayList<DepartDTO> dtoListDepart = null;
+	ArrayList<TimeTableDTO> dtoListTimeTable = null;
 	TeacherDTO dto = null;
+	LectureDTO dtoLecture = null;
 	DepartDTO dtoDepart = null;
+	RoomDTO dtoRoom = null;
+	SubjectDTO dtoSubject = null;
+	TimeTableDTO dtoTimeTable = null;
 	
 	public ArrayList<TeacherDTO> list()
 	{
@@ -189,4 +195,59 @@ public class TeacherDAO extends DAOBase {
 		}	
 	}
 
+	public ArrayList<TimeTableDTO> Load(int id, int sdate, int edate){		
+		try {
+			conn = getConnection();
+			stmt = conn.createStatement();
+			
+			dtoListTimeTable = new ArrayList<TimeTableDTO>();
+			rs = stmt.executeQuery("SELECT timetable.*, room.id, room.name, lecture.class, subject.grade, subject.ihour, subject.name, subject.depart_id, teacher.id, teacher.name, lectureday.* FROM lectureday LEFT JOIN timetable ON lectureday.lecture_id = timetable.lecture_id LEFT JOIN room ON timetable.room_id = room.id LEFT JOIN lecture ON timetable.lecture_id = lecture.id LEFT JOIN subject ON subject.id = lecture.subject_id LEFT JOIN teacher ON teacher.id = lecture.teacher_id where lecture.teacher_id="+id+" and lectureday.normdate >= "+sdate+" and lectureday.normdate <= "+edate);
+			while(rs.next()) {
+				// 번호^학년^반^시간^요일^시작교시^시간^과목명^교수님번호^교수님^강의실번호^강의실
+				///번호 id
+				///학년 leture -> subject -> grade
+				///반  leture - > class
+				///시간 leture -> subject - > ihour
+				///요일 Weekday
+				///시작교시 istart
+				///시간 ihour
+				///과목명 lecture -> subject -> name
+				//교수님번호 lectrue -> teacher -> id
+				//교수님 lectrue -> teacher -> name
+				///강의실번호 room -> id
+				///강의실 room -> name
+				dtoTimeTable = new TimeTableDTO();
+				dtoRoom = new RoomDTO();
+				dtoLecture = new LectureDTO();
+				dtoSubject = new SubjectDTO();
+				dto = new TeacherDTO();
+				dtoTimeTable.setId(rs.getInt(1));
+				dtoTimeTable.setLecture_id(rs.getInt(2));
+				dtoTimeTable.setWeekday(rs.getString(3));
+				dtoTimeTable.setIstart(rs.getByte(4));
+				dtoTimeTable.setIhour(rs.getByte(5));
+				dtoTimeTable.setRoom_id(rs.getInt(6));
+				dtoRoom.setId(rs.getInt(7));
+				dtoRoom.setName(rs.getString(8));
+				dtoTimeTable.setRoom(dtoRoom);
+				dtoLecture.set_class(rs.getString(9));
+				dtoTimeTable.setLecture(dtoLecture);
+				dtoSubject.setGrade(rs.getByte(10));
+				dtoSubject.setIhour(rs.getByte(11));
+				dtoSubject.setName(rs.getString(12));
+				dtoSubject.setDepart_id(rs.getInt(13));
+				dtoLecture.setSubject(dtoSubject);
+				dto.setId(rs.getInt(14));
+				dto.setName(rs.getString(15));
+				dtoLecture.setTeacher(dto);
+				dtoListTimeTable.add(dtoTimeTable);
+			}
+			return dtoListTimeTable;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return dtoListTimeTable;	
+	}
+	
 }

@@ -50,7 +50,6 @@ public class MemberController extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");		
 		sesobj = request.getSession(true);
 		
-		System.out.println("process1");		
 		
 		String uri = request.getRequestURI();
 		int lastIndex = uri.lastIndexOf('/'); 
@@ -91,6 +90,7 @@ public class MemberController extends HttpServlet {
 		if(dto != null) {	
 			sesobj.setAttribute("name", dto.getName());
 			sesobj.setAttribute("uid", dto.getUid());
+			sesobj.setAttribute("id", dto.getId());
 			sesobj.setAttribute("kind", kind);
 			request.getRequestDispatcher("main.jsp").forward(request, response);
 		}else {
