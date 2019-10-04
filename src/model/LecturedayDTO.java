@@ -12,7 +12,7 @@ public class LecturedayDTO {
 	byte normhour;
 	String normstate;
 	Date restdate;
-	byte reststart;
+	byte reststart; 
 	byte resthour;
 	String reststate;
 	String state;

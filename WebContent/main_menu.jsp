@@ -5,7 +5,7 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
     
 	<!--상단 메뉴 시작 -->
-	<div class="headerbar">
+	<div class="headerbar"> 
 
         <div class="headerbar-left">
 			<a href="index.html" class="logo"><img src="my/images/induk_logo.png"> <span>전자출석 Demo</span></a>

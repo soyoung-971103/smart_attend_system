@@ -39,7 +39,7 @@ public class TeacherController extends HttpServlet {
     ArrayList<TeacherDTO> alMember = null;
     TeacherDTO member = null;
     HttpSession sesobj = null; 
-    TeacherDAO dao = new TeacherDAO();
+    TeacherDAO dao = new TeacherDAO(); 
     String query = null;
 	String [] kind = {"전임교수", "겸임교수", "시간강사"};
 	protected void process(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {

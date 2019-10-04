@@ -14,7 +14,7 @@ public class StudentDAO extends DAOBase {
 	private Connection conn = null;
 	private Statement stmt = null;
 	private PreparedStatement pstmt = null;
-	private ResultSet rs = null;
+	private ResultSet rs = null; 
 	private StudentDTO student = null;
 	private DepartDTO depart = null;
 	private ArrayList<StudentDTO> alStudent = null;
