@@ -251,7 +251,7 @@
 						var de = form1.sel_dp.value;
 						<c:forEach items="${lectureList}" var="item2">
 						if(abc=="${item2.subject.grade}" && de=="${item2.subject.depart_id}"){
-							$("#optr").append("<option value='${item2.id }^${item2.subject.grade }^${item2._class }^${item2.subject.ihour }^0^0^0^${item2.subject.name }^${item2.teacher.id }^${item2.teacher.name }'>"+"${item2.subject.grade }-${item2._class } (${item2.subject.ihour }h) : ${item2.subject.name }"+"</option>");
+							$("#optr").append("<option value='${item2.id }^${item2.subject.grade }^${item2.lecture_class }^${item2.subject.ihour }^0^0^0^${item2.subject.name }^${item2.teacher.id }^${item2.teacher.name }'>"+"${item2.subject.grade }-${item2.lecture_class } (${item2.subject.ihour }h) : ${item2.subject.name }"+"</option>");
 						}
 						</c:forEach>
 					}

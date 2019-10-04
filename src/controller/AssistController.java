@@ -17,6 +17,8 @@ import javax.servlet.http.HttpSession;
 
 import model.AssistDAO;
 import model.AssistDTO;
+import model.ControlDAO;
+import model.ControlDTO;
 import model.DepartDAO;
 import model.DepartDTO;
 
@@ -40,7 +42,9 @@ public class AssistController extends HttpServlet {
     AssistDTO dto = null;
     HttpSession sesobj = null;
     AssistDAO dao = new AssistDAO();
-    
+    ArrayList<ControlDTO> dtoListControl = null;
+	ControlDAO daoControl = new ControlDAO();
+	
 	protected void process(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
 		// TODO Auto-generated method stub
 		request.setCharacterEncoding("UTF-8");		
@@ -76,7 +80,9 @@ public class AssistController extends HttpServlet {
 	}
 	private void Inquiry(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException{
 		dtoList = dao.list();
+		dtoListControl = daoControl.List();
 
+		request.setAttribute("controlList", dtoListControl);
 		request.setAttribute("alMember", dtoList);
 		
 		RequestDispatcher dis = request.getRequestDispatcher("ad_assist.jsp");
