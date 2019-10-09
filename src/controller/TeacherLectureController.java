@@ -15,8 +15,6 @@ import java.util.Date;
 	import javax.servlet.http.HttpServletResponse;
 	import javax.servlet.http.HttpSession;
 
-import model.ControlDAO;
-import model.ControlDTO;
 import model.StudentLectureInfoDTO;
 import model.TeacherLectureDAO;
 	import model.TeacherLectureDTO;
@@ -44,8 +42,6 @@ import model.TeacherLectureDAO;
 		private static final long serialVersionUID = 1L;
 	    HttpSession sesobj = null;
 	    
-	    ArrayList<ControlDTO> dtoListControl = null;
-		ControlDAO daoControl = new ControlDAO();
 	    
 		protected void process(HttpServletRequest request, HttpServletResponse response) throws Exception {
 			// TODO Auto-generated method stub
@@ -112,7 +108,7 @@ import model.TeacherLectureDAO;
 				if(text == null) text=sdf.format(curToday);
 				StringBuffer re = new StringBuffer("");
 				TeacherLectureDAO lectureDAO = new TeacherLectureDAO();
-				ArrayList<TeacherLectureDTO> list = lectureDAO.search(text);
+				ArrayList<TeacherLectureDTO> list = lectureDAO.search(text, request, response);
 				
 				for(int i = 0; i < list.size(); i++)
 				{
@@ -179,7 +175,7 @@ import model.TeacherLectureDAO;
 			
 			try {
 				String dat = test.substring(test.indexOf(".") + 1, test.length());
-				System.out.println(dat);
+				
 				if(dat.length() <= 7) dat += "0";
 				SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
 				SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy-MM-dd");
@@ -193,7 +189,7 @@ import model.TeacherLectureDAO;
 			
 			StringBuffer re = new StringBuffer("");
 			TeacherLectureDAO lectureDAO = new TeacherLectureDAO();
-			TeacherLectureDTO info = lectureDAO.lectureInfo(text, id);
+			TeacherLectureDTO info = lectureDAO.lectureInfo(text, id, request, response);
 			ArrayList<StudentLectureInfoDTO> list = lectureDAO.stuList(text, id, nStuCheck);
 
 			re.append("<div class='card-header mycolor3' style='padding:10px'>" + 

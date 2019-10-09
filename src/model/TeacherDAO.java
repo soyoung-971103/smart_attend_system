@@ -75,29 +75,79 @@ public class TeacherDAO extends DAOBase {
 		String query = "select teacher.*, depart.id, depart.name from teacher left join depart on teacher.depart_id = depart.id where teacher.id = "+id+";";
 		dtoDepart = new DepartDTO();
 		try {
+			dto = new TeacherDTO();
 			dtoListDepart = new ArrayList<DepartDTO>();
 			conn = getConnection();
 			stmt = conn.createStatement();
 			rs = stmt.executeQuery(query);
+			if(rs.next()) {
+				dto.setId(id);
+				dto.setKind(rs.getString("kind"));
+				dtoDepart.setName(rs.getString("depart.name"));
+				dtoDepart.setId(Integer.parseInt(rs.getString("depart.id")));
+				dto.setDepart_id(dtoDepart);
+				dto.setUid(rs.getString("uid"));
+				dto.setPwd(rs.getString("pwd"));
+				dto.setName(rs.getString("name"));
+				dto.setTel(rs.getString("tel"));
+				dto.setPhone(rs.getString("phone"));
+				dto.setEmail(rs.getString("email"));
+				dto.setPic(rs.getString("pic"));
+				return dto;
+			}
+		} catch (SQLException e) { e.printStackTrace(); }
+		finally { closeDBResources(rs, stmt, pstmt, conn); }
+		
+		return null;
+	}
+	public TeacherDTO teacherqalist(String name, String uid)
+	{
+		String query = "select teacher.*, depart.id, depart.name from teacher left join depart on teacher.depart_id = depart.id "
+				+ "where teacher.uid='"+uid+"' and teacher.name='"+name+"'";
+		
+		dtoDepart = new DepartDTO();
+		try {
+			dto = new TeacherDTO();
+			dtoListDepart = new ArrayList<DepartDTO>();
+			conn = getConnection();
+			stmt = conn.createStatement();
+			rs = stmt.executeQuery(query);
+			if(rs.next()) {
+				dto.setId(rs.getInt("teacher.id"));
+				dto.setKind(rs.getString("kind"));
+				dtoDepart.setName(rs.getString("depart.name"));
+				dtoDepart.setId(Integer.parseInt(rs.getString("depart.id")));
+				dto.setDepart_id(dtoDepart);
+				dto.setUid(rs.getString("uid"));
+				dto.setPwd(rs.getString("pwd"));
+				dto.setName(rs.getString("name"));
+				dto.setTel(rs.getString("tel"));
+				dto.setPhone(rs.getString("phone"));
+				dto.setEmail(rs.getString("email"));
+				dto.setPic(rs.getString("pic"));
+				return dto;
+			}
+		} catch (SQLException e) { e.printStackTrace(); }
+		finally { closeDBResources(rs, stmt, pstmt, conn); }
+		
+		return null;
+	}
+	public TeacherDTO tinName(int id)
+	{
+		String query = "select teacher.name from lecture left join subject on subject.id = lecture.subject_id left join teacher on teacher.id = lecture.teacher_id where lecture.id = " + id;
+		
+		try {
+			dto = new TeacherDTO();
+			conn = getConnection();
+			stmt = conn.createStatement();
+			rs = stmt.executeQuery(query);
 			rs.next();
-			dto.setId(id);
-			dto.setKind(rs.getString("kind"));
-			dtoDepart.setName(rs.getString("depart.name"));
-			dtoDepart.setId(Integer.parseInt(rs.getString("depart.id")));
-			dto.setDepart_id(dtoDepart);
-			dto.setUid(rs.getString("uid"));
-			dto.setPwd(rs.getString("pwd"));
-			dto.setName(rs.getString("name"));
-			dto.setTel(rs.getString("tel"));
-			dto.setPhone(rs.getString("phone"));
-			dto.setEmail(rs.getString("email"));
-			dto.setPic(rs.getString("pic"));
+			dto.setName(rs.getString("teacher.name"));
 		} catch (SQLException e) { e.printStackTrace(); }
 		finally { closeDBResources(rs, stmt, pstmt, conn); }
 		
 		return dto;
 	}
-	
 	public void update(HttpServletRequest request, HttpServletResponse response)
 	{
 		String query = null;
@@ -158,6 +208,20 @@ public class TeacherDAO extends DAOBase {
 		}catch(SQLException e) { e.printStackTrace(); }
 		finally {closeDBResources(rs,stmt, pstmt, conn);}
 	}
+	
+	public void saveqa(HttpServletRequest request, HttpServletResponse response) {
+		try {//		qaday, qatitle, qaask	
+			String str = request.getParameter("qatxt2").replace("\\", "\\\\");
+			conn = getConnection();
+			stmt = conn.createStatement();
+			stmt.executeUpdate("update mylecture set qaanswer = '"+str+"' where id = '"+request.getParameter("id")+"';");
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
 	public void closeDBResources(ResultSet rs, Statement stmt, PreparedStatement pstmt, Connection conn) {
 		if(rs != null) {
 			try {
