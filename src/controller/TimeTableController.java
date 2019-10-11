@@ -42,7 +42,7 @@ public class TimeTableController extends HttpServlet {
         super();
         // TODO Auto-generated constructor stub
     }
-    
+ 
     HttpSession sesobj = null;
     ArrayList<TimeTableDTO> dtoList = null;
     ArrayList<SubjectDTO> dtoListSubject = null;
@@ -57,7 +57,7 @@ public class TimeTableController extends HttpServlet {
     BuildingDAO daoBuilding = new BuildingDAO();
     LectureDAO daoLecture = new LectureDAO();
     DepartDAO daoDepart = new DepartDAO();
-	 SubjectDAO daoSubject = new SubjectDAO();
+	SubjectDAO daoSubject = new SubjectDAO();
 	TeacherDAO daoTeacher = new TeacherDAO();
 	ArrayList<ControlDTO> dtoListControl = null;
 	ControlDAO daoControl = new ControlDAO();

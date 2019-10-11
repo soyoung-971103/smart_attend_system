@@ -28,6 +28,9 @@
 	<link href="my/css/dataTables.bootstrap4.min.css" rel="stylesheet">	<!-- datatable.net -->
 
 	<link href="my/css/my.css" rel="stylesheet" type="text/css">
+	
+	<link href="my/flatpickr_datetime/flatpickr.css" rel="stylesheet" type="text/css">
+	<link href="my/flatpickr_datetime/material_blue.css" rel="stylesheet" type="text/css">
 		
 </head>
 
@@ -42,6 +45,15 @@
 <!------------------------------------------------------------------------------>
 <!-- 내용 시작 -->
 <!------------------------------------------------------------------------------>
+<script>
+function make_lecday()	// 작성한 시간표 강의내용 저장
+{
+	var sdate = form1.dstart.value;
+
+	location.href="lectureday-insert.do?dstart="+sdate;
+	
+}
+</script>
 
 <div class="row">
 					<div class="col-xl-12">
@@ -131,8 +143,14 @@
 									</tr>
 									<tr>
 										<td class="mycolor2">4. 전 과목 출석부 만들기</td>
-										<td>&nbsp;
-											<input type="button" value="생성하기" class="btn btn-xs mycolor1" onClick="">
+										<td>
+											<div class="form-inline"> &nbsp;
+												<div class="input-group input-group-sm">
+													<input type="text" id="sdate" name="dstart" class="flatpickr form-control form-control-sm" style="text-align:center;width:110px">
+												</div> 
+												&nbsp;
+												<input type="button" value="생성하기" class="btn btn-xs mycolor1" onClick="make_lecday();">
+											</div>
 										</td>
 									</tr>
 									<tr>
@@ -202,6 +220,22 @@
 
 <script src="my/js/jquery.dataTables.min.js"></script>
 <script src="my/js/dataTables.bootstrap4.min.js"></script>
+
+<script src="my/flatpickr_datetime/flatpickr.js"></script>		<!-- datetimepicker -->
+<script src="my/flatpickr_datetime/flatpickr1.js"></script>
+<script src="my/flatpickr_datetime/ko.js"></script>
+
+<script>
+	flatpickr("#sdate", {
+		dateFormat: "Y-m-d",
+		locale: "ko",
+		defaultDate: "today",
+		onChange: function(selectedDates, dateStr, instance) 
+		{
+			// 프로그램 작성
+		}
+	});
+</script>
 
 </body>
 </html>
