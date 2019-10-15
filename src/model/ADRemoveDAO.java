@@ -97,6 +97,59 @@ public class ADRemoveDAO extends DAOBase{
 		} finally {	closeDBResources(rs, stmt, pstmt, conn);	}
 		return null;
 	}
+	//te-main.do에서 쓸 값
+	public ArrayList<ADRemoveDTO> DTOlist2(HttpServletRequest request, HttpServletResponse response){
+		TeacherDTO teacher = null;
+		dtolist = new ArrayList<ADRemoveDTO>();
+		try {
+			String query="select depart.abbreviation, teacher.name, subject.name, subject.grade, lecture.class, room.name, building.name, lectureday.* from subject "
+					+ "left join lecture on lecture.subject_id = subject.id left join lectureday on lectureday.lecture_id = lecture.id left join room on room.id = lectureday.room_id "
+					+ "left join building on building.id = room.building_id left join teacher on teacher.id = lecture.teacher_id left join depart on depart.id = teacher.depart_id where lectureday.state is not null";
+			
+			
+			if(request.getParameter("sel1") != null && request.getParameter("sel2") != null)
+				query += " and subject.yyyy="+request.getParameter("sel1")+" and subject.term = "+request.getParameter("sel2");
+			
+			System.out.println(query);
+			conn = getConnection();
+			stmt = conn.createStatement();
+	    	ResultSet rs = null;
+			rs = stmt.executeQuery(query);
+
+			while(rs.next())
+			{
+				dto = new ADRemoveDTO();
+				
+				teacher = new TeacherDTO();
+				teacher.setName(rs.getString("teacher.name"));
+				
+				dto.setId(rs.getInt("lectureday.id"));
+				dto.setDepart(rs.getString("depart.abbreviation"));
+				dto.setTeacher_id(teacher);
+				dto.setSubject_name(rs.getString("subject.name"));
+				dto.setGrade(rs.getString("subject.grade"));
+				dto.set_class(rs.getString("lecture.class"));
+				dto.setNormdate(rs.getString("lectureday.normdate"));
+				dto.setNormstart(rs.getInt("lectureday.normstart"));
+				dto.setNormhour(rs.getInt("lectureday.normhour"));
+				dto.setRestdate(rs.getString("lectureday.restdate"));
+				dto.setResthour(rs.getInt("lectureday.resthour"));
+				dto.setReststart(rs.getInt("lectureday.reststart"));
+				dto.setRoomName(rs.getString("room.name"));
+				dto.setBuildName(rs.getString("building.name"));
+				dto.setState(rs.getString("lectureday.state"));
+				dtolist.add(dto);
+			}
+
+			
+			
+			return dtolist;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {	closeDBResources(rs, stmt, pstmt, conn);	}
+		return null;
+	}
 	public void lastapp(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException{
 		String no = request.getParameter("no");
 		try {

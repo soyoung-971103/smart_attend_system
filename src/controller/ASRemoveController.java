@@ -48,8 +48,6 @@ public class ASRemoveController extends HttpServlet {
 		
 	}
     private void list(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException{
-    	
-    	
 		if(request.getParameter("no") != null && request.getParameter("c") != null)
 		{
 			if(request.getParameter("c").equals("1"))

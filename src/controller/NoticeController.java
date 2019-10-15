@@ -24,7 +24,7 @@ import model.ControlDAO;
 import model.ControlDTO;
 import model.NoticeDAO;
 
-@WebServlet({"/notice-detail.do", "/notice-register.do","/notice-update.do", "/notice-list.do", "/notice-delete.do" })
+@WebServlet({"/notice-detail.do", "/notice-register.do","/notice-update.do", "/notice-list.do", "/notice-delete.do", "/notice-view.do" })
 @MultipartConfig(location="", 
 fileSizeThreshold=1024*1024, 
 maxFileSize=1024*1024*5, 
@@ -67,6 +67,8 @@ private static final long serialVersionUID = 1L;
 			update(request, response);
     	else if(action.equals("notice-detail.do")) 
 			detail(request, response);
+    	else if(action.equals("notice-view.do"))
+    		view(request, response);
 		else
     		;
     }
@@ -74,7 +76,7 @@ private static final long serialVersionUID = 1L;
     protected void list(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException{
 		 dtoList = dao.list(request.getParameter("text1"));
 		 dtoListControl = daoControl.List();
-		 request.setAttribute("controlList", dtoListControl);
+		request.setAttribute("controlList", dtoListControl);
 		request.setAttribute("noticelist", dtoList);
 		request.getRequestDispatcher("ad_notice.jsp").forward(request, response);
 	}
@@ -117,7 +119,12 @@ private static final long serialVersionUID = 1L;
     	else
     		response.sendRedirect("fail.jsp"); // 실패
     }
-    
+    protected void view(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
+    	int id = Integer.parseInt(request.getParameter("id"));
+    	dto = dao.detail(id);
+		request.setAttribute("notice", dto);
+		request.getRequestDispatcher("ad_noticeview.jsp").forward(request, response);
+    }
     /**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */

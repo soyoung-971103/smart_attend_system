@@ -104,7 +104,6 @@ public class TeacherDAO extends DAOBase {
 	{
 		String query = "select teacher.*, depart.id, depart.name from teacher left join depart on teacher.depart_id = depart.id "
 				+ "where teacher.uid='"+uid+"' and teacher.name='"+name+"'";
-		
 		dtoDepart = new DepartDTO();
 		try {
 			dto = new TeacherDTO();

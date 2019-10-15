@@ -81,7 +81,6 @@ public class ASRemoveDAO extends DAOBase{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {	closeDBResources(rs, stmt, pstmt, conn);	}
-		
 	}
 	public void returnlec(HttpServletRequest request, HttpServletResponse response){
 		try {

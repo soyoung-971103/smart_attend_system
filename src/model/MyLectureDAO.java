@@ -114,6 +114,7 @@ public class MyLectureDAO extends DAOBase{
 			stmt = conn.createStatement();
 			rs = stmt.executeQuery("select * from mylecture left join student on student.id = mylecture.student_id "
 					+ "left join lecture on lecture.id = mylecture.lecture_id left join subject on subject.id = lecture.subject_id where mylecture.qaday is not null and " + where + " order by mylecture.qaanswer;");
+			System.out.println("select * from mylecture left join student on student.id = mylecture.student_id left join lecture on lecture.id = mylecture.lecture_id left join subject on subject.id = lecture.subject_id where mylecture.qaday is not null and " + where + " order by mylecture.qaanswer;");
 			while(rs.next())
 			{
 				dto = new MyLectureDTO();
