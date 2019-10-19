@@ -32,7 +32,7 @@ import controller.TeacherController;
 /**
  * Servlet implementation class LectureController
  */
-
+ 
 @WebServlet({"/ad-te-lectureList.do","/as-lecture-list.do","/as-lecture-register.do", "/as-lecture-updateT.do", "/as-lecture-updateN.do", "/as-lecture-delete.do", "/lecture-list.do", "/lecture-save.do", "/lecture-mylecture.do", "/lecture-sublecture.do"})
 @MultipartConfig(location="", 
 fileSizeThreshold=1024*1024, 

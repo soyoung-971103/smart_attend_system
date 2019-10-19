@@ -130,7 +130,7 @@ public class TeacherController extends HttpServlet {
 	private void bogangList(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException{
 		ArrayList<LecturedayDTO> alLectureday = new ArrayList<LecturedayDTO>();
 		LecturedayDAO daoLectureday = new LecturedayDAO();
-		alLectureday = daoLectureday.list();
+		alLectureday = daoLectureday.list(); 
 		request.setAttribute("lectureday", alLectureday);
 		request.getRequestDispatcher("te_lecmove.jsp").forward(request, response);
 	}

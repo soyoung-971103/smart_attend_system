@@ -7,7 +7,7 @@ public class LecturedayDTO {
 	int room_id;
 	byte th;
 	byte starth;
-	Date normdate;
+	Date normdate; 
 	byte normstart;
 	byte normhour;
 	String normstate;

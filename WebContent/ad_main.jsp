@@ -67,7 +67,7 @@
 									</div>
 								</div>
 							</div>
-							<div class="card-body" style="padding:10px">
+							<div class="card-body" style="padding:10px"> 
 
 								<table class="table table-bordered mytable" style="width:100%;">
 									<tr class="mycolor1">
