@@ -20,9 +20,11 @@ import com.sun.corba.se.impl.protocol.giopmsgheaders.RequestMessage;
 import com.sun.xml.internal.bind.v2.schemagen.xmlschema.List;
 
 import model.NoticeDTO;
+import model.LecturedayDAO;
+import model.LecturedayDTO;
 import model.NoticeDAO;
 
-@WebServlet({"/notice-detail.do", "/notice-register.do","/notice-update.do", "/notice-list.do", "/notice-delete.do" })
+@WebServlet({"/main-list.do","/notice-detail.do", "/notice-register.do","/notice-update.do", "/notice-list.do", "/notice-delete.do" })
 @MultipartConfig(location="", 
 fileSizeThreshold=1024*1024, 
 maxFileSize=1024*1024*5, 
@@ -68,9 +70,21 @@ private static final long serialVersionUID = 1L;
 			update(request, response);
     	else if(action.equals("notice-detail.do")) 
 			detail(request, response);
+    	else if(action.equals("main-list.do")) 
+			m_list(request, response);
 		else
     		;
     }
+    
+    protected void m_list(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException{
+		alNotice = dao.list(request.getParameter("text1"));
+		ArrayList<LecturedayDTO> alLectureday = new ArrayList<LecturedayDTO>();
+		LecturedayDAO daoLectureday = new LecturedayDAO();
+		alLectureday = daoLectureday.list();
+		request.setAttribute("noticelist", alNotice);
+		request.setAttribute("lectureday", alLectureday);
+		request.getRequestDispatcher("ad_main.jsp").forward(request, response);
+	}
     
     protected void list(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException{
 		 alNotice = dao.list(request.getParameter("text1"));

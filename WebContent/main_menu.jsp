@@ -64,7 +64,7 @@
 						<a href="#"><i class="fa fa-fw fa-table"></i> <span> 직원(전자출석) </span> <span class="menu-arrow"></span></a>
 						<ul class="list-unstyled">
 							<li><a href="ad_timeall.html" style="padding:5px 0 5px 40px;">학과별 시간표</a></li>
-							<li><a href="ad_timeteacher.html" style="padding:5px 0 5px 40px;">교수별 강의현황</a></li>
+							<li><a href="ad-te-lectureList.do" style="padding:5px 0 5px 40px;">교수별 강의현황</a></li>
 							<li><a href="ad_lecmove.html" style="padding:5px 0 5px 40px;">휴보강</a></li>
 						</ul>
 					</li>

@@ -4,6 +4,9 @@ public class LectureDTO {
 	int id;
 	int subject_id;
 	int teacher_id;
+	int sub_count;
+	int sub_hour;
+	int sub_day;
 	SubjectDTO subject;
 	TeacherDTO teacher;	
 	String lecture_class;
@@ -12,6 +15,7 @@ public class LectureDTO {
 	
 	DepartDTO depart;
 	LectureDTO lecture;
+	LecturedayDTO lecturday;
 	
 	public String get_class() {
 		return _class;
@@ -74,5 +78,29 @@ public class LectureDTO {
 	}
 	public void setLecture(LectureDTO lecture) {
 		this.lecture = lecture;
+	}
+	public LecturedayDTO getLecturday() {
+		return lecturday;
+	}
+	public void setLecturday(LecturedayDTO lecturday) {
+		this.lecturday = lecturday;
+	}
+	public int getSub_count() {
+		return sub_count;
+	}
+	public void setSub_count(int sub_count) {
+		this.sub_count = sub_count;
+	}
+	public int getSub_hour() {
+		return sub_hour;
+	}
+	public void setSub_hour(int sub_hour) {
+		this.sub_hour = sub_hour;
+	}
+	public int getSub_day() {
+		return sub_day;
+	}
+	public void setSub_day(int sub_day) {
+		this.sub_day = sub_day;
 	}
 }

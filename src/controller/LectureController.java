@@ -33,7 +33,7 @@ import controller.TeacherController;
  * Servlet implementation class LectureController
  */
 
-@WebServlet({"/as-lecture-list.do","/as-lecture-register.do", "/as-lecture-updateT.do", "/as-lecture-updateN.do", "/as-lecture-delete.do", "/lecture-list.do", "/lecture-save.do", "/lecture-mylecture.do", "/lecture-sublecture.do"})
+@WebServlet({"/ad-te-lectureList.do","/as-lecture-list.do","/as-lecture-register.do", "/as-lecture-updateT.do", "/as-lecture-updateN.do", "/as-lecture-delete.do", "/lecture-list.do", "/lecture-save.do", "/lecture-mylecture.do", "/lecture-sublecture.do"})
 @MultipartConfig(location="", 
 fileSizeThreshold=1024*1024, 
 maxFileSize=1024*1024*5,  
@@ -101,14 +101,16 @@ public class LectureController extends HttpServlet {
 			subList(request, response);	
 		else if(action.equals("as-lecture-list.do")) 
 			ASlist(request, response);
-    	        else if(action.equals("as-lecture-register.do")) 
-    		        ASregister(request, response);
-    	        else if(action.equals("as-lecture-updateT.do")) 
-    	  	        ASupdateT(request, response);
-    	        else if(action.equals("as-lecture-updateN.do")) 
-    		        ASupdateN(request, response);
-                else if(action.equals("as-lecture-delete.do")) 
-    		        ASdelete(request, response);
+        else if(action.equals("as-lecture-register.do")) 
+	        ASregister(request, response);
+        else if(action.equals("as-lecture-updateT.do")) 
+  	        ASupdateT(request, response);
+        else if(action.equals("as-lecture-updateN.do")) 
+	        ASupdateN(request, response);
+        else if(action.equals("as-lecture-delete.do")) 
+	        ASdelete(request, response);
+        else if(action.equals("ad-te-lectureList.do")) 
+        	te_lecList(request, response);
 		else 
     		;
 		
@@ -211,6 +213,18 @@ public class LectureController extends HttpServlet {
 		request.setAttribute("student", student);
 		request.getRequestDispatcher("st_lecall.jsp").forward(request, response);
 	}	
+	
+	protected void te_lecList(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException{
+		String sel1 = request.getParameter("sel1");
+		String sel2 = request.getParameter("sel2");
+		String sel3 = request.getParameter("sel3");
+		alDepart = daoDepart.List();
+		alLecture = dao.Te_LectureList(sel1,sel2,sel3);
+		
+		request.setAttribute("alLecture", alLecture);
+		request.setAttribute("alDepart", alDepart);
+		request.getRequestDispatcher("ad_timeteacher.jsp").forward(request, response);
+	}
 	
 	protected void subList(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException{
 		String sel1, sel2, sel3, sel4, sel5;
