@@ -20,15 +20,23 @@ import javax.servlet.http.Part;
 
 import model.ControlDAO;
 import model.ControlDTO;
+import model.DepartDAO;
+import model.DepartDTO;
 import model.LectureDAO;
 import model.LectureDTO;
+import model.MyLectureDAO;
+import model.MyLectureDTO;
 import model.StudentDAO;
 import model.StudentDTO;
+import model.SubjectDAO;
+import model.SubjectDTO;
+import model.TeacherDAO;
+import model.TeacherDTO;
 //import service.Pagination;
 /**
  * Servlet implementation class StudentController
  */
-@WebServlet({"/student-list.do","/student-search.do","/student-register.do","/student-delete.do","/student-detail.do","/student-update.do",})
+@WebServlet({"/student-list.do","/student-search.do","/student-register.do","/student-delete.do","/student-detail.do","/student-update.do","/student-qna.do", "/lecqnainsert.do", "/savestqa.do", "/stqaload.do"})
 @MultipartConfig(location="", 
 fileSizeThreshold=1024*1024, 
 maxFileSize=1024*1024*5, 
@@ -56,9 +64,7 @@ public class StudentController extends HttpServlet {
 	protected void process(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
 		// TODO Auto-generated method stub
 		request.setCharacterEncoding("UTF-8");		
-		sesobj = request.getSession();
-		
-		System.out.println("process");		
+		sesobj = request.getSession();		
 		
 		String uri = request.getRequestURI();
 		int lastIndex = uri.lastIndexOf('/'); 
@@ -76,7 +82,15 @@ public class StudentController extends HttpServlet {
 			update(request, response);
 		else if(action.equals("student-search.do")) 
 			search(request, response);
-    	else 
+		else if(action.equals("student-qna.do"))
+			qna(request,response);
+		else if(action.equals("lecqnainsert.do"))
+			qnaadd(request,response);
+		else if(action.equals("savestqa.do"))
+			saveqa(request,response);
+		else if(action.equals("stqaload.do"))
+			loadqa(request,response);
+		else 
     		;
 		
 	}
@@ -98,7 +112,6 @@ public class StudentController extends HttpServlet {
 	
 	private void detail(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
 		int id = Integer.parseInt(request.getParameter("id"));
-		System.out.println(id);
 		dto = dao.detail(id);
 		request.setAttribute("student", dto);
 		String phone[]=dto.getPhone().split("-");
@@ -145,8 +158,7 @@ public class StudentController extends HttpServlet {
 	    	request.setAttribute(partName, partValue);
 	    }
 	    
-    	int result = dao.update(request, response); // 질의를 통해 수정된 레코드의 수
-    	System.out.println("result값: "+result);
+    	int result = dao.update(request, response);
     	if(result > 0) {// 성공 가입
     		request.setAttribute("id", request.getParameter("id"));
     		request.getRequestDispatcher("student-list.do").forward(request, response);
@@ -196,6 +208,56 @@ public class StudentController extends HttpServlet {
     	return null;
     }
 
+	protected void qna(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException{
+		ArrayList<MyLectureDTO> mdtoList = new ArrayList<MyLectureDTO>();
+		mdtoList = dao.qnalist(request, response);
+
+		request.setAttribute("dtoList", mdtoList);
+		request.getRequestDispatcher("st_lecqa.jsp").forward(request, response);
+	}
+	
+	protected void qnaadd(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException{
+		TeacherDAO tdao = new TeacherDAO();
+		DepartDAO ddao = new DepartDAO();
+		DepartDTO ddto = new DepartDTO();
+		
+		ArrayList<LectureDTO> ldtoList = dao.lecList(request, response);
+		
+		dto = dao.list_id((String)sesobj.getAttribute("uid"));
+		ddto.setId(dto.getDepart_id());
+		ddto = ddao.selectOne(ddto);
+		
+		request.setAttribute("depart_name", ddto.getName());
+		request.setAttribute("stu", dto);
+		request.setAttribute("leclist", ldtoList);
+		request.getRequestDispatcher("st_lecqanew.jsp").forward(request, response);
+	}
+	
+	protected void saveqa(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException{
+		dao.saveqa(request,response);
+		response.sendRedirect("student-qna.do");
+	}
+	protected void loadqa(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException{
+		LectureDAO ldao = new LectureDAO();
+		TeacherDAO tdao = new TeacherDAO();
+		MyLectureDAO mdao = new MyLectureDAO();
+		MyLectureDTO mdto = mdao.qainfo(Integer.parseInt(request.getParameter("qa")));
+		
+		SubjectDAO sdao = new SubjectDAO();
+		
+		dto = dao.detail(mdto.getStudent_id());
+		
+		LectureDTO ldto = ldao.lecture_search(mdto.getLecture_id());
+		SubjectDTO sdto = sdao.detail(ldto.getSubject_id());
+		TeacherDTO tdto = tdao.info(ldto.getTeacher_id());
+		
+		request.setAttribute("tea", tdto);
+		request.setAttribute("sub", sdto);
+		request.setAttribute("stu", dto);
+		request.setAttribute("dto", mdto);
+		
+		request.getRequestDispatcher("st_lecqaedit.jsp").forward(request, response);
+	}
 	
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     	try {

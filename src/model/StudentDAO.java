@@ -262,5 +262,88 @@ public class StudentDAO extends DAOBase {
 		}
 		return dto;	
 	}
+	public ArrayList<MyLectureDTO> qnalist(HttpServletRequest request, HttpServletResponse response) {
+		HttpSession ssion = request.getSession();
+		MyLectureDTO mdto = null;
+		SubjectDTO sdto = null;
+		LectureDTO ldto = null;
+		TeacherDTO tdto = null;
+		
+		ArrayList<MyLectureDTO> dtoList = new ArrayList<MyLectureDTO>();
+		try {
+			conn = getConnection();
+			stmt = conn.createStatement();	
+			rs = stmt.executeQuery("select mylecture.qaday, subject.name as subject_name, teacher.name as teacher_name, mylecture.qatitle, "
+					+ "mylecture.qaanswer, mylecture.id from student left join mylecture on student.id = mylecture.student_id "
+					+ "left join lecture on lecture.id = mylecture.lecture_id left join teacher on teacher.id = lecture.teacher_id "
+					+ "left join subject on subject.id = lecture.subject_id where student.schoolno='"+ssion.getAttribute("uid")+"'");
+			while(rs.next()) {
+				mdto = new MyLectureDTO();
+				sdto = new SubjectDTO();
+				ldto = new LectureDTO();
+				tdto = new TeacherDTO();
+				sdto.setName(rs.getString("subject_name"));
+				ldto.setSubject(sdto);
+				mdto.setQaday(rs.getDate("mylecture.qaday"));
+				tdto.setName(rs.getString("teacher_name"));
+				mdto.setQatitle(rs.getString("mylecture.qatitle"));
+				mdto.setQaanswer(rs.getString("mylecture.qaanswer"));
+				mdto.setId(rs.getInt("mylecture.id"));
+				mdto.setLecture(ldto);
+				mdto.setTeacher(tdto);
+				dtoList.add(mdto);
+			}
+			return dtoList;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return dtoList;
+	}
+	public ArrayList<LectureDTO> lecList(HttpServletRequest request, HttpServletResponse response) {
+		HttpSession ssion = request.getSession();
+		ArrayList<LectureDTO> ldtoList = new ArrayList<LectureDTO>();
+		LectureDTO ldto = null;
+		SubjectDTO sdto = null;
+		TeacherDTO tdto = null;
 
+		try {//			
+			conn = getConnection();
+			stmt = conn.createStatement();
+			rs = stmt.executeQuery("select lecture.id, subject.name, teacher.name from student left join mylecture on mylecture.student_id = student.id "
+					+ "left join lecture on lecture.id = mylecture.lecture_id left join subject on subject.id = lecture.subject_id "
+					+ "left join teacher on teacher.id = lecture.teacher_id where mylecture.qaday not null and student.schoolno = '"+ssion.getAttribute("uid")+"' and subject.yyyy = 2019;");
+			while(rs.next()) {
+				ldto = new LectureDTO();
+				sdto = new SubjectDTO();
+				tdto = new TeacherDTO();
+				sdto.setName(rs.getString("subject.name"));
+				tdto.setName(rs.getString("teacher.name"));
+				ldto.setSubject(sdto);
+				ldto.setTeacher(tdto);
+				ldto.setId(rs.getInt("lecture.id"));
+				ldtoList.add(ldto);
+			}
+			return ldtoList;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return ldtoList;
+	}//saveqa
+	public void saveqa(HttpServletRequest request, HttpServletResponse response) {
+		try {//		qaday, qatitle, qaask	
+			String qatitle = request.getParameter("qatitle").replace("\\", "\\\\");
+			String qaask = request.getParameter("qatxt1").replace("\\", "\\\\");
+			conn = getConnection();
+			stmt = conn.createStatement();
+			stmt.executeUpdate("update mylecture set qaday='"+request.getParameter("qawriteday")+"', qatitle='"+qatitle+"', qaask='"+qaask+"';");
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 }
