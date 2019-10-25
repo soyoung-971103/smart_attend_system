@@ -67,6 +67,9 @@ public class TeacherLectureAllDAO extends DAOBase{
 	  			dto.setNormhour(rs.getInt("subject.ihour"));
 	  			dto.setNormdate(rs.getString("normdate"));
 	  			dto.setNormstart(rs.getInt("normstart"));
+	  			dto.setNormstate(rs.getString("lectureday.normstate"));
+	  			dto.setReststate(rs.getString("lectureday.reststate"));
+	  			dto.setState(rs.getString("lectureday.state"));
 	  			
 	  			dtoList.add(dto);
 	  		}      			//
