@@ -16,7 +16,14 @@ public class LecturedayDTO {
 	byte resthour;
 	String reststate;
 	String state;
+	byte classification;
 	
+	public byte getClassification() {
+		return classification;
+	}
+	public void setClassification(byte classification) {
+		this.classification = classification;
+	}
 	public int getId() {
 		return id;
 	}

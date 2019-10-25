@@ -22,12 +22,16 @@ public class TeacherDAO extends DAOBase {
 	ArrayList<LectureDTO> dtoListLecture = null;
 	ArrayList<DepartDTO> dtoListDepart = null;
 	ArrayList<TimeTableDTO> dtoListTimeTable = null;
+	ArrayList<LecturedayDTO> dtoListLectureday = null;
+	ArrayList<RoomDTO> dtoListRoom = null;
 	TeacherDTO dto = null;
 	LectureDTO dtoLecture = null;
 	DepartDTO dtoDepart = null;
 	RoomDTO dtoRoom = null;
+	BuildingDTO dtoBuilding = null;
 	SubjectDTO dtoSubject = null;
 	TimeTableDTO dtoTimeTable = null;
+	LecturedayDTO dtoLectureday = null;
 	
 	public ArrayList<TeacherDTO> list()
 	{
@@ -76,6 +80,7 @@ public class TeacherDAO extends DAOBase {
 		} finally {	closeDBResources(rs, stmt, pstmt, conn);	}
 		return result;
 	}
+	
 	public TeacherDTO info(int id)
 	{
 		String query = "select teacher.*, depart.id, depart.name from teacher left join depart on teacher.depart_id = depart.id where teacher.id = "+id+";";
@@ -164,37 +169,7 @@ public class TeacherDAO extends DAOBase {
 		}catch(SQLException e) { e.printStackTrace(); }
 		finally {closeDBResources(rs,stmt, pstmt, conn);}
 	}
-	public void closeDBResources(ResultSet rs, Statement stmt, PreparedStatement pstmt, Connection conn) {
-		if(rs != null) {
-			try {
-				rs.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}
-		if(stmt != null) {
-			try {
-				stmt.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}
-		if(pstmt != null) {
-			try {
-				pstmt.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}
-		if(conn != null) {
-			try {
-				conn.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}	
-	}
-
+	
 	public ArrayList<TimeTableDTO> Load(int id, int sdate, int edate){		
 		try {
 			conn = getConnection();
@@ -248,6 +223,115 @@ public class TeacherDAO extends DAOBase {
 			e.printStackTrace();
 		}
 		return dtoListTimeTable;	
+	}
+	
+	public ArrayList<LecturedayDTO> Check(int id, int sdate, int edate){		
+		try {
+			conn = getConnection();
+			stmt = conn.createStatement();
+			
+			dtoListLectureday = new ArrayList<LecturedayDTO>();
+			rs = stmt.executeQuery("SELECT lectureday.* FROM lectureday WHERE lectureday.lecture_id IN (SELECT DISTINCT mylecture.lecture_id FROM mylecture WHERE student_id in (SELECT mylecture.student_id FROM mylecture WHERE mylecture.lecture_id="+id+")) AND lectureday.normdate >="+sdate+" AND lectureday.normdate <="+edate);
+			while(rs.next()) {
+				//id lecture_id room_id th classification normdate normstart normhour normstate
+				//restdate reststart resthour reststate state
+				dtoLectureday =  new LecturedayDTO();
+				
+				dtoLectureday.setId(rs.getInt(1));
+				dtoLectureday.setLecture_id(rs.getInt(2));
+				dtoLectureday.setRoom_id(rs.getInt(3));
+				dtoLectureday.setTh(rs.getByte(4));
+				dtoLectureday.setClassification(rs.getByte(5));
+				dtoLectureday.setNormdate(rs.getDate(6));
+				dtoLectureday.setNormstart(rs.getByte(7));
+				dtoLectureday.setNormhour(rs.getByte(8));
+				dtoLectureday.setNormstate(rs.getString(9));
+				dtoLectureday.setRestdate(rs.getDate(10));
+				dtoLectureday.setReststart(rs.getByte(11));
+				dtoLectureday.setResthour(rs.getByte(12));
+				dtoLectureday.setReststate(rs.getString(13));
+				dtoLectureday.setState(rs.getString(14));
+				
+				dtoListLectureday.add(dtoLectureday);				
+			}
+			return dtoListLectureday;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return dtoListLectureday;	
+	}	
+	
+	public ArrayList<RoomDTO> RoomCheck(int start, String date){		
+		try {
+			conn = getConnection();
+			stmt = conn.createStatement();
+			
+			dtoListRoom = new ArrayList<RoomDTO>();
+			
+			rs = stmt.executeQuery("SELECT building.id as building_id, building.name as building_name, building.floor as building_fllor, room.*, depart.name as depart_name FROM building INNER JOIN room ON building.id = room.building_id INNER JOIN depart ON room.depart_id = depart.id where room.id NOT IN (SELECT lectureday.room_id FROM lectureday WHERE lectureday.normdate = '" +date+"' AND (lectureday.normstart >= "+start+" OR lectureday.normhour+lectureday.normstart > "+start+"))");
+			while(rs.next()) {				
+				dtoRoom =  new RoomDTO();
+				dtoBuilding = new BuildingDTO();
+				dtoDepart = new DepartDTO();
+				
+				dtoBuilding.setId(rs.getInt(1));
+				dtoBuilding.setName(rs.getString(2));
+				dtoBuilding.setFloor(rs.getByte(3));
+				dtoRoom.setBuilding(dtoBuilding);
+				
+				dtoRoom.setId(rs.getInt(4));
+				dtoRoom.setBuilding_id(rs.getInt(5));
+				dtoRoom.setFloor(rs.getByte(6));
+				dtoRoom.setHo(rs.getString(7));
+				dtoRoom.setDepart_id(rs.getInt(8));
+				dtoRoom.setName(rs.getString(9));
+				dtoRoom.setKind(rs.getString(10));
+				dtoRoom.setArea(rs.getInt(11));
+				
+				dtoDepart.setName(rs.getString(12));
+				dtoRoom.setDepart(dtoDepart);
+				
+				dtoListRoom.add(dtoRoom);				
+			}
+			return dtoListRoom;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return dtoListRoom;	
+	}	
+	
+	
+	public void closeDBResources(ResultSet rs, Statement stmt, PreparedStatement pstmt, Connection conn) {
+		if(rs != null) {
+			try {
+				rs.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		if(stmt != null) {
+			try {
+				stmt.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		if(pstmt != null) {
+			try {
+				pstmt.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		if(conn != null) {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}	
 	}
 	
 }

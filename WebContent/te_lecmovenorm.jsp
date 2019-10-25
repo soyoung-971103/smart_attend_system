@@ -62,7 +62,7 @@
 						var lecture = "";
 						//document.getElementById('ajaxtest').innerHTML="";
 						var xhttp = new XMLHttpRequest();
-					    xhttp.open("post", "teacher-lecture-search.do?normdate=" + str + "&n=1", true);
+						xhttp.open("post", "teacher-lecture-search.do?normdate=" + str + "&n=1", true);
 					    xhttp.send();
 					};
 			  </script>
@@ -76,13 +76,22 @@
 						moveweek(0);
 						load_lec();
 					}
+					
+					function setCookie(cookie_name, value, days) { //쿠키추가
+					  var exdate = new Date();
+					  exdate.setDate(exdate.getDate() + days);
+					  // 설정 일수만큼 현재시간에 만료값으로 지정
+					
+					  //var cookie_value = escape(value) + ((days == null) ? '' : ';    expires=' + exdate.toUTCString());
+					  document.cookie = cookie_name + '=' + value;
+					}
 
 					function load_lec()			// 해당학기 시간표읽어 모두 표시
 					{	
 						// 학년^반^요일^시작교시^시간^과목명^교수님^강의실
 						var timetable = new Array();
 						<c:forEach items="${list}" var="item2">
-							timetable.push("${item2.lecture.subject.grade}^${item2.lecture._class}^${item2.weekday}^${item2.istart}^${item2.ihour}^${item2.lecture.subject.name}^${item2.lecture.teacher.name}^${item2.room.name}");
+							timetable.push("${item2.lecture.subject.grade}^${item2.lecture._class}^${item2.weekday}^${item2.istart}^${item2.ihour}^${item2.lecture.subject.name}^${item2.lecture.teacher.name}^${item2.room.name}^${item2.lecture_id}");
 						</c:forEach>
 						for (i=0;i<timetable.length;i++)
 						{
@@ -108,7 +117,12 @@
 						form1.normhour.value=str[4];
 					
 						document.getElementById( pos ).style.borderColor="red";
+						
+						setCookie("lecturenorm_data", pos, 1);
+						
 					}
+					
+					
 				</script>
 
 				<div class="row">
@@ -129,14 +143,14 @@
 
 								<ul class="nav nav-tabs nav-pills nav-fill">
 								  <li class="nav-item">
-									<a class="nav-link active" href="te_lecmovenorm.html"><h6>휴강날짜 선택</h6></a>
+									<a class="nav-link active" href="teacher-lecmove-select.do"><h6>휴강날짜 선택</h6></a>
 								  </li>
 								  <li class="nav-item">
-									<a class="nav-link" href="te_lecmoverest.html"><h6>보강날짜 선택</h6></a>
+									<a class="nav-link" href="#" onclick="document.getElementById('form1').submit();"><h6>보강날짜 선택</h6></a>
 								  </li>
 								</ul>
 						
-								<form name="form1" method="post" action="">
+								<form name="form1" method="post" action="teacher-lecmoverest.do" id="form1">
 
 								<input type="hidden" name="startday" value="">
 
