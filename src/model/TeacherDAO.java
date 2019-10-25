@@ -5,7 +5,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -301,6 +303,29 @@ public class TeacherDAO extends DAOBase {
 		}
 		return dtoListRoom;	
 	}	
+	
+	public int RestInsert(LecturedayDTO dto) {    	
+    	int result = 0;
+    	try {
+    		conn = getConnection();
+    		pstmt = conn.prepareStatement("INSERT INTO lectureday(normstate, restdate, reststart, resthour, reststate, state) " +  
+    				"values(?, ?, ?, ?, ?, ?)");	
+    		pstmt.setInt(1, 4);
+    		pstmt.setDate(2, dto.getRestdate());
+    		pstmt.setByte(3, dto.getReststart());
+    		pstmt.setByte(4, dto.getResthour());
+    		pstmt.setString(5, "1");
+    		pstmt.setString(6, "신청");
+    		result = pstmt.executeUpdate();	
+    		return result;    		
+    	}catch(SQLException e){
+    		e.printStackTrace();
+    	}
+    	finally {
+			this.closeDBResources(rs, stmt, pstmt, conn);
+		}
+		return result;
+    }
 	
 	
 	public void closeDBResources(ResultSet rs, Statement stmt, PreparedStatement pstmt, Connection conn) {

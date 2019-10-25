@@ -154,7 +154,7 @@
 							var normstart = form1.normstart.value;
 							var normhour = form1.normhour.value;
 							
-							location.href="teacher-lecmoverest.do?day="+day+"&start="+start+"&hour="+hour+"&normdate="+normdate+"&normweek="+normweek+"&normstart="+normstart+"&normhour="+normhour;
+							location.href="teacher-lecmoverest.do?day="+day+"&start="+start+"&hour="+hour+"&w="+w[ww]+"&normdate="+normdate+"&normweek="+normweek+"&normstart="+normstart+"&normhour="+normhour;
 							
 							alert("ddd");
 						}
@@ -223,10 +223,10 @@
 													<span class="input-group-text alert-primary"><a href="javascript:moveweek(-1);"><i class="fa fa-chevron-left"></i></a></span>&nbsp;
 													<span class="input-group-text alert-primary">보강일</span>&nbsp;
 												</div>
-												<input type="text" name="restdate" " value=""style="width:70px;text-align:center" class="form-control form-control-sm" >&nbsp;
-												<input type="text" name="restweek" size="1" value="" style="text-align:center" class="form-control form-control-sm" >&nbsp;
-												<input type="text" name="reststart"  size="1" value="" style="text-align:center" class="form-control form-control-sm" >&nbsp;
-												<input type="text" name="resthour" size="1" value="" style="text-align:center" class="form-control form-control-sm" >&nbsp;
+												<input type="text" name="restdate" " value="${restdate }"style="width:70px;text-align:center" class="form-control form-control-sm" >&nbsp;
+												<input type="text" name="restweek" size="1" value="${restweek }" style="text-align:center" class="form-control form-control-sm" >&nbsp;
+												<input type="text" name="reststart"  size="1" value="${reststart }" style="text-align:center" class="form-control form-control-sm" >&nbsp;
+												<input type="text" name="resthour" size="1" value="${resthour }" style="text-align:center" class="form-control form-control-sm" >&nbsp;
 												<div class="input-group-append">
 													<span class="input-group-text alert-primary"><a href="javascript:moveweek(1);"><i class="fa fa-chevron-right"></i></a></span>
 												</div>
@@ -444,7 +444,7 @@
 															<td>${room.depart.name }</td>
 															<td>${room.name }</td>
 															<td>
-																<a href="javascript:sel_room('1','인관','멀티미디어실습실');" class="btn btn-xs btn-outline-primary">선택</a>
+																<a href="javascript:sel_room('${room.id }','${room.building.name }','${room.name }');" class="btn btn-xs btn-outline-primary">선택</a>
 															</td>
 														</tr>	
 													</c:forEach>																									

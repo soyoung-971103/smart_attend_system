@@ -3,6 +3,7 @@ package controller;
 import java.io.IOException;
 import java.sql.*;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -30,7 +31,7 @@ import model.TimeTableDTO;
  * Servlet implementation class TeacherController
  */
 //"/building-register.do", "/building-list.do", "/building-info.do", "/building-delete.do", "/building-update.do", "/building-search.do"
-@WebServlet({"/teacher-inputdata.do", "/teacher-info.do", "/teacher-register.do", "/teacher-list.do", "/teacher-delete.do", "/teacher-update.do", "/teacher-lecmove-select.do", "/teacher-lecmoverest.do"})
+@WebServlet({"/teacher-inputdata.do", "/teacher-info.do", "/teacher-register.do", "/teacher-list.do", "/teacher-delete.do", "/teacher-update.do", "/teacher-lecmove-select.do", "/teacher-lecmoverest.do", "/teacher-lecrestsave.do"})
 
 public class TeacherController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -51,6 +52,7 @@ public class TeacherController extends HttpServlet {
     DepartDTO dtoDepart = null;
 	RoomDTO dtoRoom = null;
 	BuildingDTO dtoBuilding = null;
+	LecturedayDTO dtoLectureday = null;
     TeacherDAO dao = new TeacherDAO();    
     HttpSession sesobj = null;
     Cookie cookies[] = null;
@@ -83,6 +85,8 @@ public class TeacherController extends HttpServlet {
 			lecmoveSelect(request,response);
 		}else if(action.equals("teacher-lecmoverest.do")) {
 			lecmoveRest(request,response);
+		}else if(action.equals("teacher-lecrestsave.do")) {
+			lecRestSave(request,response);
 		}
 		else
 			;
@@ -154,7 +158,10 @@ public class TeacherController extends HttpServlet {
 		String normweek = request.getParameter("normweek");
 		String normstart = request.getParameter("normstart");
 		String normhour = request.getParameter("normhour");
-		String lecturenorm_data = null;		
+		String lecturenorm_data = null;	
+		String day1 = null;
+		String w = null;
+		int start, hour;
 		DateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");		
 		Calendar calendar = Calendar.getInstance();		
 		Date date = null;
@@ -203,39 +210,67 @@ public class TeacherController extends HttpServlet {
 		}
 		
 		if(request.getParameter("day") != null) {
-			lecmoveRestRoom(request, response);
+			day1 = request.getParameter("day");
+			start =Integer.parseInt(request.getParameter("start"));
+			hour =Integer.parseInt(request.getParameter("hour"));
+			w = request.getParameter("w");
+			
+			request.setAttribute("restdate", day1);
+			request.setAttribute("restweek", w);
+			request.setAttribute("reststart", start);
+			request.setAttribute("resthour", hour);
+			request.setAttribute("dtoListRoom", dtoListRoom);
+			
+			dtoListRoom = dao.RoomCheck(start, day1);
 		}
 		
 		request.setAttribute("normdate", normdate);
 		request.setAttribute("normweek", normweek);
 		request.setAttribute("normstart", normstart);
-		request.setAttribute("normhour", normhour);
+		request.setAttribute("normhour", normhour);		
 		request.setAttribute("lecturenorm_data", lecturenorm_data);
 		request.setAttribute("timeTableList", timeTableList);
-		request.setAttribute("dtoListRoom", dtoListRoom);
 		request.getRequestDispatcher("te_lecmoverest.jsp").forward(request, response);
 	}
 	
-	private void lecmoveRestRoom(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException{
-		String day = request.getParameter("day");
-		int start =Integer.parseInt(request.getParameter("start"));
-		//int hour = Integer.parseInt(request.getParameter("hour"));
+	private void lecRestSave(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException{
+		String restdate_s = request.getParameter("restdate");
+		Byte reststart = Byte.parseByte(request.getParameter("reststart"));
+		Byte resthour = Byte.parseByte(request.getParameter("resthour"));
+		int room_no = Integer.parseInt(request.getParameter("room_no"));
+		String lecturenorm_data = null;	
+		SimpleDateFormat transFormat = new SimpleDateFormat("yyyy-MM-dd");
+		Date restdate;
+		dtoLectureday = new LecturedayDTO();
 		
-		dtoListRoom = dao.RoomCheck(start, day);
+		try {
+			restdate = transFormat.parse(restdate_s);
+			dtoLectureday.setRestdate(restdate);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		for(Cookie cookie : cookies) {
+			if(cookie.getName().equals("lecturenorm_data")) {
+				lecturenorm_data = cookie.getValue();
+			}
+		}	
+		
+		String lectureState[] = lecturenorm_data.split("\\^");
+		int lectureId = Integer.parseInt(lectureState[8]);
+	
+		dtoLectureday.setId(lectureId);
+		dtoLectureday.setResthour(resthour);
+		dtoLectureday.setReststart(reststart);
+		
+		if(dao.RestInsert(dtoLectureday) == 1) {
+			request.getRequestDispatcher("te_lecmove.jsp").forward(request, response);
+		}		
 		
 	}
 	
-	private void lecmoveSelectMove(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException{
-		int id = (int) sesobj.getAttribute("id");
-		int sdate = (int) sesobj.getAttribute("sdate");
-		int edate = (int) sesobj.getAttribute("edate");
-		//int state = request.getParameter("state");
-		dtoListTimeTable = dao.Load(id, sdate, edate);		
-		sesobj.setAttribute("sdate", sdate);
-		sesobj.setAttribute("edate", edate);
-		request.setAttribute("list", dtoListTimeTable);
-    	request.getRequestDispatcher("te_lecmovenorm.jsp").forward(request, response);
-	}
+	
 	
 	public static String getCurMonday(){
  		java.text.SimpleDateFormat formatter = new java.text.SimpleDateFormat("yyyyMMdd");
