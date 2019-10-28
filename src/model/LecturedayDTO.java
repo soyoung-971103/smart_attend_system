@@ -15,7 +15,8 @@ public class LecturedayDTO {
 	byte reststart;
 	byte resthour;
 	String reststate;
-	String state;
+	String state;	
+	byte classification;
 	
 	LectureDTO lecture;
 	SubjectDTO subject; 
@@ -24,7 +25,12 @@ public class LecturedayDTO {
 	DepartDTO depart;
 	
 	
-	
+	public byte getClassification() {
+		return classification;
+	}
+	public void setClassification(byte classification) {
+		this.classification = classification;
+	}
 	public LectureDTO getLecture() {
 		return lecture;
 	}
