@@ -7,7 +7,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.Calendar;
+import java.sql.Date;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -304,27 +305,34 @@ public class TeacherDAO extends DAOBase {
 		return dtoListRoom;	
 	}	
 	
-	public int RestInsert(LecturedayDTO dto) {    	
+	public int RestUpdate(LecturedayDTO dto) {  		
+		java.util.Calendar cal = Calendar.getInstance();
+		java.util.Date utilDate = dto.getRestdate(); // your util date
+		cal.setTime(utilDate);
+				
     	int result = 0;
-    	try {
-    		conn = getConnection();
-    		pstmt = conn.prepareStatement("INSERT INTO lectureday(normstate, restdate, reststart, resthour, reststate, state) " +  
-    				"values(?, ?, ?, ?, ?, ?)");	
-    		pstmt.setInt(1, 4);
-    		pstmt.setDate(2, dto.getRestdate());
+		try {
+			conn = getConnection();		
+			pstmt = conn.prepareStatement("update lectureday " + 
+			"set normstate=?, restdate=?, reststart=?, resthour=?, reststate=?, state=?, room_id=? WHERE id=?");
+			pstmt.setInt(1, 4);
+    		pstmt.setDate(2, new java.sql.Date(cal.getTime().getTime()));
     		pstmt.setByte(3, dto.getReststart());
     		pstmt.setByte(4, dto.getResthour());
-    		pstmt.setString(5, "1");
+    		pstmt.setString(5, "정상");
     		pstmt.setString(6, "신청");
+    		pstmt.setInt(7, dto.getRoom_id());
+    		pstmt.setInt(8, dto.getId());
     		result = pstmt.executeUpdate();	
-    		return result;    		
-    	}catch(SQLException e){
-    		e.printStackTrace();
-    	}
-    	finally {
+			return result;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		finally {
 			this.closeDBResources(rs, stmt, pstmt, conn);
 		}
-		return result;
+		return result;		
     }
 	
 	

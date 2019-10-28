@@ -85,6 +85,7 @@
 					<div class="form-inline">
 						<input type="radio" name="login_kind" value="student" checked>&nbsp;학생&nbsp;&nbsp;&nbsp;
 						<input type="radio" name="login_kind" value="teacher">&nbsp;교수&nbsp;&nbsp;&nbsp;
+						<input type="radio" name="login_kind" value="teacher">&nbsp;조교&nbsp;&nbsp;&nbsp;
 						<input type="radio" name="login_kind" value="assist" checked>&nbsp;직원
 					</div>
 					<br>

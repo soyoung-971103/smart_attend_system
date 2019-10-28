@@ -156,10 +156,19 @@
 							
 							location.href="teacher-lecmoverest.do?day="+day+"&start="+start+"&hour="+hour+"&w="+w[ww]+"&normdate="+normdate+"&normweek="+normweek+"&normstart="+normstart+"&normhour="+normhour;
 							
-							alert("ddd");
 						}
 						else
 							alert("여기에는 놓을 수 없습니다.");
+					}
+					
+					function save(){
+						
+						var restdate = form1.restdate.value;
+						var reststart = form1.reststart.value;
+						var resthour = form1.resthour.value;
+						var room_no = form1.room_no.value;
+						
+						location.href="teacher-lecrestsave.do?restdate="+restdate+"&reststart="+reststart+"&resthour="+resthour+"&room_no="+room_no;
 					}
 				</script>
 
@@ -424,7 +433,7 @@
 												</div>
 											</div>
 											<div class="col" align="right">
-													<a href="" class="btn btn-sm btn-primary"> 휴보강 신청하기 </a>
+													<a href="javascript:void(0)" onclick="save();" class="btn btn-sm btn-primary"> 휴보강 신청하기 </a>
 											</div>
 										</div>
 

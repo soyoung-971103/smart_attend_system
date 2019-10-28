@@ -204,8 +204,10 @@ public class TeacherController extends HttpServlet {
 		timeTableList = Integer.toString(timeTable[0][0]);
 		for(int i=0;i<14;i++) {
 			for(int j=0;j<7;j++) {
-				t = Integer.toString(timeTable[i][j]);
-				timeTableList = timeTableList +"^"+t;
+				if(i!=0 || j!=0) {
+					t = Integer.toString(timeTable[i][j]);
+					timeTableList = timeTableList +"^"+t;
+				}
 			}
 		}
 		
@@ -230,6 +232,7 @@ public class TeacherController extends HttpServlet {
 		request.setAttribute("normhour", normhour);		
 		request.setAttribute("lecturenorm_data", lecturenorm_data);
 		request.setAttribute("timeTableList", timeTableList);
+		
 		request.getRequestDispatcher("te_lecmoverest.jsp").forward(request, response);
 	}
 	
@@ -237,20 +240,23 @@ public class TeacherController extends HttpServlet {
 		String restdate_s = request.getParameter("restdate");
 		Byte reststart = Byte.parseByte(request.getParameter("reststart"));
 		Byte resthour = Byte.parseByte(request.getParameter("resthour"));
-		int room_no = Integer.parseInt(request.getParameter("room_no"));
+		int room_id = Integer.parseInt(request.getParameter("room_no"));
 		String lecturenorm_data = null;	
-		SimpleDateFormat transFormat = new SimpleDateFormat("yyyy-MM-dd");
-		Date restdate;
-		dtoLectureday = new LecturedayDTO();
-		
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+ 		java.util.Date date1;
+ 		Date date2 =null; 		
+ 		dtoLectureday= new LecturedayDTO();
+ 		
 		try {
-			restdate = transFormat.parse(restdate_s);
-			dtoLectureday.setRestdate(restdate);
+			date1 = formatter.parse(restdate_s);
+			String test1 = formatter.format(date1);
+			date2 = formatter.parse(test1);		
+			
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			dtoLectureday.setRestdate(null);
 		}
-		
 		for(Cookie cookie : cookies) {
 			if(cookie.getName().equals("lecturenorm_data")) {
 				lecturenorm_data = cookie.getValue();
@@ -259,12 +265,14 @@ public class TeacherController extends HttpServlet {
 		
 		String lectureState[] = lecturenorm_data.split("\\^");
 		int lectureId = Integer.parseInt(lectureState[8]);
-	
+		
 		dtoLectureday.setId(lectureId);
 		dtoLectureday.setResthour(resthour);
 		dtoLectureday.setReststart(reststart);
+		dtoLectureday.setRoom_id(room_id);
+		dtoLectureday.setRestdate(date2);
 		
-		if(dao.RestInsert(dtoLectureday) == 1) {
+		if(dao.RestUpdate(dtoLectureday) != 0) {
 			request.getRequestDispatcher("te_lecmove.jsp").forward(request, response);
 		}		
 		
