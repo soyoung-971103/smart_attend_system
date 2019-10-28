@@ -12,10 +12,10 @@ public class TeacherLectureDTO {
 	int number;
 	int normstart;
 	int normhour;
-	int normstate;
+	String normstate;
 	int reststart;
 	int resthour;
-	int reststate;
+	String reststate;
 	String state;
 	String normdate;
 	String restdate;
@@ -108,10 +108,10 @@ public class TeacherLectureDTO {
 	public void setHo(String ho) {
 		this.ho = ho;
 	}
-	public int getNormstate() {
+	public String getNormstate() {
 		return normstate;
 	}
-	public void setNormstate(int normstate) {
+	public void setNormstate(String normstate) {
 		this.normstate = normstate;
 	}
 	public int getReststart() {
@@ -126,10 +126,10 @@ public class TeacherLectureDTO {
 	public void setResthour(int resthour) {
 		this.resthour = resthour;
 	}
-	public int getReststate() {
+	public String getReststate() {
 		return reststate;
 	}
-	public void setReststate(int reststate) {
+	public void setReststate(String reststate) {
 		this.reststate = reststate;
 	}
 	public String getState() {

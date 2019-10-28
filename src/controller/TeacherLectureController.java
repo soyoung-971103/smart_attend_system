@@ -37,7 +37,7 @@ import model.TeacherLectureDAO;
 	/**
 	 * Servlet implementation class TeacherLectureController
 	 */
-	@WebServlet({"/teacher-lecture-search.do", "/teacher-lecture-info.do", "/student-lecture-hcheck.do", "/student-lecture-ahcheck.do"})
+	@WebServlet({"/teacher-lecture-search.do", "/teacher-lecture-info.do", "/student-lecture-hcheck.do", "/student-lecture-ahcheck.do", "/week-check.do"})
 	public class TeacherLectureController extends HttpServlet {
 		private static final long serialVersionUID = 1L;
 	    HttpSession sesobj = null;
@@ -60,6 +60,8 @@ import model.TeacherLectureDAO;
 				checkQu(request, response);
 			else if(action.equals("student-lecture-ahcheck.do"))
 				allCheckQu(request, response);
+			else if(action.equals("week-check.do"));
+			
 						
 		}
 		protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -84,10 +86,12 @@ import model.TeacherLectureDAO;
 			String text = "";
 			String id = test.substring(0,test.indexOf("."));
 			String day = "";
+			
 			try {
 				SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
 				SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy-MM-dd");
 				String dat = test.substring(test.indexOf(".") + 1, test.length());
+				if(dat.length() < 8) dat += "0";
 				Date date = sdf.parse(dat);
 				text=sdf2.format(date);
 				day = getDateDay(text,"yyyy-MM-dd");
@@ -113,45 +117,46 @@ import model.TeacherLectureDAO;
 				for(int i = 0; i < list.size(); i++)
 				{
 					String[] str = list.get(i).getNormdate().split("-");
-					
-					if(list.get(i).getNormstate() != 4) {
+					TeacherLectureDTO tdto = list.get(i);
+					int cnt = lectureDAO.countStudent(tdto.getLecture_id().getId());
+					if(list.get(i).getNormstate().equals("정상")) {
 						re.append("<div class='col-12 col-lg-6' align='left'>");
 						re.append("<div class='card border-dark mb-3' style='max-width: 20rem;'>");
 						re.append("<div class='card-header bg-info text-white'  style='padding:10px'>");
-						re.append("<h5 class='card-title' style='margin:0px'>"+list.get(i).getSubject_name()+"</h5>");
+						re.append("<h5 class='card-title' style='margin:0px'>"+tdto.getSubject_name()+"</h5>");
 						re.append("</div>");
 						re.append("<div class='card-body' style='padding:10px' id='t'>");
-						re.append(list.get(i).getTeacher_id().getName() + "<br>");
-						re.append(list.get(i).getTeacher_id().getDepart_id().getName() + "	: "+list.get(i).getRoomName()+
-					"("+list.get(i).getBuildName().charAt(0)+list.get(i).getHo()+")<br>");
+						re.append(tdto.getTeacher_id().getName() + "<br>");
+						re.append(tdto.getTeacher_id().getDepart_id().getName() + "	: "+tdto.getRoomName()+
+					"("+tdto.getBuildName().charAt(0)+tdto.getHo()+")<br>");
 						
-						re.append((list.get(i).getNormstart() - 8) + "교시~"+(list.get(i).getNormstart() + list.get(i).getNormhour()- 9)+
-					"교시("+list.get(i).getNormstart()+":00 ~ "+ (list.get(i).getNormstart() + list.get(i).getNormhour() - 1) +":50)<br>");
+						re.append((tdto.getNormstart()) + "교시~"+(tdto.getNormstart() + tdto.getNormhour() - 1)+
+					"교시("+(tdto.getNormstart() + 8)+":00 ~ "+ (tdto.getNormstart() + tdto.getNormhour() + 7) +":50)<br>");
 						
-						re.append("수강생 "+ list.get(i).getNumber() +"명<br>");
+						re.append("수강생 "+ cnt +"명<br>");
 						re.append("<center>");
-						re.append("<a href='te_leccall.jsp?id="+list.get(i).getId()+'.'+str[0].toString()+str[1].toString()+str[2].toString()+"'class='btn btn-sm btn-primary mymargin5'> "+(list.get(i).getClassification() == 1 ? "강의 완료" : "강의전")+" </a>");
+						re.append("<a href='te_leccall.jsp?id="+tdto.getId()+'.'+str[0].toString()+str[1].toString()+str[2].toString()+"'class='btn btn-sm btn-primary mymargin5'> "+(tdto.getClassification() == 1 ? "강의 완료" : "강의전")+" </a>");
 						re.append("</center>");
 						re.append("</div></div></div>");
-
-					}else if(list.get(i).getNormstate() == 4 && list.get(i).getRestdate().equals(text))
+					}
+					else if(tdto.getNormstate().equals("휴강") && tdto.getRestdate().equals(text))
 					{
 						re.append("<div class='col-12 col-lg-6' align='left'>");
 						re.append("<div class='card border-dark mb-3' style='max-width: 20rem;'>");
 						re.append("<div class='card-header bg-info text-white'  style='padding:10px'>");
-						re.append("<h5 class='card-title' style='margin:0px'>"+list.get(i).getSubject_name()+"</h5>");
+						re.append("<h5 class='card-title' style='margin:0px'>"+tdto.getSubject_name()+"</h5>");
 						re.append("</div>");
 						re.append("<div class='card-body' style='padding:10px' id='t'>");
-						re.append(list.get(i).getTeacher_id().getName() + "<br>");
-						re.append(list.get(i).getTeacher_id().getDepart_id().getName() + "	: "+list.get(i).getRoomName()+
-					"("+list.get(i).getBuildName().charAt(0)+list.get(i).getHo()+")<br>");
+						re.append(tdto.getTeacher_id().getName() + "<br>");
+						re.append(tdto.getTeacher_id().getDepart_id().getName() + "	: "+tdto.getRoomName()+
+					"("+tdto.getBuildName().charAt(0)+tdto.getHo()+")<br>");
 						
-						re.append((list.get(i).getReststart() - 8) + "교시~"+(list.get(i).getReststart() + list.get(i).getResthour()- 9)+
-					"교시("+list.get(i).getReststart()+":00 ~ "+ (list.get(i).getReststart() + list.get(i).getResthour() - 1) +":50)<br>");
+						re.append((tdto.getReststart()) + "교시~"+(tdto.getReststart() + tdto.getResthour() - 1)+
+					"교시("+(tdto.getReststart() + 8)+":00 ~ "+ (tdto.getReststart() + tdto.getResthour() + 7) +":50)<br>");
 						
-						re.append("수강생 "+ list.get(i).getNumber() +"명<br>");
+						re.append("수강생 "+ cnt +"명<br>");
 						re.append("<center>");
-						re.append("<a href='te_leccall.jsp?id="+list.get(i).getId()+'.'+str[0].toString()+str[1].toString()+str[2].toString()+"'class='btn btn-sm btn-primary mymargin5'> "+(list.get(i).getClassification() == 1 ? "강의 완료" : "강의전")+" </a>");
+						re.append("<a href='te_leccall.jsp?id="+tdto.getId()+'.'+str[0].toString()+str[1].toString()+str[2].toString()+"'class='btn btn-sm btn-primary mymargin5'> "+(tdto.getClassification() == 1 ? "강의 완료" : "강의전")+" </a>");
 						re.append("</center>");
 						re.append("</div></div></div>");
 					}
@@ -207,7 +212,7 @@ import model.TeacherLectureDAO;
 			"<div class='row'>" + 
 			"<div class='col-auto' align='left' style='margin:0px 0px 3px 8px'>" + 
 			"<i class='fa fa-calendar-o fa-1x'></i> "+text+" ("+day+") <br>" + 
-			"<i class='fa fa-clock-o fa-1x'></i> "+(info.getNormstart()-8)+"교시~"+(info.getNormstart()+info.getNormhour()-9)+"교시 ("+info.getNormstart()+":00 ~"+(info.getNormstart() + info.getNormhour() - 1)+":50)<br>" + 
+			"<i class='fa fa-clock-o fa-1x'></i> "+(info.getNormstart())+"교시~"+(info.getNormhour())+"교시 ("+(info.getNormstart() + 8) + ":00 ~"+(info.getNormstart() + info.getNormhour() + 7)+":50)<br>" + 
 			"<i class='fa fa-building-o fa-1x'></i> "+info.getBuildName()+" "+info.getRoomName()+"("+info.getBuildName().substring(0,1)+info.getHo()+")<br>" + 
 			"</div>" + 
 			"<div id='nStuCheck' class='col' align='left' style='margin:0px 0px 3px 8px'>" + 
@@ -218,8 +223,8 @@ import model.TeacherLectureDAO;
 			"</div>" + 
 			"<div class='row'>" + 
 			"<div class='col' align='right' style='margin:10px 0px 3px 0px'>" + 
-			"<a href='' class='btn btn-xs btn-primary'>출석시작->완료</a> " + 
-			"<a href='' onclick='n()' class='btn btn-xs btn-primary'>전체출석</a> " + 
+			"<a href='naver.com' onclick='return confirm(\"완료하시겠습니까?\")' class='btn btn-xs btn-primary'>출석시작->완료</a> " + 
+			"<a href='javascript:n()' onclick='return confirm(\"전체출석 하시겠습니까?\")' class='btn btn-xs btn-primary'>전체출석</a> " + 
 			"<a href='te_lec.jsp' class='btn btn-xs btn-primary'>목록</a><br>" + 
 			"</div>" + 
 			"</div>" + 
@@ -227,8 +232,8 @@ import model.TeacherLectureDAO;
 			"<tr class='mycolor1'>" + 
 			"<td style='vertical-align:middle'>학생정보</td>");
 			
-			for(int i = info.getNormstart(), j = 1; i < (info.getNormstart()+info.getNormhour()); i++, j++)
-				re.append("<td style='line-height:1.0rem'>"+j+"<br><font size='1'>&nbsp;"+i+":0~</font>&nbsp;</td>");
+			for(int i = info.getNormstart(); i < (info.getNormstart()+info.getNormhour()); i++)
+				re.append("<td style='line-height:1.0rem'>"+i+"<br><font size='1'>&nbsp;"+(i + 8)+":00~"+(i + 8)+":50</font>&nbsp;</td>");
 			re.append("</tr>");
 			
 			for(int i = 0; i < list.size(); i++)

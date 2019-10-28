@@ -3,6 +3,7 @@ package model;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
@@ -20,7 +21,7 @@ public class TeacherLectureDAO extends DAOBase{
 	//TeacherLectureDTO dto = new TeacherLectureDTO();
 	TeacherDTO dtoTeacher = null;
 	DepartDTO dtoDepart = null;
-	
+	LectureDTO dtoLecture = null;
 	
 	public ArrayList<TeacherLectureDTO> search(String text1, HttpServletRequest request, HttpServletResponse response) {
 		sin = request.getSession();
@@ -38,6 +39,7 @@ public class TeacherLectureDAO extends DAOBase{
 			{
 				dtoTeacher = new TeacherDTO();
 				dtoDepart = new DepartDTO();
+				dtoLecture = new LectureDTO();
 				TeacherLectureDTO teacher = new TeacherLectureDTO();
 				teacher.setId(rs.getInt("lecture.id"));
 				teacher.setSubject_name(rs.getString("subject.name"));
@@ -47,6 +49,8 @@ public class TeacherLectureDAO extends DAOBase{
 				dtoTeacher.setName(rs.getString("teacher.name"));
 				dtoTeacher.setDepart_id(dtoDepart);
 				teacher.setTeacher_id(dtoTeacher);
+				dtoLecture.setId(rs.getInt("lecture.id"));
+				teacher.setLecture_id(dtoLecture);
 				teacher.set_class(rs.getString("lecture.class"));
 				teacher.setNumber(rs.getInt("lecture.number"));
 				teacher.setNormdate(rs.getString("lectureday.normdate"));
@@ -57,7 +61,7 @@ public class TeacherLectureDAO extends DAOBase{
 				teacher.setBuildName(rs.getString("building.name"));
 				teacher.setTh(rs.getInt("lectureday.th"));
 				
-				teacher.setNormstate(rs.getInt("lectureday.normstate"));
+				teacher.setNormstate(rs.getString("lectureday.normstate"));
 				teacher.setRestdate(rs.getString("lectureday.restdate"));
 				teacher.setReststart(rs.getInt("lectureday.reststart"));
 				teacher.setResthour(rs.getInt("lectureday.resthour"));
@@ -247,11 +251,10 @@ public class TeacherLectureDAO extends DAOBase{
 		}
 	}
 	public void stuAllCheck(String day, String lecture_id){
-		String SQL = "SELECT lectureday.th, subject.ihourFROM lecture left join lectureday on lecture.id = lectureday.lecture_id "
-				+ "left join mylecture on lecture.id = mylecture.lecture_id left join student on mylecture.student_id = student.id "
-				+ "left join depart on student.depart_id = depart.id where lectureday.normdate=DATE('"+day+"') "
-						+ "and lectureday.lecture_id = '"+lecture_id+"';";
-		
+		String SQL = "select lectureday.th, subject.ihour "
+				+ "from lecture left join subject on subject.id = lecture.subject_id "
+				+ "left join lectureday on lectureday.lecture_id = lecture.id "
+				+ "where lectureday.normdate = '"+day+"' and lecture.id = '"+lecture_id+"';";		
 		try {
 			conn = getConnection();
 			pstmt = conn.prepareStatement(SQL);
@@ -293,6 +296,19 @@ public class TeacherLectureDAO extends DAOBase{
 		nStuCheck[2] += a;
 		nStuCheck[1] += b;
 		nStuCheck[0] += c;
+	}
+	public int countStudent(int lecture_id) {
+		try {
+			String sql = "select count(*) as cnt from lecture left join mylecture on mylecture.lecture_id = lecture.id where lecture.id = "+lecture_id+";";
+			conn = getConnection();
+			stmt = conn.createStatement();
+			rs = stmt.executeQuery(sql);
+			if(rs.next());
+			return rs.getInt("cnt");
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+		return 0;
 	}
 }
 /*

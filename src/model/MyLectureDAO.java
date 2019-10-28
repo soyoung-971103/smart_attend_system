@@ -181,6 +181,8 @@ public class MyLectureDAO extends DAOBase{
 		}
 		return dto;
 	}
+	
+
 	/*
 	 * 
 	 * 

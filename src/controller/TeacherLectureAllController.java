@@ -120,7 +120,7 @@ public class TeacherLectureAllController extends HttpServlet {
 	
 	
 
-	private void stuList(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException{
+	private void stuList(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException, NullPointerException{
 		dao = new TeacherLectureAllDAO();
 		ArrayList<TeacherLectureDTO> dto = null;
 
@@ -147,12 +147,15 @@ public class TeacherLectureAllController extends HttpServlet {
 			
 			for(int i = 0; i < dto.size(); i++)
 			{
-				if(dto.get(i).getNormstate() == 4); // 보강일 때
-				
-				else
-				{
-					for(int j = 0; j < dto.get(i).getNormhour(); j++)
+				for(int j = 0; j < dto.get(i).getNormhour(); j++) {
+					String str = dto.get(i).getState();
+					if(str == null)
 						re.append("<th></th>");
+					else if(str.equals("최종승인"))
+						re.append("<th>보</th>");
+					else{
+						re.append("<th></th>");
+					}
 				}
 			}
 			re.append("</tr><tr class='mycolor1'><th>학과</th><th>학년</th><th>학번</th><th>학적</th><th>이름</th><th>지각</th><th>결석</th><th>점수</th>");
@@ -160,7 +163,7 @@ public class TeacherLectureAllController extends HttpServlet {
 			for(int i = 0; i < dto.size(); i++)
 			{
 				for(int j = 0; j < dto.get(i).getNormhour(); j++)
-					re.append("<th>"+ (dto.get(i).getNormstart() + j + 1 - 9) +"</th>");
+					re.append("<th>"+ (dto.get(i).getNormstart() + j) +"</th>");
 			}
 			re.append("</tr>");
 		}
@@ -199,9 +202,9 @@ public class TeacherLectureAllController extends HttpServlet {
 					}
 					else if(dtoList.get(i).getH().get(j) == null)
 					{
-	//					if(dtoList.get(i) == 4)
-	//						re.append("<td><font color='green'><b>보</b></font></td>");
-	//					else
+//						if(dtoList.get(i) == 4)
+//							re.append("<td><font color='green'><b>보</b></font></td>");
+//						else
 							re.append("<td><i class='text-warning fa fa-question fa-1x'></i></td>");
 						
 					}
