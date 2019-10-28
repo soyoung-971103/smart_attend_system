@@ -180,6 +180,7 @@ public class LecturedayController extends HttpServlet {
 		for(byte th=1; th<=15; th++) {
 			if(i < dtoListHoliday.size()) {
 				date = utilDate.format(dtoListHoliday.get(i).getHoliday());
+				dday = dtoListHoliday.get(i).getHoliday();
 			}
 			
 			for(int num=0; num < dtoListTimeTable.size(); num++) {
@@ -201,7 +202,7 @@ public class LecturedayController extends HttpServlet {
 							dto.setNormhour(dtoListTimeTable.get(num).getIhour());
 							dto.setNormdate(mon);
 							dto.setTh(th);
-							dto.setNormstate("1");
+							dto.setNormstate("정상");
 							result = dao.create(dto);
 							monCal.add(Calendar.DATE, 7);
 							mon = monCal.getTime();
@@ -214,7 +215,7 @@ public class LecturedayController extends HttpServlet {
 							dto.setNormhour(dtoListTimeTable.get(num).getIhour());
 							dto.setNormdate(tue);
 							dto.setTh(th);
-							dto.setNormstate("1");
+							dto.setNormstate("정상");
 							result = dao.create(dto);
 							tueCal.add(Calendar.DATE, 7);
 							tue = tueCal.getTime();
@@ -227,7 +228,7 @@ public class LecturedayController extends HttpServlet {
 							dto.setNormhour(dtoListTimeTable.get(num).getIhour());
 							dto.setNormdate(wed);
 							dto.setTh(th);
-							dto.setNormstate("1");
+							dto.setNormstate("정상");
 							result = dao.create(dto);
 							wedCal.add(Calendar.DATE, 7);
 							wed = wedCal.getTime();
@@ -240,7 +241,7 @@ public class LecturedayController extends HttpServlet {
 							dto.setNormhour(dtoListTimeTable.get(num).getIhour());
 							dto.setNormdate(thu);
 							dto.setTh(th);
-							dto.setNormstate("1");
+							dto.setNormstate("정상");
 							result = dao.create(dto);
 							thuCal.add(Calendar.DATE, 7);
 							thu = thuCal.getTime();
@@ -253,7 +254,7 @@ public class LecturedayController extends HttpServlet {
 							dto.setNormhour(dtoListTimeTable.get(num).getIhour());
 							dto.setNormdate(fri);
 							dto.setTh(th);
-							dto.setNormstate("1");
+							dto.setNormstate("정상");
 							result = dao.create(dto);
 							friCal.add(Calendar.DATE, 7);
 							fri = friCal.getTime();
@@ -266,7 +267,7 @@ public class LecturedayController extends HttpServlet {
 							dto.setNormhour(dtoListTimeTable.get(num).getIhour());
 							dto.setNormdate(dday);
 							dto.setTh(th);
-							dto.setNormstate("4");
+							dto.setNormstate("휴강");
 							result = dao.create(dto);
 							if(Smon.equals(date)) {
 								monCal.add(Calendar.DATE, 7);

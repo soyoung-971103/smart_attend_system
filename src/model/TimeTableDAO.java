@@ -62,7 +62,7 @@ public class TimeTableDAO extends DAOBase {
 				dtoRoom.setId(rs.getInt(7));
 				dtoRoom.setName(rs.getString(8));
 				dto.setRoom(dtoRoom);
-				dtoLecture.set_class(rs.getString(9));
+				dtoLecture.setLecture_class(rs.getString(9));
 				dto.setLecture(dtoLecture);
 				dtoSubject.setGrade(rs.getByte(10));
 				dtoSubject.setIhour(rs.getByte(11));
