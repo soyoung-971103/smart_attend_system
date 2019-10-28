@@ -92,6 +92,7 @@ public class MemberController extends HttpServlet {
 		if(dto != null) {	
 			sesobj.setAttribute("name", dto.getName());
 			sesobj.setAttribute("uid", dto.getUid());
+			sesobj.setAttribute("id", dto.getId());
 			sesobj.setAttribute("kind", kind);
 			request.getRequestDispatcher("main.jsp").forward(request, response);
 		}else {
