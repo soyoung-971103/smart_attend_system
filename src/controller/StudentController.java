@@ -26,6 +26,8 @@ import model.LectureDAO;
 import model.LectureDTO;
 import model.MyLectureDAO;
 import model.MyLectureDTO;
+import model.NoticeDTO;
+import model.QnaDTO;
 import model.StudentDAO;
 import model.StudentDTO;
 import model.SubjectDAO;
@@ -36,7 +38,7 @@ import model.TeacherDTO;
 /**
  * Servlet implementation class StudentController
  */
-@WebServlet({"/student-list.do","/student-search.do","/student-register.do","/student-delete.do","/student-detail.do","/student-update.do","/student-qna.do", "/lecqnainsert.do", "/savestqa.do", "/stqaload.do"})
+@WebServlet({"/student-list.do","/student-search.do","/student-register.do","/student-delete.do","/student-detail.do","/student-update.do","/student-qna.do", "/lecqnainsert.do", "/savestqa.do", "/stqaload.do", "/student-main.do", "/student-qnainfo.do"})
 @MultipartConfig(location="", 
 fileSizeThreshold=1024*1024, 
 maxFileSize=1024*1024*5, 
@@ -55,10 +57,13 @@ public class StudentController extends HttpServlet {
 	
     ArrayList<StudentDTO> dtoList = null;
     StudentDTO dto = null;
+    QnaDTO dtoQna = null;
     StudentDAO dao = new StudentDAO();
     HttpSession sesobj = null;
     //Pagination pn = new Pagination();
     ArrayList<ControlDTO> dtoListControl = null;
+    ArrayList<NoticeDTO> dtoListNotice = null;
+    ArrayList<QnaDTO> dtoListQna = null;
 	ControlDAO daoControl = new ControlDAO();
     
 	protected void process(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
@@ -90,6 +95,10 @@ public class StudentController extends HttpServlet {
 			saveqa(request,response);
 		else if(action.equals("stqaload.do"))
 			loadqa(request,response);
+		else if(action.equals("student-main.do"))
+			stMain(request,response);
+		else if(action.equals("student-qnainfo.do"))
+			stMainQnaInfo(request,response);
 		else 
     		;
 		
@@ -258,6 +267,23 @@ public class StudentController extends HttpServlet {
 		
 		request.getRequestDispatcher("st_lecqaedit.jsp").forward(request, response);
 	}
+	
+	protected void stMain(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException{
+		int id = (Integer) sesobj.getAttribute("id");
+		dtoListQna = dao.QnaList(id);
+		dtoListNotice = dao.NoticeList();
+		request.setAttribute("dtoListQna", dtoListQna);
+		request.setAttribute("dtoListNotice", dtoListNotice);
+		request.getRequestDispatcher("st_main.jsp").forward(request, response);
+	}
+	
+	protected void stMainQnaInfo(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException{
+		int id = Integer.parseInt(request.getParameter("id"));
+		dtoQna = dao.QnaInfo(id);
+		request.setAttribute("dto", dtoQna);
+		request.getRequestDispatcher("st_lecqainfo.jsp").forward(request, response);
+	}
+		
 	
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     	try {
