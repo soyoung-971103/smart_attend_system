@@ -111,14 +111,12 @@ public class TeacherController extends HttpServlet {
 	}
 	private void Delete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException{
 		dao.delete(request, response);
-		response.sendRedirect("TeacherInquiry");
+		response.sendRedirect("teacher-list.do");
 	}
 	private void Inquiry(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException{
 		dtoList = dao.list();
-		
-
+	
 		request.setAttribute("alMember", dtoList);
-		
 		RequestDispatcher dis = request.getRequestDispatcher("ad_teacher.jsp");
 		dis.forward(request, response);
 	}
@@ -133,7 +131,6 @@ public class TeacherController extends HttpServlet {
 			dtoListDepart = daoDepart.List();
 			
 			request.setAttribute("Depart", dtoListDepart);
-			
 			request.setAttribute("kind", kind);
 			request.setAttribute("member", dto);
 			RequestDispatcher dis = request.getRequestDispatcher("ad_teacherInfo.jsp"); 
@@ -144,11 +141,11 @@ public class TeacherController extends HttpServlet {
 
 		dao.update(request, response);
 		
-	    response.sendRedirect("TeacherInquiry");
+	    response.sendRedirect("teacher-list.do");
 	}
 	private void Insert(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException{
 		dao.insert(request, response);
-	    response.sendRedirect("TeacherInquiry");
+	    response.sendRedirect("teacher-list.do");
 	}	
 	private void inputdata(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException{
 		ArrayList<DepartDTO> dtoListDepart = new ArrayList<DepartDTO>();

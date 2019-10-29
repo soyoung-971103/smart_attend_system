@@ -56,7 +56,6 @@ public class AssistController extends HttpServlet {
 		String action = uri.substring(lastIndex + 1); 
 		
 		if(action.equals("assist-update.do")) {
-			System.out.println(request.getParameter("name"));
 			Update(request, response);
 		}else if(action.equals("assist-info.do")){
 			Info(request, response);
@@ -79,11 +78,19 @@ public class AssistController extends HttpServlet {
 		response.sendRedirect("assist-list.do");
 	}
 	private void Inquiry(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException{
-		dtoList = dao.list();
+		String name = request.getParameter("text1");
+		
+		if(name.equals(""))
+			dtoList = dao.list();
+		else
+			dtoList = dao.list(name);
+		
 		dtoListControl = daoControl.List();
-
+		
 		request.setAttribute("controlList", dtoListControl);
 		request.setAttribute("alMember", dtoList);
+		
+		request.setAttribute("name", name);
 		
 		RequestDispatcher dis = request.getRequestDispatcher("ad_assist.jsp");
 		dis.forward(request, response);

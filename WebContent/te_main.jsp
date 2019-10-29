@@ -184,14 +184,14 @@
 											<td>${item.getGrade()}학년/${item.get_class()}반</td>
 											<td class="mycolor4">${item.getNormdate()}</td>
 											<td class="mycolor4">
-												<c:forEach var="i" begin="${item.getNormstart() - 8}" end="${item.getNormhour() + item.getNormstart() - 9}" varStatus="status">
+												<c:forEach var="i" begin="${item.getNormstart()}" end="${item.getNormhour() + item.getNormstart() - 1}" varStatus="status">
 													${i}<c:if test="${i ne status.end}">,</c:if>
 												</c:forEach>
 												교시
 											</td>
 											<td class="mycolor3">${item.getRestdate()}</td>
 											<td class="mycolor3">
-												<c:forEach var="i" begin="${item.getReststart() - 8}" end="${item.getResthour() + item.getReststart() - 9}" varStatus="status">
+												<c:forEach var="i" begin="${item.getReststart()}" end="${item.getResthour() + item.getReststart() - 1}" varStatus="status">
 													${i}<c:if test="${i ne status.end}">,</c:if>
 												</c:forEach>
 												교시

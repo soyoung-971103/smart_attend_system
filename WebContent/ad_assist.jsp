@@ -12,6 +12,7 @@
 	request.setCharacterEncoding("utf-8");
 %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%
 	// 이전 문서의 변수들 (page는 예약어) ----------------------------------------------
 	String text1 = request.getParameter("text1");
@@ -94,7 +95,7 @@
 										}
 									</script>
 
-									<form name="form1" method="post" action="AssistInquiry">
+									<form name="form1" method="post" action="assist-list.do">
 										<div class="row" style="margin-bottom: 5px">
 											<div class="col-auto" align="left">
 												<div class="form-inline">
@@ -102,7 +103,7 @@
 														<div class="input-group-prepend">
 															<span class="input-group-text">이름</span>
 														</div>
-														<input type="text" name="text1" size="10" value="${text1}"
+														<input type="text" name="text1" size="10" value="${name}"
 															class="form-control">
 														<div class="input-group-append">
 															<button class="btn btn-sm mycolor1" type="button">검색</button>
@@ -111,12 +112,12 @@
 												</div>
 											</div>
 											<div class="col" align="right">
-												<a href="ad_assistnew.jsp" class="btn btn-sm mycolor1">추가</a>
+												<a href="assist-inputdata.do" class="btn btn-sm mycolor1">추가</a>
 											</div>
 										</div>
 									</form>
 
-									<table class="table table-bordered table-hover table-responsive-sm mytable" style=""width: 100%;" id="example">
+									<table class="table table-bordered table-hover table-responsive-sm mytable" style="width: 100%;" id="example">
 										<tr class="mycolor1">
 											<th>학과</th>
 											<th>이름</th>
@@ -127,21 +128,19 @@
 										</tr>
 										<c:forEach var="item" items="${alMember}">
 											<tr>
-												<td><c:choose>
-														<c:when test="${item.getDepart_id() eq '1' }">
-                                       						컴소과
-                                    					</c:when>
-														<c:when test="${item.getDepart_id() eq '2' }">
-                                      						 전자과
-                                   						 </c:when>
-													</c:choose></td>
+												<td>
+													${item.getDepart_id().getName() }과
+												</td>
 												<td>${item.getName() }</td>
 												<td>${item.getTel()}</td>
-												<td>${item.getPhone()}</td>
+												<td>
+												${fn:substring(item.getPhone(), 0, 3)}-${fn:substring(item.getPhone(), 3, 7)}-${fn:substring(item.getPhone(), 7, 11)}
+												</td>
+												
 												<td>${item.getEmail()}</td>
-												<td><a href="AssistInfo?id=${item.id }"
+												<td><a href="assist-info.do?id=${item.id }"
 													class="btn btn-xs btn-outline-primary">수정</a> <a
-													href="AssistDelete?id=${item.id }"
+													href="assist-delete.do?id=${item.id }"
 													class="btn btn-xs btn-outline-danger"
 													onClick="return confirm('삭제할까요 ?');">삭제</a></td>
 											</tr>

@@ -39,7 +39,7 @@ public class TeacherDAO extends DAOBase {
 	public ArrayList<TeacherDTO> list()
 	{
 		try {
-			String query = "select teacher.*, depart.id, depart.name from teacher left join depart on teacher.depart_id = depart.id;";
+			String query = "select teacher.*, depart.id, depart.abbreviation from teacher left join depart on teacher.depart_id = depart.id;";
 			conn = getConnection();
 			stmt = conn.createStatement();
 			ResultSet rs = null;
@@ -51,7 +51,7 @@ public class TeacherDAO extends DAOBase {
 				dtoDepart = new DepartDTO();
 				dto = new TeacherDTO();
 				dto.setId(Integer.parseInt(rs.getString("teacher.id")));
-				dtoDepart.setName(rs.getString("depart.name"));
+				dtoDepart.setName(rs.getString("depart.abbreviation"));
 				dto.setDepart_id(dtoDepart);
 				dto.setKind(rs.getString("teacher.kind"));
 				dto.setUid(rs.getString("teacher.uid"));

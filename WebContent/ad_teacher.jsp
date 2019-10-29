@@ -82,7 +82,6 @@ String text1 = request.getParameter("text1");
                               form1.submit();
                            }
                         </script>
-<!--onKeydown="if (event.keyCode == 13) { find_text(); }" -->
                         <form name="form1" method="post" action="TeacherInquiry">
                         <div class="row" style="margin-bottom:5px">
                            <div class="col-auto" align="left">
@@ -99,7 +98,7 @@ String text1 = request.getParameter("text1");
                               </div>
                            </div>
                            <div class="col" align="right">
-                              <a href="ad_teachernew.jsp" class="btn btn-sm mycolor1">추가</a>
+                              <a href="teacher-inputdata.do" class="btn btn-sm mycolor1">추가</a>
                            </div>
                         </div>
                         </form>
@@ -117,32 +116,18 @@ String text1 = request.getParameter("text1");
                         <c:forEach var="item" items="${alMember}">
                            <tr>
                               <td>
-                                 <c:choose>
-                                    <c:when test="${item.getDepart_id() eq '1' }">
-                                       컴소과
-                                    </c:when>
-                                    <c:when test="${item.getDepart_id() eq '2' }">
-                                       전자과
-                                    </c:when>
-                                 </c:choose>
+                                 ${item.getDepart_id().getName()}과
                               </td>
                               <td>
-                              <c:choose>
-                                 <c:when test="${item.getKind() eq '교수' }">
-                                    전임교수
-                                 </c:when>
-                                 <c:when test="${item.getKind() eq '강사' }">
-                                    시간강사
-                                 </c:when>
-                              </c:choose>
+                              	${item.getKind() }
                               </td>
                               <td>${item.getName() }</td>
                               <td>${item.getTel() }</td>
                               <td>${item.getPhone() }</td>
                               <td>${item.getEmail() }</td>
                               <td>
-                                 <a href="TeacherInfo?id=${item.id }" class="btn btn-xs btn-outline-primary">수정</a>
-                                 <a href="TeacherDelete?id=${item.id }" class="btn btn-xs btn-outline-danger" onClick="return confirm('삭제할까요 ?');">삭제</a>
+                                 <a href="teacher-info.do?id=${item.id }" class="btn btn-xs btn-outline-primary">수정</a>
+                                 <a href="teacher-delete.do?id=${item.id }" class="btn btn-xs btn-outline-danger" onClick="return confirm('삭제할까요 ?');">삭제</a>
                               </td>
                            </tr>
                         </c:forEach>

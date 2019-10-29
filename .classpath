@@ -3,45 +3,43 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.web.container"/>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
-	<classpathentry kind="lib" path="C:/Program Files/Java/jre1.8.0_192/lib/charsets.jar"/>
-	<classpathentry kind="lib" path="C:/Program Files/Java/jre1.8.0_192/lib/deploy.jar"/>
-	<classpathentry kind="lib" path="C:/Program Files/Java/jre1.8.0_192/lib/javaws.jar"/>
-	<classpathentry kind="lib" path="C:/Program Files/Java/jre1.8.0_192/lib/jce.jar"/>
-	<classpathentry kind="lib" path="C:/Program Files/Java/jre1.8.0_192/lib/jfr.jar"/>
-	<classpathentry kind="lib" path="C:/Program Files/Java/jre1.8.0_192/lib/jfxswt.jar"/>
-	<classpathentry kind="lib" path="C:/Program Files/Java/jre1.8.0_192/lib/jsse.jar"/>
-	<classpathentry kind="lib" path="C:/Program Files/Java/jre1.8.0_192/lib/management-agent.jar"/>
-	<classpathentry kind="lib" path="C:/Program Files/Java/jre1.8.0_192/lib/plugin.jar"/>
-	<classpathentry kind="lib" path="C:/Program Files/Java/jre1.8.0_192/lib/resources.jar"/>
-	<classpathentry kind="lib" path="C:/Program Files/Java/jre1.8.0_192/lib/rt.jar"/>
-	<classpathentry kind="lib" path="C:/apache-tomcat-8.5.39/lib/annotations-api.jar"/>
-	<classpathentry kind="lib" path="C:/apache-tomcat-8.5.39/lib/catalina.jar"/>
-	<classpathentry kind="lib" path="C:/apache-tomcat-8.5.39/lib/catalina-ant.jar"/>
-	<classpathentry kind="lib" path="C:/apache-tomcat-8.5.39/lib/catalina-ha.jar"/>
-	<classpathentry kind="lib" path="C:/apache-tomcat-8.5.39/lib/catalina-storeconfig.jar"/>
-	<classpathentry kind="lib" path="C:/apache-tomcat-8.5.39/lib/catalina-tribes.jar"/>
-	<classpathentry kind="lib" path="C:/apache-tomcat-8.5.39/lib/ecj-4.6.3.jar"/>
-	<classpathentry kind="lib" path="C:/apache-tomcat-8.5.39/lib/el-api.jar"/>
-	<classpathentry kind="lib" path="C:/apache-tomcat-8.5.39/lib/jasper.jar"/>
-	<classpathentry kind="lib" path="C:/apache-tomcat-8.5.39/lib/jasper-el.jar"/>
-	<classpathentry kind="lib" path="C:/apache-tomcat-8.5.39/lib/jaspic-api.jar"/>
-	<classpathentry kind="lib" path="C:/apache-tomcat-8.5.39/lib/jsp-api.jar"/>
-	<classpathentry kind="lib" path="C:/apache-tomcat-8.5.39/lib/mysql-connector-java-5.1.29-bin.jar"/>
-	<classpathentry kind="lib" path="C:/apache-tomcat-8.5.39/lib/servlet-api.jar"/>
-	<classpathentry kind="lib" path="C:/apache-tomcat-8.5.39/lib/sqljdbc41.jar"/>
-	<classpathentry kind="lib" path="C:/apache-tomcat-8.5.39/lib/sqljdbc42.jar"/>
-	<classpathentry kind="lib" path="C:/apache-tomcat-8.5.39/lib/tomcat-api.jar"/>
-	<classpathentry kind="lib" path="C:/apache-tomcat-8.5.39/lib/tomcat-coyote.jar"/>
-	<classpathentry kind="lib" path="C:/apache-tomcat-8.5.39/lib/tomcat-dbcp.jar"/>
-	<classpathentry kind="lib" path="C:/apache-tomcat-8.5.39/lib/tomcat-i18n-es.jar"/>
-	<classpathentry kind="lib" path="C:/apache-tomcat-8.5.39/lib/tomcat-i18n-fr.jar"/>
-	<classpathentry kind="lib" path="C:/apache-tomcat-8.5.39/lib/tomcat-i18n-ja.jar"/>
-	<classpathentry kind="lib" path="C:/apache-tomcat-8.5.39/lib/tomcat-i18n-ru.jar"/>
-	<classpathentry kind="lib" path="C:/apache-tomcat-8.5.39/lib/tomcat-jdbc.jar"/>
-	<classpathentry kind="lib" path="C:/apache-tomcat-8.5.39/lib/tomcat-jni.jar"/>
-	<classpathentry kind="lib" path="C:/apache-tomcat-8.5.39/lib/tomcat-util.jar"/>
-	<classpathentry kind="lib" path="C:/apache-tomcat-8.5.39/lib/tomcat-util-scan.jar"/>
-	<classpathentry kind="lib" path="C:/apache-tomcat-8.5.39/lib/tomcat-websocket.jar"/>
-	<classpathentry kind="lib" path="C:/apache-tomcat-8.5.39/lib/websocket-api.jar"/>
+	<classpathentry kind="lib" path="C:/apache-tomcat-8.5.40/lib/annotations-api.jar"/>
+	<classpathentry kind="lib" path="C:/apache-tomcat-8.5.40/lib/catalina.jar"/>
+	<classpathentry kind="lib" path="C:/apache-tomcat-8.5.40/lib/catalina-ant.jar"/>
+	<classpathentry kind="lib" path="C:/apache-tomcat-8.5.40/lib/catalina-ha.jar"/>
+	<classpathentry kind="lib" path="C:/apache-tomcat-8.5.40/lib/catalina-storeconfig.jar"/>
+	<classpathentry kind="lib" path="C:/apache-tomcat-8.5.40/lib/catalina-tribes.jar"/>
+	<classpathentry kind="lib" path="C:/apache-tomcat-8.5.40/lib/ecj-4.6.3.jar"/>
+	<classpathentry kind="lib" path="C:/apache-tomcat-8.5.40/lib/el-api.jar"/>
+	<classpathentry kind="lib" path="C:/apache-tomcat-8.5.40/lib/jasper.jar"/>
+	<classpathentry kind="lib" path="C:/apache-tomcat-8.5.40/lib/jasper-el.jar"/>
+	<classpathentry kind="lib" path="C:/apache-tomcat-8.5.40/lib/jaspic-api.jar"/>
+	<classpathentry kind="lib" path="C:/apache-tomcat-8.5.40/lib/jsp-api.jar"/>
+	<classpathentry kind="lib" path="C:/apache-tomcat-8.5.40/lib/servlet-api.jar"/>
+	<classpathentry kind="lib" path="C:/apache-tomcat-8.5.40/lib/tomcat-api.jar"/>
+	<classpathentry kind="lib" path="C:/apache-tomcat-8.5.40/lib/tomcat-coyote.jar"/>
+	<classpathentry kind="lib" path="C:/apache-tomcat-8.5.40/lib/tomcat-dbcp.jar"/>
+	<classpathentry kind="lib" path="C:/apache-tomcat-8.5.40/lib/tomcat-i18n-es.jar"/>
+	<classpathentry kind="lib" path="C:/apache-tomcat-8.5.40/lib/tomcat-i18n-fr.jar"/>
+	<classpathentry kind="lib" path="C:/apache-tomcat-8.5.40/lib/tomcat-i18n-ja.jar"/>
+	<classpathentry kind="lib" path="C:/apache-tomcat-8.5.40/lib/tomcat-i18n-ru.jar"/>
+	<classpathentry kind="lib" path="C:/apache-tomcat-8.5.40/lib/tomcat-jdbc.jar"/>
+	<classpathentry kind="lib" path="C:/apache-tomcat-8.5.40/lib/tomcat-jni.jar"/>
+	<classpathentry kind="lib" path="C:/apache-tomcat-8.5.40/lib/tomcat-util.jar"/>
+	<classpathentry kind="lib" path="C:/apache-tomcat-8.5.40/lib/tomcat-util-scan.jar"/>
+	<classpathentry kind="lib" path="C:/apache-tomcat-8.5.40/lib/tomcat-websocket.jar"/>
+	<classpathentry kind="lib" path="C:/apache-tomcat-8.5.40/lib/websocket-api.jar"/>
+	<classpathentry kind="lib" path="C:/Program Files/Java/jre1.8.0_201/lib/charsets.jar"/>
+	<classpathentry kind="lib" path="C:/Program Files/Java/jre1.8.0_201/lib/deploy.jar"/>
+	<classpathentry kind="lib" path="C:/Program Files/Java/jre1.8.0_201/lib/javaws.jar"/>
+	<classpathentry kind="lib" path="C:/Program Files/Java/jre1.8.0_201/lib/jce.jar"/>
+	<classpathentry kind="lib" path="C:/Program Files/Java/jre1.8.0_201/lib/jfr.jar"/>
+	<classpathentry kind="lib" path="C:/Program Files/Java/jre1.8.0_201/lib/jfxswt.jar"/>
+	<classpathentry kind="lib" path="C:/Program Files/Java/jre1.8.0_201/lib/jsse.jar"/>
+	<classpathentry kind="lib" path="C:/Program Files/Java/jre1.8.0_201/lib/management-agent.jar"/>
+	<classpathentry kind="lib" path="C:/Program Files/Java/jre1.8.0_201/lib/mysql-connector-java-5.1.47-bin.jar"/>
+	<classpathentry kind="lib" path="C:/Program Files/Java/jre1.8.0_201/lib/plugin.jar"/>
+	<classpathentry kind="lib" path="C:/Program Files/Java/jre1.8.0_201/lib/resources.jar"/>
+	<classpathentry kind="lib" path="C:/Program Files/Java/jre1.8.0_201/lib/rt.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

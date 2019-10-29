@@ -26,7 +26,7 @@ public class AssistDAO extends DAOBase {
 	public ArrayList<AssistDTO> list()
 	{
 		try {
-			String query = "select staff.*, depart.id, depart.name from staff left join depart on staff.depart_id = depart.id;";
+			String query = "select staff.*, depart.id, depart.abbreviation from staff left join depart on staff.depart_id = depart.id;";
 			conn = getConnection();
 			stmt = conn.createStatement();
 			ResultSet rs = null;
@@ -39,7 +39,40 @@ public class AssistDAO extends DAOBase {
 				dtoDepart = new DepartDTO();
 				
 				dto.setId(Integer.parseInt(rs.getString("staff.id")));
-				dtoDepart.setName(rs.getString("depart.name"));
+				dtoDepart.setName(rs.getString("depart.abbreviation"));
+				dto.setDepart_id(dtoDepart);
+				dto.setUid(rs.getString("staff.uid"));
+				dto.setPwd(rs.getString("staff.pwd"));
+				dto.setName(rs.getString("staff.name"));
+				dto.setTel(rs.getString("staff.tel"));
+				dto.setPhone(rs.getString("staff.phone"));
+				dto.setEmail(rs.getString("staff.email"));
+				dto.setPic(rs.getString("staff.pic"));
+				
+				dtoList.add(dto);
+			}
+		} catch (SQLException e) { System.out.println("TeacherInquiry Error");e.printStackTrace(); }
+		finally{	closeDBResources(rs, stmt, pstmt, conn);	}
+		return dtoList;
+	}
+	public ArrayList<AssistDTO> list(String name)
+	{
+		try {
+			String query = "select staff.*, depart.id, depart.abbreviation from staff "
+					+ "left join depart on staff.depart_id = depart.id where staff.name like '%"+name+"%';";
+			conn = getConnection();
+			stmt = conn.createStatement();
+			ResultSet rs = null;
+			rs = stmt.executeQuery(query);
+			
+			dtoList = new ArrayList<AssistDTO>();
+			
+			while(rs.next()) {
+				dto = new AssistDTO();
+				dtoDepart = new DepartDTO();
+				
+				dto.setId(Integer.parseInt(rs.getString("staff.id")));
+				dtoDepart.setName(rs.getString("depart.abbreviation"));
 				dto.setDepart_id(dtoDepart);
 				dto.setUid(rs.getString("staff.uid"));
 				dto.setPwd(rs.getString("staff.pwd"));
