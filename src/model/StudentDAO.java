@@ -280,12 +280,13 @@ public class StudentDAO extends DAOBase {
 		
 		ArrayList<MyLectureDTO> dtoList = new ArrayList<MyLectureDTO>();
 		try {
-			conn = getConnection();
-			stmt = conn.createStatement();	
-			rs = stmt.executeQuery("select mylecture.qaday, subject.name as subject_name, teacher.name as teacher_name, mylecture.qatitle, "
+			String query = "select mylecture.qaday, subject.name as subject_name, teacher.name as teacher_name, mylecture.qatitle, "
 					+ "mylecture.qaanswer, mylecture.id from student left join mylecture on student.id = mylecture.student_id "
 					+ "left join lecture on lecture.id = mylecture.lecture_id left join teacher on teacher.id = lecture.teacher_id "
-					+ "left join subject on subject.id = lecture.subject_id where student.schoolno='"+ssion.getAttribute("uid")+"'");
+					+ "left join subject on subject.id = lecture.subject_id where student.schoolno='"+ssion.getAttribute("uid")+"'";
+			conn = getConnection();
+			stmt = conn.createStatement();	
+			rs = stmt.executeQuery(query);
 			while(rs.next()) {
 				mdto = new MyLectureDTO();
 				sdto = new SubjectDTO();

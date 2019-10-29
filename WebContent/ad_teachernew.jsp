@@ -124,7 +124,7 @@
 										<td class="mycolor2">전화</td>
 										<td>
 											<div class="form-inline">
-												<input type="text" name="tel1" size="3" value="010" class="form-control form-control-sm" style="width:50px">-
+												<input type="text" name="tel1" size="3" value="02" class="form-control form-control-sm" style="width:50px">-
 												<input type="text" name="tel2" size="4" value=""	class="form-control form-control-sm" style="width:50px">-
 												<input type="text" name="tel3" size="4" value="" class="form-control form-control-sm" style="width:50px">
 											</div>

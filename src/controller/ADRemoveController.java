@@ -71,7 +71,6 @@ public class ADRemoveController extends HttpServlet {
 		//최종승인 or 반려가 들어왔을 떄
 		if(request.getParameter("no") != null && request.getParameter("c") != null)
 		{
-		
 			//최종승인
 			if(request.getParameter("c").equals("1"))
 				dao.lastapp(request,response);
@@ -79,6 +78,7 @@ public class ADRemoveController extends HttpServlet {
 			else if(request.getParameter("c").equals("2"))
 				dao.returnlec(request,response);
 		}
+		
 		RequestDispatcher dis = request.getRequestDispatcher("ad_lecmove.jsp"); 
 		dis.forward(request, response);
 	}

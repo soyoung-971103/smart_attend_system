@@ -55,9 +55,9 @@ public class ADRemoveDAO extends DAOBase{
 					+ "left join lectureday on lectureday.lecture_id = lecture.id left join room on room.id = lectureday.room_id "
 					+ "left join building on building.id = room.building_id left join teacher on teacher.id = lecture.teacher_id "
 					+ "left join depart on depart.id = teacher.depart_id where lectureday.state='학과장승인'";
+			
 			if(request.getParameter("sel1") != null && request.getParameter("sel2") != null)
 				query += " and subject.yyyy="+request.getParameter("sel1")+" and subject.term = "+request.getParameter("sel2");
-			
 			conn = getConnection();
 			stmt = conn.createStatement();
 	    	ResultSet rs = null;

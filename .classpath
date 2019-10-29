@@ -3,17 +3,6 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.web.container"/>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
-	<classpathentry kind="lib" path="C:/Program Files/Java/jre1.8.0_192/lib/charsets.jar"/>
-	<classpathentry kind="lib" path="C:/Program Files/Java/jre1.8.0_192/lib/deploy.jar"/>
-	<classpathentry kind="lib" path="C:/Program Files/Java/jre1.8.0_192/lib/javaws.jar"/>
-	<classpathentry kind="lib" path="C:/Program Files/Java/jre1.8.0_192/lib/jce.jar"/>
-	<classpathentry kind="lib" path="C:/Program Files/Java/jre1.8.0_192/lib/jfr.jar"/>
-	<classpathentry kind="lib" path="C:/Program Files/Java/jre1.8.0_192/lib/jfxswt.jar"/>
-	<classpathentry kind="lib" path="C:/Program Files/Java/jre1.8.0_192/lib/jsse.jar"/>
-	<classpathentry kind="lib" path="C:/Program Files/Java/jre1.8.0_192/lib/management-agent.jar"/>
-	<classpathentry kind="lib" path="C:/Program Files/Java/jre1.8.0_192/lib/plugin.jar"/>
-	<classpathentry kind="lib" path="C:/Program Files/Java/jre1.8.0_192/lib/resources.jar"/>
-	<classpathentry kind="lib" path="C:/Program Files/Java/jre1.8.0_192/lib/rt.jar"/>
 	<classpathentry kind="lib" path="C:/apache-tomcat-8.5.39/lib/annotations-api.jar"/>
 	<classpathentry kind="lib" path="C:/apache-tomcat-8.5.39/lib/catalina.jar"/>
 	<classpathentry kind="lib" path="C:/apache-tomcat-8.5.39/lib/catalina-ant.jar"/>
@@ -43,5 +32,16 @@
 	<classpathentry kind="lib" path="C:/apache-tomcat-8.5.39/lib/tomcat-util-scan.jar"/>
 	<classpathentry kind="lib" path="C:/apache-tomcat-8.5.39/lib/tomcat-websocket.jar"/>
 	<classpathentry kind="lib" path="C:/apache-tomcat-8.5.39/lib/websocket-api.jar"/>
+	<classpathentry kind="lib" path="C:/Program Files/Java/jre1.8.0_192/lib/charsets.jar"/>
+	<classpathentry kind="lib" path="C:/Program Files/Java/jre1.8.0_192/lib/deploy.jar"/>
+	<classpathentry kind="lib" path="C:/Program Files/Java/jre1.8.0_192/lib/javaws.jar"/>
+	<classpathentry kind="lib" path="C:/Program Files/Java/jre1.8.0_192/lib/jce.jar"/>
+	<classpathentry kind="lib" path="C:/Program Files/Java/jre1.8.0_192/lib/jfr.jar"/>
+	<classpathentry kind="lib" path="C:/Program Files/Java/jre1.8.0_192/lib/jfxswt.jar"/>
+	<classpathentry kind="lib" path="C:/Program Files/Java/jre1.8.0_192/lib/jsse.jar"/>
+	<classpathentry kind="lib" path="C:/Program Files/Java/jre1.8.0_192/lib/management-agent.jar"/>
+	<classpathentry kind="lib" path="C:/Program Files/Java/jre1.8.0_192/lib/plugin.jar"/>
+	<classpathentry kind="lib" path="C:/Program Files/Java/jre1.8.0_192/lib/resources.jar"/>
+	<classpathentry kind="lib" path="C:/Program Files/Java/jre1.8.0_192/lib/rt.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>
