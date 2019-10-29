@@ -1,7 +1,7 @@
 package model;
 import java.util.Date;
 
-public class LecturedayDTO {
+public class LecturedayDTO { 
 	int id;
 	int lecture_id;
 	int room_id;

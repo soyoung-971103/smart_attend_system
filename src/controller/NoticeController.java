@@ -80,7 +80,7 @@ private static final long serialVersionUID = 1L;
 		alNotice = dao.list(request.getParameter("text1"));
 		ArrayList<LecturedayDTO> alLectureday = new ArrayList<LecturedayDTO>();
 		LecturedayDAO daoLectureday = new LecturedayDAO();
-		alLectureday = daoLectureday.list();
+		alLectureday = daoLectureday.list(); 
 		request.setAttribute("noticelist", alNotice); 
 		request.setAttribute("lectureday", alLectureday);
 		request.getRequestDispatcher("ad_main.jsp").forward(request, response);
