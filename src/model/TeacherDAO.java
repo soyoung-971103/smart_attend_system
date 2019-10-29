@@ -68,7 +68,38 @@ public class TeacherDAO extends DAOBase {
 		finally{	closeDBResources(rs, stmt, pstmt, conn);	}
 		return dtoList;
 	}
-	
+	public ArrayList<TeacherDTO> list(String name)
+	{
+		try {
+			String query = "select teacher.*, depart.id, depart.abbreviation from teacher left join depart on teacher.depart_id = depart.id where teacher.name like '%"+name+"%';";
+			conn = getConnection();
+			stmt = conn.createStatement();
+			ResultSet rs = null;
+			rs = stmt.executeQuery(query);
+			
+			dtoList = new ArrayList<TeacherDTO>();
+			
+			while(rs.next()) {
+				dtoDepart = new DepartDTO();
+				dto = new TeacherDTO();
+				dto.setId(Integer.parseInt(rs.getString("teacher.id")));
+				dtoDepart.setName(rs.getString("depart.abbreviation"));
+				dto.setDepart_id(dtoDepart);
+				dto.setKind(rs.getString("teacher.kind"));
+				dto.setUid(rs.getString("teacher.uid"));
+				dto.setPwd(rs.getString("teacher.pwd"));
+				dto.setName(rs.getString("teacher.name"));
+				dto.setTel(rs.getString("teacher.tel"));
+				dto.setPhone(rs.getString("teacher.phone"));
+				dto.setEmail(rs.getString("teacher.email"));
+				dto.setPic(rs.getString("teacher.pic"));
+				
+				dtoList.add(dto);
+			}
+		} catch (SQLException e) { e.printStackTrace(); }
+		finally{	closeDBResources(rs, stmt, pstmt, conn);	}
+		return dtoList;
+	}
 	public int delete(HttpServletRequest request, HttpServletResponse response) {
 		int result=0;
 		try {

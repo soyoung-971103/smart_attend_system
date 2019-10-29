@@ -114,8 +114,16 @@ public class TeacherController extends HttpServlet {
 		response.sendRedirect("teacher-list.do");
 	}
 	private void Inquiry(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException{
-		dtoList = dao.list();
-	
+		String text1 = request.getParameter("text1");
+		
+		if(text1 == null) {
+			dtoList = dao.list();
+			text1 = "";
+		}
+		else
+			dtoList = dao.list(text1);
+		
+		request.setAttribute("text1", text1);
 		request.setAttribute("alMember", dtoList);
 		RequestDispatcher dis = request.getRequestDispatcher("ad_teacher.jsp");
 		dis.forward(request, response);

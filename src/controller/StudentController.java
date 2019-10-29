@@ -211,8 +211,12 @@ public class StudentController extends HttpServlet {
 	protected void qna(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException{
 		ArrayList<MyLectureDTO> mdtoList = new ArrayList<MyLectureDTO>();
 		mdtoList = dao.qnalist(request, response);
-
-		request.setAttribute("dtoList", mdtoList);
+		if(mdtoList.size() == 1) {
+			if(mdtoList.get(0).getQaday() == null)
+				request.setAttribute("dtoList", null);
+			else
+				request.setAttribute("dtoList", mdtoList);
+		}
 		request.getRequestDispatcher("st_lecqa.jsp").forward(request, response);
 	}
 	

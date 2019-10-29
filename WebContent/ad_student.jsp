@@ -7,6 +7,7 @@
 <!-------------------------------------------------------------------------------->	
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <!DOCTYPE html>
 <html lang="kr">
 <head>
@@ -92,7 +93,7 @@
 										</div>
 									</div>
 									<div class="col" align="right">
-										<a href="student-studentnew.do" class="btn btn-sm mycolor1">추가</a>
+										<a href="student-register.do" class="btn btn-sm mycolor1">추가</a>
 									</div>
 								</div>
 								</form>
@@ -120,7 +121,7 @@
 										<td>${ dto.student_class }</td>
 										<td>${ dto.schoolno }</td>
 										<td>${ dto.name }</td>
-										<td>${ dto.phone }</td>
+										<td>${fn:substring(dto.getPhone(),0,3)}-${fn:substring(dto.getPhone(),3,7)}-${fn:substring(dto.getPhone(),7,11)}</td>
 										<c:if test="${dto.sex eq 0 }"><td>남</td></c:if>
 										<c:if test="${dto.sex eq 1 }"><td>여</td></c:if>
 										<td>${ dto.state }</td>

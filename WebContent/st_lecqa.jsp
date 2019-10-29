@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <!-------------------------------------------------------------------------------->	
 <!-- 프로그램 : 인덕대학교 컴퓨터소프트웨어학과 전자출석 Demo                              -->
 <!--                                                                                                                  -->
@@ -133,29 +134,31 @@
 										<td>상태</td>
 										<td width="60"></td>
 									</tr>
-									<c:forEach var="dto" items="${dtoList}">
-										<tr>
-											<td>${dto.getQaday()}</td>
-											<td>${dto.getLecture().getSubject().getName()}</td>
-											<td>${dto.getTeacher().getName()}</td>
-											<td>${dto.getQatitle() }</td>
-											<td>
-												<c:if test="${dto.getQaanswer() ne null}">
-													답변
-												</c:if>
-											</td>
-											<td>
-												<c:choose>
-													<c:when test="${dto.getQaanswer() ne null}">
-														<a href="stqaload.do?qa=${dto.getId()}" class="btn btn-xs btn-outline-primary">보기</a>
-													</c:when>
-													<c:otherwise>
-														<a href="stqaload.do?qa=${dto.getId()}" class="btn btn-xs btn-outline-primary">수정</a>
-													</c:otherwise>
-												</c:choose>
-											</td>
-										</tr>
-									</c:forEach> 
+									<c:if test="${fn:length(dtoList) ne null}">
+										<c:forEach var="dto" items="${dtoList}">
+												<tr>
+													<td>${dto.getQaday()}</td>
+													<td>${dto.getLecture().getSubject().getName()}</td>
+													<td>${dto.getTeacher().getName()}</td>
+													<td>${dto.getQatitle() }</td>
+													<td>
+														<c:if test="${dto.getQaanswer() ne null}">
+															답변
+														</c:if>
+													</td>
+													<td>
+														<c:choose>
+															<c:when test="${dto.getQaanswer() ne null}">
+																<a href="stqaload.do?qa=${dto.getId()}" class="btn btn-xs btn-outline-primary">보기</a>
+															</c:when>
+															<c:otherwise>
+																<a href="stqaload.do?qa=${dto.getId()}" class="btn btn-xs btn-outline-primary">수정</a>
+															</c:otherwise>
+														</c:choose>
+													</td>
+												</tr>
+										</c:forEach> 
+									</c:if>
 								</table>
 								</form>
 
