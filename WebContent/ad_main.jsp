@@ -45,10 +45,10 @@
 				<div class="row">
 					<div class="col-xl-12">
 						<div class="breadcrumb-holder">
-							<h1 class="main-title float-left">컴퓨터소프트웨어학과</h1>
+							<h1 class="main-title float-left">교무처</h1>
 							<ol class="breadcrumb float-right">
 								<li class="breadcrumb-item">Home</li>
-								<li class="breadcrumb-item">조교</li>
+								<li class="breadcrumb-item">직원</li>
 								<li class="breadcrumb-item active">메인</li>
 							</ol>
 							<div class="clearfix"></div>
@@ -79,11 +79,13 @@
 										<td width="60"></td>
 									</tr>
 									<c:forEach var="main" items="${noticeList}">
+									<tr>
 										<td>${ main.writeday}</td>
 										<td style="text-align:left">${ main.title}</td>
 										<td>
 										 <a href="" class="btn btn-xs btn-outline-primary">보기</a>
 										</td>
+									</tr>
 									</c:forEach>
 								</table>
 
@@ -148,7 +150,7 @@
 										<td class="mycolor4">${ lectureday.normstart}, ${lectureday.normstart+lectureday.normhour-1} 교시</td>
 										<td class="mycolor3">${ lectureday.restdate}</td>
 										<td class="mycolor3">${ lectureday.reststart}, ${lectureday.reststart+lectureday.resthour-1} 교시</td>
-										<td class="mycolor3">인관 컴퓨터실1</td>
+										<td class="mycolor3">${ lectureday.room.name}</td>
 										<td><b>${ lecture.state}신청</b></td>
 										<td>
 											<a href="" class="btn btn-xs btn-outline-primary">보기</a>

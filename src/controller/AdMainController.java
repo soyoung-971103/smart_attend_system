@@ -21,14 +21,14 @@ import model.NoticeDTO;
 /**
  * Servlet implementation class AssistMainController
  */
-@WebServlet("/assistmain_list.do")
-public class AssistMainController extends HttpServlet {
+@WebServlet("/admain_list.do")
+public class AdMainController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public AssistMainController() {
+    public AdMainController() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -52,7 +52,7 @@ public class AssistMainController extends HttpServlet {
 		int lastIndex = uri.lastIndexOf('/'); 
 		String action = uri.substring(lastIndex + 1); 
 		
-		if(action.equals("assistmain_list.do")) {
+		if(action.equals("admain_list.do")) {
 			list(request, response);	
 		}
 		else
@@ -66,7 +66,7 @@ public class AssistMainController extends HttpServlet {
     	request.setAttribute("controlList", dtoListControl);
     	request.setAttribute("noticeList", dtoListNotice);
     	request.setAttribute("list", dtoList);    	
-    	request.getRequestDispatcher("as_main.jsp").forward(request, response);
+    	request.getRequestDispatcher("ad_main.jsp").forward(request, response);
 		
 	}
 	
