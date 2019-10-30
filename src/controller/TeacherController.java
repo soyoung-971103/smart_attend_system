@@ -40,6 +40,7 @@ import model.TimeTableDTO;
 /** 
  * Servlet implementation class TeacherController
  */
+//"/building-register.do", "/building-list.do", "/building-info.do", "/building-delete.do", "/building-update.do", "/building-search.do"
 @WebServlet({"/teacher-inputdata.do", "/teacher-info.do", "/teacher-register.do", "/teacher-list.do", "/teacher-delete.do", "/teacher-update.do", "/teacher-qalist.do", "/te-lec-qaans.do", "/te-answer-save.do", "/te-main.do","/teacher-lecmove-select.do", "/teacher-lecmoverest.do", "/teacher-lecrestsave.do"})
 
 public class TeacherController extends HttpServlet {
@@ -110,13 +111,20 @@ public class TeacherController extends HttpServlet {
 	}
 	private void Delete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException{
 		dao.delete(request, response);
-		response.sendRedirect("TeacherInquiry");
+		response.sendRedirect("teacher-list.do");
 	}
 	private void Inquiry(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException{
-		dtoList = dao.list();		
-
-		request.setAttribute("alMember", dtoList);
+		String text1 = request.getParameter("text1");
 		
+		if(text1 == null) {
+			dtoList = dao.list();
+			text1 = "";
+		}
+		else
+			dtoList = dao.list(text1);
+		
+		request.setAttribute("text1", text1);
+		request.setAttribute("alMember", dtoList);
 		RequestDispatcher dis = request.getRequestDispatcher("ad_teacher.jsp");
 		dis.forward(request, response);
 	}
@@ -131,7 +139,6 @@ public class TeacherController extends HttpServlet {
 			dtoListDepart = daoDepart.List();
 			
 			request.setAttribute("Depart", dtoListDepart);
-			
 			request.setAttribute("kind", kind);
 			request.setAttribute("member", dto);
 			RequestDispatcher dis = request.getRequestDispatcher("ad_teacherInfo.jsp"); 
@@ -142,11 +149,11 @@ public class TeacherController extends HttpServlet {
 
 		dao.update(request, response);
 		
-	    response.sendRedirect("TeacherInquiry");
+	    response.sendRedirect("teacher-list.do");
 	}
 	private void Insert(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException{
 		dao.insert(request, response);
-	    response.sendRedirect("TeacherInquiry");
+	    response.sendRedirect("teacher-list.do");
 	}	
 	private void inputdata(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException{
 		ArrayList<DepartDTO> dtoListDepart = new ArrayList<DepartDTO>();
