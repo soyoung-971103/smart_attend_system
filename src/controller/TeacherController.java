@@ -40,7 +40,6 @@ import model.TimeTableDTO;
 /** 
  * Servlet implementation class TeacherController
  */
-//"/building-register.do", "/building-list.do", "/building-info.do", "/building-delete.do", "/building-update.do", "/building-search.do"
 @WebServlet({"/teacher-inputdata.do", "/teacher-info.do", "/teacher-register.do", "/teacher-list.do", "/teacher-delete.do", "/teacher-update.do", "/teacher-qalist.do", "/te-lec-qaans.do", "/te-answer-save.do", "/te-main.do","/teacher-lecmove-select.do", "/teacher-lecmoverest.do", "/teacher-lecrestsave.do"})
 
 public class TeacherController extends HttpServlet {
@@ -114,8 +113,7 @@ public class TeacherController extends HttpServlet {
 		response.sendRedirect("TeacherInquiry");
 	}
 	private void Inquiry(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException{
-		dtoList = dao.list();
-		
+		dtoList = dao.list();		
 
 		request.setAttribute("alMember", dtoList);
 		

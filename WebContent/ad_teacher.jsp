@@ -116,25 +116,8 @@ String text1 = request.getParameter("text1");
                            </tr>
                         <c:forEach var="item" items="${alMember}">
                            <tr>
-                              <td>
-                                 <c:choose>
-                                    <c:when test="${item.getDepart_id() eq '1' }">
-                                       컴소과
-                                    </c:when>
-                                    <c:when test="${item.getDepart_id() eq '2' }">
-                                       전자과
-                                    </c:when>
-                                 </c:choose>
-                              </td>
-                              <td>
-                              <c:choose>
-                                 <c:when test="${item.getKind() eq '교수' }">
-                                    전임교수
-                                 </c:when>
-                                 <c:when test="${item.getKind() eq '강사' }">
-                                    시간강사
-                                 </c:when>
-                              </c:choose>
+                              <td>${item.depart_id.name }</td>
+                              <td>${item.kind }</td>
                               </td>
                               <td>${item.getName() }</td>
                               <td>${item.getTel() }</td>

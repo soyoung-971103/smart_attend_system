@@ -127,14 +127,7 @@
 										</tr>
 										<c:forEach var="item" items="${alMember}">
 											<tr>
-												<td><c:choose>
-														<c:when test="${item.getDepart_id() eq '1' }">
-                                       						컴소과
-                                    					</c:when>
-														<c:when test="${item.getDepart_id() eq '2' }">
-                                      						 전자과
-                                   						 </c:when>
-													</c:choose></td>
+												<td>${item.depart_id.name }</td>
 												<td>${item.getName() }</td>
 												<td>${item.getTel()}</td>
 												<td>${item.getPhone()}</td>
