@@ -89,7 +89,13 @@ public class RoomController extends HttpServlet {
     }
     
     private void list(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
-    	dtoList = dao.selectAllList();
+    	String text1 = request.getParameter("text1");
+    	
+    	if(text1 == null)    	
+    		dtoList = dao.selectAllList();
+    	else
+    		dtoList = dao.selectAllList(text1);
+    	
     	request.setAttribute("list", dtoList);    	
     	request.getRequestDispatcher("ad_room.jsp").forward(request, response);
 		

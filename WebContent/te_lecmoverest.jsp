@@ -100,17 +100,27 @@
 					    }
 					  }
 					}
+					
+					function setCookie(cookie_name, value, days) { //쿠키추가
+					  var exdate = new Date();
+					  exdate.setDate(exdate.getDate() + days);
+					  // 설정 일수만큼 현재시간에 만료값으로 지정
+					
+					  //var cookie_value = escape(value) + ((days == null) ? '' : ';    expires=' + exdate.toUTCString());
+					  document.cookie = cookie_name + '=' + value;
+					}
 
 					function init() 
 					{
 						var sday=new Date();
+						
 						form1.startday.value=get_day( sday, -sday.getDay() );
 						moveweek(0);
 
 						init_board();
 
 						document.getElementById(form1.selpos.value).innerHTML="";
-						show_lecture(3, form1.sellecture.value);
+						show_lecture(4, form1.sellecture.value);						
 						
 						var lecturenorm_data = getCookie("lecturenorm_data");
 					}			
@@ -424,8 +434,9 @@
 															<div class="form-inline">
 																<select name="buiding_no" class="form-control form-control-sm" onChange="" style="width:150px">
 																	<option value="0" selected></option>
-																	<option value='1'>인관</option>
-																	<option value='2'>덕관</option>
+																	<c:forEach items="${listBuilding }" var = "building">																		
+																		<option value='${building.id }'>${building.name }</option>
+																	</c:forEach>
 																</select>
 															</div>
 														</div>

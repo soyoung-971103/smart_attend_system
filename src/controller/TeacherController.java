@@ -18,6 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import model.BuildingDAO;
 import model.BuildingDTO;
 import model.DepartDAO;
 import model.DepartDTO;
@@ -48,12 +49,14 @@ public class TeacherController extends HttpServlet {
     ArrayList<TimeTableDTO> dtoListTimeTable = null;
     ArrayList<LecturedayDTO> dtoListLectureday = null;
     ArrayList<RoomDTO> dtoListRoom = null;
+    ArrayList<BuildingDTO> dtoListBuilding = null;
     TeacherDTO dto = null;
     DepartDTO dtoDepart = null;
 	RoomDTO dtoRoom = null;
 	BuildingDTO dtoBuilding = null;
 	LecturedayDTO dtoLectureday = null;
-    TeacherDAO dao = new TeacherDAO();    
+    TeacherDAO dao = new TeacherDAO(); 
+    BuildingDAO daoBuilding = new BuildingDAO();       
     HttpSession sesobj = null;
     Cookie cookies[] = null;
     String [] kind = {"전임교수", "겸임교수", "시간강사"};
@@ -161,12 +164,10 @@ public class TeacherController extends HttpServlet {
 		String lecturenorm_data = null;	
 		String day1 = null;
 		String w = null;
-		int start, hour;
-		DateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");		
-		Calendar calendar = Calendar.getInstance();		
-		Date date = null;
-		int week;
 		String timeTableList = null;
+		int start, hour, week;
+		Calendar calendar = Calendar.getInstance();		
+		Date date = null;		
 		
 		for(Cookie cookie : cookies) {
 			if(cookie.getName().equals("lecturenorm_data")) {
@@ -226,11 +227,15 @@ public class TeacherController extends HttpServlet {
 			dtoListRoom = dao.RoomCheck(start, day1);
 		}
 		
+		dtoListBuilding = daoBuilding.selectAllList();
+		
+		
 		request.setAttribute("normdate", normdate);
 		request.setAttribute("normweek", normweek);
 		request.setAttribute("normstart", normstart);
 		request.setAttribute("normhour", normhour);		
 		request.setAttribute("lecturenorm_data", lecturenorm_data);
+		request.setAttribute("listBuilding", dtoListBuilding);
 		request.setAttribute("timeTableList", timeTableList);
 		
 		request.getRequestDispatcher("te_lecmoverest.jsp").forward(request, response);
