@@ -251,8 +251,8 @@
 					<li class="submenu">
 						<a href="#"><i class="fa fa-fw fa-table"></i> <span> 직원(학사행정) </span> <span class="menu-arrow"></span></a>
 						<ul class="list-unstyled">
-							<li><a href="ad_main.html" style="padding:5px 0 5px 40px;">직원 메인</a></li>
-							<li><a href="ad_control.jsp" style="padding:5px 0 5px 40px;">제어판</a></li>
+							<li><a href="admain_list.do" style="padding:5px 0 5px 40px;">직원 메인</a></li>
+							<li><a href="control-list.do" style="padding:5px 0 5px 40px;">제어판</a></li>
 							<li><a href="notice-list.do" style="padding:5px 0 5px 40px;">공지사항</a></li>
 							<li><hr style="background-color:gray;margin:0 25px 0 25px;"></li>
 							<li><a href="student-list.do" style="padding:5px 0 5px 40px;">학생정보</a></li>
