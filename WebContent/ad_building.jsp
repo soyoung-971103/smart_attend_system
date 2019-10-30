@@ -67,9 +67,9 @@
 									function find_text()
 									{
 										if (!form1.text1.value)
-											form1.action="/member/lists/page";
+											form1.action="building-list.do";
 										else
-											form1.action="/member/lists/text1/" + form1.text1.value+"/page";
+											form1.action="building-list.do?text1=" + form1.text1.value;
 										form1.submit();
 									}
 								</script>
@@ -80,7 +80,7 @@
 										<div class="form-inline">
 											<div class="input-group input-group-sm">
 												<div class="input-group-prepend">
-													<span class="input-group-text">이름</span>
+													<span class="input-group-text">건물명</span>
 												</div>
 												<input type="text" name="text1" size="10" value="" class="form-control" >
 												<div class="input-group-append">

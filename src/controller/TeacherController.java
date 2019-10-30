@@ -20,7 +20,8 @@ import javax.servlet.http.HttpSession;
 
 import model.BuildingDTO;
 import model.ADRemoveDAO;
-import model.ADRemoveDTO;		
+import model.ADRemoveDTO;
+import model.BuildingDAO;
 import model.ControlDAO;		
 import model.ControlDTO;		
 import model.DepartDAO;
@@ -57,12 +58,14 @@ public class TeacherController extends HttpServlet {
     ArrayList<TimeTableDTO> dtoListTimeTable = null;
     ArrayList<LecturedayDTO> dtoListLectureday = null;
     ArrayList<RoomDTO> dtoListRoom = null;
+    ArrayList<BuildingDTO> dtoListBuilding = null;
     TeacherDTO dto = null;
     DepartDTO dtoDepart = null;
 	RoomDTO dtoRoom = null;
 	BuildingDTO dtoBuilding = null;
 	LecturedayDTO dtoLectureday = null;
-    TeacherDAO dao = new TeacherDAO();    
+    TeacherDAO dao = new TeacherDAO();  
+    BuildingDAO daoBuilding = new BuildingDAO(); 
     HttpSession sesobj = null;
     Cookie cookies[] = null;
     String [] kind = {"전임교수", "겸임교수", "시간강사"};
@@ -293,11 +296,14 @@ public class TeacherController extends HttpServlet {
 			dtoListRoom = dao.RoomCheck(start, day1);
 		}
 		
+		dtoListBuilding = daoBuilding.selectAllList();
+		
 		request.setAttribute("normdate", normdate);
 		request.setAttribute("normweek", normweek);
 		request.setAttribute("normstart", normstart);
 		request.setAttribute("normhour", normhour);		
 		request.setAttribute("lecturenorm_data", lecturenorm_data);
+		request.setAttribute("listBuilding", dtoListBuilding);
 		request.setAttribute("timeTableList", timeTableList);
 		
 		request.getRequestDispatcher("te_lecmoverest.jsp").forward(request, response);

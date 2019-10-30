@@ -41,6 +41,12 @@ function show_lecture(kind, str)
 	{
 		document.getElementById( "firstpos" ).innerHTML="<div class='lecbox_text' style='height:"+hh+"' id='"+lec_id+"' draggable='true' ondragstart='drag(event)'   onclick='sel_lecture(\""+lec_id+"\")'>"+lec_caption+"</div>";
 	}
+	else if (kind==4)		// 보강날짜 선택인 경우
+	{
+		pos=lec_start+lec_week;
+		pos = (lec_start<10) ? "0"+pos : pos;
+		document.getElementById( pos ).innerHTML="<div class='lecbox_text' style='height:"+hh+"' id='"+lec_id+"' draggable='true' ondragstart='drag(event)'   onclick='sel_lecture(\""+lec_id+"\")'>"+lec_caption+"</div>";
+	}
 }
 
 //--------------------------------------------
