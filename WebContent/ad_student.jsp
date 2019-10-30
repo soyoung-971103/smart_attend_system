@@ -76,7 +76,7 @@
 									}
 								</script>
 
-								<form method="post" action="student-search.do">
+								<form method="post" action="student-list.do">
 								<div class="row" style="margin-bottom:5px">
 									<div class="col-auto" align="left">
 										<div class="form-inline">
@@ -93,7 +93,7 @@
 										</div>
 									</div>
 									<div class="col" align="right">
-										<a href="student-studentnew.do" class="btn btn-sm mycolor1">추가</a>
+										<a href="student-register.do" class="btn btn-sm mycolor1">추가</a>
 									</div>
 								</div>
 								</form>
