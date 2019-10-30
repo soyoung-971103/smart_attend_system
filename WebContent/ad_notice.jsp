@@ -70,7 +70,7 @@
 									th { text-align: center }
 									td { text-align: center }
 								</style>
-
+								<a href="ad_noticenew.jsp" class="btn btn-sm mycolor1">추가</a>
 								<table class="table table-bordered table-sm table-hover" style="width:100%" id="example">
 									<thead>
 										<tr class="alert-secondary">

@@ -5,8 +5,9 @@
 <!-- 교수 : 윤형태 (2019.5 -        )                                                                         -->
 <!-- 학생 : 유소영(3), 김해리(3), 이민호(2), 김진혁(2)                                              -->
 <!-------------------------------------------------------------------------------->	
-<%@ page language="java" contentType="text/html; charset=UTF-8" 
+<%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ page import="java.util.*, java.text.*" %>
 <%@ page import="java.util.*,model.TimeTableDTO, model.BuildingDTO, model.RoomDTO, model.LectureDTO, model.SubjectDTO, model.TeacherDTO, model.DepartDTO" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
@@ -78,13 +79,23 @@
 								</div>
 							</div>
 							<div class="card-body" style="padding:10px">
-
+<% 
+    Date date = new Date();
+    SimpleDateFormat yyyy = new SimpleDateFormat("yyyy");
+    SimpleDateFormat mm = new SimpleDateFormat("MM");
+    String year = yyyy.format(date);
+    String month = mm.format(date);
+    int m = Integer.parseInt(month);
+    int hak=0;
+	if(m<9) hak=1;
+	else hak=2;
+%>
 								<div class="row" style="margin-bottom:10px">
 									<div class="col-auto" align="left">
-										<h6>&nbsp;<font color="gray">2019년 1학기</font></h6>
+										<h6>&nbsp;<font color="gray"><%= year %>년 <%= hak %>학기</font></h6>
 									</div>
 									<div class="col" align="right">
-										<h6>&nbsp;<font color="gray">201912001 홍길동</font>&nbsp;</h6>
+										<h6>&nbsp;<font color="gray"><%= session.getAttribute("schoolno") %> <%= session.getAttribute("name") %></font>&nbsp;</h6>
 									</div>
 								</div>
 

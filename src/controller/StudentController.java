@@ -38,7 +38,7 @@ import model.TeacherDTO;
 /**
  * Servlet implementation class StudentController
  */
-@WebServlet({"/student-list.do","/student-search.do","/student-register.do","/student-delete.do","/student-detail.do","/student-update.do","/student-qna.do", "/lecqnainsert.do", "/savestqa.do", "/stqaload.do", "/student-main.do", "/student-qnainfo.do"})
+@WebServlet({"/student-list.do", "/student-studentnew.do","/student-search.do","/student-register.do","/student-delete.do","/student-detail.do","/student-update.do","/student-qna.do", "/lecqnainsert.do", "/savestqa.do", "/stqaload.do", "/student-main.do", "/student-qnainfo.do"})
 @MultipartConfig(location="", 
 fileSizeThreshold=1024*1024, 
 maxFileSize=1024*1024*5, 
@@ -60,7 +60,9 @@ public class StudentController extends HttpServlet {
     QnaDTO dtoQna = null;
     StudentDAO dao = new StudentDAO();
     HttpSession sesobj = null;
+	DepartDAO daoDepart = new DepartDAO();
     //Pagination pn = new Pagination();
+    ArrayList<DepartDTO> dtoListDepart = new ArrayList<DepartDTO>();
     ArrayList<ControlDTO> dtoListControl = null;
     ArrayList<NoticeDTO> dtoListNotice = null;
     ArrayList<QnaDTO> dtoListQna = null;
@@ -99,6 +101,8 @@ public class StudentController extends HttpServlet {
 			stMain(request,response);
 		else if(action.equals("student-qnainfo.do"))
 			stMainQnaInfo(request,response);
+		else if(action.equals("student-studentnew.do")) 
+			studentnew(request, response);
 		else 
     		;
 		
@@ -107,9 +111,12 @@ public class StudentController extends HttpServlet {
 	protected void list(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException{
 		 dtoList = dao.list();
 		 dtoListControl = daoControl.List();
+		 dtoListDepart = daoDepart.List();
+		 
+	     request.setAttribute("listDepart", dtoListDepart);  
 		 request.setAttribute("controlList", dtoListControl);
-			request.setAttribute("studentlist", dtoList);
-			request.getRequestDispatcher("ad_student.jsp").forward(request, response);
+		 request.setAttribute("studentlist", dtoList);
+		 request.getRequestDispatcher("ad_student.jsp").forward(request, response);
 	}
 	
 	
@@ -118,6 +125,18 @@ public class StudentController extends HttpServlet {
 			request.setAttribute("studentlist", dtoList);
 			request.getRequestDispatcher("ad_student.jsp").forward(request, response);
 	}
+	
+	private void studentnew(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
+		ArrayList<DepartDTO> dtoListDepart = new ArrayList<DepartDTO>();
+		DepartDAO daoDepart = new DepartDAO();
+		dtoListDepart = daoDepart.List();
+		request.setAttribute("listDepart", dtoListDepart);
+		dtoListDepart = daoDepart.List();
+		 
+    	request.setAttribute("listDepart", dtoListDepart);    	   		
+    	request.getRequestDispatcher("ad_studentnew.jsp").forward(request, response);
+	
+	} 
 	
 	private void detail(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
 		int id = Integer.parseInt(request.getParameter("id"));
@@ -131,6 +150,10 @@ public class StudentController extends HttpServlet {
 		request.setAttribute("birthday1", birthday[0]);
 		request.setAttribute("birthday2", birthday[1]);
 		request.setAttribute("birthday3", birthday[2]);
+		
+		dtoListDepart = daoDepart.List();
+		 
+    	request.setAttribute("listDepart", dtoListDepart);  
 		request.getRequestDispatcher("ad_studentupdate.jsp").forward(request, response);
     }
 	

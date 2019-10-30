@@ -53,9 +53,10 @@ public class StudentDAO extends DAOBase {
 		try {
 			conn = getConnection();
 			stmt = conn.createStatement();
-			rs = stmt.executeQuery("select * from student where id=" + id);
+			rs = stmt.executeQuery("select student.*, depart.abbreviation from student left join depart on student.depart_id = depart.id where student.id=" + id);
 			if(rs.next()) {
 				dto = new StudentDTO();
+				dtoDepart = new DepartDTO();
 				dto.setId(rs.getInt(1));
 				dto.setDepart_id(rs.getInt(2));
 				dto.setGrade(rs.getByte(3));
@@ -69,6 +70,7 @@ public class StudentDAO extends DAOBase {
 				dto.setState(rs.getString(11));
 				dto.setBirthday(rs.getString(12));
 				dto.setEmail(rs.getString(13));
+				dtoDepart.setName(rs.getString(14));
 			}
 			return dto;
 		} catch (SQLException e) {
@@ -183,10 +185,11 @@ public class StudentDAO extends DAOBase {
 		try {
 			conn = getConnection();
 			stmt = conn.createStatement();
-			rs = stmt.executeQuery("select * from student");
+			rs = stmt.executeQuery("select student.*, depart.abbreviation from student left join depart on student.depart_id = depart.id");
 			dtoList = new ArrayList<StudentDTO>();
 			while(rs.next()) {
 				dto = new StudentDTO();
+				dtoDepart = new DepartDTO();
 				dto.setId(rs.getInt(1));
 				dto.setDepart_id(rs.getInt(2));
 				dto.setGrade(rs.getByte(3));
@@ -200,6 +203,8 @@ public class StudentDAO extends DAOBase {
 				dto.setState(rs.getString(11));
 				dto.setBirthday(rs.getString(12));
 				dto.setEmail(rs.getString(13));
+				dtoDepart.setName(rs.getString(14));
+				dto.setDepart(dtoDepart);
 				dtoList.add(dto);
 			}
 			return dtoList;
@@ -215,11 +220,12 @@ public class StudentDAO extends DAOBase {
 			conn = getConnection();
 			stmt = conn.createStatement();
 			if (text1 == null) rs=stmt.executeQuery("select * from student");
-			else rs=stmt.executeQuery("select * from student where name like '%"+ text1 +"%' order by name");
+			else rs=stmt.executeQuery("select student.*, depart.abbreviation from student left join depart on student.depart_id = depart.id where name like '%"+ text1 +"%' order by name");
 			// email, pw는 form을 구성하는 각 요소의 이름
 			dtoList = new ArrayList<StudentDTO>();
 			while(rs.next()) {
 				dto = new StudentDTO();
+				dtoDepart = new DepartDTO();
 				dto.setId(rs.getInt(1));
 				dto.setDepart_id(rs.getInt(2));
 				dto.setGrade(rs.getByte(3));
@@ -233,6 +239,8 @@ public class StudentDAO extends DAOBase {
 				dto.setState(rs.getString(11));
 				dto.setBirthday(rs.getString(12));
 				dto.setEmail(rs.getString(13));
+				dtoDepart.setName(rs.getString(14));
+				dto.setDepart(dtoDepart);
 				dtoList.add(dto);
 			}
 			return dtoList;
@@ -247,9 +255,10 @@ public class StudentDAO extends DAOBase {
 		try {
 			conn = getConnection();
 			stmt = conn.createStatement();	
-			rs = stmt.executeQuery("select * from student where schoolno= " + uid);
+			rs = stmt.executeQuery("select student.*, depart.abbreviation from student left join depart on student.depart_id = depart.id where schoolno= " + uid);
 			if(rs.next()) {
 				dto = new StudentDTO();
+				dtoDepart = new DepartDTO();
 				dto.setId(rs.getInt(1));
 				dto.setDepart_id(rs.getInt(2));
 				dto.setGrade(rs.getByte(3));
@@ -263,6 +272,8 @@ public class StudentDAO extends DAOBase {
 				dto.setState(rs.getString(11));
 				dto.setBirthday(rs.getString(12));
 				dto.setEmail(rs.getString(13));
+				dtoDepart.setName(rs.getString(14));
+				dto.setDepart(dtoDepart);
 			}
 			return dto;
 		} catch (SQLException e) {

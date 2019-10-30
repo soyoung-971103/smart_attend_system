@@ -93,27 +93,26 @@
 										</td>
 									</tr>
 									<tr>
-										<td class="mycolor2">학과</td>
+										<td class="mycolor2" style="width:70px">학과</td>
 										<td>
 											<div class="form-inline">
 												<select name="depart_id" class="form-control form-control-sm">
-													<option value="0" selected></option>
-													
 													<c:forEach var="depart" items="${listDepart}">
-													<c:choose>
-														<c:when  test="${subject.depart_id eq depart.id }">
-														<option value='${depart.id }' selected>${depart.name }</option>	
-														</c:when >
-														<c:otherwise>
-														<option value='${depart.id }'>${depart.name }</option>	
-														</c:otherwise>
-													</c:choose>
-													</c:forEach>
-													
+															<c:choose>
+																<c:when test="${depart.getId() eq member.getDepart_id().getId() }">
+
+																	<option value="${depart.getId()}" selected>${depart.getName()}</option>
+																</c:when>
+																<c:otherwise>
+																	<option value="${depart.getId()}">${depart.getName()}</option>
+																</c:otherwise>											
+															</c:choose>
+														</c:forEach>
 												</select>
 											</div>
 										</td>
 									</tr>
+									
 									<tr>
 										<td class="mycolor2">학년/반</td>
 										<td>
