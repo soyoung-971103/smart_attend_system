@@ -276,7 +276,7 @@
 					<li class="submenu">
 						<a href="#"><i class="fa fa-fw fa-male"></i> <span>조교</span> <span class="menu-arrow"></span></a>
 						<ul class="list-unstyled">
-							<li><a href="assistmain_list.do" style="padding:5px 0 5px 40px;">조교 메인</a></li>
+							<li><a href="as_main.html" style="padding:5px 0 5px 40px;">조교 메인</a></li>
 							<c:forEach var="control" items="${controlList}">
 								<c:if test="${control.subjecttime == 0}">															
 									<li><a href="subject-list.do" style="padding:5px 0 5px 40px;">학년별 교과목</a></li>
