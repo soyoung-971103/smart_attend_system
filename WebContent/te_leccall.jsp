@@ -19,7 +19,8 @@
 
 	<link href="my/css/my.css" rel="stylesheet" type="text/css">
 	<script type="text/javascript">
-		
+	
+	
 	var n = function() {
 		var k = <%=request.getParameter("id")%>;
 		//document.getElementById('stuList').innerHTML="";
@@ -31,6 +32,7 @@
 		  };
 	    xhttp.open("GET", "student-lecture-ahcheck.do?id="+k, true);
 	    xhttp.send();
+	    location.reload();
 	};
 		var i = function(n) {
 			

@@ -32,7 +32,13 @@ public class MyLectureDTO {
 	ArrayList<Byte> hn;
 	TimeTableDTO timetable;
 	RoomDTO room;
-	
+	TeacherDTO teacher;
+	public TeacherDTO getTeacher() {
+		return teacher;
+	}
+	public void setTeacher(TeacherDTO teacher) {
+		this.teacher = teacher;
+	}
 	public ArrayList<Byte> getHn() {
 		return hn;
 	}

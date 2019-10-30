@@ -20,6 +20,8 @@ import model.MyLectureDAO;
 import model.MyLectureDTO;
 import model.BuildingDAO;
 import model.BuildingDTO;
+import model.ControlDAO;
+import model.ControlDTO;
 import model.DepartDAO;
 import model.DepartDTO;
 import model.NoticeDAO;
@@ -67,6 +69,8 @@ public class MyLectureController extends HttpServlet {
     LectureDAO daoLecture = new LectureDAO();
     DepartDAO daoDepart = new DepartDAO();
     TeacherDAO daoTeacher = new TeacherDAO();
+    ArrayList<ControlDTO> dtoListControl = null;
+	ControlDAO daoControl = new ControlDAO();
 	
 	protected void process(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException {
     	request.setCharacterEncoding("UTF-8");
@@ -92,7 +96,9 @@ public class MyLectureController extends HttpServlet {
     	dtoListLecture = daoLecture.list();
     	dtoListDepart = daoDepart.List();
     	dtoListTeacher = daoTeacher.list();
+    	dtoListControl = daoControl.List();
     	
+    	request.setAttribute("controlList", dtoListControl);
     	request.setAttribute("list", dtoList);
     	request.setAttribute("timeList", dtoListTime);
     	request.setAttribute("roomList", dtoListRoom);

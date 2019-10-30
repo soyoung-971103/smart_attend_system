@@ -11,6 +11,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import model.ControlDAO;
+import model.ControlDTO;
 import model.DepartDAO;
 import model.DepartDTO;
 
@@ -34,7 +36,9 @@ public class DepartController extends HttpServlet {
     DepartDTO dto = null;
     HttpSession sesobj = null;
     DepartDAO dao = new DepartDAO();
-    
+    ArrayList<ControlDTO> dtoListControl = null;
+	ControlDAO daoControl = new ControlDAO();
+	
 	protected void process(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
 		// TODO Auto-generated method stub
 		request.setCharacterEncoding("UTF-8");		
@@ -124,6 +128,8 @@ public class DepartController extends HttpServlet {
 
 	private void list(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {		
     	dtoList = dao.List();
+    	dtoListControl = daoControl.List();
+    	request.setAttribute("controlList", dtoListControl);
     	request.setAttribute("list", dtoList);    	
     	request.getRequestDispatcher("ad_depart.jsp").forward(request, response);
 		

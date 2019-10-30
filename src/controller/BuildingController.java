@@ -13,6 +13,8 @@ import javax.servlet.http.HttpSession;
 
 import model.BuildingDAO;
 import model.BuildingDTO;
+import model.ControlDAO;
+import model.ControlDTO;
 
 /**
  * Servlet implementation class BuildingController
@@ -33,7 +35,8 @@ public class BuildingController extends HttpServlet {
     BuildingDTO dto = null;
     ArrayList<BuildingDTO> dtoList = null;
     BuildingDAO dao = new BuildingDAO();
-    
+    ArrayList<ControlDTO> dtoListControl = null;
+	ControlDAO daoControl = new ControlDAO();
     
     protected void process(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
 		// TODO Auto-generated method stub
@@ -59,7 +62,8 @@ public class BuildingController extends HttpServlet {
 			;		
 	}
     
-    private void list(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {		
+    private void list(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
+
     	String text1 = request.getParameter("text1");
     	
     	if(text1 == null)    	
@@ -67,6 +71,9 @@ public class BuildingController extends HttpServlet {
     	else
     		dtoList = dao.selectAllList(text1);
     	
+    	dtoList = dao.selectAllList();
+    	dtoListControl = daoControl.List();
+    	request.setAttribute("controlList", dtoListControl);
     	request.setAttribute("list", dtoList);    	
     	request.getRequestDispatcher("ad_building.jsp").forward(request, response);
 		

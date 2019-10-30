@@ -21,6 +21,8 @@ import model.TeacherDAO;
 import model.TeacherDTO;
 import model.BuildingDAO;
 import model.BuildingDTO;
+import model.ControlDAO;
+import model.ControlDTO;
 import model.DepartDAO;
 import model.DepartDTO;
 import model.LectureDAO;
@@ -40,7 +42,7 @@ public class TimeTableController extends HttpServlet {
         super();
         // TODO Auto-generated constructor stub
     }
-    
+ 
     HttpSession sesobj = null;
     ArrayList<TimeTableDTO> dtoList = null;
     ArrayList<SubjectDTO> dtoListSubject = null;
@@ -55,8 +57,10 @@ public class TimeTableController extends HttpServlet {
     BuildingDAO daoBuilding = new BuildingDAO();
     LectureDAO daoLecture = new LectureDAO();
     DepartDAO daoDepart = new DepartDAO();
-	 SubjectDAO daoSubject = new SubjectDAO();
+	SubjectDAO daoSubject = new SubjectDAO();
 	TeacherDAO daoTeacher = new TeacherDAO();
+	ArrayList<ControlDTO> dtoListControl = null;
+	ControlDAO daoControl = new ControlDAO();
     
     protected void process(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
 		// TODO Auto-generated method stub
@@ -106,9 +110,10 @@ public class TimeTableController extends HttpServlet {
     	dtoList = dao.Load();
     	dtoListRoom = daoRoom.selectAllList();
     	dtoListBuilding = daoBuilding.selectAllList();
-    	dtoListLecture = daoLecture.list();
+    	dtoListLecture = daoLecture.selectAllList();
     	dtoListDepart = daoDepart.List();
-    	dtoListTeacher = daoTeacher.list();	    
+    	dtoListTeacher = daoTeacher.list();
+    	dtoListControl = daoControl.List();
     	
     	request.setAttribute("list", dtoList);
     	request.setAttribute("roomList", dtoListRoom);
@@ -116,6 +121,7 @@ public class TimeTableController extends HttpServlet {
     	request.setAttribute("lectureList", dtoListLecture);
     	request.setAttribute("departList", dtoListDepart);
 	    request.setAttribute("teacherList", dtoListTeacher);
+	    request.setAttribute("controlList", dtoListControl);
     	request.getRequestDispatcher("as_time.jsp").forward(request, response);
 	}
     
@@ -157,7 +163,9 @@ public class TimeTableController extends HttpServlet {
 		dtoListLecture = daoLecture.list();
 		dtoListDepart = daoDepart.List();
 		dtoListTeacher = daoTeacher.list();
+		dtoListControl = daoControl.List();
 		
+		request.setAttribute("controlList", dtoListControl);
 		request.setAttribute("list", dtoList);
 		request.setAttribute("roomList", dtoListRoom);
 		request.setAttribute("buildingList", dtoListBuilding);

@@ -74,9 +74,11 @@ public class MemberController extends HttpServlet {
 		}else if(kind.equals("teacher")) {
 			dtoTeacher = new TeacherDTO();
 			dtoTeacher.setUid(request.getParameter("login_uid"));
-			dtoTeacher.setPwd(request.getParameter("login_password"));				
+			dtoTeacher.setPwd(request.getParameter("login_password"));
+			
 			dto = dao.loginCheckTeacher(dtoTeacher);	
 			
+			sesobj.setAttribute("depart_id", dto.getDepart_id());
 		}else if(kind.equals("assist")) {
 			dtoAssist = new AssistDTO();
 			dtoAssist.setUid(request.getParameter("login_uid"));

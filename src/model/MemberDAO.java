@@ -37,7 +37,7 @@ public class MemberDAO extends DAOBase{
 				dto = new MemberDTO();
 				dto.setId(rs.getInt(1));
 				dto.setPwd(rs.getString(2));
-				dto.setName(rs.getString(3));
+				dto.setName(rs.getString("name"));
 				dto.setUid(rs.getString(5));
 			}				
 			
@@ -65,7 +65,8 @@ public class MemberDAO extends DAOBase{
 				dto.setId(rs.getInt(1));
 				dto.setUid(rs.getString(4));				
 				dto.setPwd(rs.getString(5));
-				dto.setName(rs.getString(6));				
+				dto.setName(rs.getString(6));	
+				dto.setDepart_id(rs.getInt("depart_id"));
 			}				
 			
 			return dto;

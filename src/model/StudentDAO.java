@@ -20,7 +20,16 @@ public class StudentDAO extends DAOBase {
 	private PreparedStatement pstmt = null;
 	private ResultSet rs = null;
 	private StudentDTO dto = null;
+	private NoticeDTO dtoNotice = null;
+	private QnaDTO dtoQna = null;
+	private StudentDTO dtoStudent = null;
+	private LectureDTO dtoLecture = null;
+	private SubjectDTO dtoSubject = null;
+	private TeacherDTO dtoTeacher = null;
+	private DepartDTO dtoDepart = null;
 	private ArrayList<StudentDTO> dtoList = null;
+	private ArrayList<QnaDTO> dtoListQna = null;
+	private ArrayList<NoticeDTO> dtoListNotice = null;
 	
 	
 	public int delete(HttpServletRequest request, HttpServletResponse response) {
@@ -261,6 +270,209 @@ public class StudentDAO extends DAOBase {
 			e.printStackTrace();
 		}
 		return dto;	
+	}
+	public ArrayList<MyLectureDTO> qnalist(HttpServletRequest request, HttpServletResponse response) {
+		HttpSession ssion = request.getSession();
+		MyLectureDTO mdto = null;
+		SubjectDTO sdto = null;
+		LectureDTO ldto = null;
+		TeacherDTO tdto = null;
+		
+		ArrayList<MyLectureDTO> dtoList = new ArrayList<MyLectureDTO>();
+		try {
+			conn = getConnection();
+			stmt = conn.createStatement();	
+			rs = stmt.executeQuery("select mylecture.qaday, subject.name as subject_name, teacher.name as teacher_name, mylecture.qatitle, "
+					+ "mylecture.qaanswer, mylecture.id from student left join mylecture on student.id = mylecture.student_id "
+					+ "left join lecture on lecture.id = mylecture.lecture_id left join teacher on teacher.id = lecture.teacher_id "
+					+ "left join subject on subject.id = lecture.subject_id where student.schoolno='"+ssion.getAttribute("uid")+"'");
+			while(rs.next()) {
+				mdto = new MyLectureDTO();
+				sdto = new SubjectDTO();
+				ldto = new LectureDTO();
+				tdto = new TeacherDTO();
+				sdto.setName(rs.getString("subject_name"));
+				ldto.setSubject(sdto);
+				mdto.setQaday(rs.getDate("mylecture.qaday"));
+				tdto.setName(rs.getString("teacher_name"));
+				mdto.setQatitle(rs.getString("mylecture.qatitle"));
+				mdto.setQaanswer(rs.getString("mylecture.qaanswer"));
+				mdto.setId(rs.getInt("mylecture.id"));
+				mdto.setLecture(ldto);
+				mdto.setTeacher(tdto);
+				dtoList.add(mdto);
+			}
+			return dtoList;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return dtoList;
+	}
+	public ArrayList<LectureDTO> lecList(HttpServletRequest request, HttpServletResponse response) {
+		HttpSession ssion = request.getSession();
+		ArrayList<LectureDTO> ldtoList = new ArrayList<LectureDTO>();
+		LectureDTO ldto = null;
+		SubjectDTO sdto = null;
+		TeacherDTO tdto = null;
+
+		try {//			
+			conn = getConnection();
+			stmt = conn.createStatement();
+			rs = stmt.executeQuery("select lecture.id, subject.name, teacher.name from student left join mylecture on mylecture.student_id = student.id "
+					+ "left join lecture on lecture.id = mylecture.lecture_id left join subject on subject.id = lecture.subject_id "
+					+ "left join teacher on teacher.id = lecture.teacher_id where mylecture.qaday not null and student.schoolno = '"+ssion.getAttribute("uid")+"' and subject.yyyy = 2019;");
+			while(rs.next()) {
+				ldto = new LectureDTO();
+				sdto = new SubjectDTO();
+				tdto = new TeacherDTO();
+				sdto.setName(rs.getString("subject.name"));
+				tdto.setName(rs.getString("teacher.name"));
+				ldto.setSubject(sdto);
+				ldto.setTeacher(tdto);
+				ldto.setId(rs.getInt("lecture.id"));
+				ldtoList.add(ldto);
+			}
+			return ldtoList;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return ldtoList;
+	}//saveqa
+	public void saveqa(HttpServletRequest request, HttpServletResponse response) {
+		try {//		qaday, qatitle, qaask	
+			String qatitle = request.getParameter("qatitle").replace("\\", "\\\\");
+			String qaask = request.getParameter("qatxt1").replace("\\", "\\\\");
+			conn = getConnection();
+			stmt = conn.createStatement();
+			stmt.executeUpdate("update mylecture set qaday='"+request.getParameter("qawriteday")+"', qatitle='"+qatitle+"', qaask='"+qaask+"';");
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public ArrayList<NoticeDTO> NoticeList(){
+		try {
+			conn = getConnection();
+			stmt = conn.createStatement();
+			rs = stmt.executeQuery("select * from notice");
+			dtoListNotice = new ArrayList<NoticeDTO>();
+			while(rs.next()) {
+				dtoNotice = new NoticeDTO();
+				dtoNotice.setId(rs.getInt(1));
+				dtoNotice.setWriteday(rs.getDate(2));
+				dtoNotice.setTitle(rs.getString(3));
+				dtoNotice.setTxt1(rs.getString(4));
+				dtoListNotice.add(dtoNotice);
+			}
+			return dtoListNotice;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return dtoListNotice;	
+	}
+	
+	public ArrayList<QnaDTO> QnaList(int id){
+		try {
+			conn = getConnection();
+			stmt = conn.createStatement();
+			rs = stmt.executeQuery("SELECT qna.*, student.schoolno as student_schoolno, student.grade as student_grade, student.class as student_class, "
+					+ "student.name as student_name, student.phone as student_phone, depart.name as depart_name, teacher.name as teacher_name,  "
+					+ "subject.name as subject_name FROM qna LEFT JOIN student on qna.student_id = student.id LEFT JOIN depart on student.depart_id =  "
+					+ "depart.id LEFT JOIN lecture ON qna.lecture_id = lecture.id LEFT JOIN subject ON lecture.subject_id = subject.id LEFT JOIN teacher  "
+					+ "ON qna.teacher_id = teacher.id where student_id="+id);
+			dtoListQna = new ArrayList<QnaDTO>();
+			while(rs.next()) {				
+				dtoQna = new QnaDTO();
+				dtoStudent = new StudentDTO();
+				dtoLecture = new LectureDTO();
+				dtoSubject = new SubjectDTO();
+				dtoTeacher = new TeacherDTO();
+				dtoDepart = new DepartDTO();
+				dtoQna.setId(rs.getInt(1));
+				dtoQna.setStudent_id(rs.getInt(2));
+				dtoQna.setLecture_id(rs.getInt(3));
+				dtoQna.setDay(rs.getDate(4));
+				dtoQna.setQatitle(rs.getString(5));
+				dtoQna.setQaask(rs.getString(6));
+				dtoQna.setQaanswer(rs.getString(7));
+				dtoQna.setC_confirm(rs.getByte(8));
+				dtoQna.setTeacher_id(rs.getInt(9));
+				dtoStudent.setSchoolno(rs.getString(10));
+				dtoStudent.setGrade(rs.getByte(11));
+				dtoStudent.setStudent_class(rs.getString(12));
+				dtoStudent.setName(rs.getString(13));
+				dtoStudent.setPhone(rs.getString(14));
+				dtoDepart.setName(rs.getString(15));
+				dtoStudent.setDepart(dtoDepart);
+				dtoQna.setStudent(dtoStudent);
+				dtoTeacher.setName(rs.getString(16));
+				dtoQna.setTeacher(dtoTeacher);
+				dtoSubject.setName(rs.getString(17));
+				dtoLecture.setSubject(dtoSubject);
+				dtoQna.setLecture(dtoLecture);
+				dtoListQna.add(dtoQna);
+			}
+			return dtoListQna;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return dtoListQna;	
+	}
+
+	public QnaDTO QnaInfo(int id){
+		try {			
+			dtoQna = new QnaDTO();
+			dtoStudent = new StudentDTO();
+			dtoLecture = new LectureDTO();
+			dtoSubject = new SubjectDTO();
+			dtoTeacher = new TeacherDTO();
+			dtoDepart = new DepartDTO();
+			conn = getConnection();
+			stmt = conn.createStatement();
+			rs = stmt.executeQuery("SELECT qna.*, student.schoolno as student_schoolno, student.grade as student_grade, student.class as student_class, "
+					+ "student.name as student_name, student.phone as student_phone, depart.name as depart_name, teacher.name as teacher_name,  "
+					+ "subject.name as subject_name FROM qna LEFT JOIN student on qna.student_id = student.id LEFT JOIN depart on student.depart_id =  "
+					+ "depart.id LEFT JOIN lecture ON qna.lecture_id = lecture.id LEFT JOIN subject ON lecture.subject_id = subject.id LEFT JOIN teacher  "
+					+ "ON qna.teacher_id = teacher.id where qna.id="+id);
+			
+			if(rs.next()) {			
+				dtoQna.setId(rs.getInt(1));
+				dtoQna.setStudent_id(rs.getInt(2));
+				dtoQna.setLecture_id(rs.getInt(3));
+				dtoQna.setDay(rs.getDate(4));
+				dtoQna.setQatitle(rs.getString(5));
+				dtoQna.setQaask(rs.getString(6));
+				dtoQna.setQaanswer(rs.getString(7));
+				dtoQna.setC_confirm(rs.getByte(8));
+				dtoQna.setTeacher_id(rs.getInt(9));
+				dtoStudent.setSchoolno(rs.getString(10));
+				dtoStudent.setGrade(rs.getByte(11));
+				dtoStudent.setStudent_class(rs.getString(12));
+				dtoStudent.setName(rs.getString(13));
+				dtoStudent.setPhone(rs.getString(14));
+				dtoDepart.setName(rs.getString(15));
+				dtoStudent.setDepart(dtoDepart);
+				dtoQna.setStudent(dtoStudent);
+				dtoTeacher.setName(rs.getString(16));
+				dtoQna.setTeacher(dtoTeacher);
+				dtoSubject.setName(rs.getString(17));
+				dtoLecture.setSubject(dtoSubject);
+
+				return dtoQna;
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return dtoQna;	
 	}
 
 }

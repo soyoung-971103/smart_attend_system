@@ -536,6 +536,57 @@ public class LectureDAO extends DAOBase{
 		}
 		return result;			
 	}
-
+	public LectureDTO lecture_search(int id)
+	{
+		dto = new LectureDTO();
+		try {
+			conn = getConnection();
+			stmt = conn.createStatement();
+			rs = stmt.executeQuery("select * from lecture where id='"+id+"'");
+			while(rs.next()) {
+				dto.setId(rs.getInt("id"));
+				dto.setSubject_id(rs.getInt("subject_id"));
+				dto.setTeacher_id(rs.getInt("teacher_id"));
+				dto.set_class(rs.getString("class"));
+				dto.setNumber(rs.getByte("number"));
+			}				
+			return dto;
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		finally {
+			this.closeDBResources(rs, stmt, pstmt, conn);
+		}
+		return dto;
+	}
+	public ArrayList<LectureDTO> lecture_tsearch_qa(int teacher_id)
+	{
+		dtoList = new ArrayList<LectureDTO>();
+		try {
+			conn = getConnection();
+			stmt = conn.createStatement();
+			rs = stmt.executeQuery("select * from lecture where teacher_id='"+teacher_id+"'");
+			while(rs.next()) {
+				dto = new LectureDTO();
+				dto.setId(rs.getInt("id"));
+				dto.setSubject_id(rs.getInt("subject_id"));
+				dto.setTeacher_id(rs.getInt("teacher_id"));
+				dto.set_class(rs.getString("class"));
+				dto.setNumber(rs.getByte("number"));
+				dtoList.add(dto);
+			}				
+			return dtoList;
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		finally {
+			this.closeDBResources(rs, stmt, pstmt, conn);
+		}
+		return dtoList;
+	}
 	
 }

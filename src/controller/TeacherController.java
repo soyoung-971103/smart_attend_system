@@ -20,8 +20,18 @@ import javax.servlet.http.HttpSession;
 
 import model.BuildingDAO;
 import model.BuildingDTO;
+import model.ADRemoveDAO;
+import model.ADRemoveDTO;		
+import model.ControlDAO;		
+import model.ControlDTO;		
 import model.DepartDAO;
 import model.DepartDTO;
+import model.LectureDAO;
+import model.LectureDTO;		
+import model.MyLectureDAO;		
+import model.MyLectureDTO;		
+import model.NoticeDAO;		
+import model.NoticeDTO;
 import model.LecturedayDTO;
 import model.RoomDTO;
 import model.TeacherDAO;
@@ -32,7 +42,7 @@ import model.TimeTableDTO;
  * Servlet implementation class TeacherController
  */
 //"/building-register.do", "/building-list.do", "/building-info.do", "/building-delete.do", "/building-update.do", "/building-search.do"
-@WebServlet({"/teacher-inputdata.do", "/teacher-info.do", "/teacher-register.do", "/teacher-list.do", "/teacher-delete.do", "/teacher-update.do", "/teacher-lecmove-select.do", "/teacher-lecmoverest.do", "/teacher-lecrestsave.do"})
+@WebServlet({"/teacher-inputdata.do", "/teacher-info.do", "/teacher-register.do", "/teacher-list.do", "/teacher-delete.do", "/teacher-update.do", "/teacher-qalist.do", "/te-lec-qaans.do", "/te-answer-save.do", "/te-main.do","/teacher-lecmove-select.do", "/teacher-lecmoverest.do", "/teacher-lecrestsave.do"})
 
 public class TeacherController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -90,21 +100,34 @@ public class TeacherController extends HttpServlet {
 			lecmoveRest(request,response);
 		}else if(action.equals("teacher-lecrestsave.do")) {
 			lecRestSave(request,response);
-		}
+		}else if(action.equals("teacher-qalist.do"))
+			qalist(request, response);
+		else if(action.equals("te-lec-qaans.do"))
+			qaans(request, response);
+		else if(action.equals("te-answer-save.do"))
+			qasave(request, response);
+		else if(action.equals("te-main.do"))
+			temain(request,response);
 		else
 			;
 		
 	}
 	private void Delete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException{
 		dao.delete(request, response);
-		response.sendRedirect("TeacherInquiry");
+		response.sendRedirect("teacher-list.do");
 	}
 	private void Inquiry(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException{
-		dtoList = dao.list();
+		String text1 = request.getParameter("text1");
 		
-
+		if(text1 == null) {
+			dtoList = dao.list();
+			text1 = "";
+		}
+		else
+			dtoList = dao.list(text1);
+		
+		request.setAttribute("text1", text1);
 		request.setAttribute("alMember", dtoList);
-		
 		RequestDispatcher dis = request.getRequestDispatcher("ad_teacher.jsp");
 		dis.forward(request, response);
 	}
@@ -119,7 +142,6 @@ public class TeacherController extends HttpServlet {
 			dtoListDepart = daoDepart.List();
 			
 			request.setAttribute("Depart", dtoListDepart);
-			
 			request.setAttribute("kind", kind);
 			request.setAttribute("member", dto);
 			RequestDispatcher dis = request.getRequestDispatcher("ad_teacherInfo.jsp"); 
@@ -130,11 +152,11 @@ public class TeacherController extends HttpServlet {
 
 		dao.update(request, response);
 		
-	    response.sendRedirect("TeacherInquiry");
+	    response.sendRedirect("teacher-list.do");
 	}
 	private void Insert(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException{
 		dao.insert(request, response);
-	    response.sendRedirect("TeacherInquiry");
+	    response.sendRedirect("teacher-list.do");
 	}	
 	private void inputdata(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException{
 		ArrayList<DepartDTO> dtoListDepart = new ArrayList<DepartDTO>();
@@ -145,6 +167,58 @@ public class TeacherController extends HttpServlet {
 		RequestDispatcher dis = request.getRequestDispatcher("ad_teachernew.jsp"); 
 		dis.forward(request, response);
 	}
+	
+	private void qalist(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException{
+		sesobj = request.getSession();
+		LectureDAO ldao = new LectureDAO();
+		
+		dto = dao.teacherqalist((String)sesobj.getAttribute("name"), (String)sesobj.getAttribute("uid"));
+		ArrayList<LectureDTO> ldtolist = ldao.lecture_tsearch_qa(dto.getId());
+		MyLectureDAO mdao = new MyLectureDAO();
+		ArrayList<MyLectureDTO> mdtolist = mdao.findstu(ldtolist);
+		System.out.println(mdtolist.size());
+		request.setAttribute("dtolist", mdtolist);
+	    request.getRequestDispatcher("te_lecqa.jsp").forward(request, response);
+	}
+	
+	private void qaans(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException{
+		MyLectureDAO mdao = new MyLectureDAO();
+		
+		request.setAttribute("info", mdao.teqaansinfo(Integer.parseInt(request.getParameter("id"))));
+	    request.getRequestDispatcher("te_lecqaedit.jsp").forward(request, response);
+	}
+	
+	private void qasave(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException{
+		dao.saveqa(request, response);
+	    response.sendRedirect("teacher-qalist.do");
+	}
+	
+	private void temain(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException{
+		sesobj = request.getSession();
+		//공지사항
+		NoticeDAO ndao = new NoticeDAO();
+		ArrayList<NoticeDTO> NoticeList = ndao.list(null);
+		request.setAttribute("noticeList", NoticeList);
+		
+		//휴보강
+		ADRemoveDAO adao = new ADRemoveDAO();
+		ArrayList<ADRemoveDTO> adtoList = adao.DTOlist2(request, response);
+		
+		request.setAttribute("removeList", adtoList);
+		//qa
+		sesobj = request.getSession();
+		LectureDAO ldao = new LectureDAO();
+		
+		dto = dao.teacherqalist((String)sesobj.getAttribute("name"), (String)sesobj.getAttribute("uid"));
+		ArrayList<LectureDTO> ldtolist = ldao.lecture_tsearch_qa(dto.getId());
+		MyLectureDAO mdao = new MyLectureDAO();
+		ArrayList<MyLectureDTO> mdtolist = mdao.findstu(ldtolist);
+		
+		request.setAttribute("qaList", mdtolist);
+		
+	    request.getRequestDispatcher("te_main.jsp").forward(request, response);
+	}
+	
 	private void lecmoveSelect(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException{
 		int id = (int) sesobj.getAttribute("id");
 		int sdate = Integer.parseInt(getCurMonday());

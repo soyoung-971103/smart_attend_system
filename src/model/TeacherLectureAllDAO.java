@@ -7,6 +7,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 public class TeacherLectureAllDAO extends DAOBase{
@@ -16,13 +18,16 @@ public class TeacherLectureAllDAO extends DAOBase{
 	ResultSet rs = null; 
 	HttpSession sesobj = null;
 	
-	public ArrayList<SubjectDTO> selectList(String [] values)
+	public ArrayList<SubjectDTO> selectList(String [] values, HttpServletRequest request, HttpServletResponse response)
 	{
-		
+		sesobj = request.getSession();
 		ArrayList<SubjectDTO> str = new ArrayList<SubjectDTO>();
 		SubjectDTO dto = null;
 		try {
-			String SQL = "select subject.id, subject.name from subject left join lecture on subject.id = lecture.subject_id WHERE subject.depart_id = '1' and subject.yyyy='"+values[0]+"' and subject.term = '"+values[1]+"' and subject.grade = '"+values[2]+"' and lecture.class='"+values[3]+"';";
+			String SQL = "select subject.id, subject.name from subject left join lecture on subject.id = lecture.subject_id "
+					+ "WHERE subject.depart_id = '"+(int)sesobj.getAttribute("depart_id")+"' and subject.yyyy='"+values[0]+"' and subject.term = '"+values[1]+"' and "
+							+ "subject.grade = '"+values[2]+"' and lecture.class='"+values[3]+"';";
+			
 	  		conn = getConnection();
 	  		stmt = conn.createStatement();
 	  		rs = stmt.executeQuery(SQL);
@@ -50,16 +55,21 @@ public class TeacherLectureAllDAO extends DAOBase{
 		ArrayList<TeacherLectureDTO> dtoList = null;
 		try {
 			dtoList = new ArrayList<TeacherLectureDTO>();
-			String SQL = "select * from subject left join lecture on subject.id = lecture.subject_id left join lectureday on lectureday.lecture_id = lecture.id WHERE lecture.id = lectureday.lecture_id and subject.id = '"+value+"' ORDER BY lectureday.th ASC;";
+			String SQL = "select * from subject left join lecture on subject.id = lecture.subject_id "
+					+ "left join lectureday on lectureday.lecture_id = lecture.id "
+					+ "WHERE lecture.id = lectureday.lecture_id and subject.id = '"+value+"' ORDER BY lectureday.th ASC;";
 	  		conn = getConnection();
 	  		stmt = conn.createStatement();
 	  		rs = stmt.executeQuery(SQL);
 	  		while(rs.next()) {
 	  			dto = new TeacherLectureDTO();
 	  			dto.setTh(rs.getInt("th"));
-	  			dto.setNormhour(rs.getInt("normhour"));
+	  			dto.setNormhour(rs.getInt("subject.ihour"));
 	  			dto.setNormdate(rs.getString("normdate"));
 	  			dto.setNormstart(rs.getInt("normstart"));
+	  			dto.setNormstate(rs.getString("lectureday.normstate"));
+	  			dto.setReststate(rs.getString("lectureday.reststate"));
+	  			dto.setState(rs.getString("lectureday.state"));
 	  			
 	  			dtoList.add(dto);
 	  		}      			//
@@ -78,19 +88,23 @@ public class TeacherLectureAllDAO extends DAOBase{
 		StudentDTO stdto = null;
 		
 		try {
-			String SQL ="SELECT lectureday.normhour, lectureday.th FROM subject LEFT JOIN lecture ON lecture.subject_id = subject.id LEFT JOIN lectureday ON lectureday.lecture_id = lecture.id WHERE subject.id='"+value+"' LIMIT 1;";
-
+			String SQL ="select subject.ihour, lecture.id from subject left join lecture on lecture.subject_id = subject.id "
+					+ "where subject.id = "+value+" and lecture.class='"+grade+"';";
+			
 			conn = getConnection();
 			pstmt = conn.prepareStatement(SQL);
 			rs = pstmt.executeQuery();
 			rs.next();
-			th_hour[0] = rs.getInt("lectureday.th");
-			th_hour[1] = rs.getInt("lectureday.normhour");
+			th_hour[0] = rs.getInt("subject.ihour");
+			String lecture_id = rs.getString("lecture.id");
+			
 			ArrayList<String> check = null;
 			dtoList = new ArrayList<TeacherLectureAllDTO>();
 			
-			SQL = "select mylecture.*, student.* from subject left join lecture on subject.id = lecture.subject_id left join mylecture on mylecture.lecture_id = lecture.id left join student on student.id = mylecture.student_id where student.id = mylecture.student_id and subject.id='"+value+"' and lecture.class='"+grade+"'";
-	  		conn = getConnection();
+			SQL = "select mylecture.*, student.* from subject left join lecture on subject.id = lecture.subject_id "
+					+ "left join mylecture on mylecture.lecture_id = lecture.id left join student on student.id = mylecture.student_id "
+					+ "where student.id = mylecture.student_id and subject.id='"+value+"' and mylecture.lecture_id='"+lecture_id+"'";
+			conn = getConnection();
 	  		stmt = conn.createStatement();
 	  		rs = stmt.executeQuery(SQL);
 	  		while(rs.next()) {
@@ -108,7 +122,7 @@ public class TeacherLectureAllDAO extends DAOBase{
 	  			
 	  			check = new ArrayList<String>();
 	  			
-	  			for(int i = 1; i <= th_hour[1] * 15; i++)
+	  			for(int i = 1; i <= th_hour[0] * 15; i++)
 	  			{
 	  				check.add(rs.getString("h"+i));
 	  			}
@@ -132,7 +146,10 @@ public class TeacherLectureAllDAO extends DAOBase{
 	}
 	public void stuCheck(String subId, String lecClass, String rowno, String colno, String v){
 		
-		String SQL = "SELECT mylecture.*, lectureday.normhour FROM subject left join lecture on lecture.subject_id = subject.id left join mylecture on mylecture.lecture_id = lecture.id left join lectureday on lectureday.lecture_id = lecture.id where subject.id='"+subId+"' and lecture.class='"+lecClass+"' and mylecture.student_id = "+rowno+" group by mylecture.student_id;";
+		String SQL = "select * from lecture right join mylecture on mylecture.lecture_id = lecture.id "
+				+ "left join subject on subject.id = lecture.subject_id left join student on student.id = mylecture.student_id"
+				+ " where lecture.class='"+lecClass+"' and subject.id = '"+subId+"' and student.id = '"+rowno+"';";
+
 		ArrayList<String> thList = null;
 		
 		try {
@@ -142,20 +159,22 @@ public class TeacherLectureAllDAO extends DAOBase{
 			pstmt = conn.prepareStatement(SQL);
 			rs = pstmt.executeQuery();
 
-			//
 			rs.next();
-			int hour = rs.getInt("lectureday.normhour");
 			
+			int hour = rs.getInt("subject.ihour");
+			int lecture_id = rs.getInt("lecture.id");
 			int iattend = 20;//rs.getInt("mylecture.iattend");
 			int ixhour = 0;//rs.getInt("mylecture.ixhour");
 			int ilate = 0;//rs.getInt("mylecture.ilate");
+			//int check = rs.getInt(str);
+			//if(check != Integer.parseInt(v));
+			int th = Integer.parseInt(colno) / hour;
 			
 			thList = new ArrayList<String>();
 			for(int i = 0; i < hour * 15; i++) 
 				thList.add(rs.getString("mylecture.h"+(i+1)));
 				
-			thList.set(Integer.parseInt(colno)-1, v);
-			
+			thList.set(((th)*hour + (Integer.parseInt(colno) % hour) - 1), v);
 			for(int i = 0; i < hour * 15; i++)
 			{
 				if(thList.get(i) == null);
@@ -168,12 +187,11 @@ public class TeacherLectureAllDAO extends DAOBase{
 			}
 			
 			if(ixhour != 0 || ilate >= hour)
-				iattend=weekhour1[hour][ixhour+(ilate/hour)];
-				
+				iattend=weekhour1[hour-1][ixhour+(ilate/hour)-1];
+			SQL = "UPDATE mylecture SET ilate='"+ilate+"',ixhour='"+ixhour+"',iattend='"+iattend+"', h"+((th)*hour + (Integer.parseInt(colno) % hour))+" = "+v+" WHERE mylecture.student_id = "+rowno+" and mylecture.lecture_id = "+ lecture_id+";";
 			
-			SQL = "UPDATE mylecture SET ilate='"+ilate+"',ixhour='"+ixhour+"',iattend='"+iattend+"', h"+colno+" = "+v+" WHERE mylecture.student_id = "+rowno+";";
 			pstmt = conn.prepareStatement(SQL);
-			int n = pstmt.executeUpdate();
+			pstmt.executeUpdate();
 			
 		}catch(Exception e) {
 			e.printStackTrace();

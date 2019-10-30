@@ -16,6 +16,8 @@ import javax.servlet.http.HttpSession;
 
 import model.SubjectDAO;
 import model.SubjectDTO;
+import model.ControlDAO;
+import model.ControlDTO;
 import model.DepartDAO;
 import model.DepartDTO;
 import model.NoticeDAO;
@@ -42,6 +44,8 @@ public class SubjectController extends HttpServlet {
 	SubjectDAO dao = null;
 	DepartDAO daoDepart = new DepartDAO();
 	HttpSession session = null;
+	ArrayList<ControlDTO> dtoListControl = null;
+	ControlDAO daoControl = new ControlDAO();
 	
 	protected void process(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException {
     	request.setCharacterEncoding("UTF-8");
@@ -74,8 +78,10 @@ public class SubjectController extends HttpServlet {
 		sel1 = request.getParameter("sel1");
 		sel2 = request.getParameter("sel2");
 		dtoList = dao.list(sel1, sel2);
+		dtoListControl = daoControl.List();
 		request.setAttribute("sel1", sel1);
 		request.setAttribute("sel2", sel2);
+		request.setAttribute("controlList", dtoListControl);
 		request.setAttribute("subjectlist", dtoList);
 		request.getRequestDispatcher("as_sub.jsp").forward(request, response);
 	}
