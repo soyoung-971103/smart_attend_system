@@ -79,7 +79,7 @@
 										<h3><i class="fa fa-table"></i> 시간표</h3>
 									</div>
 									<div class="col" align="right">
-										<h3>교수님1</h3>
+										<h3><%= session.getAttribute("name") %></h3>
 									</div>
 								</div>
 							</div>

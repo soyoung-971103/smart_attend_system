@@ -34,8 +34,9 @@ public class MyLectureDAO extends DAOBase{
 			String month   = new java.text.SimpleDateFormat("MM").format(new java.util.Date());
 			int m = Integer.parseInt(month);
 			int hak=0;
-			if(m>8)  hak=2;
-			else  hak=1;
+			if(3<=m && m<8) hak=1;
+			else if(m >= 9 && m <=12) hak=2;
+			else hak=0;
 			dtoList = new ArrayList<MyLectureDTO>();
 			rs = stmt.executeQuery("SELECT mylecture.*, timetable.weekday, timetable.istart, timetable.ihour, timetable.room_id, room.id, room.name, lecture.class, subject.grade, subject.ihour, subject.name, subject.depart_id, subject.yyyy, subject.term, teacher.id, teacher.name FROM mylecture INNER JOIN timetable ON mylecture.lecture_id=timetable.lecture_id LEFT JOIN room ON timetable.room_id = room.id LEFT JOIN lecture ON timetable.lecture_id = lecture.id LEFT JOIN subject ON subject.id = lecture.subject_id LEFT JOIN teacher ON teacher.id = lecture.teacher_id "
 					+ "where student_id="+session.getAttribute("id")+" and subject.yyyy="+year+" and subject.term="+hak);

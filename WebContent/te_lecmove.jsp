@@ -64,7 +64,7 @@
 										<h3><i class="fa fa-table"></i> 휴보강 </h3>
 									</div>
 									<div class="col" align="right">
-										<h3>교수님1</h3>
+										<h3><%= session.getAttribute("name") %></h3>
 									</div>
 								</div>
 							</div>

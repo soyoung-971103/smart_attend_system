@@ -93,7 +93,7 @@
 										</div>
 									</div>
 									<div class="col" align="right">
-										<a href="student-register.do" class="btn btn-sm mycolor1">추가</a>
+										<a href="student-studentnew.do" class="btn btn-sm mycolor1">추가</a>
 									</div>
 								</div>
 								</form>
@@ -116,12 +116,12 @@
 								<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 									<c:forEach var="dto" items="${ studentlist }">
 									<tr>
-										<td>${ dto.depart.name }</td>
+										<td>${ dto.depart.name }과</td>
 										<td>${ dto.grade }</td>
 										<td>${ dto.student_class }</td>
 										<td>${ dto.schoolno }</td>
 										<td>${ dto.name }</td>
-										<td>${fn:substring(dto.getPhone(),0,3)}-${fn:substring(dto.getPhone(),3,7)}-${fn:substring(dto.getPhone(),7,11)}</td>
+										<td>${dto.phone}</td>
 										<c:if test="${dto.sex eq 0 }"><td>남</td></c:if>
 										<c:if test="${dto.sex eq 1 }"><td>여</td></c:if>
 										<td>${ dto.state }</td>

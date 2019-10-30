@@ -113,10 +113,14 @@ public class TimeTableDAO extends DAOBase {
 			String month   = new java.text.SimpleDateFormat("MM").format(new java.util.Date());
 			int m = Integer.parseInt(month);
 			int hak=0;
+			if(3<=m && m<8) hak=1;
+			else if(m >= 9 && m <=12) hak=2;
+			else hak=0;
 
 			dtoList = new ArrayList<TimeTableDTO>();
 			rs = stmt.executeQuery("SELECT timetable.*, room.id, room.name, lecture.class, subject.grade, subject.ihour, subject.name, subject.depart_id, subject.yyyy, subject.term, teacher.id, teacher.name FROM timetable LEFT JOIN room ON timetable.room_id = room.id LEFT JOIN lecture ON timetable.lecture_id = lecture.id LEFT JOIN subject ON subject.id = lecture.subject_id LEFT JOIN teacher ON teacher.id = lecture.teacher_id "
 					+ "where teacher.id="+session.getAttribute("id")+" and subject.yyyy="+year+" and subject.term="+hak);
+
 			while(rs.next()) {
 				dto = new TimeTableDTO();
 				dtoRoom = new RoomDTO();

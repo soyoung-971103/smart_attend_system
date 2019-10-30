@@ -33,7 +33,7 @@
 <div id="main">
 
 	<%@include file="main_menu.jsp" %>
-	
+
     <div class="content-page">
 	    <div class="content">
 			<div class="container-fluid">
@@ -63,7 +63,6 @@
 							</div>
 								
 							<div class="card-body" style="padding:10px">
-							<%@ page import="java.util.*, model.StudentDTO, model.DepartDTO" %>
 							<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 								<form method="post" action="student-register.do" enctype="multipart/form-data">
 
@@ -207,4 +206,37 @@
 					</div>
 						
 				</div>	<!-- row end -->
-<%@ include file="main_bottom.jsp" %>
+<!------------------------------------------------------------------------------>
+<!-- 내용 끝 -->
+<!------------------------------------------------------------------------------>
+			</div>
+		</div>
+	</div>
+
+	<!-- 하단 정보 -->
+	<footer class="footer">
+		<span class="text-right">	Copyright <a target="_blank" href="#">Induk University</a></span>
+		<span class="float-right">Programmed by <a target="_blank" href="#"><b>Gamejigi</b></a></span>
+	</footer>
+
+</div>
+
+<!-- js 선언부 ----------------------------------------------------------------->
+<script src="my/js/jquery.min.js"></script>
+<script src="my/js/moment.min.js"></script>
+
+<script src="my/js/popper.min.js"></script>
+<script src="my/js/bootstrap.min.js"></script>
+
+<script src="my/js/detect.js"></script>
+<script src="my/js/fastclick.js"></script>
+<script src="my/js/jquery.blockUI.js"></script>
+<script src="my/js/jquery.nicescroll.js"></script>
+
+<script src="my/js/pikeadmin.js"></script>
+
+<script src="my/js/jquery.dataTables.min.js"></script>
+<script src="my/js/dataTables.bootstrap4.min.js"></script>
+
+</body>
+</html>
