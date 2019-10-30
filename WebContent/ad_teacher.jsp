@@ -1,4 +1,4 @@
-<!-------------------------------------------------------------------------------->	
+<!-------------------------------------------------------------------------------->
 <!-- 프로그램 : 인덕대학교 컴퓨터소프트웨어학과 전자출석 Demo                              -->
 <!--                                                                                                                  -->
 <!-- 소속 : 인덕대학교  컴퓨터소프트웨어학과  창업동아리 겜지기                              -->
@@ -10,17 +10,20 @@
 <%@ page import="java.util.*, java.sql.*, java.io.*" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <% request.setCharacterEncoding("UTF-8"); %>
+<%
+String text1 = request.getParameter("text1");
+%>
 <!DOCTYPE html>
 <html lang="kr">
 <head>
 	<meta charset="utf-8">
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	
+
 	<title>인덕대학교 전자출석 Demo (겜지기)</title>
 
 	<link rel="shortcut icon" href="my/images/favicon.ico">
 
-	<!-- css 선언부 ---------------------------------------------------------------->
 	<link href="my/css/bootstrap.min.css" rel="stylesheet" type="text/css">
 	<link href="my/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 	<link href="my/css/style.css" rel="stylesheet" type="text/css" />		
@@ -28,53 +31,16 @@
 	<link href="my/css/dataTables.bootstrap4.min.css" rel="stylesheet">	<!-- datatable.net -->
 
 	<link href="my/css/my.css" rel="stylesheet" type="text/css">
-		
+	
+	
+
 </head>
 
 <body class="adminbody">
 
 <div id="main">
 
-	<!--상단 메뉴 시작 -->
-	<div class="headerbar">
-
-        <div class="headerbar-left">
-			<a href="index.html" class="logo"><img src="my/images/induk_logo.png"> <span>전자출석 Demo</span></a>
-        </div>
-
-        <nav class="navbar-custom">
-			<ul class="list-inline float-right mb-0">
-				<li class="list-inline-item dropdown notif">
-					<a class="nav-link dropdown-toggle nav-user" data-toggle="dropdown" href="#" role="button" ariaaspopup="false" aria-expanded="false">
-						<img src="my/images/avatars/admin.png" alt="Profile image" class="avatar-rounded">
-					</a>
-					<div class="dropdown-menu dropdown-menu-right profile-dropdown">
-						<div class="dropdown-item noti-title">
-							<h5 class="text-overflow"><small>Hello, admin</small> </h5>
-						</div>
-						<a href="#" class="dropdown-item notify-item">
-							<i class="fa fa-power-off"></i> <span>Logout</span>
-						</a>
-					</div>
-				</li>
-			</ul>
-
-			<ul class="list-inline menu-left mb-0">
-				<li class="float-left">
-					<button class="button-menu-mobile open-left">
-						<i class="fa fa-fw fa-bars"></i>
-					</button>
-				</li>                        
-			</ul>
-        </nav>
-
-	</div>
-	<!--상단 메뉴 끝 -->
-	
- 
-	<!-- 좌측 Sidebar 메뉴 시작-->
-	<%@ include file="main_menu.jsp" %>
-	<!-- 좌측 Sidebar 메뉴 끝-->
+	<%@include file="main_menu.jsp" %>
 
     <div class="content-page">
 	    <div class="content">
@@ -82,7 +48,7 @@
 <!------------------------------------------------------------------------------>
 <!-- 내용 시작 -->
 <!------------------------------------------------------------------------------>
-				<div class="row">
+ <div class="row">
                <div class="col-xl-12">
                   <div class="breadcrumb-holder">
                      <h1 class="main-title float-left">교무처</h1>
@@ -105,7 +71,19 @@
                      </div>
 
                      <div class="card-body" style="padding:10px">
-                        <form name="form1" method="post" action="teacher-list.do">
+
+                        <script>
+                           function find_text()
+                           {
+                              if (!form1.text1.value)
+                                 form1.action="/member/lists/page";
+                              else
+                                 form1.action="/member/lists/text1/" + form1.text1.value+"/page";
+                              form1.submit();
+                           }
+                        </script>
+<!--onKeydown="if (event.keyCode == 13) { find_text(); }" -->
+                        <form name="form1" method="post" action="TeacherInquiry">
                         <div class="row" style="margin-bottom:5px">
                            <div class="col-auto" align="left">
                               <div class="form-inline">
@@ -115,16 +93,17 @@
                                     </div>
                                     <input type="text" name="text1" size="10" value="${text1}" class="form-control">
                                     <div class="input-group-append">
-                                       <button class="btn btn-sm mycolor1" type="submit">검색</button>
+                                       <button class="btn btn-sm mycolor1" type="button">검색</button>
                                     </div>
                                  </div>
                               </div>
                            </div>
                            <div class="col" align="right">
-                              <a href="teacher-inputdata.do" class="btn btn-sm mycolor1">추가</a>
+                              <a href="ad_teachernew.jsp" class="btn btn-sm mycolor1">추가</a>
                            </div>
                         </div>
                         </form>
+
                         <table class="table table-bordered table-hover table-responsive-sm mytable" style="width:100%;" id="example">
                            <tr class="mycolor1">
                               <th>학과</th>
@@ -137,19 +116,16 @@
                            </tr>
                         <c:forEach var="item" items="${alMember}">
                            <tr>
-                              <td>
-                                 ${item.getDepart_id().getName()}과
-                              </td>
-                              <td>
-                              	${item.getKind() }
+                              <td>${item.depart_id.name }</td>
+                              <td>${item.kind }</td>
                               </td>
                               <td>${item.getName() }</td>
                               <td>${item.getTel() }</td>
                               <td>${item.getPhone() }</td>
                               <td>${item.getEmail() }</td>
                               <td>
-                                 <a href="teacher-info.do?id=${item.id }" class="btn btn-xs btn-outline-primary">수정</a>
-                                 <a href="teacher-delete.do?id=${item.id }" class="btn btn-xs btn-outline-danger" onClick="return confirm('삭제할까요 ?');">삭제</a>
+                                 <a href="TeacherInfo?id=${item.id }" class="btn btn-xs btn-outline-primary">수정</a>
+                                 <a href="TeacherDelete?id=${item.id }" class="btn btn-xs btn-outline-danger" onClick="return confirm('삭제할까요 ?');">삭제</a>
                               </td>
                            </tr>
                         </c:forEach>
@@ -167,13 +143,16 @@
 								<li class="page-item"><a class="page-link" href="#">▶</a></li>
 							</ul>
 						</nav>
+                        <%
+                           String nurl = "TeacherController?text1="+text1;
+                           //out.println(pagination(npage, count, nurl));
+                        %>
 
                      </div>      <!-- card body end -->
                   </div>      <!-- card end -->
                </div>
 
             </div>   <!-- row end -->
-<!------------------------------------------------------------------------------>
-<!-- 내용 끝 -->
-<!------------------------------------------------------------------------------>
+
+<!---------------------------------------- --------------------->
 <%@ include file="main_bottom.jsp" %>
