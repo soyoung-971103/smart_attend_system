@@ -44,6 +44,29 @@ public class BuildingDAO extends DAOBase{
 		return dtoList;	
 	}
 	
+	public ArrayList<BuildingDTO> selectAllList(String text1){		
+		try {
+			conn = getConnection();
+			stmt = conn.createStatement();
+
+			dtoList = new ArrayList<BuildingDTO>();
+			rs = stmt.executeQuery("select * from building where name like '%"+text1+"%'");
+			while(rs.next()) {
+				dto = new BuildingDTO();
+				dto.setId(rs.getInt(1));
+				dto.setName(rs.getString(2));
+				dto.setFloor(rs.getByte(3));
+				dtoList.add(dto);
+			}
+			return dtoList;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return dtoList;	
+	}
+
+	
 	public int insert(BuildingDTO dto) {    	
     	int result = 0;
     	try {
