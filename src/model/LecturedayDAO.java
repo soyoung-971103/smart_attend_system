@@ -7,6 +7,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 public class LecturedayDAO extends DAOBase{
@@ -54,12 +56,12 @@ public class LecturedayDAO extends DAOBase{
 		return result;
 	}
 	
-	public int delete(int id) {
+	public int delete(HttpServletRequest request, HttpServletResponse response) {
 		int result = 0;
 		try {
 			conn = getConnection();
-			pstmt = conn.prepareStatement("delete from lectureday where id=? ");
-			pstmt.setInt(1, id);
+			pstmt = conn.prepareStatement("update lectureday stat='취소' where id=? ");
+			pstmt.setInt(1, dto.getId());
 			result = pstmt.executeUpdate();	
 			return result;
 		} catch (SQLException e) {
@@ -89,25 +91,26 @@ public class LecturedayDAO extends DAOBase{
 				dto.setLecture_id(rs.getByte(2));
 				dto.setRoom_id(rs.getByte(3));
 				dto.setTh(rs.getByte(4));
-				dto.setNormdate(rs.getDate(5));
-				dto.setNormstart(rs.getByte(6));
-				dto.setNormhour(rs.getByte(7));
-				dto.setNormstate(rs.getString(8));
-				dto.setRestdate(rs.getDate(9));
-				dto.setReststart(rs.getByte(10));
-				dto.setResthour(rs.getByte(11));
-				dto.setReststate(rs.getString(12));
-				dto.setState(rs.getString(13));
-				dtoRoom.setName(rs.getString(14));
+				dto.setClassification(rs.getByte(5));
+				dto.setNormdate(rs.getDate(6));
+				dto.setNormstart(rs.getByte(7));
+				dto.setNormhour(rs.getByte(8));
+				dto.setNormstate(rs.getString(9));
+				dto.setRestdate(rs.getDate(10));
+				dto.setReststart(rs.getByte(11));
+				dto.setResthour(rs.getByte(12));
+				dto.setReststate(rs.getString(13));
+				dto.setState(rs.getString(14));
+				dtoRoom.setName(rs.getString(15));
 				dto.setRoom(dtoRoom);
-				dtoLecture.setLecture_class(rs.getString(15));
+				dtoLecture.setLecture_class(rs.getString(16));
 				dto.setLecture(dtoLecture);
-				dtoSubject.setGrade(rs.getByte(16));
-				dtoSubject.setName(rs.getString(17));
-				dtoLecture.setSubject(dtoSubject);
-				dtoTeacher.setName(rs.getString(18));
-				dtoLecture.setTeacher(dtoTeacher);
-				dtoDepart.setName(rs.getString(19));
+				dtoSubject.setGrade(rs.getByte(17));
+				dtoSubject.setName(rs.getString(18));
+				dto.setSubject(dtoSubject);
+				dtoTeacher.setName(rs.getString(19));
+				dto.setTeacher(dtoTeacher);
+				dtoDepart.setName(rs.getString(20));
 				dto.setDepart(dtoDepart);
 				dtoList.add(dto);
 			}

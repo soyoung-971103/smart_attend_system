@@ -63,7 +63,7 @@
 										<h3><i class="fa fa-table"></i> 공지사항 </h3>
 									</div>
 									<div class="col" align="right">
-										<h3>교수님1</h3>
+										<h3><%= session.getAttribute("name") %></h3>
 									</div>
 								</div>
 							</div>
@@ -139,7 +139,7 @@
 										</tr>
 									<thead>
 									<tbody>
-									<c:forEach var="dto" items="${ lectureday }" begin="1" end="10">
+									<c:forEach var="dto" items="${ lectureday }">
 									<tr>
 										<td>${ dto.depart.name }</td> 
 										<td>${ dto.teacher.name }</td>
@@ -154,7 +154,7 @@
 															<c:if test="${dto.resthour eq 2}"><c:forEach var="i" step="1" begin="${ dto.reststart }" end="${ dto.reststart + dto.resthour -2 }"> ${i }, </c:forEach>${ dto.reststart + dto.resthour -1 } 교시</c:if>
 															<c:if test="${dto.resthour eq 1}">${ dto.reststart } 교시</c:if></td>
 										<td class="mycolor3">${ dto.room.name }</td>
-										<td><b>신청</b></td>
+										<td><b>${ dto.state }</b></td>
 										<td>					<!-- 0 신청 or 1 취소 or 2 학과장승인 or 3 반려 or 4 최종승인 -->
 											<a href="teacher-bogangDelete.do?id=${ dto.id }" class="btn btn-xs btn-outline-danger">취소</a>
 										</td>
