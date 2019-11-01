@@ -223,10 +223,10 @@
 						class="fa fa-fw fa-table"></i> <span> 직원(학사행정) </span> <span
 						class="menu-arrow"></span></a>
 					<ul class="list-unstyled" style="<c:out value="${dropUl[0]}"/>">
-						<li><a href="ad_main.html"
+						<li><a href="admain_list.do"
 							class="<c:out value="${activA[0][0]}"/>"
 							style="padding: 5px 0 5px 40px;">직원 메인</a></li>
-						<li><a href="ad_control.html"
+						<li><a href="control-list.do"
 							class="<c:out value="${activA[0][1]}"/>"
 							style="padding: 5px 0 5px 40px;">제어판</a></li>
 						<li><a href="notice-list.do"
@@ -263,10 +263,10 @@
 						class="fa fa-fw fa-table"></i> <span> 직원(전자출석) </span> <span
 						class="menu-arrow"></span></a>
 					<ul class="list-unstyled" style="<c:out value="${dropUl[1]}"/>">
-						<li><a href="ad_timeall.html"
+						<li><a href="ad-timetable-all.do"
 							class="<c:out value="${activA[1][0]}"/>"
 							style="padding: 5px 0 5px 40px;">학과별 시간표</a></li>
-						<li><a href="ad_timeteacher.html"
+						<li><a href="ad-te-lectureList.do"
 							class="<c:out value="${activA[1][1]}"/>"
 							style="padding: 5px 0 5px 40px;">교수별 강의현황</a></li>
 						<li><a href="ad-lecmove-list.do"
@@ -338,7 +338,7 @@
 						class="fa fa-fw fa-table"></i> <span> 학생 </span> <span
 						class="menu-arrow"></span></a>
 					<ul class="list-unstyled" style="<c:out value="${dropUl[4]}"/>">
-						<li><a href="st_main.html"
+						<li><a href="student-main.do"
 							class="<c:out value="${activA[4][0]}"/>"
 							style="padding: 5px 0 5px 40px;">학생 메인</a></li>
 						<li><a href="mylecture-sdetail.do"
