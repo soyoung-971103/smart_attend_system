@@ -110,7 +110,7 @@ public class TimeTableController extends HttpServlet {
     	dtoList = dao.Load();
     	dtoListRoom = daoRoom.selectAllList();
     	dtoListBuilding = daoBuilding.selectAllList();
-    	dtoListLecture = daoLecture.selectAllList();
+    	dtoListLecture = daoLecture.List();
     	dtoListDepart = daoDepart.List();
     	dtoListTeacher = daoTeacher.list();
     	dtoListControl = daoControl.List();

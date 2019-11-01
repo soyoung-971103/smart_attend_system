@@ -83,7 +83,7 @@ String text1 = request.getParameter("text1");
                            }
                         </script>
 <!--onKeydown="if (event.keyCode == 13) { find_text(); }" -->
-                        <form name="form1" method="post" action="TeacherInquiry">
+                        <form name="form1" method="post" action="teacher-list.do">
                         <div class="row" style="margin-bottom:5px">
                            <div class="col-auto" align="left">
                               <div class="form-inline">
@@ -124,8 +124,8 @@ String text1 = request.getParameter("text1");
                               <td>${item.getPhone() }</td>
                               <td>${item.getEmail() }</td>
                               <td>
-                                 <a href="TeacherInfo?id=${item.id }" class="btn btn-xs btn-outline-primary">수정</a>
-                                 <a href="TeacherDelete?id=${item.id }" class="btn btn-xs btn-outline-danger" onClick="return confirm('삭제할까요 ?');">삭제</a>
+                                 <a href="teacher-info.do?id=${item.id }" class="btn btn-xs btn-outline-primary">수정</a>
+                                 <a href="teacher-delete.do?id=${item.id }" class="btn btn-xs btn-outline-danger" onClick="return confirm('삭제할까요 ?');">삭제</a>
                               </td>
                            </tr>
                         </c:forEach>

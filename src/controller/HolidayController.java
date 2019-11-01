@@ -128,7 +128,10 @@ public class HolidayController extends HttpServlet {
 		}
 		
 		dto.setReason(request.getParameter("reason"));
-		int result = dao.insert(dto);
+		int result = dao.insert(dto);		
+
+		System.out.println("날짜"+dto.getHoliday());
+		System.out.println("날짜1"+new java.sql.Date(dto.getHoliday().getTime()));
 		
 		if(result >= 1) {	
 			request.getRequestDispatcher("holiday-list.do").forward(request, response);

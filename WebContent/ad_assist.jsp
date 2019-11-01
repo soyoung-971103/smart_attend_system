@@ -12,20 +12,7 @@
 	request.setCharacterEncoding("utf-8");
 %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%
-	// 이전 문서의 변수들 (page는 예약어) ----------------------------------------------
-	String text1 = request.getParameter("text1");
-	//if(text1 == null) text1 = "";
-	//int npage= request.getParameter("npage")==null ? npage=1 :  Integer.parseInt(request.getParameter("npage"));
-	// 레코드개수 세기  ----------------------------------------------
-	//String where = text1=="" ? "" : "where name like '"+text1+"%'";
-	//query="select count(*) from staff "+where;
-	//int count=rowcount(query);
-	// 현재 페이지의 레코드위치 계산 및 해당 페이지 읽기 -------------------------------
-	//int   start = (npage-1) * page_line;
-	//query="select * from staff "+where+" order by name limit "+start+","+page_line+";";
-	//rs = stmt.executeQuery(query);//정보 불러오기
-%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <!DOCTYPE html>
 <html lang="kr">
 <head>
@@ -94,7 +81,7 @@
 										}
 									</script>
 
-									<form name="form1" method="post" action="AssistInquiry">
+									<form name="form1" method="post" action="assist-list.do">
 										<div class="row" style="margin-bottom: 5px">
 											<div class="col-auto" align="left">
 												<div class="form-inline">
@@ -105,18 +92,18 @@
 														<input type="text" name="text1" size="10" value="${text1}"
 															class="form-control">
 														<div class="input-group-append">
-															<button class="btn btn-sm mycolor1" type="button">검색</button>
+															<button class="btn btn-sm mycolor1" type="submit">검색</button>
 														</div>
 													</div>
 												</div>
 											</div>
 											<div class="col" align="right">
-												<a href="ad_assistnew.jsp" class="btn btn-sm mycolor1">추가</a>
+												<a href="assist-inputdata.do" class="btn btn-sm mycolor1">추가</a>
 											</div>
 										</div>
 									</form>
 
-									<table class="table table-bordered table-hover table-responsive-sm mytable" style=""width: 100%;" id="example">
+									<table class="table table-bordered table-hover table-responsive-sm mytable" style="width: 100%;" id="example">
 										<tr class="mycolor1">
 											<th>학과</th>
 											<th>이름</th>
@@ -127,14 +114,19 @@
 										</tr>
 										<c:forEach var="item" items="${alMember}">
 											<tr>
-												<td>${item.depart_id.name }</td>
+												<td>
+													${item.getDepart_id().getName() }과
+												</td>
 												<td>${item.getName() }</td>
 												<td>${item.getTel()}</td>
-												<td>${item.getPhone()}</td>
+												<td>
+												${fn:substring(item.getPhone(), 0, 3)}-${fn:substring(item.getPhone(), 3, 7)}-${fn:substring(item.getPhone(), 7, 11)}
+												</td>
+												
 												<td>${item.getEmail()}</td>
-												<td><a href="AssistInfo?id=${item.id }"
+												<td><a href="assist-info.do?id=${item.id }"
 													class="btn btn-xs btn-outline-primary">수정</a> <a
-													href="AssistDelete?id=${item.id }"
+													href="assist-delete.do?id=${item.id }"
 													class="btn btn-xs btn-outline-danger"
 													onClick="return confirm('삭제할까요 ?');">삭제</a></td>
 											</tr>
@@ -153,10 +145,6 @@
 											<li class="page-item"><a class="page-link" href="#">▶</a></li>
 										</ul>
 									</nav>
-									<%
-										String nurl = "ad_assist.jsp?text1=" + text1;
-										//out.println(pagination(npage, count, nurl));
-									%>
 
 								</div>
 								<!-- card body end -->

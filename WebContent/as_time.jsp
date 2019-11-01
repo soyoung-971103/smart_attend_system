@@ -116,7 +116,7 @@
 						<c:forEach items="${list}" var="item2">
 						if(dp == "${item2.lecture.subject.depart_id}"){
 						var timetable=
-							'${item2.id}^${item2.lecture_id}^${item2.lecture.subject.grade}^${item2.lecture._class}^${item2.lecture.subject.ihour}^${item2.weekday}^${item2.istart}^${item2.ihour}^${item2.lecture.subject.name}^${item2.lecture.teacher.id}^${item2.lecture.teacher.name}^${item2.room.id}^${item2.room.name}';
+							'${item2.id}^${item2.lecture_id}^${item2.lecture.subject.grade}^${item2.lecture.lecture_class}^${item2.lecture.subject.ihour}^${item2.weekday}^${item2.istart}^${item2.ihour}^${item2.lecture.subject.name}^${item2.lecture.teacher.id}^${item2.lecture.teacher.name}^${item2.room.id}^${item2.room.name}';
 						
 							str=timetable;
 							draw_lecture(0,str,"");
