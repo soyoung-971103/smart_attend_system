@@ -15,8 +15,8 @@ public class LecsjDAO extends DAOBase {
 	private Statement stmt = null;
 	private PreparedStatement pstmt = null;
 	private ResultSet rs = null;
-	private LecsjDTO lecsj = null;
-	private ArrayList<LecsjDTO> alLecsj = null;
+	private LecsjDTO dtoLecsj = null;
+	private ArrayList<LecsjDTO> dtoListLecsj = null;
 
 //기본정보 검색
 
@@ -125,31 +125,31 @@ public class LecsjDAO extends DAOBase {
 							+ uid + "%' and mylecture.grade=" + sel1 + " and mylecture.term=" + sel2
 							+ " order by subject.id");
 			// email, pw는 form을 구성하는 각 요소의 이름
-			alLecsj = new ArrayList<LecsjDTO>();
+			dtoListLecsj = new ArrayList<LecsjDTO>();
 			while (rs.next()) {
-				lecsj = new LecsjDTO();
-				lecsj.setIsmajor(rs.getString(1));
-				lecsj.setIschoice(rs.getString(2));
-				lecsj.setCode(rs.getString(3));
-				lecsj.setSubjectName(rs.getString(4));
-				lecsj.setSubjectIpoint(rs.getInt(5));
-				lecsj.setIattend(rs.getByte(6));
-				lecsj.setInormal(rs.getByte(7));
-				lecsj.setImiddle(rs.getByte(8));
-				lecsj.setIlast(rs.getByte(9));
-				lecsj.setIpractice(rs.getByte(10));
-				lecsj.setItotal(rs.getByte(11));
-				lecsj.setIpoint(rs.getFloat(12));
-				lecsj.setIgrade(rs.getString(13));
-				lecsj.setRetake(rs.getByte(14));
-				alLecsj.add(lecsj);
+				dtoLecsj = new LecsjDTO();
+				dtoLecsj.setIsmajor(rs.getString(1));
+				dtoLecsj.setIschoice(rs.getString(2));
+				dtoLecsj.setCode(rs.getString(3));
+				dtoLecsj.setSubjectName(rs.getString(4));
+				dtoLecsj.setSubjectIpoint(rs.getInt(5));
+				dtoLecsj.setIattend(rs.getByte(6));
+				dtoLecsj.setInormal(rs.getByte(7));
+				dtoLecsj.setImiddle(rs.getByte(8));
+				dtoLecsj.setIlast(rs.getByte(9));
+				dtoLecsj.setIpractice(rs.getByte(10));
+				dtoLecsj.setItotal(rs.getByte(11));
+				dtoLecsj.setIpoint(rs.getFloat(12));
+				dtoLecsj.setIgrade(rs.getString(13));
+				dtoLecsj.setRetake(rs.getByte(14));
+				dtoListLecsj.add(dtoLecsj);
 			}
-			return alLecsj;
+			return dtoListLecsj;
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return alLecsj;
+		return dtoListLecsj;
 	}
 
 //최초 메뉴 진입 끝
