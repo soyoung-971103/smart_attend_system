@@ -42,7 +42,7 @@
                </a>
                <div class="dropdown-menu dropdown-menu-right profile-dropdown">
                   <div class="dropdown-item noti-title">
-                     <h5 class="text-overflow"><small>Hello, admin</small> </h5>
+                     <h5 class="text-overflow"><small>Hello, <%= session.getAttribute("name") %></small> </h5>
                   </div>
                   <a href="#" class="dropdown-item notify-item">
                      <i class="fa fa-power-off"></i> <span>Logout</span>

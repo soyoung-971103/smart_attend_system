@@ -2,9 +2,6 @@ package controller;
 
 import java.io.File;
 import java.io.IOException;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -38,7 +35,7 @@ import model.TeacherDTO;
 /**
  * Servlet implementation class StudentController
  */
-@WebServlet({"/student-list.do", "/student-studentnew.do","/student-search.do","/student-register.do","/student-delete.do","/student-detail.do","/student-update.do","/student-qna.do", "/lecqnainsert.do", "/savestqa.do", "/stqaload.do", "/student-main.do", "/student-qnainfo.do"})
+@WebServlet({"/student-list.do", "/student-studentnew.do","/student-supdate.do","/student-register.do","/student-delete.do","/student-detail.do","/student-update.do","/student-qna.do", "/lecqnainsert.do", "/savestqa.do", "/stqaload.do", "/student-main.do", "/student-qnainfo.do"})
 @MultipartConfig(location="", 
 fileSizeThreshold=1024*1024, 
 maxFileSize=1024*1024*5, 
@@ -87,8 +84,6 @@ public class StudentController extends HttpServlet {
 			detail(request, response);
 		else if(action.equals("student-update.do")) 
 			update(request, response);
-		else if(action.equals("student-search.do")) 
-			search(request, response);
 		else if(action.equals("student-qna.do"))
 			qna(request,response);
 		else if(action.equals("lecqnainsert.do"))
@@ -103,13 +98,15 @@ public class StudentController extends HttpServlet {
 			stMainQnaInfo(request,response);
 		else if(action.equals("student-studentnew.do")) 
 			studentnew(request, response);
+		else if(action.equals("student-supdate.do")) 
+			supdate(request, response);
 		else 
     		;
 		
 	}
 	
 	protected void list(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException{
-		 dtoList = dao.list();
+		dtoList = dao.list(request.getParameter("text1"));
 		 dtoListControl = daoControl.List();
 		 dtoListDepart = daoDepart.List();
 		 
@@ -117,14 +114,7 @@ public class StudentController extends HttpServlet {
 		 request.setAttribute("controlList", dtoListControl);
 		 request.setAttribute("studentlist", dtoList);
 		 request.getRequestDispatcher("ad_student.jsp").forward(request, response);
-	}
-	
-	
-	protected void search(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException{
-		 dtoList = dao.search(request.getParameter("text1"));
-			request.setAttribute("studentlist", dtoList);
-			request.getRequestDispatcher("ad_student.jsp").forward(request, response);
-	}
+	}	
 	
 	private void studentnew(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
 		ArrayList<DepartDTO> dtoListDepart = new ArrayList<DepartDTO>();
@@ -139,17 +129,20 @@ public class StudentController extends HttpServlet {
 	} 
 	
 	private void detail(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
+		ArrayList<DepartDTO> dtoListDepart = new ArrayList<DepartDTO>();
+		DepartDAO daoDepart = new DepartDAO();
+
 		int id = Integer.parseInt(request.getParameter("id"));
 		dto = dao.detail(id);
 		request.setAttribute("student", dto);
-		String phone[]=dto.getPhone().split("-");
-		String birthday[]=dto.getBirthday().split("-");
+		if(dto.getPhone() != null) {String phone[]=dto.getPhone().split("-");
 		request.setAttribute("phone1", phone[0]);
 		request.setAttribute("phone2", phone[1]);
-		request.setAttribute("phone3", phone[2]);
+		request.setAttribute("phone3", phone[2]);}
+		if(dto.getBirthday() != null) {String birthday[]=dto.getBirthday().split("-");
 		request.setAttribute("birthday1", birthday[0]);
 		request.setAttribute("birthday2", birthday[1]);
-		request.setAttribute("birthday3", birthday[2]);
+		request.setAttribute("birthday3", birthday[2]); }
 		
 		dtoListDepart = daoDepart.List();
 		 
@@ -171,6 +164,7 @@ public class StudentController extends HttpServlet {
     private String partValue;
 	
     protected void update(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
+    	int id = Integer.parseInt(request.getParameter("id"));
     	response.setContentType("text/html;charset=UTF-8");
     	request.setCharacterEncoding("utf-8");
     	
@@ -190,7 +184,7 @@ public class StudentController extends HttpServlet {
 	    	request.setAttribute(partName, partValue);
 	    }
 	    
-    	int result = dao.update(request, response);
+    	int result = dao.update(request, response,id);
     	if(result > 0) {// 성공 가입
     		request.setAttribute("id", request.getParameter("id"));
     		request.getRequestDispatcher("student-list.do").forward(request, response);
@@ -198,35 +192,30 @@ public class StudentController extends HttpServlet {
     	else
     		response.sendRedirect("update-fail.jsp"); // 실패			
 	}
-	
-	protected void register(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
-    	response.setContentType("text/html;charset=UTF-8");
-    	request.setCharacterEncoding("utf-8");
-    	
-    	Collection<Part> parts = request.getParts();
-    	for(Part part : parts) {
-	    	partName = part.getName();
-	    	if(part.getContentType() != null) {
-		    	partValue = getFileName(part);
-		    	if (partValue != null && ! partValue.isEmpty()) {
-			    	String absolutePath = getServletContext().getRealPath("/pic/st");
-			    	part.write(absolutePath + File.separator + partValue);
-		    	}
-		    }
-	    	else {
-	    		partValue = request.getParameter(partName);
-	    	}
-	    	request.setAttribute(partName, partValue);
-	    }
+    
+    protected void supdate(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
+    	int id = Integer.parseInt(request.getParameter("id"));
 	    
-    	int result = dao.register(request, response); // 질의를 통해 수정된 레코드의 수
-    	
+    	int result = dao.supdate(request, response,id);
     	if(result > 0) {// 성공 가입
-    		//request.setAttribute("info-name", request.getParameter("name"));
-    		request.getRequestDispatcher("student-list.do").forward(request, response);
+    		request.setAttribute("id", request.getParameter("id"));
+    		request.getRequestDispatcher("student-detail.do").forward(request, response);
     	}
     	else
-    		response.sendRedirect("register-fail.jsp"); // 실패			
+    		response.sendRedirect("update-fail.jsp"); // 실패			
+	}
+	
+	protected void register(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
+		ArrayList<DepartDTO> dtoListDepart = new ArrayList<DepartDTO>();
+		DepartDAO daoDepart = new DepartDAO();
+		dtoListDepart = daoDepart.List();
+		
+		dao.register(request, response);
+		dto = dao.detailId();
+
+		request.setAttribute("student", dto);
+		request.setAttribute("listDepart", dtoListDepart); 
+		request.getRequestDispatcher("ad_studentupdate.jsp").forward(request, response);
 	}
 	
 	private String getFileName(Part part) {

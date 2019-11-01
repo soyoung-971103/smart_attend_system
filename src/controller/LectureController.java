@@ -35,7 +35,7 @@ import controller.TeacherController;
  * Servlet implementation class LectureController
  */
 
-@WebServlet({"/as-lecture-list.do","/as-lecture-register.do", "/as-lecture-updateT.do", "/as-lecture-updateN.do", "/as-lecture-delete.do", "/lecture-list.do", "/lecture-save.do", "/lecture-mylecture.do", "/lecture-sublecture.do"})
+@WebServlet({"/as-lecture-list.do","/ad-te-lectureList.do","/as-lecture-register.do", "/as-lecture-updateT.do", "/as-lecture-updateN.do", "/as-lecture-delete.do", "/lecture-list.do", "/lecture-save.do", "/lecture-mylecture.do", "/lecture-sublecture.do"})
 @MultipartConfig(location="", 
 fileSizeThreshold=1024*1024, 
 maxFileSize=1024*1024*5,  
@@ -99,6 +99,8 @@ public class LectureController extends HttpServlet {
 	        ASupdateN(request, response);
 	    else if(action.equals("as-lecture-delete.do")) 
 	        ASdelete(request, response);
+	    else if(action.equals("ad-te-lectureList.do")) 
+        	te_lecList(request, response);
 		else 
     		;
 		
@@ -154,6 +156,18 @@ public class LectureController extends HttpServlet {
 		request.setAttribute("controlList", dtoListControl);
 		request.getRequestDispatcher("st_lec.jsp").forward(request, response);
 	}	
+	
+	protected void te_lecList(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException{
+		String sel1 = request.getParameter("sel1");
+		String sel2 = request.getParameter("sel2");
+		String sel3 = request.getParameter("sel3");
+		dtoListDepart = daoDepart.List();
+		dtoList = dao.Te_LectureList(sel1,sel2,sel3);
+		
+		request.setAttribute("alLecture", dtoList);
+		request.setAttribute("alDepart", dtoListDepart);
+		request.getRequestDispatcher("ad_timeteacher.jsp").forward(request, response);
+	}
 	
 	protected void save(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException{
 		dtoListMyLecture = new ArrayList<MyLectureDTO>();

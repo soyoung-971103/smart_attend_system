@@ -19,6 +19,7 @@ public class LectureDAO extends DAOBase{
 	ArrayList<LectureDTO> dtoList = null;
 	ArrayList<MyLectureDTO> dtoListMyLecture = null;
 	LectureDTO dto = null;
+	LecturedayDTO dtoLectureday = null;
 	DepartDTO dtoDepart = null;
 	SubjectDTO dtoSubject = null;
 	TeacherDTO dtoTeacher = null;
@@ -47,6 +48,42 @@ public class LectureDAO extends DAOBase{
 				dtoTeacher.setName(rs.getString(8));
 				dto.setTeacher(dtoTeacher);
 				dtoList.add(dto);}
+			return dtoList;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return dtoList;	
+	}
+	
+	public ArrayList<LectureDTO> Te_LectureList(String sel1, String sel2, String sel3){		
+		try {
+			conn = getConnection();
+			stmt = conn.createStatement();
+			dtoList = new ArrayList<LectureDTO>();
+			if(sel1 != null && sel2 != null && sel3 != null && !sel3.equals("0")) rs = stmt.executeQuery("SELECT teacher.name, depart.name, lecture.teacher_id, COUNT(*) as sub_count, SUM(subject.ihour) as sub_hour, COUNT(*) as sub_day, teacher.kind, subject.yyyy, subject.term, subject.depart_id FROM lecture LEFT JOIN teacher ON lecture.teacher_id = teacher.id LEFT JOIN depart ON teacher.depart_id = depart.id LEFT JOIN subject ON lecture.subject_id = subject.id LEFT JOIN lectureday ON lecture.id=lectureday.id where subject.yyyy="+sel1+" and subject.term="+sel2+" and subject.depart_id="+sel3+" GROUP BY lecture.teacher_id HAVING COUNT(*) > 1");
+			else if(sel1 != null && sel2 != null && sel3.equals("0")) rs = stmt.executeQuery("SELECT teacher.name, depart.name, lecture.teacher_id, COUNT(*) as sub_count, SUM(subject.ihour) as sub_hour, COUNT(*) as sub_day, teacher.kind, subject.yyyy, subject.term, subject.depart_id FROM lecture LEFT JOIN teacher ON lecture.teacher_id = teacher.id LEFT JOIN depart ON teacher.depart_id = depart.id LEFT JOIN subject ON lecture.subject_id = subject.id LEFT JOIN lectureday ON lecture.id=lectureday.id where subject.yyyy="+sel1+" and subject.term="+sel2+" GROUP BY lecture.teacher_id HAVING COUNT(*) > 1");
+			else rs = stmt.executeQuery("SELECT teacher.name, depart.name, lecture.teacher_id, COUNT(*) as sub_count, SUM(subject.ihour) as sub_hour, COUNT(*) as sub_day, teacher.kind FROM lecture LEFT JOIN teacher ON lecture.teacher_id = teacher.id LEFT JOIN depart ON teacher.depart_id = depart.id LEFT JOIN subject ON lecture.subject_id = subject.id LEFT JOIN lectureday ON lecture.id=lectureday.id GROUP BY lecture.teacher_id HAVING COUNT(*) > 1");
+			while(rs.next()) {
+				dto = new LectureDTO();
+				dtoDepart = new DepartDTO();
+				dtoSubject = new SubjectDTO();
+				dtoTeacher = new TeacherDTO();
+				dtoLectureday=new LecturedayDTO();
+				dtoTeacher.setName(rs.getString(1));
+				dtoDepart.setName(rs.getString(2));					
+				dto.setTeacher_id(rs.getInt(3));
+				dto.setSub_count(rs.getInt(4));
+				dto.setSub_hour(rs.getInt(5));
+				dto.setSub_day(rs.getInt(6));
+				dtoTeacher.setKind(rs.getString(7));
+				dtoSubject.setDepart(dtoDepart);
+				dto.setDepart(dtoDepart);
+				dto.setSubject(dtoSubject);
+				dto.setTeacher(dtoTeacher);
+				dto.setLectureday(dtoLectureday);
+				dtoList.add(dto);
+			}
 			return dtoList;
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -142,7 +179,6 @@ public class LectureDAO extends DAOBase{
     	finally {
 			this.closeDBResources(rs, stmt, pstmt, conn);
 		} 
-    	System.out.println("test-insert-fail");
 		return result;
     }
 
@@ -152,7 +188,6 @@ public class LectureDAO extends DAOBase{
 			conn = getConnection();
         	pstmt = conn.prepareStatement("delete from mylecture where student_id = ?");	
     		
-        	System.out.println(hakbun);
         	pstmt.setInt(1, hakbun);
         	result = pstmt.executeUpdate();
         	 

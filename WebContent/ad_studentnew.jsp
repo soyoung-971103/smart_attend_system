@@ -63,6 +63,7 @@
 							</div>
 								
 							<div class="card-body" style="padding:10px">
+							
 							<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 								<form method="post" action="student-register.do" enctype="multipart/form-data">
 
@@ -101,21 +102,38 @@
 													<option value='2'>2학년</option>
 													<option value='3'>3학년</option>
 												</select>
+												<input type="hidden" name="data1" value="">
+												<input type="hidden" name="data2" value="">
 												&nbsp;
 												<select name="student_class" class="form-control form-control-sm" style="width:80px">
 													<c:forEach var="depart" items="${listDepart}">
-															<c:if test="${depart.classnum eq 1 }">
-															<option value="A">A 반</option>
-															</c:if>
-															<c:if test="${depart.classnum eq 2 }">
+														<c:choose>
+															<c:when test="${depart.classnum eq 1 }">
+															<option value="A">${depart.classnum } 반</option>
+															</c:when>
+															<c:when test="${depart.classnum eq 2 }">
 															<option value="A">A 반</option>
 															<option value="B">B 반</option>
-															</c:if>
-															<c:if test="${depart.classnum eq 3 }">
+															</c:when>
+															<c:when test="${depart.classnum eq 3 }">
 															<option value="A">A 반</option>
 															<option value="B">B 반</option>
 															<option value="C">C 반</option>
-															</c:if>
+															</c:when>
+															<c:when test="${depart.classnum eq 4 }">
+															<option value="A">A 반</option>
+															<option value="B">B 반</option>
+															<option value="C">C 반</option>
+															<option value="D">D 반</option>
+															</c:when>
+															<c:otherwise>
+															<option value="A">A 반</option>
+															<option value="B">B 반</option>
+															<option value="C">C 반</option>
+															<option value="D">D 반</option>
+															<option value="E">E 반</option>
+															</c:otherwise>
+														</c:choose>
 													</c:forEach>
 												</select>
 											</div>

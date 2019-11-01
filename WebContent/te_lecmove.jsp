@@ -7,7 +7,7 @@
 <!-------------------------------------------------------------------------------->	
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<!DOCTYPE html>
+<!DOCTYPE html>  
 <html lang="kr">
 <head>
 	<meta charset="utf-8">
@@ -33,7 +33,7 @@
 <div id="main">
 
 	<%@include file="main_menu.jsp" %>
-	
+		
     <div class="content-page">
 	    <div class="content">
 			<div class="container-fluid">
@@ -75,7 +75,7 @@
 									<div class="col" align="left">
 									</div>
 									<div class="col" align="right">
-										<a href="teacher-lecmove-select.do" class="btn btn-sm mycolor1">신청</a>
+										<a href="lectureday-insert.do" class="btn btn-sm mycolor1">신청</a>
 									</div>
 								</div>
 
@@ -91,22 +91,30 @@
 										<td>보강교시</td>
 										<td>보강강의실</td>
 										<td>처리상태</td>
-										<td>학과장</td>									</tr>
+										<td>학과장</td>									
+									</tr>
+									<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+									<c:forEach var="dto" items="${ lectureday }">
 									<tr>
-										<td>컴소과</td>
-										<td>교수님1</td>
-										<td>PHP</td>
-										<td>2학년/A반</td>
-										<td class="mycolor4">2019-03-12</td>
-										<td class="mycolor4">3, 4 교시</td>
-										<td class="mycolor3">2019-06-15</td>
-										<td class="mycolor3">1, 2 교시</td>
-										<td class="mycolor3">인관 컴퓨터실1</td>
-										<td><b>신청</b></td>
+										<td>${ dto.depart.name }</td> 
+										<td>${ dto.teacher.name }</td>
+										<td>${ dto.subject.name }</td>
+										<td>${ dto.subject.grade }학년/${ dto.lecture._class }반</td>
+										<td class="mycolor4">${ dto.normdate }</td>
+										<td class="mycolor4"><c:if test="${dto.normhour gt 2}"><c:forEach var="i" step="1" begin="${ dto.normstart }" end="${ dto.normstart + dto.normhour -2 }"> ${i }, </c:forEach>${ dto.normstart + dto.normhour -1 } 교시</c:if>
+															<c:if test="${dto.normhour eq 2}"><c:forEach var="i" step="1" begin="${ dto.normstart }" end="${ dto.normstart + dto.normhour -1 }"> ${i }, </c:forEach>${ dto.normstart + dto.normhour -1 } 교시</c:if>
+															<c:if test="${dto.normhour eq 1}">${ dto.normstart} 교시</c:if></td>
+										<td class="mycolor3">${ dto.restdate }</td>
+										<td class="mycolor3"><c:if test="${dto.resthour gt 2}"><c:forEach var="i" step="1" begin="${ dto.reststart }" end="${ dto.reststart + dto.resthour -2 }"> ${i }, </c:forEach>${ dto.reststart + dto.resthour -1 } 교시</c:if>
+															<c:if test="${dto.resthour eq 2}"><c:forEach var="i" step="1" begin="${ dto.reststart }" end="${ dto.reststart + dto.resthour -2 }"> ${i }, </c:forEach>${ dto.reststart + dto.resthour -1 } 교시</c:if>
+															<c:if test="${dto.resthour eq 1}">${ dto.reststart } 교시</c:if></td>
+										<td class="mycolor3">${ dto.room.name }</td>
+										<td><b>${dto.state}</b></td>
 										<td>					<!-- 0 신청 or 1 취소 or 2 학과장승인 or 3 반려 or 4 최종승인 -->
-											<a href="" class="btn btn-xs btn-outline-danger">취소</a>
+											<a href="teacher-bogangDelete.do?id=${ dto.id }" class="btn btn-xs btn-outline-danger">취소</a>
 										</td>
 									</tr>
+									</c:forEach>
 
 								</table>
 								</form>
