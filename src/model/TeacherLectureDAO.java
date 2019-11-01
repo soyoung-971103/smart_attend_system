@@ -315,5 +315,3 @@ public class TeacherLectureDAO extends DAOBase{
 		return 0;
 	}
 }
-/*
-*/

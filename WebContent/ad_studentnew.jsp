@@ -33,7 +33,7 @@
 <div id="main">
 
 	<%@include file="main_menu.jsp" %>
-	
+
     <div class="content-page">
 	    <div class="content">
 			<div class="container-fluid">
@@ -63,7 +63,7 @@
 							</div>
 								
 							<div class="card-body" style="padding:10px">
-							<%@ page import="java.util.*, model.StudentDTO, model.DepartDTO" %>
+							
 							<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 								<form method="post" action="student-register.do" enctype="multipart/form-data">
 
@@ -102,21 +102,38 @@
 													<option value='2'>2학년</option>
 													<option value='3'>3학년</option>
 												</select>
+												<input type="hidden" name="data1" value="">
+												<input type="hidden" name="data2" value="">
 												&nbsp;
 												<select name="student_class" class="form-control form-control-sm" style="width:80px">
 													<c:forEach var="depart" items="${listDepart}">
-															<c:if test="${depart.classnum eq 1 }">
-															<option value="A">A 반</option>
-															</c:if>
-															<c:if test="${depart.classnum eq 2 }">
+														<c:choose>
+															<c:when test="${depart.classnum eq 1 }">
+															<option value="A">${depart.classnum } 반</option>
+															</c:when>
+															<c:when test="${depart.classnum eq 2 }">
 															<option value="A">A 반</option>
 															<option value="B">B 반</option>
-															</c:if>
-															<c:if test="${depart.classnum eq 3 }">
+															</c:when>
+															<c:when test="${depart.classnum eq 3 }">
 															<option value="A">A 반</option>
 															<option value="B">B 반</option>
 															<option value="C">C 반</option>
-															</c:if>
+															</c:when>
+															<c:when test="${depart.classnum eq 4 }">
+															<option value="A">A 반</option>
+															<option value="B">B 반</option>
+															<option value="C">C 반</option>
+															<option value="D">D 반</option>
+															</c:when>
+															<c:otherwise>
+															<option value="A">A 반</option>
+															<option value="B">B 반</option>
+															<option value="C">C 반</option>
+															<option value="D">D 반</option>
+															<option value="E">E 반</option>
+															</c:otherwise>
+														</c:choose>
 													</c:forEach>
 												</select>
 											</div>
@@ -207,4 +224,37 @@
 					</div>
 						
 				</div>	<!-- row end -->
-<%@ include file="main_bottom.jsp" %>
+<!------------------------------------------------------------------------------>
+<!-- 내용 끝 -->
+<!------------------------------------------------------------------------------>
+			</div>
+		</div>
+	</div>
+
+	<!-- 하단 정보 -->
+	<footer class="footer">
+		<span class="text-right">	Copyright <a target="_blank" href="#">Induk University</a></span>
+		<span class="float-right">Programmed by <a target="_blank" href="#"><b>Gamejigi</b></a></span>
+	</footer>
+
+</div>
+
+<!-- js 선언부 ----------------------------------------------------------------->
+<script src="my/js/jquery.min.js"></script>
+<script src="my/js/moment.min.js"></script>
+
+<script src="my/js/popper.min.js"></script>
+<script src="my/js/bootstrap.min.js"></script>
+
+<script src="my/js/detect.js"></script>
+<script src="my/js/fastclick.js"></script>
+<script src="my/js/jquery.blockUI.js"></script>
+<script src="my/js/jquery.nicescroll.js"></script>
+
+<script src="my/js/pikeadmin.js"></script>
+
+<script src="my/js/jquery.dataTables.min.js"></script>
+<script src="my/js/dataTables.bootstrap4.min.js"></script>
+
+</body>
+</html>

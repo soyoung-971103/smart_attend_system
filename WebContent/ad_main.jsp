@@ -7,6 +7,9 @@
 <!-------------------------------------------------------------------------------->	
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ page import="java.util.*" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!DOCTYPE html>
 <html lang="kr">
 <head>
@@ -28,7 +31,7 @@
 		
 </head>
 
-<body class="adminbody">
+<body class="adminbody" onLoad="load_lec();">
 
 <div id="main">
 	<%@ include file="main_menu.jsp" %>
@@ -46,7 +49,7 @@
 							<ol class="breadcrumb float-right">
 								<li class="breadcrumb-item">Home</li>
 								<li class="breadcrumb-item">직원</li>
-								<li class="breadcrumb-item active">교과목</li>
+								<li class="breadcrumb-item active">메인</li>
 							</ol>
 							<div class="clearfix"></div>
 						</div>
@@ -58,65 +61,32 @@
 					<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
 						<div class="card mb-3">
 							<div class="card-header mycolor3" style="padding:10px">
-								<h3><i class="fa fa-table"></i> 건물</h3>
-							</div>
-								
-							<div class="card-body" style="padding:10px">
-
-								<script>
-									function find_text()
-									{
-										if (!form1.text1.value)
-											form1.action="building-list.do";
-										else
-											form1.action="building-list.do?text1=" + form1.text1.value;
-										form1.submit();
-									}
-								</script>
-
-								<form name="form1" method="post" action="building-list.do">
-								<div class="row" style="margin-bottom:5px">
-									<div class="col-auto" align="left">
-										<div class="form-inline">
-											<div class="input-group input-group-sm">
-												<div class="input-group-prepend">
-													<span class="input-group-text">건물명</span>
-												</div>
-												<input type="text" name="text1" size="10" value="" class="form-control" >
-												<div class="input-group-append">
-													<button class="btn btn-sm mycolor1" type="button" onClick="find_text();">검색</button>
-												</div>
-											</div>
-										</div>
+								<div class="row">
+									<div class="col" align="left">
+										<h3><i class="fa fa-table"></i> 공지사항 </h3>
 									</div>
 									<div class="col" align="right">
-										<a href="ad_buildingnew.jsp" class="btn btn-sm mycolor1">추가</a>
+										<h3>교수님1</h3>
 									</div>
 								</div>
-								</form>
+							</div>
+							<div class="card-body" style="padding:10px">
 
-								<table class="table table-bordered table-hover mytable" style="width:100%">
-									<thead>
-										<tr class="mycolor1">
-											<th>건물명</th>
-											<th>층수</th>
-											<th width="95"></th>
-										</tr>
-									</thead>									
-         						   <%@ page import="java.util.*,model.BuildingDTO" %>
-          						   <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-									<tbody>
-										<c:forEach var="building" items="${list}">
-											<tr>
-												<td>${ building.name}</td>
-												<td>${ building.floor}층</td>
-												<td>
-													<a href="building-info.do?id=${ building.id}" class="btn btn-xs btn-outline-primary">수정</a>
-													<a href="building-delete.do?id=${ building.id}" class="btn btn-xs btn-outline-danger" onClick="return confirm('삭제할까요 ?');">삭제</a>
-												</td>
-											</tr>
-										</c:forEach>
-									</tbody>
+								<table class="table table-bordered mytable" style="width:100%;">
+									<tr class="mycolor1">
+										<td>날짜</td>
+										<td>제목</td>
+										<td width="60"></td>
+									</tr>
+									<c:forEach var="main" items="${noticeList}">
+									<tr>
+										<td>${ main.writeday}</td>
+										<td style="text-align:left">${ main.title}</td>
+										<td>
+										 <a href="" class="btn btn-xs btn-outline-primary">보기</a>
+										</td>
+									</tr>
+									</c:forEach>
 								</table>
 
 								<nav>
@@ -132,6 +102,79 @@
 										<li class='page-item'><a class="page-link" href="#">▶</a></li>
 									</ul>
 								</nav>
+
+							</div>		<!-- card body end -->
+						</div>		<!-- card end -->
+					</div>
+						
+				</div>	<!-- row end -->
+
+				<div class="row">
+				
+					<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+						<div class="card mb-3">
+							<div class="card-header mycolor3" style="padding:10px">
+								<div class="row">
+									<div class="col" align="left">
+										<h3><i class="fa fa-table"></i> 휴보강 </h3>
+									</div>
+									<div class="col" align="right">
+										<h3></h3>
+									</div>
+								</div>
+							</div>
+							<div class="card-body" style="padding:10px">
+
+								<table class="table table-bordered table-hover table-responsive-sm mytable" style="width:100%">
+								<tr class="mycolor1">
+										<td>학과</td>
+										<td>교수님</td>
+										<td>교과목</td>
+										<td>학년/반</td>
+										<td>휴강날짜</td>
+										<td>휴강교시</td>
+										<td>보강날짜</td>
+										<td>보강교시</td>
+										<td>보강강의실</td>
+										<td>처리상태</td>
+										<td>학과장</td>									
+									</tr>
+								<c:forEach var="lectureday" items="${list}">
+								<c:if test="${lectureday.normstate != '정상'}">
+								<tr>
+										<td>${ lectureday.depart.name}</td>
+										<td>${ lectureday.teacher.name}</td>
+										<td>${ lectureday.subject.name}</td>
+										<td>${ lectureday.subject.grade}학년/${ lectureday.lecture.lecture_class}반</td>
+										<td class="mycolor4">${ lectureday.normdate}</td>
+										<td class="mycolor4">${ lectureday.normstart}, ${lectureday.normstart+lectureday.normhour-1} 교시</td>
+										<td class="mycolor3">${ lectureday.restdate}</td>
+										<td class="mycolor3">${ lectureday.reststart}, ${lectureday.reststart+lectureday.resthour-1} 교시</td>
+										<td class="mycolor3">${ lectureday.room.name}</td>
+										<td><b>${ lecture.state}신청</b></td>
+										<td>
+											<a href="" class="btn btn-xs btn-outline-primary">보기</a>
+										</td>
+									</tr>
+								</c:if>
+								</c:forEach>
+									
+								</table>
+
+								<nav>
+									<ul class='pagination pagination-sm justify-content-center'>
+										<li class='page-item'><a class="page-link" href="#">◀</a></li>
+										<li class='page-item'><a class="page-link" href="#">◁</a></li>
+										<li class='page-item'><a class="page-link" href="#">2</a></li>
+										<li class='page-item'><a class="page-link" href="#">3</a></li>
+										<li class='page-item active'><span class='page-link' style='background-color:steelblue'>4</span></li>
+										<li class='page-item'><a class="page-link" href="#">5</a></li>
+										<li class='page-item'><a class="page-link" href="#">6</a></li>
+										<li class='page-item'><a class="page-link" href="#">▷</a></li>
+										<li class='page-item'><a class="page-link" href="#">▶</a></li>
+									</ul>
+								</nav>
+
 
 							</div>		<!-- card body end -->
 						</div>		<!-- card end -->

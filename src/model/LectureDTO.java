@@ -10,9 +10,13 @@ public class LectureDTO {
 	String _class; //min
 	byte number; //min
 	//int number;
+	int sub_count;
+	int sub_hour;
+	int sub_day;
 	
 	DepartDTO depart;
 	LectureDTO lecture;
+	LecturedayDTO lectureday;
 	
 	public byte getNumber() {
 		return number;
@@ -76,5 +80,29 @@ public class LectureDTO {
 	}
 	public void setLecture(LectureDTO lecture) {
 		this.lecture = lecture;
+	}
+	public LecturedayDTO getLectureday() {
+		return lectureday;
+	}
+	public void setLectureday(LecturedayDTO lectureday) {
+		this.lectureday = lectureday;
+	}
+	public int getSub_count() {
+		return sub_count;
+	}
+	public void setSub_count(int sub_count) {
+		this.sub_count = sub_count;
+	}
+	public int getSub_hour() {
+		return sub_hour;
+	}
+	public void setSub_hour(int sub_hour) {
+		this.sub_hour = sub_hour;
+	}
+	public int getSub_day() {
+		return sub_day;
+	}
+	public void setSub_day(int sub_day) {
+		this.sub_day = sub_day;
 	}
 }

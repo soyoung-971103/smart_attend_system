@@ -21,7 +21,7 @@ import model.NoticeDTO;
 /**
  * Servlet implementation class AssistMainController
  */
-@WebServlet("/assistmain_list.do")
+@WebServlet({"/assistmain_list.do","/ad_mainlist.do"})
 public class AssistMainController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -55,6 +55,8 @@ public class AssistMainController extends HttpServlet {
 		if(action.equals("assistmain_list.do")) {
 			list(request, response);	
 		}
+		else if(action.equals("ad_mainlist.do")) {
+			ad_main(request, response); }
 		else
 			;	
 	}
@@ -67,6 +69,17 @@ public class AssistMainController extends HttpServlet {
     	request.setAttribute("noticeList", dtoListNotice);
     	request.setAttribute("list", dtoList);    	
     	request.getRequestDispatcher("as_main.jsp").forward(request, response);
+		
+	}
+    
+    private void ad_main(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {		
+    	dtoList = dao.List();
+    	dtoListNotice = daoNotice.list(null);
+    	dtoListControl = daoControl.List();
+    	request.setAttribute("controlList", dtoListControl);
+    	request.setAttribute("noticelist", dtoListNotice);
+    	request.setAttribute("lectureday", dtoList);    	
+    	request.getRequestDispatcher("ad_main.jsp").forward(request, response);
 		
 	}
 	
@@ -93,3 +106,4 @@ public class AssistMainController extends HttpServlet {
 	}
 
 }
+

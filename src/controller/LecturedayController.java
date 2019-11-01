@@ -18,6 +18,8 @@ import javax.servlet.http.HttpSession;
 
 import model.ControlDAO;
 import model.ControlDTO;
+import model.DepartDAO;
+import model.DepartDTO;
 import model.HolidayDAO;
 import model.HolidayDTO;
 import model.LectureDAO;
@@ -26,13 +28,15 @@ import model.LecturedayDAO;
 import model.LecturedayDTO;
 import model.SubjectDAO;
 import model.SubjectDTO;
+import model.TeacherDAO;
+import model.TeacherDTO;
 import model.TimeTableDAO;
 import model.TimeTableDTO;
 
 /**
  * Servlet implementation class LecturedayController
  */
-@WebServlet({"/lectureday-insert.do"})
+@WebServlet({"/lectureday-insert.do","/lectureday-list.do","/lectureday-delete.do"})
 public class LecturedayController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -49,6 +53,8 @@ public class LecturedayController extends HttpServlet {
     ArrayList<HolidayDTO> dtoListHoliday = null;
     ArrayList<LectureDTO> dtoListLecture = null;
     ArrayList<SubjectDTO> dtoListSubject = null;
+    ArrayList<DepartDTO> dtoListDepart = null;
+    ArrayList<TeacherDTO> dtoListTeacher = null;
     TimeTableDTO dtoTimeTable = null;
     TimeTableDAO daoTimeTable = new TimeTableDAO();
     HolidayDTO dtoHoliday = null;
@@ -59,6 +65,10 @@ public class LecturedayController extends HttpServlet {
     LectureDAO daoLecture = new LectureDAO();
     SubjectDTO dtoSubject = null;
     SubjectDAO daoSubject = new SubjectDAO();
+    DepartDTO dtoDepart = null;
+    DepartDAO daoDepart = new DepartDAO();
+    TeacherDTO dtoTeacher = null;
+    TeacherDAO daoTeacher= new TeacherDAO();
     HttpSession sesobj = null;
     
     int result = 0;
@@ -75,8 +85,30 @@ public class LecturedayController extends HttpServlet {
 		if(action.equals("lectureday-insert.do")) {
 			insert(request, response);	
 		}
+		else if(action.equals("lectureday-list.do")) {
+			list(request, response);	
+		}
+		else if(action.equals("lectureday-delete.do")) {
+			delete(request, response);	
+		}
 		else
 			;	
+	}
+	
+	protected void list(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException{
+		 dtoList = dao.List();
+		 request.setAttribute("lectureday", dtoList);
+		 request.getRequestDispatcher("te_lecmove.jsp").forward(request, response);
+	}
+	
+	private void delete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {		
+		int result = dao.delete(Integer.parseInt(request.getParameter("id"))); // 질의를 통해 수정된 레코드의 수
+    	if(result > 0) {// 삭제 성공 : 영향 받은 row(record)의 수
+    		request.setAttribute("id", request.getParameter("id"));
+    		request.getRequestDispatcher("student-list.do").forward(request, response);
+    	}
+    	else
+    		response.sendRedirect("fail.jsp"); // 실패
 	}
 	
     protected void weekday(byte grade, String _class, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {

@@ -6,6 +6,7 @@ public class MemberDTO {
 	int depart_id;
 	byte grade;
 	String student_class;
+	String schoolno;
 	String uid;
 	String name;
 	String phone;
@@ -81,7 +82,12 @@ public class MemberDTO {
 	public void setState(String state) {
 		this.state = state;
 	}
-	
+	public String getSchoolno() {
+		return schoolno;
+	}
+	public void setSchoolno(String schoolno) {
+		this.schoolno = schoolno;
+	}
 	
 
 }
