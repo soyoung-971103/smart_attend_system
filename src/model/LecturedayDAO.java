@@ -7,8 +7,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 public class LecturedayDAO extends DAOBase{
@@ -56,12 +54,12 @@ public class LecturedayDAO extends DAOBase{
 		return result;
 	}
 	
-	public int delete(HttpServletRequest request, HttpServletResponse response) {
+	public int delete(int id) {
 		int result = 0;
 		try {
 			conn = getConnection();
-			pstmt = conn.prepareStatement("update lectureday stat='취소' where id=? ");
-			pstmt.setInt(1, dto.getId());
+			pstmt = conn.prepareStatement("delete from lectureday where id=? ");
+			pstmt.setInt(1, id);
 			result = pstmt.executeUpdate();	
 			return result;
 		} catch (SQLException e) {
@@ -107,9 +105,9 @@ public class LecturedayDAO extends DAOBase{
 				dto.setLecture(dtoLecture);
 				dtoSubject.setGrade(rs.getByte(17));
 				dtoSubject.setName(rs.getString(18));
-				dto.setSubject(dtoSubject);
+				dtoLecture.setSubject(dtoSubject);
 				dtoTeacher.setName(rs.getString(19));
-				dto.setTeacher(dtoTeacher);
+				dtoLecture.setTeacher(dtoTeacher);
 				dtoDepart.setName(rs.getString(20));
 				dto.setDepart(dtoDepart);
 				dtoList.add(dto);
