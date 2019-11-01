@@ -28,7 +28,8 @@ public class HolidayDAO extends DAOBase{
 			conn = getConnection();
 			pstmt = conn.prepareStatement("insert into holiday " + "values(?, ?, ?, ?)");
 			pstmt.setInt(1, dto.getId());
-			pstmt.setInt(2, dto.getYyyy()); 
+			pstmt.setInt(2, dto.getYyyy()); 			
+			
 			pstmt.setDate(3, new java.sql.Date(dto.getHoliday().getTime()));
 			pstmt.setString(4, dto.getReason());
 			

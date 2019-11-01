@@ -145,11 +145,11 @@ public class TeacherController extends HttpServlet {
 
 		dao.update(request, response);
 		
-	    response.sendRedirect("TeacherInquiry");
+	    response.sendRedirect("teacher-list.do");
 	}
 	private void Insert(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException{
 		dao.insert(request, response);
-	    response.sendRedirect("TeacherInquiry");
+	    response.sendRedirect("teacher-list.do");
 	}	
 	private void inputdata(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException{
 		ArrayList<DepartDTO> dtoListDepart = new ArrayList<DepartDTO>();
