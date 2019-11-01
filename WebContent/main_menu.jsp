@@ -221,7 +221,7 @@
 					</a>
 					<div class="dropdown-menu dropdown-menu-right profile-dropdown">
 						<div class="dropdown-item noti-title">
-							<h5 class="text-overflow"><small>Hello, <%= session.getAttribute("name") %></small> </h5>
+							<h5 class="text-overflow"><small>Hello, admin</small> </h5>
 						</div>
 						<a href="#" class="dropdown-item notify-item">
 							<i class="fa fa-power-off"></i> <span>Logout</span>
@@ -251,8 +251,8 @@
 					<li class="submenu">
 						<a href="#"><i class="fa fa-fw fa-table"></i> <span> 직원(학사행정) </span> <span class="menu-arrow"></span></a>
 						<ul class="list-unstyled">
-							<li><a href="ad_mainlist.do" style="padding:5px 0 5px 40px;">직원 메인</a></li>
-							<li><a href="ad_control.jsp" style="padding:5px 0 5px 40px;">제어판</a></li>
+							<li><a href="admain_list.do" style="padding:5px 0 5px 40px;">직원 메인</a></li>
+							<li><a href="control-list.do" style="padding:5px 0 5px 40px;">제어판</a></li>
 							<li><a href="notice-list.do" style="padding:5px 0 5px 40px;">공지사항</a></li>
 							<li><hr style="background-color:gray;margin:0 25px 0 25px;"></li>
 							<li><a href="student-list.do" style="padding:5px 0 5px 40px;">학생정보</a></li>
@@ -269,14 +269,14 @@
 						<a href="#"><i class="fa fa-fw fa-table"></i> <span> 직원(전자출석) </span> <span class="menu-arrow"></span></a>
 						<ul class="list-unstyled">
 							<li><a href="ad_timeall.html" style="padding:5px 0 5px 40px;">학과별 시간표</a></li>
-							<li><a href="ad-te-lectureList.do" style="padding:5px 0 5px 40px;">교수별 강의현황</a></li>
+							<li><a href="ad_timeteacher.html" style="padding:5px 0 5px 40px;">교수별 강의현황</a></li>
 							<li><a href="ad-lecmove-list.do" style="padding:5px 0 5px 40px;">휴보강</a></li>
 						</ul>
 					</li>
 					<li class="submenu">
 						<a href="#"><i class="fa fa-fw fa-male"></i> <span>조교</span> <span class="menu-arrow"></span></a>
 						<ul class="list-unstyled">
-							<li><a href="assistmain_list.do" style="padding:5px 0 5px 40px;">조교 메인</a></li>
+							<li><a href="as_main.html" style="padding:5px 0 5px 40px;">조교 메인</a></li>
 							<c:forEach var="control" items="${controlList}">
 								<c:if test="${control.subjecttime == 0}">															
 									<li><a href="subject-list.do" style="padding:5px 0 5px 40px;">학년별 교과목</a></li>
@@ -301,7 +301,7 @@
 							<li><a href="timetable-tdetail.do" style="padding:5px 0 5px 40px;">시간표</a></li>
 							<li><a href="te_lec.jsp" style="padding:5px 0 5px 40px;">일별 출석부</a></li>
 							<li><a href="te-lecall.do" style="padding:5px 0 5px 40px;">과목별 출석부</a></li>
-							<li><a href="lectureday-list.do" style="padding:5px 0 5px 40px;">휴보강</a></li>
+							<li><a href="te_lecmove.jsp" style="padding:5px 0 5px 40px;">휴보강</a></li>
 							<li><a href="teacher-qalist.do" style="padding:5px 0 5px 40px;">교과목 문의</a></li>
 						</ul>
 					</li>
