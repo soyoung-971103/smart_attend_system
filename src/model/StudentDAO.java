@@ -30,7 +30,14 @@ public class StudentDAO extends DAOBase {
 	private ArrayList<StudentDTO> dtoList = null;
 	private ArrayList<QnaDTO> dtoListQna = null;
 	private ArrayList<NoticeDTO> dtoListNotice = null;
+	private StudentDTO student = null;
+	private ArrayList<StudentDTO> alStudent = null;
+	String query = null;
+	String url;
+	int i, j;
 	
+	int page_line = 5; // 페이지당 line 수
+	int page_block = 5; // 블록당 page 수
 	
 	public int delete(HttpServletRequest request, HttpServletResponse response) {
 		int result=0;
@@ -189,6 +196,71 @@ public class StudentDAO extends DAOBase {
 			this.closeDBResources(rs, stmt, pstmt, conn);
 		}
 			return result;
+	}
+	
+	public ArrayList<StudentDTO> list(int start, int end) {
+		try {
+			conn = getConnection();
+			stmt = conn.createStatement();
+			rs = stmt.executeQuery("select * from student limit "+start+","+end);
+			alStudent = new ArrayList<StudentDTO>();
+			while (rs.next()) {
+				student = new StudentDTO();
+				student.setId(rs.getInt(1));
+				student.setDepart_id(rs.getInt(2));
+				student.setGrade(rs.getByte(3));
+				student.setStudent_class(rs.getString(4));
+				student.setSchoolno(rs.getString(5));
+				student.setName(rs.getString(6));
+				student.setPhone(rs.getString(7));
+				student.setSex(rs.getByte(8));
+				student.setPwd(rs.getString(9));
+				student.setPic(rs.getString(10));
+				student.setState(rs.getString(11));
+				student.setBirthday(rs.getString(12));
+				student.setEmail(rs.getString(13));
+				alStudent.add(student);
+			}
+			return alStudent;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return alStudent;
+	}
+	public ArrayList<StudentDTO> search(String text1) {
+		try {
+			conn = getConnection();
+			stmt = conn.createStatement();
+			if (text1 == null)
+				rs = stmt.executeQuery("select * from student");
+			else
+				rs = stmt.executeQuery("select * from student where name like '%" + text1 + "%' order by name");
+			// email, pw는 form을 구성하는 각 요소의 이름
+			alStudent = new ArrayList<StudentDTO>();
+			while (rs.next()) {
+				student = new StudentDTO();
+				student.setId(rs.getInt(1));
+				student.setDepart_id(rs.getInt(2));
+				student.setGrade(rs.getByte(3));
+				student.setStudent_class(rs.getString(4));
+				student.setSchoolno(rs.getString(5));
+				student.setName(rs.getString(6));
+				student.setPhone(rs.getString(7));
+				student.setSex(rs.getByte(8));
+				student.setPwd(rs.getString(9));
+				student.setPic(rs.getString(10));
+				student.setState(rs.getString(11));
+				student.setBirthday(rs.getString(12));
+				student.setEmail(rs.getString(13));
+				alStudent.add(student);
+			}
+			return alStudent;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return alStudent;
 	}
 	
 	public int supdate(HttpServletRequest request, HttpServletResponse response, int id) {
@@ -488,5 +560,55 @@ public class StudentDAO extends DAOBase {
 		}
 		return dtoQna;	
 	}
+	
+	public Integer rowcount(String sql) {
+		int c = 0;
+		try {
+			conn = getConnection();
+			stmt = conn.createStatement();
+			rs = stmt.executeQuery(sql);
+			if (rs.next())
+				c = rs.getInt(1);
+			return c;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return c;
+	}
+
+	// 하단 Pagination 만드는 함수 ----------------------------------------------
+	public String pagination(int nowpage, int recordcount, String nowurl) {
+		nowpage=(nowpage==0)?1:nowpage;
+		int pages = (int) (Math.ceil((float) recordcount / (float) page_line)); // 페이지수
+		int blocks = (int) (Math.ceil((float) pages / (float) page_block)); // 전체 블록수
+		int block = (int) (Math.ceil((float) nowpage / (float) page_block)); // 현재 블록
+		int page_s = page_block * (block - 1); // 현재 페이지
+		int page_e = page_block * block; // 마지막 페이지
+		if (blocks <= block)
+			page_e = pages;
+		/* 교수 학생 조교 정보 볼 때 페이지 번호 */
+		String s = "<nav><ul class='pagination pagination-sm justify-content-center'><li class='page-item'><a class='page-link' href='#'>◀</a></li>";
+
+		if (block > 1) // 이전 블록으로
+			s += "<li class='page-item'><a class='page-link' href='" + nowurl + "?npage=" + page_s + "'>◁</a></li>";
+
+		for (int i = page_s + 1; i <= page_e; i++) // 페이지들 표시
+		{
+			if (nowpage == i)
+				s += "<li class='page-item active'><span class='page-link' style='background-color:steelblue'>" + i
+						+ "</span></li>";
+			else
+				s += "<li class='page-item'><a class='page-link' href='" + nowurl + "?npage=" + i + "'>" + i
+						+ "</a></li>";
+		}
+
+		if (block < blocks) // 다음 블록으로
+			s += "<li class='page-item'><a class='page-link' href='" + nowurl + "?npage=" + (page_e + 1)
+					+ "'>▷</a></li>";
+
+		s += "</ul></nav>";
+		return s;
+	}
+
 
 }
