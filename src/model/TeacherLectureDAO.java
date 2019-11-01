@@ -28,8 +28,9 @@ public class TeacherLectureDAO extends DAOBase{
 		String SQL = "select * from lecture left join teacher on lecture.teacher_id = teacher.id "
 				+ "left join subject on lecture.subject_id = subject.id left join lectureday on lecture.id = lectureday.lecture_id"
 				+ " left join depart on depart.id = teacher.depart_id left join room on lectureday.room_id = room.id left join"
-				+ " building on room.building_id = building.id  WHERE teacher.uid = '"+sin.getAttribute("uid")+"' and DATE(lectureday.normdate)=DATE('"+text1+"') "
-						+ "or DATE(lectureday.restdate)=DATE('"+text1+"')";
+				+ " building on room.building_id = building.id  WHERE teacher.uid = '"+sin.getAttribute("uid")+"' and (DATE(lectureday.normdate)=DATE('"+text1+"') "
+						+ "or DATE(lectureday.restdate)=DATE('"+text1+"'))";
+		System.out.println(SQL);
 		ArrayList<TeacherLectureDTO> list = new ArrayList<TeacherLectureDTO>();
 		try {
 			conn = getConnection();
@@ -65,6 +66,8 @@ public class TeacherLectureDAO extends DAOBase{
 				teacher.setRestdate(rs.getString("lectureday.restdate"));
 				teacher.setReststart(rs.getInt("lectureday.reststart"));
 				teacher.setResthour(rs.getInt("lectureday.resthour"));
+				teacher.setState(rs.getString("lectureday.state"));
+
 				list.add(teacher);
 			}
 		}catch(Exception e) {
@@ -122,6 +125,7 @@ public class TeacherLectureDAO extends DAOBase{
 				+ "left join depart on depart.id = teacher.depart_id left join room on lectureday.room_id = room.id "
 				+ "left join building on room.building_id = building.id  WHERE teacher.uid = '"+sin.getAttribute("uid")+"' and "
 				+ "DATE(lectureday.normdate)=DATE('"+text1+"') and lecture.id = '"+id+"';";
+		System.out.println(SQL);
 		try {
 			conn = getConnection();
 			pstmt = conn.prepareStatement(SQL);
