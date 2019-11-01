@@ -35,7 +35,7 @@ import model.TeacherDTO;
 /**
  * Servlet implementation class StudentController
  */
-@WebServlet({"/student-list.do", "/student-studentnew.do","/student-supdate.do","/student-register.do","/student-delete.do","/student-detail.do","/student-update.do","/student-qna.do", "/lecqnainsert.do", "/savestqa.do", "/stqaload.do", "/student-main.do", "/student-qnainfo.do"})
+@WebServlet({"/student-list.do", "/student-search.do", "/student-studentnew.do","/student-supdate.do","/student-register.do","/student-delete.do","/student-detail.do","/student-update.do","/student-qna.do", "/lecqnainsert.do", "/savestqa.do", "/stqaload.do", "/student-main.do", "/student-qnainfo.do"})
 @MultipartConfig(location="", 
 fileSizeThreshold=1024*1024, 
 maxFileSize=1024*1024*5, 
@@ -63,7 +63,14 @@ public class StudentController extends HttpServlet {
     ArrayList<ControlDTO> dtoListControl = null;
     ArrayList<NoticeDTO> dtoListNotice = null;
     ArrayList<QnaDTO> dtoListQna = null;
-	ControlDAO daoControl = new ControlDAO();
+ControlDAO daoControl = new ControlDAO();
+
+ArrayList<StudentDTO> alStudent = null;
+StudentDTO student = null;
+ArrayList<LectureDTO> alLecture = null;
+LectureDTO lecture = null;
+LectureDAO lecture_dao = new LectureDAO();
+String pagination = null;
     
 	protected void process(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
 		// TODO Auto-generated method stub
@@ -100,21 +107,42 @@ public class StudentController extends HttpServlet {
 			studentnew(request, response);
 		else if(action.equals("student-supdate.do")) 
 			supdate(request, response);
+		else if (action.equals("student-search.do"))
+			search(request, response);
 		else 
     		;
 		
-	}
+	}	
 	
 	protected void list(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException{
+				
+		String tmp=request.getParameter("npage");
+		int npage = Integer.parseInt(tmp == null?"1":tmp);
+		
+		int limit=5;
+		int start =(npage-1);
+		start*=limit;
+		pagination = dao.pagination(npage, dao.rowcount("SELECT COUNT(*) FROM student"), request.getRequestURI());
+		request.setAttribute("pagination", pagination);
+		alStudent = dao.list(start,limit);
+		request.setAttribute("studentlist", alStudent);
+		
 		dtoList = dao.list(request.getParameter("text1"));
 		 dtoListControl = daoControl.List();
 		 dtoListDepart = daoDepart.List();
 		 
-	     request.setAttribute("listDepart", dtoListDepart);  
+	        request.setAttribute("listDepart", dtoListDepart);  
 		 request.setAttribute("controlList", dtoListControl);
 		 request.setAttribute("studentlist", dtoList);
 		 request.getRequestDispatcher("ad_student.jsp").forward(request, response);
-	}	
+	}
+		
+	protected void search(HttpServletRequest request, HttpServletResponse response)
+		throws SQLException, ServletException, IOException {
+	alStudent = dao.search(request.getParameter("text1"));
+	request.setAttribute("studentlist", alStudent);
+	request.getRequestDispatcher("ad_student.jsp").forward(request, response);
+	}
 	
 	private void studentnew(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
 		ArrayList<DepartDTO> dtoListDepart = new ArrayList<DepartDTO>();
@@ -127,7 +155,8 @@ public class StudentController extends HttpServlet {
     	request.getRequestDispatcher("ad_studentnew.jsp").forward(request, response);
 	
 	} 
-	
+		
+		
 	private void detail(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
 		ArrayList<DepartDTO> dtoListDepart = new ArrayList<DepartDTO>();
 		DepartDAO daoDepart = new DepartDAO();
