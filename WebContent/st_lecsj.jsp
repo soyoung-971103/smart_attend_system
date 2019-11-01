@@ -21,7 +21,6 @@
 %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%
-	System.out.println("1234");
 	info = (String) request.getAttribute("info");
 	infoArry = info.split("/");
 		for(int i=0;i<7;i++){
@@ -116,7 +115,7 @@
 										</div>
 									</div>
 
-									<form name="form1" action="lecture-search-ch.do" method="post">
+									<form name="form1" action="Mylecture-search.do" method="post">
 										<div class="row">
 											<div class="col" align="left">
 												<div class="input-group input-group-sm">
@@ -186,7 +185,7 @@
 										</tr>
 										<tbody>
 											<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-											<c:forEach var="dto" items="${ lecturelist }">
+											<c:forEach var="dto" items="${ dtoListLecsj }">
 												<tr>
 													<td>${ dto.ismajor }</td>
 													<td>${ dto.ischoice }</td>
