@@ -170,14 +170,30 @@
 	pageContext.setAttribute("dropUl", dropUl);
 	pageContext.setAttribute("dropA", dropA);
 	pageContext.setAttribute("activA", activA);
+	
+	
+	String kind = (String)session.getAttribute("kind");
+	String name = (String)session.getAttribute("name");
+	
 %>
 
 <!--상단 메뉴 시작 -->
 <div class="headerbar">
 
 	<div class="headerbar-left">
-		<a href="index.html" class="logo"><img
-			src="my/images/induk_logo.png"> <span>전자출석 Demo</span></a>
+		<%if(kind.equals("student")){ %>
+			<a href="student-main.do" class="logo">
+		<%} %>
+		<%if(kind.equals("teacher")){ %>
+			<a href="te-main.do" class="logo">
+		<%} %>
+		<%if(kind.equals("assist")){ %>
+			<a href="assistmain_list.do" class="logo">
+		<%} %>
+		<%if(kind.equals("admin")){ %>
+			<a href="admain-list.do" class="logo">
+		<%} %>
+		<img src="my/images/induk_logo.png"> <span>전자출석 Demo</span></a>
 	</div>
 
 	<nav class="navbar-custom">
@@ -191,10 +207,10 @@
 				<div class="dropdown-menu dropdown-menu-right profile-dropdown">
 					<div class="dropdown-item noti-title">
 						<h5 class="text-overflow">
-							<small>Hello, admin</small>
+							<small>Hello, <%=name %></small>
 						</h5>
 					</div>
-					<a href="#" class="dropdown-item notify-item"> <i
+					<a href="logout.jsp" class="dropdown-item notify-item"> <i
 						class="fa fa-power-off"></i> <span>Logout</span>
 					</a>
 				</div></li>
@@ -218,14 +234,12 @@
 	<div class="sidebar-inner leftscroll">
 		<div id="sidebar-menu">
 			<ul>
+			<%if(kind.equals("admin")){%>
 				<li class="submenu"><a href="#"
 					class="<c:out value="${dropA[0]}"/>"><i
 						class="fa fa-fw fa-table"></i> <span> 직원(학사행정) </span> <span
 						class="menu-arrow"></span></a>
 					<ul class="list-unstyled" style="<c:out value="${dropUl[0]}"/>">
-						<li><a href="admain_list.do"
-							class="<c:out value="${activA[0][0]}"/>"
-							style="padding: 5px 0 5px 40px;">직원 메인</a></li>
 						<li><a href="control-list.do"
 							class="<c:out value="${activA[0][1]}"/>"
 							style="padding: 5px 0 5px 40px;">제어판</a></li>
@@ -273,6 +287,8 @@
 							class="<c:out value="${activA[1][2]}"/>"
 							style="padding: 5px 0 5px 40px;">휴보강</a></li>
 					</ul></li>
+				<%} %>
+				<%if(kind.equals("assist")){%>	
 				<li class="submenu"><a href="#"
 					class="<c:out value="${dropA[2]}"/>"><i
 						class="fa fa-fw fa-male"></i> <span>조교</span> <span
@@ -308,15 +324,13 @@
 							class="<c:out value="${activA[2][6]}"/>"
 							style="padding: 5px 0 5px 40px;">휴보강</a></li>
 					</ul></li>
-
+				<%} %>
+				<%if(kind.equals("teacher")){%>
 				<li class="submenu"><a href="#"
 					class="<c:out value="${dropA[3]}"/>"><i
 						class="fa fa-fw fa-user"></i> <span> 교수 </span> <span
 						class="menu-arrow"></span></a>
 					<ul class="list-unstyled" style="<c:out value="${dropUl[3]}"/>">
-						<li><a href="te-main.do"
-							class="<c:out value="${activA[3][0]}"/>"
-							style="padding: 5px 0 5px 40px;">교수 메인</a></li>
 						<li><a href="timetable-tdetail.do"
 							class="<c:out value="${activA[3][1]}"/>"
 							style="padding: 5px 0 5px 40px;">시간표</a></li>
@@ -333,14 +347,13 @@
 							class="<c:out value="${activA[3][5]}"/>"
 							style="padding: 5px 0 5px 40px;">교과목 문의</a></li>
 					</ul></li>
-				<li class="submenu"><a href="#"
+				<%} %>
+				<%if(kind.equals("student")){%>
+				<li class="submenu"><a href=#
 					class="<c:out value="${dropA[4]}"/>"><i
 						class="fa fa-fw fa-table"></i> <span> 학생 </span> <span
 						class="menu-arrow"></span></a>
 					<ul class="list-unstyled" style="<c:out value="${dropUl[4]}"/>">
-						<li><a href="student-main.do"
-							class="<c:out value="${activA[4][0]}"/>"
-							style="padding: 5px 0 5px 40px;">학생 메인</a></li>
 						<li><a href="mylecture-sdetail.do"
 							class="<c:out value="${activA[4][1]}"/>"
 							style="padding: 5px 0 5px 40px;">시간표</a></li>
@@ -359,6 +372,7 @@
 							class="<c:out value="${activA[4][5]}"/>"
 							style="padding: 5px 0 5px 40px;">교과목 문의</a></li>
 					</ul></li>
+					<%} %>
 			</ul>
 
 			<div class="clearfix"></div>

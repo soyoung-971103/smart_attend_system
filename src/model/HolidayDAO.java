@@ -21,16 +21,14 @@ public class HolidayDAO extends DAOBase{
 	
 	
 	public int insert(HolidayDTO dto) {
-		int result = 0;	
-				
+		int result = 0;		
 		try {
 			
 			conn = getConnection();
 			pstmt = conn.prepareStatement("insert into holiday " + "values(?, ?, ?, ?)");
 			pstmt.setInt(1, dto.getId());
-			pstmt.setInt(2, dto.getYyyy()); 			
-			
-			pstmt.setDate(3, new java.sql.Date(dto.getHoliday().getTime()));
+			pstmt.setInt(2, dto.getYyyy()); 
+			pstmt.setDate(3, new java.sql.Date(dto.getHoliday().getTime()+1));
 			pstmt.setString(4, dto.getReason());
 			
 			result = pstmt.executeUpdate();

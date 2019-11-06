@@ -76,6 +76,15 @@
 										form1.action="as-lecture-list.do?sel1=" + form1.sel1.value+"&sel2=" + form1.sel2.value;
 										form1.submit();
 									}
+									function make_lec()
+									{
+										form1.action="as-lecture-register.do?sel1=" + form1.sel1.value+"&sel2=" + form1.sel2.value;
+										form1.submit();
+									}
+									function delete_lec(){
+										form1.action="as-lecture-delete.do?sel1=" + form1.sel1.value+"&sel2=" + form1.sel2.value;
+										form1.submit();
+									}
 									function update_teacher(pos) 
 									{
 										form2.action="as-lecture-updateT.do?id=" + pos;
@@ -185,6 +194,7 @@
 									<tbody>
 										<c:forEach var="lecture" items="${ list }">
 											<input type="hidden" name="id" id="id" value="${lecture.id }" class="form-control form-control-sm" required>
+											<input type="hidden" name="depart_id" value="${subject.depart_id}">
 											<tr>
 												<td>${ lecture.subject.code}</td>
 												<td>${ lecture.subject.name}</td>

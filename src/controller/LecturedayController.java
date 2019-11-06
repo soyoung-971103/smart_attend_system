@@ -111,239 +111,252 @@ public class LecturedayController extends HttpServlet {
     		response.sendRedirect("fail.jsp"); // 실패
 	}
 	
-    protected void weekday(byte grade, String _class, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
-    	int i=0;
-    	String date = null, Smon = null, Stue = null, Swed = null, Sthu = null, Sfri = null;
-    	String d = "0000-00-00";
-		
-		dto = new LecturedayDTO();
-		dtoHoliday = new HolidayDTO();
-		dtoTimeTable = new TimeTableDTO();
-		dtoLecture = new LectureDTO();
-		dtoSubject = new SubjectDTO();
-		
-		dtoListHoliday = daoHoliday.List();
-		dtoListTimeTable = daoTimeTable.Load();
-		dtoListLecture = daoLecture.selectAllList();
-		dtoListSubject = daoSubject.List();
-		
-		
-		String sdate = request.getParameter("dstart");
-		Date day = null, dday = null;
-		Date mon = null, tue = null, wed = null, thu = null, fri = null;
-		Calendar cal = Calendar.getInstance();
-		Calendar monCal = Calendar.getInstance();
-		Calendar tueCal = Calendar.getInstance();
-		Calendar wedCal = Calendar.getInstance();
-		Calendar thuCal = Calendar.getInstance();
-		Calendar friCal = Calendar.getInstance();
-		
-		DateFormat utilDate = new SimpleDateFormat("yyyy-MM-dd");
-		try {
-			day = utilDate.parse(sdate);
-			dday = utilDate.parse(d);
-		} catch (ParseException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		
-		 
-	     
-		 for(int j=0; j<7; j++) { 
-			cal.setTime(day);
-			int dayNum = cal.get(Calendar.DAY_OF_WEEK);
-		    switch(dayNum){
-		        case 1:
-		            cal.add(Calendar.DATE, 1);
-		            day = cal.getTime();
-		            break ;
-		        case 2:
-		            mon = day;
-		            Smon = utilDate.format(mon);
-		            cal.add(Calendar.DATE, 1);
-		            day = cal.getTime();
-		            break ;
-		        case 3:
-		            tue = day;
-		            Stue = utilDate.format(tue);
-		            cal.add(Calendar.DATE, 1);
-		            day = cal.getTime();
-		            break ;
-		        case 4:
-		            wed = day;
-		            Swed = utilDate.format(wed);
-		            cal.add(Calendar.DATE, 1);
-		            day = cal.getTime();
-		            break ;
-		        case 5:
-		            thu = day;
-		            Sthu = utilDate.format(thu);
-		            cal.add(Calendar.DATE, 1);
-		            day = cal.getTime();
-		            break ;
-		        case 6:
-		            fri = day;
-		            Sfri = utilDate.format(fri);
-		            cal.add(Calendar.DATE, 1);
-		            day = cal.getTime();
-		            break ;
-		        case 7:
-		            cal.add(Calendar.DATE, 1);
-		            day = cal.getTime();
-		            break ;           
-		    }
-		 }
-		 date = utilDate.format(dtoListHoliday.get(i).getHoliday());
-		 System.out.println(mon);
-		 System.out.println(tue);
-		 System.out.println(wed);
-		 System.out.println(thu);
-		 System.out.println(fri);
-		 System.out.println(date);
-		 System.out.println(Smon);
-		 System.out.println(Stue);
-		 System.out.println(Swed);
-		 System.out.println(Sthu);
-		 System.out.println(Sfri);
-		 
-		 
-		
-		//int result=0;
-		for(byte th=1; th<=15; th++) {
-			if(i < dtoListHoliday.size()) {
-				date = utilDate.format(dtoListHoliday.get(i).getHoliday());
-				dday = dtoListHoliday.get(i).getHoliday();
+	 protected void weekday(byte grade, String _class, int did, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
+	    	int i=0;
+	    	int sId=0;
+	    	String date = null, Smon = null, Stue = null, Swed = null, Sthu = null, Sfri = null;
+	    	String d = "0000-00-00";
+	    	String cls = null;
+			
+			dto = new LecturedayDTO();
+			dtoHoliday = new HolidayDTO();
+			dtoTimeTable = new TimeTableDTO();
+			dtoLecture = new LectureDTO();
+			dtoSubject = new SubjectDTO();
+			
+			dtoListHoliday = daoHoliday.List();
+			dtoListTimeTable = daoTimeTable.Load();
+			dtoListLecture = daoLecture.List();
+			dtoListSubject = daoSubject.List();
+			
+			
+			String sdate = request.getParameter("dstart");
+			Date day = null, dday = null;
+			Date mon = null, tue = null, wed = null, thu = null, fri = null;
+			Calendar cal = Calendar.getInstance();
+			Calendar monCal = Calendar.getInstance();
+			Calendar tueCal = Calendar.getInstance();
+			Calendar wedCal = Calendar.getInstance();
+			Calendar thuCal = Calendar.getInstance();
+			Calendar friCal = Calendar.getInstance();
+			
+			DateFormat utilDate = new SimpleDateFormat("yyyy-MM-dd");
+			try {
+				day = utilDate.parse(sdate);
+				dday = utilDate.parse(d);
+			} catch (ParseException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
 			}
 			
-			for(int num=0; num < dtoListTimeTable.size(); num++) {
-				monCal.setTime(mon);
-				tueCal.setTime(tue);
-				wedCal.setTime(wed);
-				thuCal.setTime(thu);
-				friCal.setTime(fri);
-				int lId = dtoListTimeTable.get(num).getLecture_id();
-				int sId = dtoListLecture.get(lId).getSubject_id();
-				String weekday = dtoListTimeTable.get(num).getWeekday();
-				String cls = dtoListLecture.get(lId).getLecture_class();
-				byte grd = dtoListSubject.get(sId).getGrade();
+			 
+		     
+			 for(int j=0; j<7; j++) { 
+				cal.setTime(day);
+				int dayNum = cal.get(Calendar.DAY_OF_WEEK);
+			    switch(dayNum){
+			        case 1:
+			            cal.add(Calendar.DATE, 1);
+			            day = cal.getTime();
+			            break ;
+			        case 2:
+			            mon = day;
+			            Smon = utilDate.format(mon);
+			            cal.add(Calendar.DATE, 1);
+			            day = cal.getTime();
+			            break ;
+			        case 3:
+			            tue = day;
+			            Stue = utilDate.format(tue);
+			            cal.add(Calendar.DATE, 1);
+			            day = cal.getTime();
+			            break ;
+			        case 4:
+			            wed = day;
+			            Swed = utilDate.format(wed);
+			            cal.add(Calendar.DATE, 1);
+			            day = cal.getTime();
+			            break ;
+			        case 5:
+			            thu = day;
+			            Sthu = utilDate.format(thu);
+			            cal.add(Calendar.DATE, 1);
+			            day = cal.getTime();
+			            break ;
+			        case 6:
+			            fri = day;
+			            Sfri = utilDate.format(fri);
+			            cal.add(Calendar.DATE, 1);
+			            day = cal.getTime();
+			            break ;
+			        case 7:
+			            cal.add(Calendar.DATE, 1);
+			            day = cal.getTime();
+			            break ;           
+			    }
+			 }
+			 date = utilDate.format(dtoListHoliday.get(i).getHoliday());
+			 System.out.println(mon);
+			 System.out.println(tue);
+			 System.out.println(wed);
+			 System.out.println(thu);
+			 System.out.println(fri);
+			 System.out.println(date);
+			 System.out.println(Smon);
+			 System.out.println(Stue);
+			 System.out.println(Swed);
+			 System.out.println(Sthu);
+			 System.out.println(Sfri);
+			 
+			 
+			
+			//int result=0;
+			for(byte th=1; th<=15; th++) {
+				if(i < dtoListHoliday.size()) {
+					date = utilDate.format(dtoListHoliday.get(i).getHoliday());
+					dday = dtoListHoliday.get(i).getHoliday();
+				}
 				
-			        	if(!Smon.equals(date) && _class.equals(cls) && grade == grd && weekday.equals("1")) {
-							dto.setLecture_id(dtoListTimeTable.get(num).getLecture_id());
-							dto.setRoom_id(dtoListTimeTable.get(num).getRoom_id());
-							dto.setNormstart(dtoListTimeTable.get(num).getIstart());
-							dto.setNormhour(dtoListTimeTable.get(num).getIhour());
-							dto.setNormdate(mon);
-							dto.setTh(th);
-							dto.setNormstate("정상");
-							result = dao.create(dto);
-							monCal.add(Calendar.DATE, 7);
-							mon = monCal.getTime();
-							Smon = utilDate.format(mon);
+				for(int num=0; num < dtoListTimeTable.size(); num++) {
+					
+					
+					int lId = dtoListTimeTable.get(num).getLecture_id();
+					for(int s=0; s < dtoListLecture.size(); s++) {
+						if(lId == dtoListLecture.get(s).getId()) {
+							sId = dtoListLecture.get(s).getSubject_id();
+							cls = dtoListLecture.get(s).getLecture_class();
 						}
-			        	else if(!Stue.equals(date) && _class.equals(cls) && grade == grd && weekday.equals("2")) {
-							dto.setLecture_id(dtoListTimeTable.get(num).getLecture_id());
-							dto.setRoom_id(dtoListTimeTable.get(num).getRoom_id());
-							dto.setNormstart(dtoListTimeTable.get(num).getIstart());
-							dto.setNormhour(dtoListTimeTable.get(num).getIhour());
-							dto.setNormdate(tue);
-							dto.setTh(th);
-							dto.setNormstate("정상");
-							result = dao.create(dto);
-							tueCal.add(Calendar.DATE, 7);
-							tue = tueCal.getTime();
-							Stue = utilDate.format(tue);
-						}
-			        	else if(!Swed.equals(date) && _class.equals(cls) && grade == grd && weekday.equals("3")) {
-							dto.setLecture_id(dtoListTimeTable.get(num).getLecture_id());
-							dto.setRoom_id(dtoListTimeTable.get(num).getRoom_id());
-							dto.setNormstart(dtoListTimeTable.get(num).getIstart());
-							dto.setNormhour(dtoListTimeTable.get(num).getIhour());
-							dto.setNormdate(wed);
-							dto.setTh(th);
-							dto.setNormstate("정상");
-							result = dao.create(dto);
-							wedCal.add(Calendar.DATE, 7);
-							wed = wedCal.getTime();
-							Swed = utilDate.format(wed);
-			        	}
-			        	else if(!Sthu.equals(date) && _class.equals(cls) && grade == grd && weekday.equals("4")) {
-							dto.setLecture_id(dtoListTimeTable.get(num).getLecture_id());
-							dto.setRoom_id(dtoListTimeTable.get(num).getRoom_id());
-							dto.setNormstart(dtoListTimeTable.get(num).getIstart());
-							dto.setNormhour(dtoListTimeTable.get(num).getIhour());
-							dto.setNormdate(thu);
-							dto.setTh(th);
-							dto.setNormstate("정상");
-							result = dao.create(dto);
-							thuCal.add(Calendar.DATE, 7);
-							thu = thuCal.getTime();
-							Sthu = utilDate.format(thu);
-						}
-			        	else if(!Sfri.equals(date) && _class.equals(cls) && grade == grd && weekday.equals("5")) {
-							dto.setLecture_id(dtoListTimeTable.get(num).getLecture_id());
-							dto.setRoom_id(dtoListTimeTable.get(num).getRoom_id());
-							dto.setNormstart(dtoListTimeTable.get(num).getIstart());
-							dto.setNormhour(dtoListTimeTable.get(num).getIhour());
-							dto.setNormdate(fri);
-							dto.setTh(th);
-							dto.setNormstate("정상");
-							result = dao.create(dto);
-							friCal.add(Calendar.DATE, 7);
-							fri = friCal.getTime();
-							Sfri = utilDate.format(fri);
-						}
-						else if(_class.equals(cls) && grade == grd) {
-							dto.setLecture_id(dtoListTimeTable.get(num).getLecture_id());
-							dto.setRoom_id(dtoListTimeTable.get(num).getRoom_id());
-							dto.setNormstart(dtoListTimeTable.get(num).getIstart());
-							dto.setNormhour(dtoListTimeTable.get(num).getIhour());
-							dto.setNormdate(dday);
-							dto.setTh(th);
-							dto.setNormstate("휴강");
-							result = dao.create(dto);
-							if(Smon.equals(date)) {
+					}
+					String weekday = dtoListTimeTable.get(num).getWeekday();
+					byte grd = dtoListSubject.get(sId).getGrade();
+					int depart = dtoListSubject.get(sId).getDepart_id();
+					
+					monCal.setTime(mon);
+					tueCal.setTime(tue);
+					wedCal.setTime(wed);
+					thuCal.setTime(thu);
+					friCal.setTime(fri);
+					
+				        	if(!Smon.equals(date) && _class.equals(cls) && grade == grd && weekday.equals("1") && did == depart) {
+								dto.setLecture_id(dtoListTimeTable.get(num).getLecture_id());
+								dto.setRoom_id(dtoListTimeTable.get(num).getRoom_id());
+								dto.setNormstart(dtoListTimeTable.get(num).getIstart());
+								dto.setNormhour(dtoListTimeTable.get(num).getIhour());
+								dto.setNormdate(mon);
+								dto.setTh(th);
+								dto.setNormstate("정상");
+								result = dao.create(dto);
 								monCal.add(Calendar.DATE, 7);
 								mon = monCal.getTime();
 								Smon = utilDate.format(mon);
 							}
-							else if(Stue.equals(date)) {
+				        	else if(!Stue.equals(date) && _class.equals(cls) && grade == grd && weekday.equals("2") && did == depart) {
+								dto.setLecture_id(dtoListTimeTable.get(num).getLecture_id());
+								dto.setRoom_id(dtoListTimeTable.get(num).getRoom_id());
+								dto.setNormstart(dtoListTimeTable.get(num).getIstart());
+								dto.setNormhour(dtoListTimeTable.get(num).getIhour());
+								dto.setNormdate(tue);
+								dto.setTh(th);
+								dto.setNormstate("정상");
+								result = dao.create(dto);
 								tueCal.add(Calendar.DATE, 7);
 								tue = tueCal.getTime();
 								Stue = utilDate.format(tue);
 							}
-							else if(Swed.equals(date)) {
+				        	else if(!Swed.equals(date) && _class.equals(cls) && grade == grd && weekday.equals("3") && did == depart) {
+								dto.setLecture_id(dtoListTimeTable.get(num).getLecture_id());
+								dto.setRoom_id(dtoListTimeTable.get(num).getRoom_id());
+								dto.setNormstart(dtoListTimeTable.get(num).getIstart());
+								dto.setNormhour(dtoListTimeTable.get(num).getIhour());
+								dto.setNormdate(wed);
+								dto.setTh(th);
+								dto.setNormstate("정상");
+								result = dao.create(dto);
 								wedCal.add(Calendar.DATE, 7);
 								wed = wedCal.getTime();
 								Swed = utilDate.format(wed);
-							}
-							else if(Sthu.equals(date)) {
+				        	}
+				        	else if(!Sthu.equals(date) && _class.equals(cls) && grade == grd && weekday.equals("4") && did == depart) {
+								dto.setLecture_id(dtoListTimeTable.get(num).getLecture_id());
+								dto.setRoom_id(dtoListTimeTable.get(num).getRoom_id());
+								dto.setNormstart(dtoListTimeTable.get(num).getIstart());
+								dto.setNormhour(dtoListTimeTable.get(num).getIhour());
+								dto.setNormdate(thu);
+								dto.setTh(th);
+								dto.setNormstate("정상");
+								result = dao.create(dto);
 								thuCal.add(Calendar.DATE, 7);
 								thu = thuCal.getTime();
 								Sthu = utilDate.format(thu);
 							}
-							else if(Sfri.equals(date)) {
+				        	else if(!Sfri.equals(date) && _class.equals(cls) && grade == grd && weekday.equals("5") && did == depart) {
+								dto.setLecture_id(dtoListTimeTable.get(num).getLecture_id());
+								dto.setRoom_id(dtoListTimeTable.get(num).getRoom_id());
+								dto.setNormstart(dtoListTimeTable.get(num).getIstart());
+								dto.setNormhour(dtoListTimeTable.get(num).getIhour());
+								dto.setNormdate(fri);
+								dto.setTh(th);
+								dto.setNormstate("정상");
+								result = dao.create(dto);
 								friCal.add(Calendar.DATE, 7);
 								fri = friCal.getTime();
 								Sfri = utilDate.format(fri);
 							}
-							i++;
-						}
-			}
+							else if(_class.equals(cls) && grade == grd && did == depart) {
+								dto.setLecture_id(dtoListTimeTable.get(num).getLecture_id());
+								dto.setRoom_id(dtoListTimeTable.get(num).getRoom_id());
+								dto.setNormstart(dtoListTimeTable.get(num).getIstart());
+								dto.setNormhour(dtoListTimeTable.get(num).getIhour());
+								dto.setNormdate(dday);
+								dto.setTh(th);
+								dto.setNormstate("휴강");
+								result = dao.create(dto);
+								if(Smon.equals(date)) {
+									monCal.add(Calendar.DATE, 7);
+									mon = monCal.getTime();
+									Smon = utilDate.format(mon);
+								}
+								else if(Stue.equals(date)) {
+									tueCal.add(Calendar.DATE, 7);
+									tue = tueCal.getTime();
+									Stue = utilDate.format(tue);
+								}
+								else if(Swed.equals(date)) {
+									wedCal.add(Calendar.DATE, 7);
+									wed = wedCal.getTime();
+									Swed = utilDate.format(wed);
+								}
+								else if(Sthu.equals(date)) {
+									thuCal.add(Calendar.DATE, 7);
+									thu = thuCal.getTime();
+									Sthu = utilDate.format(thu);
+								}
+								else if(Sfri.equals(date)) {
+									friCal.add(Calendar.DATE, 7);
+									fri = friCal.getTime();
+									Sfri = utilDate.format(fri);
+								}
+								i++;
+							}
+							
+					
+				}
+				
+			}	
 			
-		}	
-		
-		
-    }
+			
+	    }
 	
-	private void insert(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException{	
-		weekday((byte) 1, "A", request, response);
-		weekday((byte) 1, "B", request, response);
+    private void insert(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException{	
+		int did = Integer.parseInt(request.getParameter("depart"));
+		weekday((byte) 1, "A", did, request, response);
+		weekday((byte) 1, "B", did, request, response);
 		
-		weekday((byte) 2, "A", request, response);
-		weekday((byte) 2, "B", request, response);
+		weekday((byte) 2, "A", did, request, response);
+		weekday((byte) 2, "B", did, request, response);
 		
-		weekday((byte) 3, "A", request, response);
-		weekday((byte) 3, "B", request, response);
+		weekday((byte) 3, "A", did, request, response);
+		weekday((byte) 3, "B", did, request, response);
 	//	for(int i=274; i<=454; i++)dao.delete(i);
 		if(result >= 1) {	
 			request.getRequestDispatcher("control-list.do").forward(request, response);

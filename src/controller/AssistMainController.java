@@ -67,7 +67,7 @@ public class AssistMainController extends HttpServlet {
     	dtoListControl = daoControl.List();
     	request.setAttribute("controlList", dtoListControl);
     	request.setAttribute("noticeList", dtoListNotice);
-    	request.setAttribute("list", dtoList);    	
+    	request.setAttribute("lecturedaylist", dtoList);
     	request.getRequestDispatcher("as_main.jsp").forward(request, response);
 		
 	}

@@ -88,6 +88,25 @@
 										<td>
 											<div class="form-inline">
 											<select name="classnum" class="form-control form-control-sm" style="width:120px">
+											<c:if test="${depart.classnum == 0 }">
+												<option value="0" selected>없음</option>
+												<option value='1'>1</option>
+												<option value='2' >2</option>
+												<option value='3'>3</option>
+												<option value='4'>4</option>
+												<option value='5'>5</option>
+												<option value='6'>6</option>
+											</c:if>
+											<c:if test="${depart.classnum == 1 }">
+												<option value="0">없음</option>
+												<option value='1' selected>1</option>
+												<option value='2' >2</option>
+												<option value='3'>3</option>
+												<option value='4'>4</option>
+												<option value='5'>5</option>
+												<option value='6'>6</option>
+											</c:if>
+											<c:if test="${depart.classnum == 2 }">
 												<option value="0">없음</option>
 												<option value='1'>1</option>
 												<option value='2' selected>2</option>
@@ -95,6 +114,43 @@
 												<option value='4'>4</option>
 												<option value='5'>5</option>
 												<option value='6'>6</option>
+											</c:if>
+											<c:if test="${depart.classnum == 3 }">
+												<option value="0">없음</option>
+												<option value='1'>1</option>
+												<option value='2'>2</option>
+												<option value='3' selected>3</option>
+												<option value='4'>4</option>
+												<option value='5'>5</option>
+												<option value='6'>6</option>
+											</c:if>
+											<c:if test="${depart.classnum == 4 }">
+												<option value="0">없음</option>
+												<option value='1'>1</option>
+												<option value='2'>2</option>
+												<option value='3'>3</option>
+												<option value='4' selected>4</option>
+												<option value='5'>5</option>
+												<option value='6'>6</option>
+											</c:if>
+											<c:if test="${depart.classnum == 5 }">
+												<option value="0">없음</option>
+												<option value='1'>1</option>
+												<option value='2'>2</option>
+												<option value='3'>3</option>
+												<option value='4'>4</option>
+												<option value='5' selected>5</option>
+												<option value='6'>6</option>
+											</c:if>
+											<c:if test="${depart.classnum == 6 }">
+												<option value="0">없음</option>
+												<option value='1'>1</option>
+												<option value='2'>2</option>
+												<option value='3'>3</option>
+												<option value='4'>4</option>
+												<option value='5'>5</option>
+												<option value='6' selected>6</option>
+											</c:if>
 											</select>
 											</div>
 										</td>
@@ -104,9 +160,16 @@
 										<td>
 											<div class="form-inline">
 											<select name="gradesystem" class="form-control form-control-sm" style="width:80px">
-												<option value="0" selected></option>
-												<option value='2'>2년제</option>
+											<c:if test="${depart.gradesystem == 2 }">
+												<option value="0" ></option>
+												<option value='2' selected>2년제</option>
 												<option value='3'>3년제</option>
+											</c:if>
+											<c:if test="${depart.gradesystem == 3 }">
+												<option value="0" ></option>
+												<option value='2'>2년제</option>
+												<option value='3' selected>3년제</option>
+											</c:if>
 											</select>
 											</div>
 										</td>

@@ -49,8 +49,9 @@
 function make_lecday()	// 작성한 시간표 강의내용 저장
 {
 	var sdate = form1.dstart.value;
+	var depart = form1.depart.value;
 
-	location.href="lectureday-insert.do?dstart="+sdate;
+	location.href="lectureday-insert.do?dstart="+sdate+"&depart="+depart;
 	
 }
 </script>
@@ -148,6 +149,11 @@ function make_lecday()	// 작성한 시간표 강의내용 저장
 												<div class="input-group input-group-sm">
 													<input type="text" id="sdate" name="dstart" class="flatpickr form-control form-control-sm" style="text-align:center;width:110px">
 												</div> 
+												<select name="depart" class="form-control form-control-sm" onchange="javascript:find_text();">
+													<c:forEach items="${departList}" var="depart">
+														<option value='${depart.id }'>${depart.name }</option>
+													</c:forEach>
+												</select>
 												&nbsp;
 												<input type="button" value="생성하기" class="btn btn-xs mycolor1" onClick="make_lecday();">
 											</div>

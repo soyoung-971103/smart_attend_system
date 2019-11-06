@@ -96,7 +96,12 @@ public class TimeTableController extends HttpServlet {
     	dto.setIstart(Byte.parseByte(request.getParameter("is")));
     	dto.setIhour(Byte.parseByte(request.getParameter("ih")));
     	dto.setRoom_id(Integer.parseInt(request.getParameter("ri")));
+    	String tid = request.getParameter("tid");
     	
+    	if(tid != null) {
+    		int id = Integer.parseInt(tid);
+    		dao.delete(id);
+    	}
     	int result = dao.insert(dto);
     	
     	if(result >= 1) {	

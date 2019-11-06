@@ -3,6 +3,7 @@ package controller;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -120,18 +121,22 @@ public class HolidayController extends HttpServlet {
 		
 		SimpleDateFormat utilDate = new SimpleDateFormat("yyyy-MM-dd");
 		String day = request.getParameter("holiday");
+		Calendar c = Calendar.getInstance();
+		
+		
 		try {
-			dto.setHoliday(utilDate.parse(day));
+			c.setTime(utilDate.parse(day));
+			c.add(Calendar.DATE, 1);
+			day = utilDate.format(c.getTime());
+			dto.setHoliday(utilDate.parse(day));	
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
+		
 		dto.setReason(request.getParameter("reason"));
-		int result = dao.insert(dto);		
-
-		System.out.println("날짜"+dto.getHoliday());
-		System.out.println("날짜1"+new java.sql.Date(dto.getHoliday().getTime()));
+		int result = dao.insert(dto);
 		
 		if(result >= 1) {	
 			request.getRequestDispatcher("holiday-list.do").forward(request, response);

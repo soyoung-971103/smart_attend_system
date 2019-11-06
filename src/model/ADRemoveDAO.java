@@ -153,7 +153,7 @@ public class ADRemoveDAO extends DAOBase{
 	public void lastapp(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException{
 		String no = request.getParameter("no");
 		try {
-			String query="update lectureday set state='최종승인' where id = " + no;
+			String query="update lectureday set state='최종승인', normstate='휴강' where id = " + no;
 			conn = getConnection();
 			stmt = conn.createStatement();
 			stmt.executeUpdate(query);

@@ -11,12 +11,15 @@ import java.util.ArrayList;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import model.AssistDTO;
+import model.DepartDAO;
+import model.DepartDTO;
 import model.MemberDAO;
 import model.MemberDTO;
 import model.StudentDTO;
@@ -41,15 +44,20 @@ public class MemberController extends HttpServlet {
     StudentDTO dtoStudent = null;
 	TeacherDTO dtoTeacher = null;
 	AssistDTO dtoAssist = null;
+	DepartDTO dtoDepart = null;
     HttpSession sesobj = null;
+    Cookie cok = null;
     MemberDAO dao = new MemberDAO();
+    DepartDAO daoDepart = new DepartDAO();
     //Pagination pn = new Pagination();
+    String admin_id = "admin";
+    String admin_pw = "1234";
+    String admin_name = "admin";
     
 	protected void process(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
 		// TODO Auto-generated method stub
 		request.setCharacterEncoding("UTF-8");		
 		sesobj = request.getSession(true);
-		
 		
 		String uri = request.getRequestURI();
 		int lastIndex = uri.lastIndexOf('/'); 
@@ -63,39 +71,60 @@ public class MemberController extends HttpServlet {
 	
 	private void login(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {			
 		String kind = request.getParameter("login_kind");
+		dtoDepart = new DepartDTO();
+		String depart;
 		dto = new MemberDTO();
+		
 		
 		if(kind.equals("student")) {
 			dtoStudent = new StudentDTO();
 			dtoStudent.setSchoolno(request.getParameter("login_uid"));
 			dtoStudent.setPwd(request.getParameter("login_password"));				
-			dto = dao.loginCheckStudent(dtoStudent);	
-			sesobj.setAttribute("schoolno", dto.getUid());
-			
+			dto = dao.loginCheckStudent(dtoStudent);				
 		}else if(kind.equals("teacher")) {
 			dtoTeacher = new TeacherDTO();
 			dtoTeacher.setUid(request.getParameter("login_uid"));
-			dtoTeacher.setPwd(request.getParameter("login_password"));
-			
-			dto = dao.loginCheckTeacher(dtoTeacher);	
-			
-			sesobj.setAttribute("depart_id", dto.getDepart_id());
+			dtoTeacher.setPwd(request.getParameter("login_password"));			
+			dto = dao.loginCheckTeacher(dtoTeacher);				
 		}else if(kind.equals("assist")) {
 			dtoAssist = new AssistDTO();
 			dtoAssist.setUid(request.getParameter("login_uid"));
 			dtoAssist.setPwd(request.getParameter("login_password"));				
-			dto = dao.loginCheckAssist(dtoAssist);	
-			
+			dto = dao.loginCheckAssist(dtoAssist);				
+		}else if(kind.equals("admin")) {
+			dto = new MemberDTO();
+			dto.setName(admin_name);
+			dto.setUid(admin_id);
+			dto.setId(0);
+			dto.setDepart_id(0);
 		}else {
 			dto = null;
 		}		
 		
 		if(dto != null) {	
+			if(dto.getDepart_id() != 0) {
+				dtoDepart.setId(dto.getDepart_id());
+				dtoDepart = daoDepart.selectOne(dtoDepart);
+				depart = dtoDepart.getName();
+				sesobj.setAttribute("depart", depart);
+			}			
+			
 			sesobj.setAttribute("name", dto.getName());
 			sesobj.setAttribute("uid", dto.getUid());
 			sesobj.setAttribute("id", dto.getId());
-			sesobj.setAttribute("kind", kind);
-			request.getRequestDispatcher("main.jsp").forward(request, response);
+			sesobj.setAttribute("kind", kind);			
+			sesobj.setAttribute("depart_id", dto.getDepart_id());
+			if(kind.equals("student")) {
+				request.getRequestDispatcher("student-main.do").forward(request, response);
+			}else if(kind.equals("teacher")) {
+				request.getRequestDispatcher("te-main.do").forward(request, response);
+			}else if(kind.equals("assist")) {				
+				request.getRequestDispatcher("assistmain_list.do").forward(request, response);
+			}else if(kind.equals("admin")) {
+				request.getRequestDispatcher("admain_list.do").forward(request, response);			
+			}else {
+				request.getRequestDispatcher("main.jsp").forward(request, response);
+			}
 		}else {
 			request.getRequestDispatcher("login.jsp").forward(request, response);
 		}

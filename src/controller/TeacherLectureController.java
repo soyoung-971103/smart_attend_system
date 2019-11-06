@@ -119,7 +119,7 @@ import model.TeacherLectureDAO;
 					String[] str = list.get(i).getNormdate().split("-");
 					TeacherLectureDTO tdto = list.get(i);
 					int cnt = lectureDAO.countStudent(tdto.getLecture_id().getId());
-					if(list.get(i).getNormstate().equals("정상")) {
+					if(tdto.getNormstate().equals("정상") && tdto.getNormdate().equals(text)) {
 						re.append("<div class='col-12 col-lg-6' align='left'>");
 						re.append("<div class='card border-dark mb-3' style='max-width: 20rem;'>");
 						re.append("<div class='card-header bg-info text-white'  style='padding:10px'>");
@@ -139,8 +139,9 @@ import model.TeacherLectureDAO;
 						re.append("</center>");
 						re.append("</div></div></div>");
 					}
-					else if(tdto.getNormstate().equals("휴강") && tdto.getRestdate().equals(text))
+					else if((tdto.getNormstate().equals("휴강") && tdto.getRestdate().equals(text)))
 					{
+						System.out.println(tdto.getId() + " " + tdto.getState());
 						re.append("<div class='col-12 col-lg-6' align='left'>");
 						re.append("<div class='card border-dark mb-3' style='max-width: 20rem;'>");
 						re.append("<div class='card-header bg-info text-white'  style='padding:10px'>");

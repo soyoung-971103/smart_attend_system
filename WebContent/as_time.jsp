@@ -60,7 +60,7 @@
 				<!--- 시간표 관련 JS  ---------------------------------------------->
 				<script>
 					<c:forEach items="${list}" var="item">
-					var c = ${item.id};
+					c = ${item.id};
 					</c:forEach>
 					var abc = 1;
 					function dragEnter(ev) { ev.preventDefault(); }
@@ -90,9 +90,7 @@
 
 					function make_lecture(h)	// 새강의 그리기
 					{
-						
-						alert(c);
-						if(c==null) c=1;
+						if(c=="") c=1;
 						else c=Number(c)+1;
 						str = form1.sel4.value;
 						str = c+"^"+str;
@@ -136,6 +134,7 @@
 							if (typeof(document.getElementById( pos1 ).childNodes[0]) != 'undefined')
 							{
 								document.getElementById( pos1 ).childNodes[0].style.borderColor="#cccccc";
+								document.getElementById( pos1 ).remove();
 							}
 						}}}}
 						
@@ -160,7 +159,7 @@
 								var dp = form1.sel_dp.value;
 								if(h<10) var is = pos.substring(0,2);
 								else var is = pos.substring(1,2);
-								location.href="timetable-insert.do?lid="+a[1]+"&w="+pos[2]+"&is="+is+"&ih="+a[7]+"&ri="+a[11]+"&dp="+dp;	
+								location.href="timetable-insert.do?lid="+a[1]+"&w="+pos[2]+"&is="+is+"&ih="+a[7]+"&ri="+a[11]+"&tid="+a[0];	
 							}
 							//document.form1.action="timetable-insert.do";
 							//form1.submit();
@@ -251,7 +250,7 @@
 						var de = form1.sel_dp.value;
 						<c:forEach items="${lectureList}" var="item2">
 						if(abc=="${item2.subject.grade}" && de=="${item2.subject.depart_id}"){
-							$("#optr").append("<option value='${item2.id }^${item2.subject.grade }^${item2._class }^${item2.subject.ihour }^0^0^0^${item2.subject.name }^${item2.teacher.id }^${item2.teacher.name }'>"+"${item2.subject.grade }-${item2._class } (${item2.subject.ihour }h) : ${item2.subject.name }"+"</option>");
+							$("#optr").append("<option value='${item2.id }^${item2.subject.grade }^${item2.lecture_class }^${item2.subject.ihour }^0^0^0^${item2.subject.name }^${item2.teacher.id }^${item2.teacher.name }'>"+"${item2.subject.grade }-${item2.lecture_class } (${item2.subject.ihour }h) : ${item2.subject.name }"+"</option>");
 						}
 						</c:forEach>
 					}
@@ -338,7 +337,6 @@
 											&nbsp;<input type="button" class="btn btn-sm btn-warning" value="2h" onclick="make_lecture(2);">
 											&nbsp;<input type="button" class="btn btn-sm btn-warning" value="3h" onclick="make_lecture(3);">
 											&nbsp;<input type="button" class="btn btn-sm btn-warning" value="4h" onclick="make_lecture(4);">
-											&nbsp;<input type="button" class="btn btn-sm btn-primary" value="삭제" onclick="del_lecture();">
 											&nbsp;<input type="button" class="btn btn-sm btn-primary" value="비우기" onclick="del_lecture2();">
 											
 

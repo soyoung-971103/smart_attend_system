@@ -7,7 +7,10 @@
 <!-------------------------------------------------------------------------------->	
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<!DOCTYPE html>  
+<%@ page import="java.util.*" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<!DOCTYPE html>
 <html lang="kr">
 <head>
 	<meta charset="utf-8">
@@ -28,12 +31,11 @@
 		
 </head>
 
-<body class="adminbody">
+<body class="adminbody" onLoad="load_lec();">
 
 <div id="main">
+	<%@ include file="main_menu.jsp" %>
 
-	<%@include file="main_menu.jsp" %>
-		
     <div class="content-page">
 	    <div class="content">
 			<div class="container-fluid">
@@ -43,11 +45,11 @@
 				<div class="row">
 					<div class="col-xl-12">
 						<div class="breadcrumb-holder">
-							<h1 class="main-title float-left">컴퓨터소프트웨어학과</h1>
+							<h1 class="main-title float-left">교무처</h1>
 							<ol class="breadcrumb float-right">
 								<li class="breadcrumb-item">Home</li>
-								<li class="breadcrumb-item">교수</li>
-								<li class="breadcrumb-item active">휴보강</li>
+								<li class="breadcrumb-item">직원</li>
+								<li class="breadcrumb-item active">메인</li>
 							</ol>
 							<div class="clearfix"></div>
 						</div>
@@ -61,63 +63,31 @@
 							<div class="card-header mycolor3" style="padding:10px">
 								<div class="row">
 									<div class="col" align="left">
-										<h3><i class="fa fa-table"></i> 휴보강 </h3>
+										<h3><i class="fa fa-table"></i> 공지사항 </h3>
 									</div>
 									<div class="col" align="right">
-										<h3><%= session.getAttribute("name") %></h3>
+										<h3>교수님1</h3>
 									</div>
 								</div>
 							</div>
 							<div class="card-body" style="padding:10px">
 
-								<form name="form1" action="" method="post">
-								<div class="row" style="margin-bottom:3px">
-									<div class="col" align="left">
-									</div>
-									<div class="col" align="right">
-										<a href="teacher-lecmove-select.do" class="btn btn-sm mycolor1">신청</a>
-									</div>
-								</div>
-
-								<table class="table table-bordered table-responsive-sm mytable" style="width:100%;">
+								<table class="table table-bordered mytable" style="width:100%;">
 									<tr class="mycolor1">
-										<td>학과</td>
-										<td>교수님</td>
-										<td>교과목</td>
-										<td>학년/반</td>
-										<td>휴강날짜</td>
-										<td>휴강교시</td>
-										<td>보강날짜</td>
-										<td>보강교시</td>
-										<td>보강강의실</td>
-										<td>처리상태</td>
-										<td>학과장</td>									
+										<td>날짜</td>
+										<td>제목</td>
+										<td width="60"></td>
 									</tr>
-									<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-									<c:forEach var="dto" items="${ lectureday }">
+									<c:forEach var="main" items="${noticeList}">
 									<tr>
-										<td>${ dto.depart.name }</td> 
-										<td>${ dto.teacher.name }</td>
-										<td>${ dto.subject.name }</td>
-										<td>${ dto.subject.grade }학년/${ dto.lecture._class }반</td>
-										<td class="mycolor4">${ dto.normdate }</td>
-										<td class="mycolor4"><c:if test="${dto.normhour gt 2}"><c:forEach var="i" step="1" begin="${ dto.normstart }" end="${ dto.normstart + dto.normhour -2 }"> ${i }, </c:forEach>${ dto.normstart + dto.normhour -1 } 교시</c:if>
-															<c:if test="${dto.normhour eq 2}"><c:forEach var="i" step="1" begin="${ dto.normstart }" end="${ dto.normstart + dto.normhour -1 }"> ${i }, </c:forEach>${ dto.normstart + dto.normhour -1 } 교시</c:if>
-															<c:if test="${dto.normhour eq 1}">${ dto.normstart} 교시</c:if></td>
-										<td class="mycolor3">${ dto.restdate }</td>
-										<td class="mycolor3"><c:if test="${dto.resthour gt 2}"><c:forEach var="i" step="1" begin="${ dto.reststart }" end="${ dto.reststart + dto.resthour -2 }"> ${i }, </c:forEach>${ dto.reststart + dto.resthour -1 } 교시</c:if>
-															<c:if test="${dto.resthour eq 2}"><c:forEach var="i" step="1" begin="${ dto.reststart }" end="${ dto.reststart + dto.resthour -2 }"> ${i }, </c:forEach>${ dto.reststart + dto.resthour -1 } 교시</c:if>
-															<c:if test="${dto.resthour eq 1}">${ dto.reststart } 교시</c:if></td>
-										<td class="mycolor3">${ dto.room.name }</td>
-										<td><b>${dto.state}</b></td>
-										<td>					<!-- 0 신청 or 1 취소 or 2 학과장승인 or 3 반려 or 4 최종승인 -->
-											<a href="teacher-bogangDelete.do?id=${ dto.id }" class="btn btn-xs btn-outline-danger">취소</a>
+										<td>${ main.writeday}</td>
+										<td style="text-align:left">${ main.title}</td>
+										<td>
+										 <a href="notice-detail.do?id=${ main.id }" class="btn btn-xs btn-outline-primary">보기</a>
 										</td>
 									</tr>
 									</c:forEach>
-
 								</table>
-								</form>
 
 								<nav>
 									<ul class='pagination pagination-sm justify-content-center'>
@@ -132,6 +102,78 @@
 										<li class='page-item'><a class="page-link" href="#">▶</a></li>
 									</ul>
 								</nav>
+
+							</div>		<!-- card body end -->
+						</div>		<!-- card end -->
+					</div>
+						
+				</div>	<!-- row end -->
+
+				<div class="row">
+				
+					<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+						<div class="card mb-3">
+							<div class="card-header mycolor3" style="padding:10px">
+								<div class="row">
+									<div class="col" align="left">
+										<h3><i class="fa fa-table"></i> 휴보강 </h3>
+									</div>
+									<div class="col" align="right">
+										<h3></h3>
+									</div>
+								</div>
+							</div>
+							<div class="card-body" style="padding:10px">
+
+								<table class="table table-bordered table-hover table-responsive-sm mytable" style="width:100%">
+								<tr class="mycolor1">
+										<td>학과</td>
+										<td>교수님</td>
+										<td>교과목</td>
+										<td>학년/반</td>
+										<td>휴강날짜</td>
+										<td>휴강교시</td>
+										<td>보강날짜</td>
+										<td>보강교시</td>
+										<td>보강강의실</td>
+										<td>처리상태</td>
+										<td>학과장</td>									
+									</tr>
+								<c:forEach var="lectureday" items="${lecturedaylist}">
+								<tr>
+									<td>${ lectureday.depart.name}</td>
+									<td>${ lectureday.teacher.name}</td>
+									<td>${ lectureday.subject.name}</td>
+									<td>${ lectureday.subject.grade}학년/${ lectureday.lecture.lecture_class}반</td>
+									<td class="mycolor4">${ lectureday.normdate}</td>
+									<td class="mycolor4">${ lectureday.normstart}, ${lectureday.normstart+lectureday.normhour-1} 교시</td>
+									<td class="mycolor3">${ lectureday.restdate}</td>
+									<td class="mycolor3">${ lectureday.reststart}, ${lectureday.reststart+lectureday.resthour-1} 교시</td>
+									<td class="mycolor3">${ lectureday.room.name}</td>
+									<td><b>${ lectureday.state}신청</b></td>
+									<td>
+										<a href="teacher-bogangDelete.do?id=${ dto.id }" class="btn btn-xs btn-outline-danger">취소</a>
+									</td>
+								</tr>
+								
+								</c:forEach>
+									
+								</table>
+
+								<nav>
+									<ul class='pagination pagination-sm justify-content-center'>
+										<li class='page-item'><a class="page-link" href="#">◀</a></li>
+										<li class='page-item'><a class="page-link" href="#">◁</a></li>
+										<li class='page-item'><a class="page-link" href="#">2</a></li>
+										<li class='page-item'><a class="page-link" href="#">3</a></li>
+										<li class='page-item active'><span class='page-link' style='background-color:steelblue'>4</span></li>
+										<li class='page-item'><a class="page-link" href="#">5</a></li>
+										<li class='page-item'><a class="page-link" href="#">6</a></li>
+										<li class='page-item'><a class="page-link" href="#">▷</a></li>
+										<li class='page-item'><a class="page-link" href="#">▶</a></li>
+									</ul>
+								</nav>
+
 
 							</div>		<!-- card body end -->
 						</div>		<!-- card end -->

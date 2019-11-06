@@ -61,6 +61,18 @@
 				<script>
 					function load_lec()			// 해당학기 시간표읽어 모두 표시
 					{	
+						for (h=1;h<=10 ;h++){		// 시간(1-10)
+							for (w=1;w<=5 ;w++) {		// 요일(1-5)
+							for (g=1;g<=3 ;g++)	{		// 학년(1,2,3)
+							for (b=1;b<=2 ;b++)	{		// 반(A,B)
+								ban=(b==1) ? "A" : "B";
+								pos1=String(h)+String(w)+String(g)+ban;
+								if (h<10) pos1="0"+pos1;
+								if (typeof(document.getElementById( pos1 ).childNodes[0]) != 'undefined')
+								{
+									document.getElementById( pos1 ).innerHTML="";
+								}
+							}}}}
 						var dp = form1.sel3.value;
 						//   0     1    2          3        4       5          6        7
 						// 학년^반^요일^시작교시^시간^과목명^교수님^강의실

@@ -13,6 +13,11 @@ import javax.servlet.http.HttpSession;
 
 import model.ControlDAO;
 import model.ControlDTO;
+import model.DepartDAO;
+import model.DepartDTO;
+import model.SubjectDTO;
+import model.TimeTableDAO;
+import model.TimeTableDTO;
 
 /**
  * Servlet implementation class ControlController
@@ -33,6 +38,9 @@ public class ControlController extends HttpServlet {
     ControlDTO dto = null;
     HttpSession sesobj = null;
     ControlDAO dao = new ControlDAO();
+    ArrayList<DepartDTO> dtoListDepart = null;
+    DepartDTO dtoDepart = null;
+    DepartDAO daoDepart = new DepartDAO();
     
 	protected void process(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
 		// TODO Auto-generated method stub
@@ -73,7 +81,9 @@ public class ControlController extends HttpServlet {
 	
 	private void list(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {		
     	dtoListControl = dao.List();
-    	request.setAttribute("controlList", dtoListControl);    	
+    	dtoListDepart = daoDepart.List();
+    	request.setAttribute("controlList", dtoListControl);    
+    	request.setAttribute("departList", dtoListDepart); 
     	request.getRequestDispatcher("ad_control.jsp").forward(request, response);
 		
 	}
