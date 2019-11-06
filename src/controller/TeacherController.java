@@ -67,6 +67,8 @@ public class TeacherController extends HttpServlet {
 	LecturedayDTO dtoLectureday = null;
     TeacherDAO dao = new TeacherDAO();  
     BuildingDAO daoBuilding = new BuildingDAO(); 
+    ArrayList<ControlDTO> dtoListControl = null;
+    ControlDAO daoControl = new ControlDAO();
     HttpSession sesobj = null;
     Cookie cookies[] = null;
     String [] kind = {"전임교수", "겸임교수", "시간강사"};
@@ -128,6 +130,8 @@ public class TeacherController extends HttpServlet {
 		
 		request.setAttribute("text1", text1);
 		request.setAttribute("alMember", dtoList);
+		dtoListControl = daoControl.List();
+    	request.setAttribute("controlList", dtoListControl);
 		RequestDispatcher dis = request.getRequestDispatcher("ad_teacher.jsp");
 		dis.forward(request, response);
 	}
@@ -143,7 +147,8 @@ public class TeacherController extends HttpServlet {
 			
 			request.setAttribute("Depart", dtoListDepart);
 			request.setAttribute("kind", kind);
-			request.setAttribute("member", dto);
+			request.setAttribute("member", dto);dtoListControl = daoControl.List();
+	    	request.setAttribute("controlList", dtoListControl);
 			RequestDispatcher dis = request.getRequestDispatcher("ad_teacherInfo.jsp"); 
 			dis.forward(request, response);
 		}
@@ -164,6 +169,8 @@ public class TeacherController extends HttpServlet {
 		dtoListDepart = daoDepart.List();
 		request.setAttribute("Depart", dtoListDepart);
 		request.setAttribute("kind", kind);
+		dtoListControl = daoControl.List();
+    	request.setAttribute("controlList", dtoListControl);
 		RequestDispatcher dis = request.getRequestDispatcher("ad_teachernew.jsp"); 
 		dis.forward(request, response);
 	}
@@ -178,12 +185,15 @@ public class TeacherController extends HttpServlet {
 		ArrayList<MyLectureDTO> mdtolist = mdao.findstu(ldtolist);
 		System.out.println(mdtolist.size());
 		request.setAttribute("dtolist", mdtolist);
+		dtoListControl = daoControl.List();
+    	request.setAttribute("controlList", dtoListControl);
 	    request.getRequestDispatcher("te_lecqa.jsp").forward(request, response);
 	}
 	
 	private void qaans(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException{
 		MyLectureDAO mdao = new MyLectureDAO();
-		
+		dtoListControl = daoControl.List();
+    	request.setAttribute("controlList", dtoListControl);
 		request.setAttribute("info", mdao.teqaansinfo(Integer.parseInt(request.getParameter("id"))));
 	    request.getRequestDispatcher("te_lecqaedit.jsp").forward(request, response);
 	}
@@ -215,7 +225,8 @@ public class TeacherController extends HttpServlet {
 		ArrayList<MyLectureDTO> mdtolist = mdao.findstu(ldtolist);
 		
 		request.setAttribute("qaList", mdtolist);
-		
+		dtoListControl = daoControl.List();
+    	request.setAttribute("controlList", dtoListControl);
 	    request.getRequestDispatcher("te_main.jsp").forward(request, response);
 	}
 	
@@ -227,6 +238,8 @@ public class TeacherController extends HttpServlet {
 		sesobj.setAttribute("sdate", sdate);
 		sesobj.setAttribute("edate", edate);
 		request.setAttribute("list", dtoListTimeTable);
+		dtoListControl = daoControl.List();
+    	request.setAttribute("controlList", dtoListControl);
     	request.getRequestDispatcher("te_lecmovenorm.jsp").forward(request, response);
 	}
 	
@@ -312,7 +325,8 @@ public class TeacherController extends HttpServlet {
 		request.setAttribute("lecturenorm_data", lecturenorm_data);
 		request.setAttribute("listBuilding", dtoListBuilding);
 		request.setAttribute("timeTableList", timeTableList);
-		
+		dtoListControl = daoControl.List();
+    	request.setAttribute("controlList", dtoListControl);
 		request.getRequestDispatcher("te_lecmoverest.jsp").forward(request, response);
 	}
 	
@@ -351,7 +365,8 @@ public class TeacherController extends HttpServlet {
 		dtoLectureday.setReststart(reststart);
 		dtoLectureday.setRoom_id(room_id);
 		dtoLectureday.setRestdate(date2);
-		
+		dtoListControl = daoControl.List();
+    	request.setAttribute("controlList", dtoListControl);
 		if(dao.RestUpdate(dtoLectureday) != 0) {
 			request.getRequestDispatcher("te_lecmove.jsp").forward(request, response);
 		}		

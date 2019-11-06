@@ -90,7 +90,10 @@ public class SubjectController extends HttpServlet {
    	
    	dtoListDepart = daoDepart.List();
 
-   	request.setAttribute("listDepart", dtoListDepart);    	   		
+   	request.setAttribute("listDepart", dtoListDepart);    	
+
+   	dtoListControl = daoControl.List();
+    request.setAttribute("controlList", dtoListControl);
    	request.getRequestDispatcher("as_subnew.jsp").forward(request, response);
 	
 	} 
@@ -102,6 +105,8 @@ public class SubjectController extends HttpServlet {
 
        	request.setAttribute("listDepart", dtoListDepart);
 		request.setAttribute("subject", dto);
+		dtoListControl = daoControl.List();
+    	request.setAttribute("controlList", dtoListControl);
 		request.getRequestDispatcher("as_subupdate.jsp").forward(request, response);
     }
     

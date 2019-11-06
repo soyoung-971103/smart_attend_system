@@ -63,14 +63,13 @@ public class StudentController extends HttpServlet {
     ArrayList<ControlDTO> dtoListControl = null;
     ArrayList<NoticeDTO> dtoListNotice = null;
     ArrayList<QnaDTO> dtoListQna = null;
-ControlDAO daoControl = new ControlDAO();
-
-ArrayList<StudentDTO> alStudent = null;
-StudentDTO student = null;
-ArrayList<LectureDTO> alLecture = null;
-LectureDTO lecture = null;
-LectureDAO lecture_dao = new LectureDAO();
-String pagination = null;
+	ControlDAO daoControl = new ControlDAO();	
+	ArrayList<StudentDTO> alStudent = null;
+	StudentDTO student = null;
+	ArrayList<LectureDTO> alLecture = null;
+	LectureDTO lecture = null;
+	LectureDAO lecture_dao = new LectureDAO();
+	String pagination = null;
     
 	protected void process(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
 		// TODO Auto-generated method stub
@@ -139,9 +138,11 @@ String pagination = null;
 		
 	protected void search(HttpServletRequest request, HttpServletResponse response)
 		throws SQLException, ServletException, IOException {
-	alStudent = dao.search(request.getParameter("text1"));
-	request.setAttribute("studentlist", alStudent);
-	request.getRequestDispatcher("ad_student.jsp").forward(request, response);
+		alStudent = dao.search(request.getParameter("text1"));
+		request.setAttribute("studentlist", alStudent);
+		dtoListControl = daoControl.List();
+		request.setAttribute("controlList", dtoListControl);
+		request.getRequestDispatcher("ad_student.jsp").forward(request, response);
 	}
 	
 	private void studentnew(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
@@ -150,6 +151,8 @@ String pagination = null;
 		dtoListDepart = daoDepart.List();
 		request.setAttribute("listDepart", dtoListDepart);
 		dtoListDepart = daoDepart.List();
+		dtoListControl = daoControl.List();
+    	request.setAttribute("controlList", dtoListControl);
 		 
     	request.setAttribute("listDepart", dtoListDepart);    	   		
     	request.getRequestDispatcher("ad_studentnew.jsp").forward(request, response);
@@ -176,6 +179,9 @@ String pagination = null;
 		dtoListDepart = daoDepart.List();
 		 
     	request.setAttribute("listDepart", dtoListDepart);  
+    	dtoListControl = daoControl.List();
+    	request.setAttribute("controlList", dtoListControl);
+    	
 		request.getRequestDispatcher("ad_studentupdate.jsp").forward(request, response);
     }
 	
@@ -243,7 +249,10 @@ String pagination = null;
 		dto = dao.detailId();
 
 		request.setAttribute("student", dto);
-		request.setAttribute("listDepart", dtoListDepart); 
+		request.setAttribute("listDepart", dtoListDepart);
+
+		dtoListControl = daoControl.List();
+    	request.setAttribute("controlList", dtoListControl);
 		request.getRequestDispatcher("ad_studentupdate.jsp").forward(request, response);
 	}
 	
@@ -267,6 +276,10 @@ String pagination = null;
 			else
 				request.setAttribute("dtoList", mdtoList);
 		}
+		
+
+		dtoListControl = daoControl.List();
+    	request.setAttribute("controlList", dtoListControl);
 		request.getRequestDispatcher("st_lecqa.jsp").forward(request, response);
 	}
 	
@@ -284,6 +297,9 @@ String pagination = null;
 		request.setAttribute("depart_name", ddto.getName());
 		request.setAttribute("stu", dto);
 		request.setAttribute("leclist", ldtoList);
+
+		dtoListControl = daoControl.List();
+    	request.setAttribute("controlList", dtoListControl);
 		request.getRequestDispatcher("st_lecqanew.jsp").forward(request, response);
 	}
 	
@@ -309,7 +325,9 @@ String pagination = null;
 		request.setAttribute("sub", sdto);
 		request.setAttribute("stu", dto);
 		request.setAttribute("dto", mdto);
-		
+
+		dtoListControl = daoControl.List();
+    	request.setAttribute("controlList", dtoListControl);
 		request.getRequestDispatcher("st_lecqaedit.jsp").forward(request, response);
 	}
 	
@@ -319,6 +337,9 @@ String pagination = null;
 		dtoListNotice = dao.NoticeList();
 		request.setAttribute("dtoListQna", dtoListQna);
 		request.setAttribute("dtoListNotice", dtoListNotice);
+
+		dtoListControl = daoControl.List();
+    	request.setAttribute("controlList", dtoListControl);
 		request.getRequestDispatcher("st_main.jsp").forward(request, response);
 	}
 	
@@ -326,6 +347,9 @@ String pagination = null;
 		int id = Integer.parseInt(request.getParameter("id"));
 		dtoQna = dao.QnaInfo(id);
 		request.setAttribute("dto", dtoQna);
+
+		dtoListControl = daoControl.List();
+    	request.setAttribute("controlList", dtoListControl);
 		request.getRequestDispatcher("st_lecqainfo.jsp").forward(request, response);
 	}
 		

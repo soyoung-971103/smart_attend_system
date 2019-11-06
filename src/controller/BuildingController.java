@@ -83,7 +83,8 @@ public class BuildingController extends HttpServlet {
     	dto.setFloor(Byte.parseByte(request.getParameter("floor")));
     	
     	int result = dao.insert(dto);
-    	
+    	dtoListControl = daoControl.List();
+    	request.setAttribute("controlList", dtoListControl);
     	if(result >= 1) {	
 			request.getRequestDispatcher("building-list.do").forward(request, response);
 		}else {
@@ -96,7 +97,8 @@ public class BuildingController extends HttpServlet {
     	BuildingDTO dtoInfo = new BuildingDTO();
     	dtoInfo.setId(Integer.parseInt(request.getParameter("id")));
     	dto = dao.selectOne(dtoInfo);
-    	
+    	dtoListControl = daoControl.List();
+    	request.setAttribute("controlList", dtoListControl);
     	if(dto != null) {
   			request.setAttribute("building", dto);
   			request.getRequestDispatcher("ad_building_update.jsp").forward(request, response);

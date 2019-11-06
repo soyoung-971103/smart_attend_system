@@ -21,6 +21,8 @@ import org.apache.jasper.tagplugins.jstl.core.ForEach;
 import com.mysql.cj.Session;
 
 import jdk.internal.org.objectweb.asm.tree.IntInsnNode;
+import model.ControlDAO;
+import model.ControlDTO;
 import model.LecsjDAO;
 import model.LecsjDTO;
 
@@ -43,7 +45,8 @@ public class LecsjController extends HttpServlet {
 
 	Calendar cal = Calendar.getInstance();
 	HttpSession sesobj = null;
-
+	ArrayList<ControlDTO> dtoListControl = null;
+	ControlDAO daoControl = new ControlDAO();
 	ArrayList<LecsjDTO> dtoListLecsj = null;
 	LecsjDAO daoLecs = new LecsjDAO();
 	String info = new String();
@@ -84,6 +87,8 @@ public class LecsjController extends HttpServlet {
 		dtoListLecsj = daoLecs.list(tmp[2],Integer.parseInt(tmp[5]) ,term);
 		request.setAttribute("info", info);
 		request.setAttribute("lecturelist", dtoListLecsj);
+		dtoListControl = daoControl.List();
+    	request.setAttribute("controlList", dtoListControl);
 		request.getRequestDispatcher("st_lecsj.jsp").forward(request, response);
 
 	}
@@ -106,6 +111,8 @@ public class LecsjController extends HttpServlet {
 		dtoListLecsj = daoLecs.list(tmp[2],Integer.parseInt(tmp[5]) ,term);
 		request.setAttribute("info", info);
 		request.setAttribute("dtoListLecsj", dtoListLecsj);
+		dtoListControl = daoControl.List();
+    	request.setAttribute("controlList", dtoListControl);
 		request.getRequestDispatcher("st_lecsj.jsp").forward(request, response);
 
 	}

@@ -70,6 +70,8 @@ public class LecturedayController extends HttpServlet {
     TeacherDTO dtoTeacher = null;
     TeacherDAO daoTeacher= new TeacherDAO();
     HttpSession sesobj = null;
+    ArrayList<ControlDTO> dtoListControl = null;
+    ControlDAO daoControl = new ControlDAO();
     
     int result = 0;
 	
@@ -98,6 +100,8 @@ public class LecturedayController extends HttpServlet {
 	protected void list(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException{
 		 dtoList = dao.List();
 		 request.setAttribute("lectureday", dtoList);
+		 dtoListControl = daoControl.List();
+	     request.setAttribute("controlList", dtoListControl);
 		 request.getRequestDispatcher("te_lecmove.jsp").forward(request, response);
 	}
 	

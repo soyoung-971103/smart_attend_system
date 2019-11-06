@@ -105,9 +105,10 @@ public class AssistController extends HttpServlet {
 		ArrayList<DepartDTO> dtoListDepart = new ArrayList<DepartDTO>();
 		DepartDAO daoDepart = new DepartDAO();
 		dtoListDepart = daoDepart.List();
-		request.setAttribute("Depart", dtoListDepart);
-		
+		request.setAttribute("Depart", dtoListDepart);		
 		request.setAttribute("member", dto);
+		dtoListControl = daoControl.List();
+    	request.setAttribute("controlList", dtoListControl);
 		RequestDispatcher dis = request.getRequestDispatcher("ad_assistInfo.jsp"); 
 		dis.forward(request, response);
 	}
@@ -124,7 +125,8 @@ public class AssistController extends HttpServlet {
 		DepartDAO daoDepart = new DepartDAO();
 		dtoListDepart = daoDepart.List();
 		request.setAttribute("Depart", dtoListDepart);
-		
+		dtoListControl = daoControl.List();
+    	request.setAttribute("controlList", dtoListControl);
 		RequestDispatcher dis = request.getRequestDispatcher("ad_assistnew.jsp"); 
 		dis.forward(request, response);
 	}

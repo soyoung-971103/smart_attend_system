@@ -85,6 +85,8 @@ private static final long serialVersionUID = 1L;
     	int id = Integer.parseInt(request.getParameter("id"));
     	dto = dao.detail(id);
 		request.setAttribute("notice", dto);
+		dtoListControl = daoControl.List();
+    	request.setAttribute("controlList", dtoListControl);
 		request.getRequestDispatcher("ad_noticeupdate.jsp").forward(request, response);
     }
     
@@ -123,6 +125,8 @@ private static final long serialVersionUID = 1L;
     	int id = Integer.parseInt(request.getParameter("id"));
     	dto = dao.detail(id);
 		request.setAttribute("notice", dto);
+		dtoListControl = daoControl.List();
+    	request.setAttribute("controlList", dtoListControl);
 		request.getRequestDispatcher("ad_noticeview.jsp").forward(request, response);
     }
     /**

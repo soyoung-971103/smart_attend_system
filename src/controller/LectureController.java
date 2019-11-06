@@ -166,6 +166,8 @@ public class LectureController extends HttpServlet {
 		
 		request.setAttribute("alLecture", dtoList);
 		request.setAttribute("alDepart", dtoListDepart);
+		dtoListControl = daoControl.List();
+    	request.setAttribute("controlList", dtoListControl);
 		request.getRequestDispatcher("ad_timeteacher.jsp").forward(request, response);
 	}
 	
@@ -244,6 +246,9 @@ public class LectureController extends HttpServlet {
 		request.setAttribute("sel3", sel3);
 		request.setAttribute("sel4", sel4);
 		request.setAttribute("sel5", sel5);
+		
+		dtoListControl = daoControl.List();
+    	request.setAttribute("controlList", dtoListControl);
 		request.getRequestDispatcher("as_lecall.jsp").forward(request, response);
 	}	
 	

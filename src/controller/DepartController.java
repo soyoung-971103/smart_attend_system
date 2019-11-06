@@ -69,7 +69,8 @@ public class DepartController extends HttpServlet {
 		DepartDTO dtoInfo = new DepartDTO();
     	dtoInfo.setId(Integer.parseInt(request.getParameter("id")));
     	dto = dao.selectOne(dtoInfo);
-    	
+    	dtoListControl = daoControl.List();
+    	request.setAttribute("controlList", dtoListControl);
     	if(dto != null) {
   			request.setAttribute("depart", dto);
   			request.getRequestDispatcher("ad_departUpdate.jsp").forward(request, response);

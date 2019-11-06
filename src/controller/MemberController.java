@@ -18,6 +18,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import model.AssistDTO;
+import model.ControlDAO;
+import model.ControlDTO;
 import model.DepartDAO;
 import model.DepartDTO;
 import model.MemberDAO;
@@ -53,6 +55,8 @@ public class MemberController extends HttpServlet {
     String admin_id = "admin";
     String admin_pw = "1234";
     String admin_name = "admin";
+    ArrayList<ControlDTO> dtoListControl = null;
+    ControlDAO daoControl = new ControlDAO();
     
 	protected void process(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
 		// TODO Auto-generated method stub
@@ -114,6 +118,11 @@ public class MemberController extends HttpServlet {
 			sesobj.setAttribute("id", dto.getId());
 			sesobj.setAttribute("kind", kind);			
 			sesobj.setAttribute("depart_id", dto.getDepart_id());
+			
+
+			dtoListControl = daoControl.List();
+			request.setAttribute("controlList", dtoListControl);
+			
 			if(kind.equals("student")) {
 				request.getRequestDispatcher("student-main.do").forward(request, response);
 			}else if(kind.equals("teacher")) {

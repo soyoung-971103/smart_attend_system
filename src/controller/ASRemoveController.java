@@ -14,6 +14,8 @@ import javax.servlet.http.HttpSession;
 
 import model.ASRemoveDAO;
 import model.ASRemoveDTO;
+import model.ControlDAO;
+import model.ControlDTO;
 
 /**
  * Servlet implementation class ASRemoveController
@@ -24,6 +26,8 @@ public class ASRemoveController extends HttpServlet {
 	HttpSession sesobj = null;
     ASRemoveDAO dao = new ASRemoveDAO();
     ArrayList<ASRemoveDTO> dtolist = null;
+    ArrayList<ControlDTO> dtoListControl = null;
+    ControlDAO daoControl = new ControlDAO();
     
     /**
      * @see HttpServlet#HttpServlet()
@@ -63,6 +67,8 @@ public class ASRemoveController extends HttpServlet {
 		dtolist = dao.DTOlist(request, response);
 		request.setAttribute("dtolist", dtolist);
 		
+		dtoListControl = daoControl.List();
+    	request.setAttribute("controlList", dtoListControl);
 		RequestDispatcher dis = request.getRequestDispatcher("as_lecmove.jsp"); 
 		dis.forward(request, response);
 	}

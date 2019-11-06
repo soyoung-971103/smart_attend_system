@@ -72,7 +72,8 @@ public class HolidayController extends HttpServlet {
 		HolidayDTO dtoInfo = new HolidayDTO();
     	dtoInfo.setId(Integer.parseInt(request.getParameter("id")));
     	dto = dao.selectOne(dtoInfo);
-    	
+    	dtoListControl = daoControl.List();
+    	request.setAttribute("controlList", dtoListControl);
     	if(dto != null) {
   			request.setAttribute("holiday", dto);
   			request.getRequestDispatcher("ad_holidayupdate.jsp").forward(request, response);

@@ -112,7 +112,9 @@ public class RoomController extends HttpServlet {
     	dtoListBuilding = daoBuilding.selectAllList();
  
     	request.setAttribute("listDepart", dtoListDepart);    	
-    	request.setAttribute("listBuilding", dtoListBuilding);    		
+    	request.setAttribute("listBuilding", dtoListBuilding);  
+    	dtoListControl = daoControl.List();
+    	request.setAttribute("controlList", dtoListControl);
     	request.getRequestDispatcher("ad_roomnew.jsp").forward(request, response);
 	
 	} 
@@ -124,6 +126,9 @@ public class RoomController extends HttpServlet {
     	
     	dtoListDepart = daoDepart.List();
     	dtoListBuilding = daoBuilding.selectAllList();
+
+    	dtoListControl = daoControl.List();
+    	request.setAttribute("controlList", dtoListControl);
     	
     	if(dto != null) {
   			request.setAttribute("room", dto);  			 

@@ -136,6 +136,8 @@ public class TimeTableController extends HttpServlet {
     	
     	request.setAttribute("list", dtoList);
     	request.setAttribute("departList", dtoListDepart);
+    	dtoListControl = daoControl.List();
+    	request.setAttribute("controlList", dtoListControl);
     	request.getRequestDispatcher("as_timeall.jsp").forward(request, response);
 	}
     
@@ -145,6 +147,8 @@ public class TimeTableController extends HttpServlet {
     	
     	request.setAttribute("list", dtoList);
     	request.setAttribute("departList", dtoListDepart);
+    	dtoListControl = daoControl.List();
+    	request.setAttribute("controlList", dtoListControl);
     	request.getRequestDispatcher("ad_timeall.jsp").forward(request, response);
 	}
     

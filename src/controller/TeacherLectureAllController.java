@@ -12,6 +12,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import model.ControlDAO;
+import model.ControlDTO;
 import model.DepartDAO;
 import model.DepartDTO;
 import model.SubjectDTO;
@@ -25,6 +27,8 @@ import model.TeacherLectureDTO;
 @WebServlet({"/te-lecall.do","/te-lec-select.do", "/te-lec-stu.do", "/te-lec-stu-list.do", "/te-lec-stu-check.do"})
 public class TeacherLectureAllController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	ArrayList<ControlDTO> dtoListControl = null;
+	ControlDAO daoControl = new ControlDAO();
 	HttpSession sesobj = null;
 	TeacherLectureAllDAO dao = null;
     /**
@@ -94,6 +98,8 @@ public class TeacherLectureAllController extends HttpServlet {
 		
 		request.setAttribute("departInfo", dto);
 		request.setAttribute("classNum", str);
+		dtoListControl = daoControl.List();
+    	request.setAttribute("controlList", dtoListControl);
 		RequestDispatcher dis = request.getRequestDispatcher("te_lecall.jsp");
 		dis.forward(request, response);
 	}

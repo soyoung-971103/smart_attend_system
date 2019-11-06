@@ -14,6 +14,8 @@ import javax.servlet.http.HttpSession;
 
 import model.ADRemoveDAO;
 import model.ADRemoveDTO;
+import model.ControlDAO;
+import model.ControlDTO;
 
 /**
  * Servlet implementation class ADRemoveController
@@ -24,6 +26,8 @@ public class ADRemoveController extends HttpServlet {
     HttpSession sesobj = null;
     ADRemoveDAO dao = new ADRemoveDAO();
     ArrayList<ADRemoveDTO> dtolist = null;
+    ArrayList<ControlDTO> dtoListControl = null;
+    ControlDAO daoControl = new ControlDAO();
     
     /**
      * @see HttpServlet#HttpServlet()
@@ -78,7 +82,8 @@ public class ADRemoveController extends HttpServlet {
 			else if(request.getParameter("c").equals("2"))
 				dao.returnlec(request,response);
 		}
-		
+		dtoListControl = daoControl.List();
+    	request.setAttribute("controlList", dtoListControl);
 		RequestDispatcher dis = request.getRequestDispatcher("ad_lecmove.jsp"); 
 		dis.forward(request, response);
 	}
