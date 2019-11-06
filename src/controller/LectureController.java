@@ -254,7 +254,7 @@ public class LectureController extends HttpServlet {
 		sel2 = request.getParameter("sel2");
 		sel3 = request.getParameter("sel3");
 
-		dtoList = dao.list(sel1, sel2, sel3);
+		dtoList = dao.list(sel1, sel2, sel3, sesobj);
 		dtoListTeacher = daoTeacher.list();
 		dtoListControl = daoControl.List();
 		
@@ -271,9 +271,16 @@ public class LectureController extends HttpServlet {
     	response.setContentType("text/html;charset=UTF-8"); 
     	request.setCharacterEncoding("utf-8");
     	
-    	dao.register(request, response);
-    	request.getRequestDispatcher("as-lecture-list.do").forward(request, response);
+    	String sel1 = request.getParameter("sel1");
+		String sel2 = request.getParameter("sel2");
+		String sel3 = request.getParameter("sel3");
+    	
+    	dao.register(sel1,sel2,sel3,sesobj,request, response);
+    	request.setAttribute("sel1", sel1);
+		request.setAttribute("sel2", sel2);
+		request.setAttribute("sel3", sel3);
 
+    	request.getRequestDispatcher("as-lecture-list.do").forward(request, response);
     }
 	
 	protected void ASupdateT(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException {
@@ -301,8 +308,17 @@ public class LectureController extends HttpServlet {
     }
 	
 	 protected void ASdelete(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException {
-    	dao.delete(); // 질의를 통해 수정된 레코드의 수
-		request.getRequestDispatcher("as-lecture-list.do").forward(request, response);
+		String sel1 = request.getParameter("sel1");
+		String sel2 = request.getParameter("sel2");
+		String sel3 = request.getParameter("sel3");
+		int result = dao.delete(sel1,sel2,sel3,sesobj); // 질의를 통해 수정된 레코드의 수
+		request.setAttribute("sel1", sel1);
+		request.setAttribute("sel2", sel2);
+		request.setAttribute("sel3", sel3);
+		if(result > 0) {
+		request.getRequestDispatcher("as-lecture-list.do").forward(request, response);}
+		else
+    		response.sendRedirect("fail.jsp"); // 실패
 	}
 
 	

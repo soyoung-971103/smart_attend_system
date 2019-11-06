@@ -71,9 +71,13 @@
 										form1.action="as-lecture-list.do?sel1=" + form1.sel1.value+"&sel2=" + form1.sel2.value+"&sel3=" + form1.sel3.value;
 										form1.submit();
 									}
-									function make_lecure()
+									function make_lec()
 									{
-										form1.action="as-lecture-list.do?sel1=" + form1.sel1.value+"&sel2=" + form1.sel2.value;
+										form1.action="as-lecture-register.do?sel1=" + form1.sel1.value+"&sel2=" + form1.sel2.value;
+										form1.submit();
+									}
+									function delete_lec(){
+										form1.action="as-lecture-delete.do?sel1=" + form1.sel1.value+"&sel2=" + form1.sel2.value;
 										form1.submit();
 									}
 									function update_teacher(pos) 
@@ -134,7 +138,7 @@
 																			<option value='0' selected>전체</option>
 																		</c:when>
 																		<c:otherwise>
-																			<option value='${i }' selected>${i }</option>
+																			<option value='${i }' selected>${i }학년</option>
 																		</c:otherwise>
 																	</c:choose>
 																</c:when>
@@ -144,7 +148,7 @@
 																			<option value='0'>전체</option>
 																		</c:when>
 																		<c:otherwise>
-																			<option value='${i }'>${i }</option>
+																			<option value='${i }'>${i }학년</option>
 																		</c:otherwise>
 																	</c:choose>
 																</c:otherwise>
@@ -158,8 +162,8 @@
 										</div>
 									</div> 
 									<div class="col" align="right">
-										<a href="as-lecture-register.do" class="btn btn-sm btn-primary">반별과목 생성</a>
-										<a href="as-lecture-delete.do" class="btn btn-sm btn-danger">반별과목 삭제</a>
+										<input type="button" class="btn btn-sm btn-primary" value="반별과목 생성" onclick="javascript:make_lec();">
+										<input type="button" class="btn btn-sm btn-primary" value="반별과목 삭제" onclick="javascript:delete_lec();">
 									</div>
 								</div>
 								</form>
@@ -185,6 +189,7 @@
 									<tbody>
 										<c:forEach var="lecture" items="${ list }">
 											<input type="hidden" name="id" id="id" value="${lecture.id }" class="form-control form-control-sm" required>
+											<input type="hidden" name="depart_id" value="${subject.depart_id}">
 											<tr>
 												<td>${ lecture.subject.code}</td>
 												<td>${ lecture.subject.name}</td>

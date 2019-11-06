@@ -326,7 +326,7 @@
 						<li><a href="te-lecall.do"
 							class="<c:out value="${activA[3][3]}"/>"
 							style="padding: 5px 0 5px 40px;">과목별 출석부</a></li>
-						<li><a href="te_lecmove.jsp"
+						<li><a href="lectureday-list.do"
 							class="<c:out value="${activA[3][4]}"/>"
 							style="padding: 5px 0 5px 40px;">휴보강</a></li>
 						<li><a href="teacher-qalist.do"

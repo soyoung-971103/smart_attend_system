@@ -78,8 +78,6 @@ public class MemberController extends HttpServlet {
 			dtoTeacher.setPwd(request.getParameter("login_password"));
 			
 			dto = dao.loginCheckTeacher(dtoTeacher);	
-			
-			sesobj.setAttribute("depart_id", dto.getDepart_id());
 		}else if(kind.equals("assist")) {
 			dtoAssist = new AssistDTO();
 			dtoAssist.setUid(request.getParameter("login_uid"));
@@ -92,6 +90,7 @@ public class MemberController extends HttpServlet {
 		
 		if(dto != null) {	
 			sesobj.setAttribute("name", dto.getName());
+			sesobj.setAttribute("depart_id", dto.getDepart_id());
 			sesobj.setAttribute("uid", dto.getUid());
 			sesobj.setAttribute("id", dto.getId());
 			sesobj.setAttribute("kind", kind);

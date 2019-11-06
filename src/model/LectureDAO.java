@@ -348,32 +348,31 @@ public class LectureDAO extends DAOBase{
 		return dtoListMyLecture;	
 	}	
 	
-	public ArrayList<LectureDTO> list(String sel1, String sel2, String sel3){
+	public ArrayList<LectureDTO> list(String sel1, String sel2, String sel3, HttpSession session){
 		try {
 			conn = getConnection();
 			stmt = conn.createStatement();
 			
 			dtoList = new ArrayList<LectureDTO>();
 			if(sel1 != null && sel2 != null && !sel3.equals("0"))
-				rs=stmt.executeQuery("SELECT lecture.*, subject.id, subject.name, subject.code, subject.ihour, subject.ipoint, subject.yyyy, subject.term, subject.grade, teacher.id, teacher.name FROM lecture "
+				rs=stmt.executeQuery("SELECT lecture.*, subject.id, subject.name, subject.code, subject.ihour, subject.ipoint, subject.yyyy, subject.term, subject.grade, teacher.id, teacher.name, subject.depart_id FROM lecture "
 						+ "LEFT JOIN subject ON lecture.subject_id=subject.id "
 						+ "LEFT JOIN teacher ON lecture.teacher_id=teacher.id "
 						+ "LEFT JOIN depart ON subject.depart_id=depart.id "
-						+ "Where subject.yyyy="+sel1+" and subject.term="+sel2+" and subject.grade="+sel3);
+						+ "Where subject.yyyy="+sel1+" and subject.term="+sel2+" and subject.grade="+sel3+ " and subject.depart_id="+session.getAttribute("depart_id"));
 			else if(sel1 != null && sel2 != null && sel3.equals("0"))
-				rs=stmt.executeQuery("SELECT lecture.*, subject.id, subject.name, subject.code, subject.ihour, subject.ipoint, subject.yyyy, subject.term, subject.grade, teacher.id, teacher.name FROM lecture "
+				rs=stmt.executeQuery("SELECT lecture.*, subject.id, subject.name, subject.code, subject.ihour, subject.ipoint, subject.yyyy, subject.term, subject.grade, teacher.id, teacher.name, subject.depart_id FROM lecture "
 						+ "LEFT JOIN subject ON lecture.subject_id=subject.id "
 						+ "LEFT JOIN teacher ON lecture.teacher_id=teacher.id "
 						+ "LEFT JOIN depart ON subject.depart_id=depart.id "
-						+ "Where subject.yyyy="+sel1+" and subject.term="+sel2);
+						+ "Where subject.yyyy="+sel1+" and subject.term="+sel2+" and subject.depart_id="+session.getAttribute("depart_id"));
 			else
-				rs=stmt.executeQuery("SELECT lecture.*, subject.id, subject.name, subject.code, subject.ihour, subject.ipoint, teacher.id, teacher.name FROM lecture "
+				rs=stmt.executeQuery("SELECT lecture.*, subject.id, subject.name, subject.code, subject.ihour, subject.ipoint, subject.yyyy, subject.term, subject.grade, teacher.id, teacher.name, subject.depart_id FROM lecture "
 						+ "LEFT JOIN subject ON lecture.subject_id=subject.id "
 						+ "LEFT JOIN teacher ON lecture.teacher_id=teacher.id "
-						+ "LEFT JOIN depart ON subject.depart_id=depart.id");
+						+ "LEFT JOIN depart ON subject.depart_id=depart.id where subject.depart_id="+session.getAttribute("depart_id"));
 			
 			dtoList = new ArrayList<LectureDTO>();
-			
 			while(rs.next()) {
 				dto = new LectureDTO();
 				dtoDepart = new DepartDTO();
@@ -391,6 +390,7 @@ public class LectureDAO extends DAOBase{
 				dtoSubject.setIpoint(rs.getFloat(10));
 				dtoTeacher.setId(11);
 				dtoTeacher.setName(rs.getString(12));
+				dtoSubject.setDepart_id(rs.getInt(13));
 				dto.setSubject(dtoSubject);
 				dto.setDepart(dtoDepart);
 				dto.setTeacher(dtoTeacher);
@@ -449,19 +449,19 @@ public class LectureDAO extends DAOBase{
 		return dtoList;
 	}
 	
-	public int register(HttpServletRequest request, HttpServletResponse response) {
+	public int register(String sel1, String sel2, String sel3, HttpSession session, HttpServletRequest request, HttpServletResponse response) {
 		int result = 0;
-    	String sql1 = "SELECT lecture.*, depart.name FROM lecture "
+    	String sql1 = "SELECT lecture.*, subject.id, subject.name, subject.code, subject.ihour, subject.ipoint, subject.yyyy, subject.term, subject.grade, teacher.id, teacher.name, subject.depart_id FROM lecture "
 				+ "LEFT JOIN subject ON lecture.subject_id=subject.id "
 				+ "LEFT JOIN teacher ON lecture.teacher_id=teacher.id "
 				+ "LEFT JOIN depart ON subject.depart_id=depart.id";
-    	
+    	if(sel1!=null && sel2!=null && !sel3.equals("0")) {
     	try {
 			conn = getConnection();
 			stmt = conn.createStatement();
 	    	pstmt = conn.prepareStatement(sql1);
-
-	    	String sql2 = "insert into lecture (subject_id, class) select subject.id, 1 from subject LEFT JOIN depart ON subject.depart_id=depart.id where depart.classnum >= 1";
+	    	
+	    	String sql2 = "insert into lecture (subject_id, class) select subject.id, 1 from subject LEFT JOIN depart ON subject.depart_id=depart.id where depart.classnum >= 1 and subject.yyyy="+sel1+" and subject.term="+sel2+" and subject.grade="+sel3+ " and subject.depart_id="+session.getAttribute("depart_id");
 	    	pstmt = conn.prepareStatement(sql2);
 	    	result = pstmt.executeUpdate(sql2);
 	    	
@@ -469,7 +469,7 @@ public class LectureDAO extends DAOBase{
 	    	pstmt = conn.prepareStatement(sql3);
 	    	result = pstmt.executeUpdate(sql3);
 	    	
-	    	String sql4 = "INSERT INTO lecture (subject_id, class) SELECT subject.id, 2 FROM subject LEFT JOIN depart ON subject.depart_id=depart.id WHERE depart.classnum >=2";
+	    	String sql4 = "INSERT INTO lecture (subject_id, class) SELECT subject.id, 2 FROM subject LEFT JOIN depart ON subject.depart_id=depart.id WHERE depart.classnum >=2 and subject.yyyy="+sel1+" and subject.term="+sel2+" and subject.grade="+sel3+ " and subject.depart_id="+session.getAttribute("depart_id");
 	    	pstmt = conn.prepareStatement(sql4);
 	    	result = pstmt.executeUpdate(sql4);
 	    	
@@ -477,7 +477,7 @@ public class LectureDAO extends DAOBase{
 	    	pstmt = conn.prepareStatement(sql5);
 	    	result = pstmt.executeUpdate(sql5);
 	    	
-	    	String sql6 = "INSERT INTO lecture (subject_id, class) SELECT subject.id, 3 FROM subject LEFT JOIN depart ON subject.depart_id=depart.id WHERE depart.classnum >=3";
+	    	String sql6 = "INSERT INTO lecture (subject_id, class) SELECT subject.id, 3 FROM subject LEFT JOIN depart ON subject.depart_id=depart.id WHERE depart.classnum >=3 and subject.yyyy="+sel1+" and subject.term="+sel2+" and subject.grade="+sel3+ " and subject.depart_id="+session.getAttribute("depart_id");
 	    	pstmt = conn.prepareStatement(sql6);
 	    	result = pstmt.executeUpdate(sql6);
 	    	
@@ -485,7 +485,7 @@ public class LectureDAO extends DAOBase{
 	    	pstmt = conn.prepareStatement(sql7);
 	    	result = pstmt.executeUpdate(sql7);
 	    	
-	    	String sql8 = "insert into lecture (subject_id, class) select subject.id, 4 from subject LEFT JOIN depart ON subject.depart_id=depart.id where depart.classnum >= 4";
+	    	String sql8 = "insert into lecture (subject_id, class) select subject.id, 4 from subject LEFT JOIN depart ON subject.depart_id=depart.id where depart.classnum >= 4 and subject.yyyy="+sel1+" and subject.term="+sel2+" and subject.grade="+sel3+ " and subject.depart_id="+session.getAttribute("depart_id");
 	    	pstmt = conn.prepareStatement(sql8);
 	    	result = pstmt.executeUpdate(sql8);
 	    	
@@ -493,7 +493,7 @@ public class LectureDAO extends DAOBase{
 	    	pstmt = conn.prepareStatement(sql9);
 	    	result = pstmt.executeUpdate(sql9);
 	    	
-	    	String sql10 = "insert into lecture (subject_id, class) select subject.id, 5 from subject LEFT JOIN depart ON subject.depart_id=depart.id where depart.classnum >= 5";
+	    	String sql10 = "insert into lecture (subject_id, class) select subject.id, 5 from subject LEFT JOIN depart ON subject.depart_id=depart.id where depart.classnum >= 5 and subject.yyyy="+sel1+" and subject.term="+sel2+" and subject.grade="+sel3+ " and subject.depart_id="+session.getAttribute("depart_id");
 	    	pstmt = conn.prepareStatement(sql10);
 	    	result = pstmt.executeUpdate(sql10);
 	    	
@@ -507,7 +507,105 @@ public class LectureDAO extends DAOBase{
 			e.printStackTrace();
 		}finally {
 			this.closeDBResources(rs, stmt, pstmt, conn);
-		}
+		} }else if(sel1!=null && sel2!=null && sel3.equals("0")){ try {
+			conn = getConnection();
+			stmt = conn.createStatement();
+	    	pstmt = conn.prepareStatement(sql1);
+	    	
+			String sql2 = "insert into lecture (subject_id, class) select subject.id, 1 from subject LEFT JOIN depart ON subject.depart_id=depart.id where depart.classnum >= 1 and subject.yyyy="+sel1+" and subject.term="+sel2+" and subject.depart_id="+session.getAttribute("depart_id");
+	    	pstmt = conn.prepareStatement(sql2);
+	    	result = pstmt.executeUpdate(sql2);
+	    	
+	    	String sql3 = "update lecture set class = 'A' where class='1'";
+	    	pstmt = conn.prepareStatement(sql3);
+	    	result = pstmt.executeUpdate(sql3);
+	    	
+	    	String sql4 = "INSERT INTO lecture (subject_id, class) SELECT subject.id, 2 FROM subject LEFT JOIN depart ON subject.depart_id=depart.id WHERE depart.classnum >=2 and subject.yyyy="+sel1+" and subject.term="+sel2+" and subject.depart_id="+session.getAttribute("depart_id");
+	    	pstmt = conn.prepareStatement(sql4);
+	    	result = pstmt.executeUpdate(sql4);
+	    	
+	    	String sql5 = "update lecture set class = 'B' where class='2'";
+	    	pstmt = conn.prepareStatement(sql5);
+	    	result = pstmt.executeUpdate(sql5);
+	    	
+	    	String sql6 = "INSERT INTO lecture (subject_id, class) SELECT subject.id, 3 FROM subject LEFT JOIN depart ON subject.depart_id=depart.id WHERE depart.classnum >=3 and subject.yyyy="+sel1+" and subject.term="+sel2+" and subject.depart_id="+session.getAttribute("depart_id");
+	    	pstmt = conn.prepareStatement(sql6);
+	    	result = pstmt.executeUpdate(sql6);
+	    	
+	    	String sql7 = "update lecture set class = 'C' where class='3'";
+	    	pstmt = conn.prepareStatement(sql7);
+	    	result = pstmt.executeUpdate(sql7);
+	    	
+	    	String sql8 = "insert into lecture (subject_id, class) select subject.id, 4 from subject LEFT JOIN depart ON subject.depart_id=depart.id where depart.classnum >= 4 and subject.yyyy="+sel1+" and subject.term="+sel2+" and subject.depart_id="+session.getAttribute("depart_id");
+	    	pstmt = conn.prepareStatement(sql8);
+	    	result = pstmt.executeUpdate(sql8);
+	    	
+	    	String sql9 = "update lecture set class = 'D' where class='4'";
+	    	pstmt = conn.prepareStatement(sql9);
+	    	result = pstmt.executeUpdate(sql9);
+	    	
+	    	String sql10 = "insert into lecture (subject_id, class) select subject.id, 5 from subject LEFT JOIN depart ON subject.depart_id=depart.id where depart.classnum >= 5 and subject.yyyy="+sel1+" and subject.term="+sel2+" and subject.depart_id="+session.getAttribute("depart_id");
+	    	pstmt = conn.prepareStatement(sql10);
+	    	result = pstmt.executeUpdate(sql10);
+	    	
+	    	String sql11 = "update lecture set class = 'E' where class='5'";
+	    	pstmt = conn.prepareStatement(sql11);
+	    	result = pstmt.executeUpdate(sql11);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			this.closeDBResources(rs, stmt, pstmt, conn);
+		} } else {try {
+			conn = getConnection();
+			stmt = conn.createStatement();
+	    	pstmt = conn.prepareStatement(sql1);
+	    	
+			String sql2 = "insert into lecture (subject_id, class) select subject.id, 1 from subject LEFT JOIN depart ON subject.depart_id=depart.id where depart.classnum >= 1 and subject.depart_id="+session.getAttribute("depart_id");
+	    	pstmt = conn.prepareStatement(sql2);
+	    	result = pstmt.executeUpdate(sql2);
+	    	
+	    	String sql3 = "update lecture set class = 'A' where class='1'";
+	    	pstmt = conn.prepareStatement(sql3);
+	    	result = pstmt.executeUpdate(sql3);
+	    	
+	    	String sql4 = "INSERT INTO lecture (subject_id, class) SELECT subject.id, 2 FROM subject LEFT JOIN depart ON subject.depart_id=depart.id WHERE depart.classnum >=2 and subject.depart_id="+session.getAttribute("depart_id");
+	    	pstmt = conn.prepareStatement(sql4);
+	    	result = pstmt.executeUpdate(sql4);
+	    	
+	    	String sql5 = "update lecture set class = 'B' where class='2'";
+	    	pstmt = conn.prepareStatement(sql5);
+	    	result = pstmt.executeUpdate(sql5);
+	    	
+	    	String sql6 = "INSERT INTO lecture (subject_id, class) SELECT subject.id, 3 FROM subject LEFT JOIN depart ON subject.depart_id=depart.id WHERE depart.classnum >=3 and subject.depart_id="+session.getAttribute("depart_id");
+	    	pstmt = conn.prepareStatement(sql6);
+	    	result = pstmt.executeUpdate(sql6);
+	    	
+	    	String sql7 = "update lecture set class = 'C' where class='3'";
+	    	pstmt = conn.prepareStatement(sql7);
+	    	result = pstmt.executeUpdate(sql7);
+	    	
+	    	String sql8 = "insert into lecture (subject_id, class) select subject.id, 4 from subject LEFT JOIN depart ON subject.depart_id=depart.id where depart.classnum >= 4 and subject.depart_id="+session.getAttribute("depart_id");
+	    	pstmt = conn.prepareStatement(sql8);
+	    	result = pstmt.executeUpdate(sql8);
+	    	
+	    	String sql9 = "update lecture set class = 'D' where class='4'";
+	    	pstmt = conn.prepareStatement(sql9);
+	    	result = pstmt.executeUpdate(sql9);
+	    	
+	    	String sql10 = "insert into lecture (subject_id, class) select subject.id, 5 from subject LEFT JOIN depart ON subject.depart_id=depart.id where depart.classnum >= 5 and subject.depart_id="+session.getAttribute("depart_id");
+	    	pstmt = conn.prepareStatement(sql10);
+	    	result = pstmt.executeUpdate(sql10);
+	    	
+	    	String sql11 = "update lecture set class = 'E' where class='5'";
+	    	pstmt = conn.prepareStatement(sql11);
+	    	result = pstmt.executeUpdate(sql11);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			this.closeDBResources(rs, stmt, pstmt, conn);
+		} }
     	return result;
 	}
 	
@@ -555,11 +653,14 @@ public class LectureDAO extends DAOBase{
 			return result;
 	}
 	
-	public int delete() {
+	public int delete(String sel1, String sel2, String sel3, HttpSession session) {
 		int result = 0;
+		
+		if(sel1!=null && sel2!=null && !sel3.equals("0")) {
 		try {
 			conn = getConnection();
-			pstmt = conn.prepareStatement("delete from lecture");
+			pstmt = conn.prepareStatement("Delete lecture FROM lecture LEFT JOIN subject ON lecture.subject_id=subject.id LEFT JOIN teacher ON lecture.teacher_id=teacher.id LEFT JOIN depart ON subject.depart_id=depart.id Where subject.yyyy="+sel1+" and subject.term="+sel2+" and subject.grade="+sel3+ " and subject.depart_id="+session.getAttribute("depart_id"));
+			System.out.println("delete1:"+sel1+sel2+sel3+session.getAttribute("depart_id"));
 			result = pstmt.executeUpdate();	
 			return result;
 		} catch (SQLException e) {
@@ -568,7 +669,34 @@ public class LectureDAO extends DAOBase{
 		}
 		finally {
 			this.closeDBResources(rs, stmt, pstmt, conn);
-		}
+		} } else if(sel1!=null && sel2!=null && sel3.equals("0")) {
+			try {
+				conn = getConnection();
+				pstmt = conn.prepareStatement("Delete lecture FROM lecture LEFT JOIN subject ON lecture.subject_id=subject.id LEFT JOIN teacher ON lecture.teacher_id=teacher.id LEFT JOIN depart ON subject.depart_id=depart.id Where subject.yyyy="+sel1+" and subject.term="+sel2+" and subject.depart_id="+session.getAttribute("depart_id"));
+				System.out.println("delete2:"+sel1+sel2+sel3+session.getAttribute("depart_id"));
+				result = pstmt.executeUpdate();	
+				return result;
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			finally {
+				this.closeDBResources(rs, stmt, pstmt, conn);
+			} }else {
+				try {
+					conn = getConnection();
+
+					pstmt = conn.prepareStatement("Delete lecture FROM lecture LEFT JOIN subject ON lecture.subject_id=subject.id LEFT JOIN teacher ON lecture.teacher_id=teacher.id LEFT JOIN depart ON subject.depart_id=depart.id Where subject.depart_id="+session.getAttribute("depart_id"));
+					System.out.println("delete3:"+sel1+sel2+sel3+session.getAttribute("depart_id"));
+					result = pstmt.executeUpdate();	
+					return result;
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				finally {
+					this.closeDBResources(rs, stmt, pstmt, conn);
+				} }
 		return result;			
 	}
 	public LectureDTO lecture_search(int id)
