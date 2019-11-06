@@ -130,7 +130,7 @@ public class MemberController extends HttpServlet {
 			}else if(kind.equals("assist")) {				
 				request.getRequestDispatcher("assistmain_list.do").forward(request, response);
 			}else if(kind.equals("admin")) {
-				request.getRequestDispatcher("admain_list.do").forward(request, response);			
+				request.getRequestDispatcher("admain-list.do").forward(request, response);			
 			}else {
 				request.getRequestDispatcher("main.jsp").forward(request, response);
 			}

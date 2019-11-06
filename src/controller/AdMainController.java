@@ -21,7 +21,7 @@ import model.NoticeDTO;
 /**
  * Servlet implementation class AssistMainController
  */
-@WebServlet("/admain_list.do")
+@WebServlet("/admain-list.do")
 public class AdMainController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -52,7 +52,7 @@ public class AdMainController extends HttpServlet {
 		int lastIndex = uri.lastIndexOf('/'); 
 		String action = uri.substring(lastIndex + 1); 
 		
-		if(action.equals("admain_list.do")) {
+		if(action.equals("admain-list.do")) {
 			list(request, response);	
 		}
 		else

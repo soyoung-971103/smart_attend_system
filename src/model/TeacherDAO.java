@@ -407,15 +407,14 @@ public class TeacherDAO extends DAOBase {
 		try {
 			conn = getConnection();		
 			pstmt = conn.prepareStatement("update lectureday " + 
-			"set normstate=?, restdate=?, reststart=?, resthour=?, reststate=?, state=?, room_id=? WHERE id=?");
-			pstmt.setInt(1, 4);
-    		pstmt.setDate(2, new java.sql.Date(cal.getTime().getTime()));
-    		pstmt.setByte(3, dto.getReststart());
-    		pstmt.setByte(4, dto.getResthour());
-    		pstmt.setString(5, "정상");
-    		pstmt.setString(6, "신청");
-    		pstmt.setInt(7, dto.getRoom_id());
-    		pstmt.setInt(8, dto.getId());
+			"set restdate=?, reststart=?, resthour=?, reststate=?, state=?, room_id=? WHERE id=?");
+			pstmt.setDate(1, new java.sql.Date(cal.getTime().getTime()));
+    		pstmt.setByte(2, dto.getReststart());
+    		pstmt.setByte(3, dto.getResthour());
+    		pstmt.setString(4, "정상");
+    		pstmt.setString(5, "신청");
+    		pstmt.setInt(6, dto.getRoom_id());
+    		pstmt.setInt(7, dto.getId());
     		result = pstmt.executeUpdate();	
 			return result;
 		} catch (SQLException e) {
