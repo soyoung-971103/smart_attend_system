@@ -21,15 +21,15 @@ public class SubjectDAO extends DAOBase{
 	private DepartDTO dtoDepart = null;
 	private ArrayList<SubjectDTO> dtoList = null;
 	
-	public ArrayList<SubjectDTO> list(String sel1, String sel2){
+	public ArrayList<SubjectDTO> list(String sel1, String sel2, int start, int end){
 		try {
 			conn = getConnection();
 			stmt = conn.createStatement();
-			if(sel1 != null && !(sel2.equals("0"))) rs=stmt.executeQuery("SELECT subject.*, depart.name FROM subject LEFT JOIN depart ON subject.depart_id=depart.id "
+			if(sel1 != null && !(sel2.equals("0"))) rs=stmt.executeQuery("SELECT subject.*, depart.name FROM subject LEFT JOIN depart ON subject.depart_id=depart.id limit "+start+", "+end
 					+ "where yyyy="+sel1+" and grade="+sel2);
-			else if(sel1 != null && sel2.equals("0")) rs=stmt.executeQuery("SELECT subject.*, depart.name FROM subject LEFT JOIN depart ON subject.depart_id=depart.id where yyyy="+sel1);
+			else if(sel1 != null && sel2.equals("0")) rs=stmt.executeQuery("SELECT subject.*, depart.name FROM subject LEFT JOIN depart ON subject.depart_id=depart.id where yyyy="+sel1+" limit "+start+", "+end);
 			
-			else rs=stmt.executeQuery("SELECT subject.*, depart.name FROM subject LEFT JOIN depart ON subject.depart_id=depart.id");
+			else rs=stmt.executeQuery("SELECT subject.*, depart.name FROM subject LEFT JOIN depart ON subject.depart_id=depart.id limit "+start+", "+end);
 			
 			dtoList = new ArrayList<SubjectDTO>();
 			

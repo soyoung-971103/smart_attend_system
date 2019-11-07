@@ -30,14 +30,15 @@ public class MemberDAO extends DAOBase{
 		try {
 			conn = getConnection();
 			stmt = conn.createStatement();
-			rs = stmt.executeQuery("select * from student where " + 
+			rs = stmt.executeQuery("select id,depart_id,pwd,name,schoolno from student where " + 
 					"schoolno=" + loginmember.getSchoolno() + " and " + 
 							"pwd='" + loginmember.getPwd() + "'");
 			if(rs.next()) {
 				dto = new MemberDTO();
 				dto.setId(rs.getInt(1));
-				dto.setPwd(rs.getString(2));
-				dto.setName(rs.getString("name"));
+				dto.setDepart_id(rs.getInt(2));
+				dto.setPwd(rs.getString(3));
+				dto.setName(rs.getString(4));
 				dto.setUid(rs.getString(5));
 			}				
 			
@@ -57,7 +58,7 @@ public class MemberDAO extends DAOBase{
 		try {
 			conn = getConnection();
 			stmt = conn.createStatement();
-			rs = stmt.executeQuery("select * from teacher where " + 
+			rs = stmt.executeQuery("select id, uid, pwd,name,depart_id from teacher where " + 
 					"uid='" + loginmember.getUid() + "' and " + 
 							"pwd='" + loginmember.getPwd() + "'");
 			if(rs.next()) {
@@ -85,12 +86,13 @@ public class MemberDAO extends DAOBase{
 		try {
 			conn = getConnection();
 			stmt = conn.createStatement();
-			rs = stmt.executeQuery("select * from staff where " + 
+			rs = stmt.executeQuery("select id,depart_id,uid,pwd,name from staff where " + 
 					"uid='" + loginmember.getUid() + "' and " + 
 							"pwd='" + loginmember.getPwd() + "'");
 			if(rs.next()) {
 				dto = new MemberDTO();
 				dto.setId(rs.getInt(1));
+				dto.setDepart_id(rs.getInt(2));
 				dto.setUid(rs.getString(3));				
 				dto.setPwd(rs.getString(4));
 				dto.setName(rs.getString(5));	

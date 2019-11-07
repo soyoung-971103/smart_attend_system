@@ -38,6 +38,7 @@ public class DepartController extends HttpServlet {
     DepartDAO dao = new DepartDAO();
     ArrayList<ControlDTO> dtoListControl = null;
 	ControlDAO daoControl = new ControlDAO();
+	String pagination = null;
 	
 	protected void process(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
 		// TODO Auto-generated method stub
@@ -128,7 +129,21 @@ public class DepartController extends HttpServlet {
 	}	
 
 	private void list(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {		
-    	dtoList = dao.List();
+		String text1 = request.getParameter("text1");
+		String tmp=request.getParameter("npage");
+	    int npage = Integer.parseInt(tmp == null?"1":tmp);
+	    int limit=5;
+	    int start =(npage-1);
+	    start*=limit;
+	    pagination = dao.pagination(npage, dao.rowcount("SELECT COUNT(*) FROM depart"), request.getRequestURI());
+	    request.setAttribute("pagination", pagination);
+
+		
+		if(text1 == null)    	
+			dtoList = dao.List(start, limit);
+    	else
+    		dtoList = dao.List(text1, start, limit);
+		
     	dtoListControl = daoControl.List();
     	request.setAttribute("controlList", dtoListControl);
     	request.setAttribute("list", dtoList);    	

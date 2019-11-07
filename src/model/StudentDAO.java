@@ -60,7 +60,7 @@ public class StudentDAO extends DAOBase {
 		try {
 			conn = getConnection();
 			stmt = conn.createStatement();
-			rs = stmt.executeQuery("select student.*, depart.abbreviation, depart.classnum from student left join depart on student.depart_id = depart.id where student.id=" + id);
+			rs = stmt.executeQuery("select student.*, depart.name from student left join depart on student.depart_id=depart.id where student.id=" + id);
 			if(rs.next()) {
 				dto = new StudentDTO();
 				dtoDepart = new DepartDTO();
@@ -78,8 +78,6 @@ public class StudentDAO extends DAOBase {
 				dto.setBirthday(rs.getString(12));
 				dto.setEmail(rs.getString(13));
 				dtoDepart.setName(rs.getString(14));
-				dtoDepart.setClassnum(rs.getByte(15));
-				dto.setDepart(dtoDepart);
 			}
 			return dto;
 		} catch (SQLException e) {
@@ -130,13 +128,40 @@ public class StudentDAO extends DAOBase {
 		
 		int result = 0;
 		dto = new StudentDTO();
+		dto.setDepart_id(Integer.parseInt(request.getParameter("depart_id")));
+		dto.setGrade(Byte.parseByte(request.getParameter("grade")));
+		dto.setStudent_class(request.getParameter("student_class"));
+		dto.setSchoolno(request.getParameter("schoolno"));
+		dto.setName(request.getParameter("name"));
+		dto.setPhone(request.getParameter("phone1")+"-"+request.getParameter("phone2")+"-"+request.getParameter("phone3"));
+		dto.setSex(Byte.parseByte(request.getParameter("sex")));
+		dto.setPwd(request.getParameter("pwd"));
+		dto.setState(request.getParameter("state"));
+		dto.setBirthday(request.getParameter("birthday1")+"-"+request.getParameter("birthday2")+"-"+request.getParameter("birthday3"));
+		dto.setEmail(request.getParameter("email"));
+		
+		dto.setPic((String) request.getAttribute("pic"));
     	
-    	String sql = "insert into student(id) values(?)";
+    	String sql = "insert into student(id, depart_id, grade, class, schoolno, name, "
+    			+ "phone, sex, pwd, pic, state, birthday, email) " + 
+    			"values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     	
     	try {
 			conn = getConnection();
 	    	pstmt = conn.prepareStatement(sql);
 	    	pstmt.setInt(1, dto.getId());
+	    	pstmt.setInt(2, dto.getDepart_id());
+	    	pstmt.setInt(3, dto.getGrade());
+	    	pstmt.setString(4, dto.getStudent_class());
+	    	pstmt.setString(5, dto.getSchoolno());
+	    	pstmt.setString(6, dto.getName());
+	    	pstmt.setString(7, dto.getPhone());
+	    	pstmt.setByte(8, dto.getSex());
+	    	pstmt.setString(9, dto.getPwd());
+	    	pstmt.setString(10, dto.getPic());
+	    	pstmt.setString(11, dto.getState());
+	    	pstmt.setString(12, dto.getBirthday());
+	    	pstmt.setString(13, dto.getEmail());
 	    	
 	    	result = pstmt.executeUpdate();
 	    	
@@ -150,7 +175,8 @@ public class StudentDAO extends DAOBase {
     	return result;
 	}
 
-	public int update(HttpServletRequest request, HttpServletResponse response, int id) {
+
+	public int update(HttpServletRequest request, HttpServletResponse response) {
 		int result = 0;
 		dto = new StudentDTO();
 		dto.setId(Integer.parseInt(request.getParameter("id")));
@@ -268,16 +294,14 @@ public class StudentDAO extends DAOBase {
 		dto = new StudentDTO();
 		dto.setId(Integer.parseInt(request.getParameter("id")));
 		dto.setDepart_id(Integer.parseInt(request.getParameter("depart_id")));
-		dto.setGrade(Byte.parseByte(request.getParameter("grade")));
 				
-		String sql = "update student set depart_id=?, grade=? where id=?";
+		String sql = "update student left join depart on student.depart_id=depart.id set depart_id=? where student.id=?";
 		
 		try {
 			conn = getConnection();
 			pstmt = conn.prepareStatement(sql);
 	    	pstmt.setInt(1, dto.getDepart_id());
-	    	pstmt.setInt(2, dto.getGrade());
-	    	pstmt.setInt(3, dto.getId());
+	    	pstmt.setInt(2, dto.getId());
 	    	result = pstmt.executeUpdate(); // 질의를 통해 수정된 레코드의 수
 	    	return result;
 		} catch (SQLException e) {
@@ -325,6 +349,42 @@ public class StudentDAO extends DAOBase {
 		return dtoList;
 	}
 
+	public ArrayList<StudentDTO> list(String text1,int start, int end){
+		try {
+			conn = getConnection();
+			stmt = conn.createStatement();
+			if (text1!=null) rs=stmt.executeQuery("select student.*, depart.abbreviation from student left join depart on student.depart_id = depart.id where student.name like '%"+ text1 +"%' order by name limit "+start+","+end);
+			else rs=stmt.executeQuery("select student.*, depart.abbreviation from student left join depart on student.depart_id = depart.id limit "+start+","+end);
+			// email, pw는 form을 구성하는 각 요소의 이름
+			dtoList = new ArrayList<StudentDTO>();
+			while(rs.next()) {
+				dto = new StudentDTO();
+				dtoDepart = new DepartDTO();
+				dto.setId(rs.getInt(1));
+				dto.setDepart_id(rs.getInt(2));
+				dto.setGrade(rs.getByte(3));
+				dto.setStudent_class(rs.getString(4));
+				dto.setSchoolno(rs.getString(5));
+				dto.setName(rs.getString(6));
+				dto.setPhone(rs.getString(7));
+				dto.setSex(rs.getByte(8));
+				dto.setPwd(rs.getString(9));
+				dto.setPic(rs.getString(10));
+				dto.setState(rs.getString(11));
+				dto.setBirthday(rs.getString(12));
+				dto.setEmail(rs.getString(13));
+				dtoDepart.setName(rs.getString(14));
+				dto.setDepart(dtoDepart);
+				dtoList.add(dto);
+			}
+			return dtoList;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return dtoList;
+	}
+	
 	public StudentDTO list_id(String uid){
 		try {
 			conn = getConnection();
@@ -356,8 +416,7 @@ public class StudentDAO extends DAOBase {
 		}
 		return dto;	
 	}
-	public ArrayList<MyLectureDTO> qnalist(HttpServletRequest request, HttpServletResponse response) {
-		HttpSession ssion = request.getSession();
+	public ArrayList<MyLectureDTO> qnalist(String uid, int start, int end) {
 		MyLectureDTO mdto = null;
 		SubjectDTO sdto = null;
 		LectureDTO ldto = null;
@@ -368,7 +427,7 @@ public class StudentDAO extends DAOBase {
 			String query = "select mylecture.qaday, subject.name as subject_name, teacher.name as teacher_name, mylecture.qatitle, "
 					+ "mylecture.qaanswer, mylecture.id from student left join mylecture on student.id = mylecture.student_id "
 					+ "left join lecture on lecture.id = mylecture.lecture_id left join teacher on teacher.id = lecture.teacher_id "
-					+ "left join subject on subject.id = lecture.subject_id where student.schoolno='"+ssion.getAttribute("uid")+"'";
+					+ "left join subject on subject.id = lecture.subject_id where student.schoolno='"+uid+"' limit "+start+", "+end;
 			conn = getConnection();
 			stmt = conn.createStatement();	
 			rs = stmt.executeQuery(query);
@@ -408,7 +467,7 @@ public class StudentDAO extends DAOBase {
 			stmt = conn.createStatement();
 			rs = stmt.executeQuery("select lecture.id, subject.name, teacher.name from student left join mylecture on mylecture.student_id = student.id "
 					+ "left join lecture on lecture.id = mylecture.lecture_id left join subject on subject.id = lecture.subject_id "
-					+ "left join teacher on teacher.id = lecture.teacher_id where mylecture.qaday not null and student.schoolno = '"+ssion.getAttribute("uid")+"' and subject.yyyy = 2019;");
+					+ "left join teacher on teacher.id = lecture.teacher_id where mylecture.qaday is null and student.schoolno = '"+ssion.getAttribute("uid")+"' and subject.yyyy = 2019;");
 			while(rs.next()) {
 				ldto = new LectureDTO();
 				sdto = new SubjectDTO();

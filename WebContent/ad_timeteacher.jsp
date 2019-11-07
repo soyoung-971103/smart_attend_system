@@ -7,7 +7,6 @@
 <!-------------------------------------------------------------------------------->	
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html lang="kr">
 <head>
@@ -81,6 +80,7 @@
 													<span class="input-group-text">년도</span>
 												</div>
 												<div class="input-group-append">
+													<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 													<select name="sel1" id="sel1" class="form-control form-control-sm" onchange="">
 														<c:forEach var="i" step="1" begin="0" end="4">
 															<c:choose>
@@ -160,17 +160,7 @@
 								</table>
 
 								<nav>
-									<ul class="pagination pagination-sm justify-content-center">
-										<li class="page-item"><a class="page-link" href="#">◀</a></li>
-										<li class="page-item"><a class="page-link" href="#">◁</a></li>
-										<li class="page-item"><a class="page-link" href="#">2</a></li>
-										<li class="page-item"><a class="page-link" href="#">3</a></li>
-										<li class="page-item active"><span class="page-link" style="background-color:steelblue">4</span></li>
-										<li class="page-item"><a class="page-link" href="#">5</a></li>
-										<li class="page-item"><a class="page-link" href="#">6</a></li>
-										<li class="page-item"><a class="page-link" href="#">▷</a></li>
-										<li class="page-item"><a class="page-link" href="#">▶</a></li>
-									</ul>
+									${pagination}
 								</nav>
 
 							</div>		<!-- card body end -->

@@ -61,19 +61,47 @@
 					<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
 						<div class="card mb-3">
 							<div class="card-header mycolor3" style="padding:10px">
-								<h3><i class="fa fa-table"></i> 학생</h3>
+								<h3><i class="fa fa-table"></i> 공지사항</h3>
 							</div>
 								
-							<div class="card-body" style="padding:10px">
+							<div class="card-body" style="padding: 10px">
 
-								<style>
-									th { text-align: center }
-									td { text-align: center }
-								</style>
-								<a href="ad_noticenew.jsp" class="btn btn-sm mycolor1">추가</a>
-								<table class="table table-bordered table-sm table-hover" style="width:100%" id="example">
-									<thead>
-										<tr class="alert-secondary">
+									<script>
+										function find_text() {
+				
+												form1.action = "notice-list.do?text1="+ form1.text1.value
+											form1.submit();
+										}
+									</script>
+
+									<form name="form1" method="post" action="notice-list.do">
+										<div class="row" style="margin-bottom: 5px">
+											<div class="col-auto" align="left">
+												<div class="form-inline">
+													<div class="input-group input-group-sm">
+														<div class="input-group-prepend">
+															<span class="input-group-text">제목</span>
+														</div>
+														<input type="text" name="text1" size="10" value=""
+															class="form-control"
+															onKeydown="if (event.keyCode == 13) { find_text(); }">
+														<div class="input-group-append">
+															<button class="btn btn-sm mycolor1" type="button"
+																onClick="find_text();">검색</button>
+														</div>
+													</div>
+												</div>
+											</div>
+											<div class="col" align="right">
+												<a href="ad_noticenew.jsp" class="btn btn-sm mycolor1">추가</a>
+											</div>
+										</div>
+									</form>
+								<table
+										class="table table-bordered table-hover table-responsive-sm mytable"
+										style="width: 100%">
+										<thead>
+											<tr class="mycolor1">
 											<th>날짜</th>
 											<th>제목</th>
 											<th></th>
@@ -93,7 +121,9 @@
 									</c:forEach>
 									</tbody>
 								</table>
-
+								<nav>
+										${pagination}
+									</nav>
 							</div>														
 						</div>
 					</div>

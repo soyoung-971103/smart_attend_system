@@ -52,6 +52,16 @@ public class ASRemoveController extends HttpServlet {
 		
 	}
     private void list(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException{
+    	String tmp=request.getParameter("npage");
+		int npage = Integer.parseInt(tmp == null?"1":tmp);
+		String page = null;
+		int limit=5;
+		int start =(npage-1);
+		start*=limit;
+		
+		String query="select count(*) from subject " +
+				"left join lecture on lecture.subject_id = subject.id left join lectureday on lectureday.lecture_id = lecture.id left join room on room.id = lectureday.room_id "+
+				"left join building on building.id = room.building_id left join teacher on teacher.id = lecture.teacher_id left join depart on depart.id = teacher.depart_id where lectureday.state='신청'";
 		if(request.getParameter("no") != null && request.getParameter("c") != null)
 		{
 			if(request.getParameter("c").equals("1"))
@@ -63,8 +73,10 @@ public class ASRemoveController extends HttpServlet {
 				dao.returnlec(request, response);
 			}
 		}
+		page = dao.pagination(npage, dao.rowcount(query), request.getRequestURI());
+		dtolist = dao.DTOlist(start, limit);
 		
-		dtolist = dao.DTOlist(request, response);
+		request.setAttribute("pagination", page);
 		request.setAttribute("dtolist", dtolist);
 		
 		dtoListControl = daoControl.List();

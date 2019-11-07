@@ -22,6 +22,12 @@ public class AssistDAO extends DAOBase {
 	HttpSession sesobj = null;
 	AssistDTO dto = null;
 	DepartDTO dtoDepart = null;
+	String query = null;
+	String url;
+	int i, j;
+	
+	int page_line = 5; // 페이지당 line 수
+	int page_block = 5; // 블록당 page 수
 	
 	public ArrayList<AssistDTO> list()
 	{
@@ -88,7 +94,73 @@ public class AssistDAO extends DAOBase {
 		finally{	closeDBResources(rs, stmt, pstmt, conn);	}
 		return dtoList;
 	}
-	
+	public ArrayList<AssistDTO> list(int start, int end)
+	{
+		try {
+			String query = "select staff.*, depart.id, depart.abbreviation from staff left join depart on "
+					+ "staff.depart_id = depart.id limit "+start+","+end+";";
+			conn = getConnection();
+			stmt = conn.createStatement();
+			ResultSet rs = null;
+			rs = stmt.executeQuery(query);
+			
+			dtoList = new ArrayList<AssistDTO>();
+			
+			while(rs.next()) {
+				dto = new AssistDTO();
+				dtoDepart = new DepartDTO();
+				
+				dto.setId(Integer.parseInt(rs.getString("staff.id")));
+				dtoDepart.setName(rs.getString("depart.abbreviation"));
+				dto.setDepart_id(dtoDepart);
+				dto.setUid(rs.getString("staff.uid"));
+				dto.setPwd(rs.getString("staff.pwd"));
+				dto.setName(rs.getString("staff.name"));
+				dto.setTel(rs.getString("staff.tel"));
+				dto.setPhone(rs.getString("staff.phone"));
+				dto.setEmail(rs.getString("staff.email"));
+				dto.setPic(rs.getString("staff.pic"));
+				
+				dtoList.add(dto);
+			}
+		} catch (SQLException e) { System.out.println("TeacherInquiry Error");e.printStackTrace(); }
+		finally{	closeDBResources(rs, stmt, pstmt, conn);	}
+		return dtoList;
+	}
+	public ArrayList<AssistDTO> list(String name,int start, int end)
+	{
+		try {
+			String query = "select staff.*, depart.id, depart.abbreviation from staff "
+					+ "left join depart on staff.depart_id = depart.id where staff.name "
+					+ "like '%"+name+"%' limit "+start+","+end+";";
+			conn = getConnection();
+			stmt = conn.createStatement();
+			ResultSet rs = null;
+			rs = stmt.executeQuery(query);
+			
+			dtoList = new ArrayList<AssistDTO>();
+			
+			while(rs.next()) {
+				dto = new AssistDTO();
+				dtoDepart = new DepartDTO();
+				
+				dto.setId(Integer.parseInt(rs.getString("staff.id")));
+				dtoDepart.setName(rs.getString("depart.abbreviation"));
+				dto.setDepart_id(dtoDepart);
+				dto.setUid(rs.getString("staff.uid"));
+				dto.setPwd(rs.getString("staff.pwd"));
+				dto.setName(rs.getString("staff.name"));
+				dto.setTel(rs.getString("staff.tel"));
+				dto.setPhone(rs.getString("staff.phone"));
+				dto.setEmail(rs.getString("staff.email"));
+				dto.setPic(rs.getString("staff.pic"));
+				
+				dtoList.add(dto);
+			}
+		} catch (SQLException e) { System.out.println("TeacherInquiry Error");e.printStackTrace(); }
+		finally{	closeDBResources(rs, stmt, pstmt, conn);	}
+		return dtoList;
+	}
 	public int delete(HttpServletRequest request, HttpServletResponse response) {
 		int result=0;
 		try {
@@ -189,6 +261,55 @@ public class AssistDAO extends DAOBase {
 		finally {closeDBResources(rs,stmt, pstmt, conn);}
 	}
 	
+	public Integer rowcount(String sql) {
+		int c = 0;
+		try {
+			conn = getConnection();
+			stmt = conn.createStatement();
+			rs = stmt.executeQuery(sql);
+			if (rs.next())
+				c = rs.getInt(1);
+			return c;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return c;
+	}
+	public String pagination(int nowpage, int recordcount, String nowurl, String name) {
+		String name2 = (name == null) ? "" : "&text1="+name;
+		nowpage=(nowpage==0)?1:nowpage;
+		int pages = (int) (Math.ceil((float) recordcount / (float) page_line)); // 페이지수
+		int blocks = (int) (Math.ceil((float) pages / (float) page_block)); // 전체 블록수
+		int block = (int) (Math.ceil((float) nowpage / (float) page_block)); // 현재 블록
+		int page_s = page_block * (block - 1); // 현재 페이지
+		int page_e = page_block * block; // 마지막 페이지
+		if (blocks <= block)
+			page_e = pages;
+		/* 교수 학생 조교 정보 볼 때 페이지 번호 */
+		String s = "";
+		
+			s = "<nav><ul class='pagination pagination-sm justify-content-center'><li class='page-item'><a class='page-link' href='#'>◀</a></li>";
+
+		if (block > 1) // 이전 블록으로
+			s += "<li class='page-item'><a class='page-link' href='" + nowurl + "?npage=" + page_s + name2+"'>◁</a></li>";
+
+		for (int i = page_s + 1; i <= page_e; i++) // 페이지들 표시
+		{
+			if (nowpage == i)
+				s += "<li class='page-item active'><span class='page-link' style='background-color:steelblue'>" + i
+						+ "</span></li>";
+			else
+				s += "<li class='page-item'><a class='page-link' href='" + nowurl + "?npage=" + i + name2+"'>" + i
+						+ "</a></li>";
+		}
+
+		if (block < blocks) // 다음 블록으로
+			s += "<li class='page-item'><a class='page-link' href='" + nowurl + "?npage=" + (page_e + 1)
+					+ name2+"'>▷</a></li>";
+			s += "</ul></nav>";
+		return s;
+		
+	}
 	
 	
 	

@@ -69,7 +69,7 @@
 								function update_student(pos) 
 								{
 									form1.action="student-supdate.do?id=" + pos;
-									form1.gradeno.value=eval("form1.grade").value;
+									//form1.gradeno.value=eval("form1.grade").value;
 									form1.depart_idno.value=eval("form1.depart_id").value;
 									form1.submit();
 								}
@@ -112,11 +112,19 @@
 											</div>
 										</td>
 									</tr>
+									<% 
+
+									if(request.getAttribute("depart_class") != null ) {
+										int num = ((Integer)request.getAttribute("depart_class")).intValue();
+										pageContext.setAttribute("classnum",num);
+									}
+									
+													%>
 									<tr>
 										<td class="mycolor2" style="width:70px">학과</td>
 										<td>
 											<div class="form-inline">
-												<select name="depart_id" class="form-control form-control-sm">
+												<select name="depart_id" class="form-control form-control-sm" onchange="update_student('${student.id }');">
 													<c:forEach var="depart" items="${listDepart}">
 															<c:choose>
 																<c:when test="${student.depart_id eq depart.id }">
@@ -137,7 +145,7 @@
 										<td class="mycolor2">학년/반</td>
 										<td>
 											<div class="form-inline">
-												<select name="grade" class="form-control form-control-sm" style="width:80px" onchange="update_student('${student.id }');">
+												<select name="grade" class="form-control form-control-sm" style="width:80px">
 													<c:choose>
 													<c:when test="${student.grade eq 1 }">
 														<option value='1' selected>1학년</option>
@@ -167,56 +175,33 @@
 												
 												&nbsp;
 												<select name="student_class" class="form-control form-control-sm" style="width:80px">
-														<c:if test="${student.depart.classnum ge 1 }">
-															<c:choose>
-																<c:when test="${student.depart.classnum eq 1 }">
-																	<option value="A" selected>A 반</option>
-																</c:when>
-																<c:otherwise><option value="A">A 반</option></c:otherwise>
-															</c:choose>
-															
-														</c:if>
-														<c:if test="${student.depart.classnum ge 2 }">
-															<c:choose>
-																<c:when test="${student.depart.classnum eq 2 }">
-																	<option value="B" selected>B 반</option>
-																</c:when>
-																<c:otherwise><option value="B">B 반</option></c:otherwise>
-															</c:choose>
-														</c:if>
-														<c:if test="${student.depart.classnum ge 3 }">
-															<c:choose>
-																<c:when test="${student.depart.classnum eq 3 }">
-																	<option value="C" selected>C 반</option>
-																</c:when>
-																<c:otherwise><option value="C">C 반</option></c:otherwise>
-															</c:choose>
-														</c:if>
-														<c:if test="${student.depart.classnum ge 4 }">
-															<c:choose>
-																<c:when test="${student.depart.classnum eq 4 }">
-																	<option value="D" selected>D 반</option>
-																</c:when>
-																<c:otherwise><option value="D">D 반</option></c:otherwise>
-															</c:choose>
-														</c:if>
-														<c:if test="${student.depart.classnum ge 5 }">
-															<c:choose>
-																<c:when test="${student.depart.classnum eq 5 }">
-																	<option value="E" selected>E 반</option>
-																</c:when>
-																<c:otherwise><option value="E">E 반</option></c:otherwise>
-															</c:choose>
-														</c:if>
-														<c:if test="${student.depart.classnum ge 6 }">
-															<c:choose>
-																<c:when test="${student.depart.classnum eq 6 }">
-																	<option value="F" selected>F 반</option>
-																</c:when>
-																<c:otherwise><option value="F">F 반</option></c:otherwise>
-															</c:choose>
-														</c:if>
-													
+														<c:choose>
+															<c:when test="${classnum eq 1 }">
+															<option value="A">A 반</option>
+															</c:when>
+															<c:when test="${classnum eq 2 }">
+															<option value="A">A 반</option>
+															<option value="B">B 반</option>
+															</c:when>
+															<c:when test="${classnum eq 3 }">
+															<option value="A">A 반</option>
+															<option value="B">B 반</option>
+															<option value="C">C 반</option>
+															</c:when>
+															<c:when test="${classnum eq 4 }">
+															<option value="A">A 반</option>
+															<option value="B">B 반</option>
+															<option value="C">C 반</option>
+															<option value="D">D 반</option>
+															</c:when>
+															<c:otherwise>
+															<option value="A">A 반</option>
+															<option value="B">B 반</option>
+															<option value="C">C 반</option>
+															<option value="D">D 반</option>
+															<option value="E">E 반</option>
+															</c:otherwise>
+														</c:choose>
 												</select>
 											</div>
 										</td>

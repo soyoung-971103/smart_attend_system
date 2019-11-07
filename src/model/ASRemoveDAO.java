@@ -24,13 +24,14 @@ public class ASRemoveDAO extends DAOBase{
 	ArrayList<ASRemoveDTO> dtolist = null;
 	ASRemoveDTO dto = null;
 	
-	public ArrayList<ASRemoveDTO> DTOlist(HttpServletRequest request, HttpServletResponse response){
+	public ArrayList<ASRemoveDTO> DTOlist(int start, int end){
 		TeacherDTO teacher = null;
 		dtolist = new ArrayList<ASRemoveDTO>();
 		try {
 			String query="select depart.abbreviation, teacher.name, subject.name, subject.grade, lecture.class, room.name, building.name, lectureday.* from subject " +
 						"left join lecture on lecture.subject_id = subject.id left join lectureday on lectureday.lecture_id = lecture.id left join room on room.id = lectureday.room_id "+
-						"left join building on building.id = room.building_id left join teacher on teacher.id = lecture.teacher_id left join depart on depart.id = teacher.depart_id where lectureday.state='신청'";
+						"left join building on building.id = room.building_id left join teacher on teacher.id = lecture.teacher_id left join depart on depart.id = teacher.depart_id "
+						+ "where lectureday.state='신청' limit "+start+","+end;
 			
 			
 			conn = getConnection();
@@ -94,5 +95,19 @@ public class ASRemoveDAO extends DAOBase{
 			e.printStackTrace();
 		} finally {	closeDBResources(rs, stmt, pstmt, conn);	}
 		
+	}
+	public Integer rowcount(String sql) {
+		int c = 0;
+		try {
+			conn = getConnection();
+			stmt = conn.createStatement();
+			rs = stmt.executeQuery(sql);
+			if (rs.next())
+				c = rs.getInt(1);
+			return c;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return c;
 	}
 }

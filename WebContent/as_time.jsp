@@ -90,6 +90,7 @@
 
 					function make_lecture(h)	// 새강의 그리기
 					{
+						
 						if(c=="") c=1;
 						else c=Number(c)+1;
 						str = form1.sel4.value;

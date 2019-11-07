@@ -32,6 +32,7 @@ import model.TeacherDAO;
 import model.TeacherDTO;
 import model.TimeTableDAO;
 import model.TimeTableDTO;
+import model.StudentDAO;
 
 /**
  * Servlet implementation class LecturedayController
@@ -72,6 +73,8 @@ public class LecturedayController extends HttpServlet {
     HttpSession sesobj = null;
     ArrayList<ControlDTO> dtoListControl = null;
     ControlDAO daoControl = new ControlDAO();
+    StudentDAO daoStudent = new StudentDAO();
+
     
     int result = 0;
 	
@@ -98,15 +101,26 @@ public class LecturedayController extends HttpServlet {
 	}
 	
 	protected void list(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException{
-		 dtoList = dao.List();
-		 request.setAttribute("lectureday", dtoList);
+		
+		
+		String tmp=request.getParameter("npage");
+		int npage = Integer.parseInt(tmp == null?"1":tmp);
+		
+		int limit=5;
+		int start =(npage-1);
+		start*=limit;
+		String pagination=daoStudent.pagination(npage, daoStudent.rowcount("SELECT  COUNT(*) FROM lectureday"), request.getRequestURI());
+		request.setAttribute("pagination", pagination);
+		dtoList = dao.List(start,limit);
+		request.setAttribute("lectureday", dtoList);
 		 dtoListControl = daoControl.List();
 	     request.setAttribute("controlList", dtoListControl);
 		 request.getRequestDispatcher("te_lecmove.jsp").forward(request, response);
 	}
 	
 	private void delete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {		
-		int result = dao.delete(request, response); // 질의를 통해 수정된 레코드의 수
+		int id = Integer.parseInt(request.getParameter("id"));
+		int result = dao.delete(id); // 질의를 통해 수정된 레코드의 수
     	if(result > 0) {// 삭제 성공 : 영향 받은 row(record)의 수
     		request.setAttribute("id", request.getParameter("id"));
     		request.getRequestDispatcher("student-list.do").forward(request, response);
@@ -200,17 +214,6 @@ public class LecturedayController extends HttpServlet {
 			    }
 			 }
 			 date = utilDate.format(dtoListHoliday.get(i).getHoliday());
-			 System.out.println(mon);
-			 System.out.println(tue);
-			 System.out.println(wed);
-			 System.out.println(thu);
-			 System.out.println(fri);
-			 System.out.println(date);
-			 System.out.println(Smon);
-			 System.out.println(Stue);
-			 System.out.println(Swed);
-			 System.out.println(Sthu);
-			 System.out.println(Sfri);
 			 
 			 
 			

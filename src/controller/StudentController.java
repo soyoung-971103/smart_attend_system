@@ -70,6 +70,10 @@ public class StudentController extends HttpServlet {
 	LectureDTO lecture = null;
 	LectureDAO lecture_dao = new LectureDAO();
 	String pagination = null;
+	 DepartDTO dtoDepart = null;
+	 ArrayList<LectureDTO> dtoListLecture = null;
+	 LectureDTO dtoLecture = null;
+	 LectureDAO daoLecture = new LectureDAO();
     
 	protected void process(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
 		// TODO Auto-generated method stub
@@ -114,26 +118,26 @@ public class StudentController extends HttpServlet {
 	}	
 	
 	protected void list(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException{
-				
+		dtoListControl = daoControl.List();
+		
 		String tmp=request.getParameter("npage");
+		String text1 = request.getParameter("text1");
 		int npage = Integer.parseInt(tmp == null?"1":tmp);
 		
 		int limit=5;
 		int start =(npage-1);
 		start*=limit;
-		pagination = dao.pagination(npage, dao.rowcount("SELECT COUNT(*) FROM student"), request.getRequestURI());
+		pagination=dao.pagination(npage, dao.rowcount("SELECT  COUNT(*) FROM student"), request.getRequestURI());
 		request.setAttribute("pagination", pagination);
-		alStudent = dao.list(start,limit);
-		request.setAttribute("studentlist", alStudent);
+		request.setAttribute("npage", new Integer(npage));
+		dtoList = dao.list(text1,start,limit);
 		
-		dtoList = dao.list(request.getParameter("text1"));
-		 dtoListControl = daoControl.List();
-		 dtoListDepart = daoDepart.List();
-		 
-	        request.setAttribute("listDepart", dtoListDepart);  
-		 request.setAttribute("controlList", dtoListControl);
-		 request.setAttribute("studentlist", dtoList);
-		 request.getRequestDispatcher("ad_student.jsp").forward(request, response);
+		dtoListDepart = daoDepart.List();	
+ 
+		request.setAttribute("listDepart", dtoListDepart);
+		request.setAttribute("controlList", dtoListControl);
+		request.setAttribute("studentlist", dtoList);
+		request.getRequestDispatcher("ad_student.jsp").forward(request, response);
 	}
 		
 	protected void search(HttpServletRequest request, HttpServletResponse response)
@@ -199,7 +203,6 @@ public class StudentController extends HttpServlet {
     private String partValue;
 	
     protected void update(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
-    	int id = Integer.parseInt(request.getParameter("id"));
     	response.setContentType("text/html;charset=UTF-8");
     	request.setCharacterEncoding("utf-8");
     	
@@ -219,7 +222,7 @@ public class StudentController extends HttpServlet {
 	    	request.setAttribute(partName, partValue);
 	    }
 	    
-    	int result = dao.update(request, response,id);
+    	int result = dao.update(request, response);
     	if(result > 0) {// 성공 가입
     		request.setAttribute("id", request.getParameter("id"));
     		request.getRequestDispatcher("student-list.do").forward(request, response);
@@ -268,8 +271,24 @@ public class StudentController extends HttpServlet {
     }
 
 	protected void qna(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException{
+		HttpSession ssion = request.getSession();
+		String tmp=request.getParameter("npage");
+		int npage = Integer.parseInt(tmp == null?"1":tmp);
+		
+		int limit=5;
+		int start =(npage-1);
+		start*=limit;
+		String uid = (String) ssion.getAttribute("uid");
+		String query = "select count(*) from student left join mylecture on student.id = mylecture.student_id "
+				+ "left join lecture on lecture.id = mylecture.lecture_id left join teacher on teacher.id = lecture.teacher_id "
+				+ "left join subject on subject.id = lecture.subject_id where student.schoolno='"+uid+"'";
+		
+		pagination = dao.pagination(npage, dao.rowcount(query), request.getRequestURI());
+		request.setAttribute("pagination", pagination);
+		
 		ArrayList<MyLectureDTO> mdtoList = new ArrayList<MyLectureDTO>();
-		mdtoList = dao.qnalist(request, response);
+		mdtoList = dao.qnalist(uid, start, limit);
+		
 		if(mdtoList.size() == 1) {
 			if(mdtoList.get(0).getQaday() == null)
 				request.setAttribute("dtoList", null);
@@ -277,7 +296,6 @@ public class StudentController extends HttpServlet {
 				request.setAttribute("dtoList", mdtoList);
 		}
 		
-
 		dtoListControl = daoControl.List();
     	request.setAttribute("controlList", dtoListControl);
 		request.getRequestDispatcher("st_lecqa.jsp").forward(request, response);

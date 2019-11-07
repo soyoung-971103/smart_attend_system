@@ -9,6 +9,7 @@ import java.util.ArrayList;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -27,6 +28,10 @@ import model.DepartDTO;
  */
 
 @WebServlet({"/assist-inputdata.do", "/assist-info.do", "/assist-register.do", "/assist-delete.do", "/assist-list.do", "/assist-update.do"})
+@MultipartConfig(location="", 
+fileSizeThreshold=1024*1024, 
+maxFileSize=1024*1024*5, 
+maxRequestSize=1024*1024*5*5)
 public class AssistController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -79,19 +84,28 @@ public class AssistController extends HttpServlet {
 	}
 	private void Inquiry(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException{
 		String text1 = request.getParameter("text1");
+		String tmp=request.getParameter("npage");
+		int npage = Integer.parseInt(tmp == null?"1":tmp);
+		String page = null;
+		int limit=5;
+		int start =(npage-1);
+		start*=limit;
 		
 		if(text1 == null) {
-			dtoList = dao.list();
+			dtoList = dao.list(start, limit);
 			text1 = "";
+			page = dao.pagination(npage, dao.rowcount("SELECT COUNT(*) FROM staff"), request.getRequestURI());
 		}
-		else
-			dtoList = dao.list(text1);
+		else {
+			dtoList = dao.list(text1, start, limit);
+			page = dao.pagination(npage, dao.rowcount("SELECT COUNT(*) FROM staff where name like '%"+text1+"%'"), request.getRequestURI(), text1);
+		}
 		
 		dtoListControl = daoControl.List();
 		
 		request.setAttribute("controlList", dtoListControl);
 		request.setAttribute("alMember", dtoList);
-		
+		request.setAttribute("pagination", page);
 		request.setAttribute("text1", text1);
 		
 		RequestDispatcher dis = request.getRequestDispatcher("ad_assist.jsp");
@@ -153,4 +167,5 @@ public class AssistController extends HttpServlet {
 			e.printStackTrace();
 		}
 	}
+	
 }

@@ -162,7 +162,18 @@ public class LectureController extends HttpServlet {
 		String sel2 = request.getParameter("sel2");
 		String sel3 = request.getParameter("sel3");
 		dtoListDepart = daoDepart.List();
-		dtoList = dao.Te_LectureList(sel1,sel2,sel3);
+		String tmp=request.getParameter("npage");
+		int npage = Integer.parseInt(tmp == null?"1":tmp);
+		
+		int limit=5;
+		int start =(npage-1);
+		start*=limit;
+		String pagination=daoStudent.pagination(npage, daoStudent.rowcount("SELECT  COUNT(*) FROM lecture"), request.getRequestURI());
+		request.setAttribute("pagination", pagination);
+		dtoList = dao.Te_LectureList(sel1,sel2,sel3,start,limit);
+		request.setAttribute("sel1", sel1);
+		request.setAttribute("sel2", sel2);
+		request.setAttribute("sel3", sel3);
 		
 		request.setAttribute("alLecture", dtoList);
 		request.setAttribute("alDepart", dtoListDepart);
@@ -284,6 +295,7 @@ public class LectureController extends HttpServlet {
     	request.setAttribute("sel1", sel1);
 		request.setAttribute("sel2", sel2);
 		request.setAttribute("sel3", sel3);
+		System.out.println("?????"+sel1+sel2+sel3);
 		
     	request.getRequestDispatcher("as-lecture-list.do").forward(request, response);
 

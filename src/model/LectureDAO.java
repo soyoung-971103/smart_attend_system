@@ -57,14 +57,14 @@ public class LectureDAO extends DAOBase{
 	}
 	
 	
-	public ArrayList<LectureDTO> Te_LectureList(String sel1, String sel2, String sel3){		
+	public ArrayList<LectureDTO> Te_LectureList(String sel1, String sel2, String sel3,int start, int end){		
 		try {
 			conn = getConnection();
 			stmt = conn.createStatement();
 			dtoList = new ArrayList<LectureDTO>();
-			if(sel1 != null && sel2 != null && sel3 != null && !sel3.equals("0")) rs = stmt.executeQuery("SELECT teacher.name, depart.name, lecture.teacher_id, COUNT(*) as sub_count, SUM(subject.ihour) as sub_hour, COUNT(*) as sub_day, teacher.kind, subject.yyyy, subject.term, subject.depart_id FROM lecture LEFT JOIN teacher ON lecture.teacher_id = teacher.id LEFT JOIN depart ON teacher.depart_id = depart.id LEFT JOIN subject ON lecture.subject_id = subject.id LEFT JOIN lectureday ON lecture.id=lectureday.id where subject.yyyy="+sel1+" and subject.term="+sel2+" and subject.depart_id="+sel3+" GROUP BY lecture.teacher_id HAVING COUNT(*) > 1");
-			else if(sel1 != null && sel2 != null && sel3.equals("0")) rs = stmt.executeQuery("SELECT teacher.name, depart.name, lecture.teacher_id, COUNT(*) as sub_count, SUM(subject.ihour) as sub_hour, COUNT(*) as sub_day, teacher.kind, subject.yyyy, subject.term, subject.depart_id FROM lecture LEFT JOIN teacher ON lecture.teacher_id = teacher.id LEFT JOIN depart ON teacher.depart_id = depart.id LEFT JOIN subject ON lecture.subject_id = subject.id LEFT JOIN lectureday ON lecture.id=lectureday.id where subject.yyyy="+sel1+" and subject.term="+sel2+" GROUP BY lecture.teacher_id HAVING COUNT(*) > 1");
-			else rs = stmt.executeQuery("SELECT teacher.name, depart.name, lecture.teacher_id, COUNT(*) as sub_count, SUM(subject.ihour) as sub_hour, COUNT(*) as sub_day, teacher.kind FROM lecture LEFT JOIN teacher ON lecture.teacher_id = teacher.id LEFT JOIN depart ON teacher.depart_id = depart.id LEFT JOIN subject ON lecture.subject_id = subject.id LEFT JOIN lectureday ON lecture.id=lectureday.id GROUP BY lecture.teacher_id HAVING COUNT(*) > 1");
+			if(sel1 != null && sel2 != null && sel3 != null && !sel3.equals("0")) rs = stmt.executeQuery("SELECT teacher.name, depart.name, lecture.teacher_id, COUNT(*) as sub_count, SUM(subject.ihour) as sub_hour, COUNT(*) as sub_day, teacher.kind, subject.yyyy, subject.term, subject.depart_id FROM lecture LEFT JOIN teacher ON lecture.teacher_id = teacher.id LEFT JOIN depart ON teacher.depart_id = depart.id LEFT JOIN subject ON lecture.subject_id = subject.id LEFT JOIN lectureday ON lecture.id=lectureday.id where subject.yyyy="+sel1+" and subject.term="+sel2+" and teacher.depart_id="+sel3+" GROUP BY lecture.teacher_id limit "+start+","+ end);
+			else if(sel1 != null && sel2 != null && sel3.equals("0")) rs = stmt.executeQuery("SELECT teacher.name, depart.name, lecture.teacher_id, COUNT(*) as sub_count, SUM(subject.ihour) as sub_hour, COUNT(*) as sub_day, teacher.kind, subject.yyyy, subject.term, subject.depart_id FROM lecture LEFT JOIN teacher ON lecture.teacher_id = teacher.id LEFT JOIN depart ON teacher.depart_id = depart.id LEFT JOIN subject ON lecture.subject_id = subject.id LEFT JOIN lectureday ON lecture.id=lectureday.id where subject.yyyy="+sel1+" and subject.term="+sel2+" GROUP BY lecture.teacher_id limit "+start+", "+end);
+			else rs = stmt.executeQuery("SELECT teacher.name, depart.name, lecture.teacher_id, COUNT(*) as sub_count, SUM(subject.ihour) as sub_hour, COUNT(*) as sub_day, teacher.kind FROM lecture LEFT JOIN teacher ON lecture.teacher_id = teacher.id LEFT JOIN depart ON teacher.depart_id = depart.id LEFT JOIN subject ON lecture.subject_id = subject.id LEFT JOIN lectureday ON lecture.id=lectureday.id GROUP BY lecture.teacher_id limit "+start+", "+end);
 			while(rs.next()) {
 				dto = new LectureDTO();
 				dtoDepart = new DepartDTO();
@@ -678,7 +678,6 @@ public class LectureDAO extends DAOBase{
 		try {
 			conn = getConnection();
 			pstmt = conn.prepareStatement("Delete lecture FROM lecture LEFT JOIN subject ON lecture.subject_id=subject.id LEFT JOIN teacher ON lecture.teacher_id=teacher.id LEFT JOIN depart ON subject.depart_id=depart.id Where subject.yyyy="+sel1+" and subject.term="+sel2+" and subject.grade="+sel3+ " and subject.depart_id="+session.getAttribute("depart_id"));
-			System.out.println("delete1:"+sel1+sel2+sel3+session.getAttribute("depart_id"));
 			result = pstmt.executeUpdate();	
 			return result;
 		} catch (SQLException e) {
@@ -691,7 +690,6 @@ public class LectureDAO extends DAOBase{
 			try {
 				conn = getConnection();
 				pstmt = conn.prepareStatement("Delete lecture FROM lecture LEFT JOIN subject ON lecture.subject_id=subject.id LEFT JOIN teacher ON lecture.teacher_id=teacher.id LEFT JOIN depart ON subject.depart_id=depart.id Where subject.yyyy="+sel1+" and subject.term="+sel2+" and subject.depart_id="+session.getAttribute("depart_id"));
-				System.out.println("delete2:"+sel1+sel2+sel3+session.getAttribute("depart_id"));
 				result = pstmt.executeUpdate();	
 				return result;
 			} catch (SQLException e) {
@@ -705,7 +703,6 @@ public class LectureDAO extends DAOBase{
 					conn = getConnection();
 
 					pstmt = conn.prepareStatement("Delete lecture FROM lecture LEFT JOIN subject ON lecture.subject_id=subject.id LEFT JOIN teacher ON lecture.teacher_id=teacher.id LEFT JOIN depart ON subject.depart_id=depart.id Where subject.depart_id="+session.getAttribute("depart_id"));
-					System.out.println("delete3:"+sel1+sel2+sel3+session.getAttribute("depart_id"));
 					result = pstmt.executeUpdate();	
 					return result;
 				} catch (SQLException e) {

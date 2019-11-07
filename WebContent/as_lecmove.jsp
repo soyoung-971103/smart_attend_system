@@ -172,17 +172,7 @@
 
 
 								<nav>
-									<ul class='pagination pagination-sm justify-content-center'>
-										<li class='page-item'><a class="page-link" href="/member/lists/page" data-ci-pagination-page="1" rel="start">◀</a></li>
-										<li class='page-item'><a class="page-link" href="/member/lists/page/10" data-ci-pagination-page="3" rel="prev">◁</a></li>
-										<li class='page-item'><a class="page-link" href="/member/lists/page/5" data-ci-pagination-page="2">2</a></li>
-										<li class='page-item'><a class="page-link" href="/member/lists/page/10" data-ci-pagination-page="3">3</a></li>
-										<li class='page-item active'><span class='page-link' style='background-color:steelblue'>4</li>
-										<li class='page-item'><a class="page-link" href="/member/lists/page/20" data-ci-pagination-page="5">5</a></li>
-										<li class='page-item'><a class="page-link" href="/member/lists/page/25" data-ci-pagination-page="6">6</a></li>
-										<li class='page-item'><a class="page-link" href="/member/lists/page/20" data-ci-pagination-page="5" rel="next">▷</a></li>
-										<li class='page-item'><a class="page-link" href="/member/lists/page/45" data-ci-pagination-page="10">▶</a></li>
-									</ul>
+									${pagination}
 								</nav>
 
 							</div>		<!-- card body end -->

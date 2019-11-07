@@ -69,17 +69,12 @@
 
 									<script>
 										function find_text() {
-											if (!form1.text1.value)
-												form1.action = "/member/lists/page";
-											else
-												form1.action = "/member/lists/text1/"
-														+ form1.text1.value
-														+ "/page";
+											form1.action = "student-list.do?text1="+ form1.text1.value
 											form1.submit();
 										}
 									</script>
 
-									<form method="post" action="student-search.do">
+									<form name="form1" method="post" action="student-list.do">
 										<div class="row" style="margin-bottom: 5px">
 											<div class="col-auto" align="left">
 												<div class="form-inline">

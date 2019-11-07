@@ -40,6 +40,15 @@
 <!------------------------------------------------------------------------------>
 <!-- 내용 시작 -->
 <!------------------------------------------------------------------------------>
+
+<script>	
+	function add_depart(){
+		form1.action = "student-studentnew.do?student_class="+ form1.depart_id.value
+		form1.submit();
+	}
+</script>
+
+
 				<div class="row">
 					<div class="col-xl-12">
 						<div class="breadcrumb-holder">
@@ -65,7 +74,7 @@
 							<div class="card-body" style="padding:10px">
 							
 							<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-								<form method="post" action="student-register.do" enctype="multipart/form-data">
+								<form name="form1" method="post" action="student-register.do" enctype="multipart/form-data">
 
 								<table class="table table-bordered mytable-centermiddle" style="width:100%;">
 									<tr>
@@ -81,14 +90,32 @@
 										</td>
 									</tr>
 									<tr>
+									<% 
+										String student_class = request.getParameter("student_class");
+										pageContext.setAttribute("student_class",student_class);
+	
+										if(request.getAttribute("depart_class") != null ) {
+											int num = ((Integer)request.getAttribute("depart_class")).intValue();
+											pageContext.setAttribute("classnum",num);
+										}
+									%>
 										<td class="mycolor2">학과</td>
 										<td>
 											<div class="form-inline">
-												<select name="depart_id" class="form-control form-control-sm">
+												<select name="depart_id" class="form-control form-control-sm" onchange="add_depart()">
 													<option value="0" selected></option>
 													<c:forEach var="depart" items="${listDepart}">
-														<option value='${depart.id }'>${depart.name }</option>		
-													</c:forEach>
+													
+															<c:choose>
+																<c:when test='${student_class eq depart.id }'>
+
+																	<option value="${depart.getId()}" selected>${depart.getName()}</option>
+																</c:when>
+																<c:otherwise>
+																	<option value="${depart.getId()}">${depart.getName()}</option>
+																</c:otherwise>											
+															</c:choose>
+														</c:forEach>
 												</select>
 											</div>
 										</td>
@@ -97,44 +124,43 @@
 										<td class="mycolor2">학년/반</td>
 										<td>
 											<div class="form-inline">
-												<select name="grade" class="form-control form-control-sm" style="width:80px">
+												<select name="grade" class="form-control form-control-sm" style="width:80px" onchange="add_grade()">
 													<option value='1'>1학년</option>
 													<option value='2'>2학년</option>
 													<option value='3'>3학년</option>
+													<option value='4'>4학년</option>
 												</select>
 												<input type="hidden" name="data1" value="">
 												<input type="hidden" name="data2" value="">
 												&nbsp;
 												<select name="student_class" class="form-control form-control-sm" style="width:80px">
-													<c:forEach var="depart" items="${listDepart}">
-														<c:choose>
-															<c:when test="${depart.classnum eq 1 }">
-															<option value="A">${depart.classnum } 반</option>
-															</c:when>
-															<c:when test="${depart.classnum eq 2 }">
-															<option value="A">A 반</option>
-															<option value="B">B 반</option>
-															</c:when>
-															<c:when test="${depart.classnum eq 3 }">
-															<option value="A">A 반</option>
-															<option value="B">B 반</option>
-															<option value="C">C 반</option>
-															</c:when>
-															<c:when test="${depart.classnum eq 4 }">
-															<option value="A">A 반</option>
-															<option value="B">B 반</option>
-															<option value="C">C 반</option>
-															<option value="D">D 반</option>
-															</c:when>
-															<c:otherwise>
-															<option value="A">A 반</option>
-															<option value="B">B 반</option>
-															<option value="C">C 반</option>
-															<option value="D">D 반</option>
-															<option value="E">E 반</option>
-															</c:otherwise>
-														</c:choose>
-													</c:forEach>
+													<c:choose>
+														<c:when test="${classnum eq 1 }">
+														<option value="A">A 반</option>
+														</c:when>
+														<c:when test="${classnum eq 2 }">
+														<option value="A">A 반</option>
+														<option value="B">B 반</option>
+														</c:when>
+														<c:when test="${classnum eq 3 }">
+														<option value="A">A 반</option>
+														<option value="B">B 반</option>
+														<option value="C">C 반</option>
+														</c:when>
+														<c:when test="${classnum eq 4 }">
+														<option value="A">A 반</option>
+														<option value="B">B 반</option>
+														<option value="C">C 반</option>
+														<option value="D">D 반</option>
+														</c:when>
+														<c:otherwise>
+														<option value="A">A 반</option>
+														<option value="B">B 반</option>
+														<option value="C">C 반</option>
+														<option value="D">D 반</option>
+														<option value="E">E 반</option>
+														</c:otherwise>
+													</c:choose>
 												</select>
 											</div>
 										</td>

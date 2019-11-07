@@ -69,10 +69,36 @@
 									</div>
 
 									<div class="card-body" style="padding: 10px">
-										<form name="form1" method="post" action="holiday-list.do">
+											<script>
+									function find_text()
+									{
+										if (!form1.text1.value)
+											form1.action="depart-list.do?page=";
+										else
+											form1.action="depart-list.do?text1=" + form1.text1.value + "&page=";
+										form1.submit();
+									}
+									</script>
+								
+										<form name="form1" method="post" action="">
+										<div class="row" style="margin-bottom:5px">
+											<div class="col-auto" align="left">
+												<div class="form-inline">
+													<div class="input-group input-group-sm">
+														<div class="input-group-prepend">
+															<span class="input-group-text">년도</span>
+														</div>
+														<input type="text" name="text1" size="10" value="" class="form-control">
+														<div class="input-group-append">
+															<button class="btn btn-sm mycolor1" type="button" onClick="find_text();">검색</button>
+														</div>
+													</div>
+												</div>
+											</div>
 											<div class="col" align="right">
-												<a href="ad_holidaynew.jsp" class="btn btn-sm mycolor1">추가</a>
+												<a href="ad_departnew.jsp" class="btn btn-sm mycolor1">추가</a>
 												<br></br>
+											</div>
 											</div>
 										</form>
 
@@ -104,18 +130,7 @@
 											</tbody>
 										</table>
 										<nav>
-											<ul class="pagination pagination-sm justify-content-center">
-												<li class="page-item"><a class="page-link" href="#">◀</a></li>
-												<li class="page-item"><a class="page-link" href="#">◁</a></li>
-												<li class="page-item"><a class="page-link" href="#">2</a></li>
-												<li class="page-item"><a class="page-link" href="#">3</a></li>
-												<li class="page-item active"><span class="page-link"
-													style="background-color: steelblue">4</span></li>
-												<li class="page-item"><a class="page-link" href="#">5</a></li>
-												<li class="page-item"><a class="page-link" href="#">6</a></li>
-												<li class="page-item"><a class="page-link" href="#">▷</a></li>
-												<li class="page-item"><a class="page-link" href="#">▶</a></li>
-											</ul>
+											${pagination}
 										</nav>
 									</div>
 								</div>

@@ -18,7 +18,12 @@ public class HolidayDAO extends DAOBase{
 	ArrayList<HolidayDTO> dtoList = null;
 	HolidayDTO dto = null;
 	HttpSession sesobj = null;
+	String query = null;
+	String url;
+	int i, j;
 	
+	int page_line = 5; // 페이지당 line 수
+	int page_block = 5; // 블록당 page 수
 	
 	public int insert(HolidayDTO dto) {
 		int result = 0;		

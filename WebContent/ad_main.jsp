@@ -83,24 +83,14 @@
 										<td>${ main.writeday}</td>
 										<td style="text-align:left">${ main.title}</td>
 										<td>
-										 <a href="" class="btn btn-xs btn-outline-primary">보기</a>
+											<a href="notice-detail.do?id=${ main.id }" class="btn btn-xs btn-outline-primary">보기</a>
 										</td>
 									</tr>
 									</c:forEach>
 								</table>
 
 								<nav>
-									<ul class='pagination pagination-sm justify-content-center'>
-										<li class='page-item'><a class="page-link" href="#">◀</a></li>
-										<li class='page-item'><a class="page-link" href="#">◁</a></li>
-										<li class='page-item'><a class="page-link" href="#">2</a></li>
-										<li class='page-item'><a class="page-link" href="#">3</a></li>
-										<li class='page-item active'><span class='page-link' style='background-color:steelblue'>4</span></li>
-										<li class='page-item'><a class="page-link" href="#">5</a></li>
-										<li class='page-item'><a class="page-link" href="#">6</a></li>
-										<li class='page-item'><a class="page-link" href="#">▷</a></li>
-										<li class='page-item'><a class="page-link" href="#">▶</a></li>
-									</ul>
+									${pagination}
 								</nav>
 
 							</div>		<!-- card body end -->

@@ -20,6 +20,7 @@ import com.sun.corba.se.impl.protocol.giopmsgheaders.RequestMessage;
 import com.sun.xml.internal.bind.v2.schemagen.xmlschema.List;
 
 import model.NoticeDTO;
+import model.StudentDAO;
 import model.ControlDAO;
 import model.ControlDTO;
 import model.NoticeDAO;
@@ -45,6 +46,7 @@ private static final long serialVersionUID = 1L;
 	NoticeDTO dto = null;
 	HttpSession session = null;
 	NoticeDAO dao = null;
+	StudentDAO daoStudent = null;
 	ArrayList<ControlDTO> dtoListControl = null;
 	ControlDAO daoControl = new ControlDAO();
 
@@ -74,12 +76,24 @@ private static final long serialVersionUID = 1L;
     }
     
     protected void list(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException{
-		 dtoList = dao.list(request.getParameter("text1"));
-		 dtoListControl = daoControl.List();
+    	String tmp=request.getParameter("npage");
+		String text1 = request.getParameter("text1");
+		String pagination = null;
+		int npage = Integer.parseInt(tmp == null?"1":tmp);
+		
+		int limit=5;
+		int start =(npage-1);
+		start*=limit;
+		pagination=dao.pagination(npage, dao.rowcount("SELECT COUNT(*) FROM notice"), request.getRequestURI());
+		request.setAttribute("pagination", pagination);
+    	
+    	dtoList = dao.list(text1, start, limit);
+		dtoListControl = daoControl.List();
 		request.setAttribute("controlList", dtoListControl);
 		request.setAttribute("noticelist", dtoList);
 		request.getRequestDispatcher("ad_notice.jsp").forward(request, response);
 	}
+    
     
     protected void detail(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
     	int id = Integer.parseInt(request.getParameter("id"));

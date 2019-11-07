@@ -42,6 +42,7 @@ public class AdMainController extends HttpServlet {
     ArrayList<ControlDTO> dtoListControl = null;
 	ControlDAO daoControl = new ControlDAO();
     HttpSession sesobj = null;
+    String pagination = null;
     
     protected void process(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
 		// TODO Auto-generated method stub
@@ -60,9 +61,16 @@ public class AdMainController extends HttpServlet {
 	}
     
     private void list(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {		
+    	String tmp=request.getParameter("npage");
+	    int npage = Integer.parseInt(tmp == null?"1":tmp);
+	    int limit=5;
+	    int start =(npage-1);
+	    start*=limit;
+	    pagination = dao.pagination(npage, dao.rowcount("SELECT COUNT(*) FROM notice"), request.getRequestURI());
+	    request.setAttribute("pagination", pagination);
+	    
     	dtoList = dao.List();
-    	dtoListNotice = daoNotice.list(null);
-    	dtoListControl = daoControl.List();
+    	dtoListNotice = daoNotice.list(null, start, limit);
     	request.setAttribute("controlList", dtoListControl);
     	request.setAttribute("noticeList", dtoListNotice);
     	request.setAttribute("list", dtoList);    	

@@ -105,7 +105,7 @@
 																			<option value='0' selected>전체</option>
 																		</c:when> 
 																		<c:otherwise>
-																			<option value='${i }' selected>${i }</option>
+																			<option value='${i }' selected>${i }학년</option>
 																		</c:otherwise>
 																	</c:choose>
 																</c:when>
@@ -115,7 +115,7 @@
 																			<option value='0'>전체</option>
 																		</c:when>
 																		<c:otherwise>
-																			<option value='${i }'>${i }</option>
+																			<option value='${i }'>${i }학년</option>
 																		</c:otherwise>
 																	</c:choose>
 																</c:otherwise>
@@ -172,17 +172,18 @@
 								</table>
 
 								<nav>
-									<ul class='pagination pagination-sm justify-content-center'>
-										<li class='page-item'><a class="page-link" href="#">◀</a></li>
-										<li class='page-item'><a class="page-link" href="#">◁</a></li>
-										<li class='page-item'><a class="page-link" href="#">2</a></li>
-										<li class='page-item'><a class="page-link" href="#">3</a></li>
-										<li class='page-item active'><span class='page-link' style='background-color:steelblue'>4</span></li>
-										<li class='page-item'><a class="page-link" href="#">5</a></li>
-										<li class='page-item'><a class="page-link" href="#">6</a></li>
-										<li class='page-item'><a class="page-link" href="#">▷</a></li>
-										<li class='page-item'><a class="page-link" href="#">▶</a></li>
-									</ul>
+									<!-- <ul class="pagination pagination-sm justify-content-center">
+									<li class="page-item"><a class="page-link" href="#">◀</a></li>
+									<li class="page-item"><a class="page-link" href="#">◁</a></li>
+									<li class="page-item"><a class="page-link" href="#">2</a></li>
+									<li class="page-item"><a class="page-link" href="#">3</a></li>
+									<li class="page-item active"><span class="page-link" style="background-color:steelblue">4</span></li>
+									<li class="page-item"><a class="page-link" href="#">5</a></li>
+									<li class="page-item"><a class="page-link" href="#">6</a></li>
+									<li class="page-item"><a class="page-link" href="#">▷</a></li>
+									<li class="page-item"><a class="page-link" href="#">▶</a></li>
+								</ul> -->
+									${pagination}
 								</nav>
 
 							</div>		<!-- card body end -->

@@ -294,9 +294,6 @@
 						class="fa fa-fw fa-male"></i> <span>조교</span> <span
 						class="menu-arrow"></span></a>
 					<ul class="list-unstyled" style="<c:out value="${dropUl[2]}"/>">
-						<li><a href="assistmain_list.do"
-							class="<c:out value="${activA[2][0]}"/>"
-							style="padding: 5px 0 5px 40px;">조교 메인</a></li>
 						<c:forEach var="control" items="${controlList}">
 							<c:if test="${control.subjecttime == 0}">
 								<li><a href="subject-list.do"
