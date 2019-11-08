@@ -68,10 +68,12 @@ public class TeacherDAO extends DAOBase {
 		finally{	closeDBResources(rs, stmt, pstmt, conn);	}
 		return dtoList;
 	}
-	public ArrayList<TeacherDTO> list(String name)
+	public ArrayList<TeacherDTO> list(int start, int end)
 	{
 		try {
-			String query = "select teacher.*, depart.id, depart.abbreviation from teacher left join depart on teacher.depart_id = depart.id where teacher.name like '%"+name+"%';";
+			String query = "select teacher.*, depart.id, depart.abbreviation "
+					+ "from teacher left join depart on teacher.depart_id = depart.id"
+					+ " limit " + start + ", " + end + ";";
 			conn = getConnection();
 			stmt = conn.createStatement();
 			ResultSet rs = null;
@@ -99,6 +101,121 @@ public class TeacherDAO extends DAOBase {
 		} catch (SQLException e) { e.printStackTrace(); }
 		finally{	closeDBResources(rs, stmt, pstmt, conn);	}
 		return dtoList;
+	}
+	public ArrayList<TeacherDTO> list(String name, int start,int end)
+	{
+		try {
+			String query = "select teacher.*, depart.id, depart.abbreviation "
+					+ "from teacher left join depart on teacher.depart_id = depart.id "
+					+ "where teacher.name like '%"+name+"%' limit "+start+", " + end + ";";
+			conn = getConnection();
+			stmt = conn.createStatement();
+			ResultSet rs = null;
+			rs = stmt.executeQuery(query);
+			
+			dtoList = new ArrayList<TeacherDTO>();
+			
+			while(rs.next()) {
+				dtoDepart = new DepartDTO();
+				dto = new TeacherDTO();
+				dto.setId(Integer.parseInt(rs.getString("teacher.id")));
+				dtoDepart.setName(rs.getString("depart.abbreviation"));
+				dto.setDepart_id(dtoDepart);
+				dto.setKind(rs.getString("teacher.kind"));
+				dto.setUid(rs.getString("teacher.uid"));
+				dto.setPwd(rs.getString("teacher.pwd"));
+				dto.setName(rs.getString("teacher.name"));
+				dto.setTel(rs.getString("teacher.tel"));
+				dto.setPhone(rs.getString("teacher.phone"));
+				dto.setEmail(rs.getString("teacher.email"));
+				dto.setPic(rs.getString("teacher.pic"));
+				
+				dtoList.add(dto);
+			}
+		} catch (SQLException e) { e.printStackTrace(); }
+		finally{	closeDBResources(rs, stmt, pstmt, conn);	}
+		return dtoList;
+	}
+	public Integer rowcount(String sql) {
+		int c = 0;
+		try {
+			conn = getConnection();
+			stmt = conn.createStatement();
+			rs = stmt.executeQuery(sql);
+			if (rs.next())
+				c = rs.getInt(1);
+			return c;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return c;
+	}
+	public String pagination(int nowpage, int recordcount, String nowurl, String name) {
+		String name2 = (name == null) ? "" : "&text1="+name;
+		nowpage=(nowpage==0)?1:nowpage;
+		int pages = (int) (Math.ceil((float) recordcount / (float) page_line)); // 페이지수
+		int blocks = (int) (Math.ceil((float) pages / (float) page_block)); // 전체 블록수
+		int block = (int) (Math.ceil((float) nowpage / (float) page_block)); // 현재 블록
+		int page_s = page_block * (block - 1); // 현재 페이지
+		int page_e = page_block * block; // 마지막 페이지
+		if (blocks <= block)
+			page_e = pages;
+		/* 교수 학생 조교 정보 볼 때 페이지 번호 */
+		String s = "<nav><ul class='pagination pagination-sm justify-content-center'><li class='page-item'><a class='page-link' href='#'>◀</a></li>";
+
+		if (block > 1) // 이전 블록으로
+			s += "<li class='page-item'><a class='page-link' href='" + nowurl + "?npage=" + page_s + name2+"'>◁</a></li>";
+
+		for (int i = page_s + 1; i <= page_e; i++) // 페이지들 표시
+		{
+			if (nowpage == i)
+				s += "<li class='page-item active'><span class='page-link' style='background-color:steelblue'>" + i
+						+ "</span></li>";
+			else
+				s += "<li class='page-item'><a class='page-link' href='" + nowurl + "?npage=" + i + name2+"'>" + i
+						+ "</a></li>";
+		}
+
+		if (block < blocks) // 다음 블록으로
+			s += "<li class='page-item'><a class='page-link' href='" + nowurl + "?npage=" + (page_e + 1)
+					+ name2+"'>▷</a></li>";
+
+		s += "</ul></nav>";
+		return s;
+	}
+	public String pagination2(int nowpage, int recordcount, String nowurl, int page2, int page3) {
+		String name2 = "&npage2=" + page2 + "&npage3=" + page3;
+		
+		nowpage=(nowpage==0)?1:nowpage;
+		int pages = (int) (Math.ceil((float) recordcount / (float) page_line)); // 페이지수
+		int blocks = (int) (Math.ceil((float) pages / (float) page_block)); // 전체 블록수
+		int block = (int) (Math.ceil((float) nowpage / (float) page_block)); // 현재 블록
+		int page_s = page_block * (block - 1); // 현재 페이지
+		int page_e = page_block * block; // 마지막 페이지
+		if (blocks <= block)
+			page_e = pages;
+		/* 교수 학생 조교 정보 볼 때 페이지 번호 */
+		String s = "<nav><ul class='pagination pagination-sm justify-content-center'><li class='page-item'><a class='page-link' href='#'>◀</a></li>";
+
+		if (block > 1) // 이전 블록으로
+			s += "<li class='page-item'><a class='page-link' href='" + nowurl + "?npage=" + page_s + name2+"'>◁</a></li>";
+
+		for (int i = page_s + 1; i <= page_e; i++) // 페이지들 표시
+		{
+			if (nowpage == i)
+				s += "<li class='page-item active'><span class='page-link' style='background-color:steelblue'>" + i
+						+ "</span></li>";
+			else
+				s += "<li class='page-item'><a class='page-link' href='" + nowurl + "?npage=" + i + name2+"'>" + i
+						+ "</a></li>";
+		}
+
+		if (block < blocks) // 다음 블록으로
+			s += "<li class='page-item'><a class='page-link' href='" + nowurl + "?npage=" + (page_e + 1)
+					+ name2+"'>▷</a></li>";
+
+		s += "</ul></nav>";
+		return s;
 	}
 	public int delete(HttpServletRequest request, HttpServletResponse response) {
 		int result=0;
@@ -145,10 +262,10 @@ public class TeacherDAO extends DAOBase {
 		
 		return null;
 	}
-	public TeacherDTO teacherqalist(String name, String uid)
+	public TeacherDTO teacherqalist(String name, String uid, int start, int end)
 	{
 		String query = "select teacher.*, depart.id, depart.name from teacher left join depart on teacher.depart_id = depart.id "
-				+ "where teacher.uid='"+uid+"' and teacher.name='"+name+"'";
+				+ "where teacher.uid='"+uid+"' and teacher.name='"+name+"' limit "+start+","+end;
 		dtoDepart = new DepartDTO();
 		try {
 			dto = new TeacherDTO();

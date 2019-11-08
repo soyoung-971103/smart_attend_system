@@ -222,8 +222,13 @@ public class LectureController extends HttpServlet {
 		String uid = (String)sesobj.getAttribute("uid");
 		dtoStudent = daoStudent.list_id(uid);		
 		dtoListMyLecture = dao.selectMyList(dtoStudent.getId());
+		System.out.println(dtoStudent.getId());
+		for(MyLectureDTO dtoTest : dtoListMyLecture) {
+			System.out.println("test");	
+			System.out.println(dtoTest.getId());				
+		}
+
 		dtoListControl = daoControl.List();
-		
 		request.setAttribute("controlList", dtoListControl);
 		request.setAttribute("list", dtoListMyLecture);
 		request.setAttribute("student", dtoStudent);

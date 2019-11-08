@@ -44,13 +44,36 @@ public class BuildingDAO extends DAOBase{
 		return dtoList;	
 	}
 	
-	public ArrayList<BuildingDTO> selectAllList(String text1){		
+	public ArrayList<BuildingDTO> selectAllList(int start, int end){		
+		try {
+			conn = getConnection();
+			stmt = conn.createStatement();
+			
+			dtoList = new ArrayList<BuildingDTO>();
+			rs = stmt.executeQuery("select * from building limit "+start+","+end);
+			while(rs.next()) {
+				dto = new BuildingDTO();
+				dto.setId(rs.getInt(1));
+				dto.setName(rs.getString(2));
+				dto.setFloor(rs.getByte(3));
+				dtoList.add(dto);
+			}
+			return dtoList;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return dtoList;	
+	}
+	
+	
+	public ArrayList<BuildingDTO> selectAllList(String text1, int start , int end){		
 		try {
 			conn = getConnection();
 			stmt = conn.createStatement();
 
 			dtoList = new ArrayList<BuildingDTO>();
-			rs = stmt.executeQuery("select * from building where name like '%"+text1+"%'");
+			rs = stmt.executeQuery("select * from building where name like '%"+text1+"%'limit "+start+","+end);
 			while(rs.next()) {
 				dto = new BuildingDTO();
 				dto.setId(rs.getInt(1));
@@ -170,5 +193,20 @@ public class BuildingDAO extends DAOBase{
 			e.printStackTrace();
 		}
 		return dtoList;	
+	}
+	
+	public Integer rowcount(String sql) {
+		int c = 0;
+		try {
+			conn = getConnection();
+			stmt = conn.createStatement();
+			rs = stmt.executeQuery(sql);
+			if (rs.next())
+				c = rs.getInt(1);
+			return c;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return c;
 	}
 }

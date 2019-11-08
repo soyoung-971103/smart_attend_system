@@ -59,9 +59,10 @@
 
 				<!--- 시간표 관련 JS  ---------------------------------------------->
 				<script>
-					<c:forEach items="${list}" var="item">
-					c = ${item.id};
-					</c:forEach>
+					//<c:forEach items="${list}" var="item">
+					//var c = ${item.id};
+					//</c:forEach>
+					var c="";
 					var abc = 1;
 					function dragEnter(ev) { ev.preventDefault(); }
 					function drag(ev) {	ev.dataTransfer.setData("text", ev.target.id); }
@@ -73,7 +74,7 @@
 							var data = ev.dataTransfer.getData("text");
 							ev.target.appendChild(document.getElementById(data));
 
-							clear_lecture();
+							//clear_lecture();
 							form1.selpos.value=data;
 							document.getElementById( data ).style.borderColor="red";
 						}
@@ -83,14 +84,13 @@
 
 					function sel_lecture(pos)		// 시간표내의 강의 선택 
 					{
-						clear_lecture();
+						//clear_lecture();
 						form1.selpos.value=pos;
 						document.getElementById( pos ).style.borderColor="red";
 					}
 
 					function make_lecture(h)	// 새강의 그리기
 					{
-						
 						if(c=="") c=1;
 						else c=Number(c)+1;
 						str = form1.sel4.value;
@@ -135,7 +135,7 @@
 							if (typeof(document.getElementById( pos1 ).childNodes[0]) != 'undefined')
 							{
 								document.getElementById( pos1 ).childNodes[0].style.borderColor="#cccccc";
-								document.getElementById( pos1 ).remove();
+								document.getElementById( pos1 ).innerHTML="";
 							}
 						}}}}
 						
@@ -154,7 +154,7 @@
 							if (h<10) pos="0"+pos;
 							if (typeof(document.getElementById( pos ).childNodes[0]) != 'undefined')
 							{
-								alert( document.getElementById( pos ).childNodes[0].id + " pos:"+pos );
+								//alert( document.getElementById( pos ).childNodes[0].id + " pos:"+pos );
 								var s = document.getElementById( pos ).childNodes[0].id
 								var a = s.split("^");
 								var dp = form1.sel_dp.value;

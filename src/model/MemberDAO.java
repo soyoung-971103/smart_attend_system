@@ -35,11 +35,11 @@ public class MemberDAO extends DAOBase{
 							"pwd='" + loginmember.getPwd() + "'");
 			if(rs.next()) {
 				dto = new MemberDTO();
-				dto.setId(rs.getInt(1));
-				dto.setDepart_id(rs.getInt(2));
-				dto.setPwd(rs.getString(3));
-				dto.setName(rs.getString(4));
-				dto.setUid(rs.getString(5));
+				dto.setId(rs.getInt("id"));
+	            dto.setUid(rs.getString("schoolno"));            
+	            dto.setPwd(rs.getString("pwd"));
+	            dto.setName(rs.getString("name"));   
+	            dto.setDepart_id(rs.getInt("depart_id"));
 			}				
 			
 			return dto;
@@ -63,11 +63,11 @@ public class MemberDAO extends DAOBase{
 							"pwd='" + loginmember.getPwd() + "'");
 			if(rs.next()) {
 				dto = new MemberDTO();
-				dto.setId(rs.getInt(1));
-				dto.setUid(rs.getString(4));				
-				dto.setPwd(rs.getString(5));
-				dto.setName(rs.getString(6));	
-				dto.setDepart_id(rs.getInt("depart_id"));
+	            dto.setId(rs.getInt("id"));
+	            dto.setUid(rs.getString("uid"));            
+	            dto.setPwd(rs.getString("pwd"));
+	            dto.setName(rs.getString("name"));   
+	            dto.setDepart_id(rs.getInt("depart_id"));
 			}				
 			
 			return dto;
@@ -91,11 +91,11 @@ public class MemberDAO extends DAOBase{
 							"pwd='" + loginmember.getPwd() + "'");
 			if(rs.next()) {
 				dto = new MemberDTO();
-				dto.setId(rs.getInt(1));
-				dto.setDepart_id(rs.getInt(2));
-				dto.setUid(rs.getString(3));				
-				dto.setPwd(rs.getString(4));
-				dto.setName(rs.getString(5));	
+				dto.setId(rs.getInt("id"));
+	            dto.setUid(rs.getString("uid"));            
+	            dto.setPwd(rs.getString("pwd"));
+	            dto.setName(rs.getString("name"));   
+	            dto.setDepart_id(rs.getInt("depart_id"));
 			}				
 			
 			return dto;

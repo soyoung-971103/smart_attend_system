@@ -45,6 +45,7 @@ public class RoomController extends HttpServlet {
     BuildingDAO daoBuilding = new BuildingDAO();
     ArrayList<ControlDTO> dtoListControl = null;
 	ControlDAO daoControl = new ControlDAO();
+	String pagination = null;
     
     protected void process(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
 		// TODO Auto-generated method stub
@@ -93,12 +94,23 @@ public class RoomController extends HttpServlet {
     }
     
     private void list(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
-    	String text1 = request.getParameter("text1");
-
-    	if(text1 == null)    	
-    		dtoList = dao.selectAllList();
+    	
+    	String tmp=request.getParameter("npage");
+		String text1 = request.getParameter("text1");
+		int npage = Integer.parseInt(tmp == null?"1":tmp);
+		
+		int limit=5;
+		int start =(npage-1);
+		start*=limit;
+		pagination=dao.pagination(npage, dao.rowcount("SELECT  COUNT(*) FROM room"), request.getRequestURI());
+		request.setAttribute("pagination", pagination);
+		request.setAttribute("npage", new Integer(npage));
+		
+		if(text1 == null)    	
+    		dtoList = dao.selectAllList(start,limit);
     	else
-    		dtoList = dao.selectAllList(text1);
+    		dtoList = dao.selectAllList(text1,start,limit);
+		
 
     	dtoListControl = daoControl.List();
     	request.setAttribute("controlList", dtoListControl);

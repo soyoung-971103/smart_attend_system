@@ -118,16 +118,27 @@ public class TeacherController extends HttpServlet {
 		dao.delete(request, response);
 		response.sendRedirect("teacher-list.do");
 	}
+	
 	private void Inquiry(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException{
 		String text1 = request.getParameter("text1");
+		String tmp=request.getParameter("npage");
+		int npage = Integer.parseInt(tmp == null?"1":tmp);
+		String page = null;
+		int limit=5;
+		int start =(npage-1);
+		start*=limit;
 		
 		if(text1 == null) {
-			dtoList = dao.list();
+			dtoList = dao.list(start, limit);
 			text1 = "";
+			page = dao.pagination(npage, dao.rowcount("SELECT COUNT(*) FROM teacher"), request.getRequestURI());
 		}
-		else
-			dtoList = dao.list(text1);
-		
+		else {
+			dtoList = dao.list(text1, start, limit);
+			page = dao.pagination(npage, dao.rowcount("SELECT COUNT(*) FROM teacher where name like '%"+text1+"%'"), request.getRequestURI(), text1);
+			
+		}
+		request.setAttribute("pagination", page);
 		request.setAttribute("text1", text1);
 		request.setAttribute("alMember", dtoList);
 		dtoListControl = daoControl.List();
@@ -176,15 +187,23 @@ public class TeacherController extends HttpServlet {
 	}
 	
 	private void qalist(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException{
+		String tmp=request.getParameter("npage");
 		sesobj = request.getSession();
 		LectureDAO ldao = new LectureDAO();
+		int npage = Integer.parseInt(tmp == null?"1":tmp);
 		
-		dto = dao.teacherqalist((String)sesobj.getAttribute("name"), (String)sesobj.getAttribute("uid"));
+		int limit=5;
+		int start =(npage-1);
+		start*=limit;
+		dto = dao.teacherqalist((String)sesobj.getAttribute("name"), (String)sesobj.getAttribute("uid"), start, limit);
+		String pagination = dao.pagination(npage, dao.rowcount("select teacher.*, depart.id, depart.name from teacher left join depart on teacher.depart_id = depart.id "
+				+ "where teacher.uid='"+(String)sesobj.getAttribute("uid")+"' and teacher.name='"+(String)sesobj.getAttribute("name")+"'"), request.getRequestURI());
 		ArrayList<LectureDTO> ldtolist = ldao.lecture_tsearch_qa(dto.getId());
 		MyLectureDAO mdao = new MyLectureDAO();
 		ArrayList<MyLectureDTO> mdtolist = mdao.findstu(ldtolist);
-		System.out.println(mdtolist.size());
 		request.setAttribute("dtolist", mdtolist);
+		request.setAttribute("page", pagination);
+		
 		dtoListControl = daoControl.List();
     	request.setAttribute("controlList", dtoListControl);
 	    request.getRequestDispatcher("te_lecqa.jsp").forward(request, response);
@@ -204,29 +223,62 @@ public class TeacherController extends HttpServlet {
 	}
 	
 	private void temain(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException{
+		String query = "";
+		String page2 = "";
 		sesobj = request.getSession();
 		//공지사항
+		String tmp1 =request.getParameter("npage");
+		String tmp2 = request.getParameter("npage2");
+		String tmp3 = request.getParameter("npage3");
+		
+		int npage1 = Integer.parseInt(tmp1 == null?"1":tmp1);
+		int npage2 = Integer.parseInt(tmp2 == null?"1":tmp2);
+		int npage3 = Integer.parseInt(tmp3 == null?"1":tmp3);
+		
+		int limit1 =5;
+		int start1 =(npage1-1);
+		start1*=limit1;
 		NoticeDAO ndao = new NoticeDAO();
-		ArrayList<NoticeDTO> NoticeList = ndao.list(null);
+		ArrayList<NoticeDTO> NoticeList = ndao.list(null, start1, limit1);
+		page2 = dao.pagination2(npage1, dao.rowcount("select count(*) from notice order by writeday"), request.getRequestURI(), npage2, npage3);
+		request.setAttribute("page1", page2);
 		request.setAttribute("noticeList", NoticeList);
-		
+				
 		//휴보강
+			
+		int limit2 =5;
+		int start2 =(npage2-1);
+		start2*=limit2;
 		ADRemoveDAO adao = new ADRemoveDAO();
-		ArrayList<ADRemoveDTO> adtoList = adao.DTOlist2(request, response);
-		
+		ArrayList<ADRemoveDTO> adtoList = adao.DTOlist2(request, response, start2, limit2);
+		query ="select count(*) from subject "
+				+ "left join lecture on lecture.subject_id = subject.id left join lectureday on lectureday.lecture_id = lecture.id left join room on room.id = lectureday.room_id "
+				+ "left join building on building.id = room.building_id left join teacher on teacher.id = lecture.teacher_id left join depart on depart.id = teacher.depart_id "
+				+ "where lectureday.state is not null";
+		page2 = dao.pagination2(npage1, dao.rowcount(query), request.getRequestURI(), npage2, npage3);
 		request.setAttribute("removeList", adtoList);
+		request.setAttribute("page2", page2);
+		
 		//qa
+		int limit3 =5;
+		int start3 =(npage3-1);
+		start3*=limit3;
 		sesobj = request.getSession();
 		LectureDAO ldao = new LectureDAO();
 		
-		dto = dao.teacherqalist((String)sesobj.getAttribute("name"), (String)sesobj.getAttribute("uid"));
+		dto = dao.teacherqalist((String)sesobj.getAttribute("name"), (String)sesobj.getAttribute("uid"), start3, limit3);
+		
+		query = "select teacher.*, depart.id, depart.name from teacher left join depart on teacher.depart_id = depart.id "
+				+ "where teacher.uid='"+(String)sesobj.getAttribute("uid")+"' and teacher.name='"+(String)sesobj.getAttribute("name");
+		
+		page2 = dao.pagination2(npage1, dao.rowcount(query), request.getRequestURI(), npage2, npage3);
 		ArrayList<LectureDTO> ldtolist = ldao.lecture_tsearch_qa(dto.getId());
 		MyLectureDAO mdao = new MyLectureDAO();
 		ArrayList<MyLectureDTO> mdtolist = mdao.findstu(ldtolist);
-		
-		request.setAttribute("qaList", mdtolist);
+		request.setAttribute("page3", page2);
 		dtoListControl = daoControl.List();
-    	request.setAttribute("controlList", dtoListControl);
+    		request.setAttribute("controlList", dtoListControl);
+		request.setAttribute("qaList", mdtolist);
 	    request.getRequestDispatcher("te_main.jsp").forward(request, response);
 	}
 	

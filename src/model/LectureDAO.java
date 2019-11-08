@@ -32,20 +32,21 @@ public class LectureDAO extends DAOBase{
 			conn = getConnection();
 			stmt = conn.createStatement();
 			dtoList = new ArrayList<LectureDTO>();
-			rs = stmt.executeQuery("SELECT lecture.id, lecture.class, subject.grade, subject.ihour, subject.name, subject.depart_id, teacher.id, teacher.name FROM lecture LEFT JOIN subject ON lecture.subject_id = subject.id LEFT JOIN teacher ON lecture.teacher_id = teacher.id");
+			rs = stmt.executeQuery("SELECT lecture.id, lecture.subject_id, lecture.class, subject.grade, subject.ihour, subject.name, subject.depart_id, teacher.id, teacher.name FROM lecture LEFT JOIN subject ON lecture.subject_id = subject.id LEFT JOIN teacher ON lecture.teacher_id = teacher.id");
 			while(rs.next()) {
 				dto = new LectureDTO(); 
 				dtoSubject = new SubjectDTO();
 				dtoTeacher = new TeacherDTO();
 				dto.setId(rs.getInt(1));
-				dto.set_class(rs.getString(2));
-				dtoSubject.setGrade(rs.getByte(3));
-				dtoSubject.setIhour(rs.getByte(4));
-				dtoSubject.setName(rs.getString(5));
-				dtoSubject.setDepart_id(rs.getInt(6));
+				dto.setSubject_id(rs.getInt(2));
+				dto.setLecture_class(rs.getString(3));
+				dtoSubject.setGrade(rs.getByte(4));
+				dtoSubject.setIhour(rs.getByte(5));
+				dtoSubject.setName(rs.getString(6));
+				dtoSubject.setDepart_id(rs.getInt(7));
 				dto.setSubject(dtoSubject);
-				dtoTeacher.setId(rs.getInt(7));
-				dtoTeacher.setName(rs.getString(8));
+				dtoTeacher.setId(rs.getInt(8));
+				dtoTeacher.setName(rs.getString(9));
 				dto.setTeacher(dtoTeacher);
 				dtoList.add(dto);}
 			return dtoList;
@@ -253,15 +254,15 @@ public class LectureDAO extends DAOBase{
 				dtoMyLecture.setRetake(rs.getByte(15));
 				dtoMyLecture.setIlate(rs.getByte(16));
 				dtoMyLecture.setIxhour(rs.getInt(17));
-				dtoMyLecture.setQakind(rs.getByte(18));
-				dtoMyLecture.setQaday(rs.getDate(19));
-				dtoMyLecture.setQatitle(rs.getString(20));
-				dtoMyLecture.setQaask(rs.getString(21));
-				dtoMyLecture.setQaanswer(rs.getString(22));
+				//dtoMyLecture.setQakind(rs.getByte(18));
+				dtoMyLecture.setQaday(rs.getDate(18));
+				dtoMyLecture.setQatitle(rs.getString(19));
+				dtoMyLecture.setQaask(rs.getString(20));
+				dtoMyLecture.setQaanswer(rs.getString(21));
 				
 				dtoMyLecture.hn = new ArrayList<Byte>();
 				dtoMyLecture.hn.add((byte) 0);
-				for(int i = 23; i<=86; i ++) {
+				for(int i = 22; i<=85; i ++) {
 					dtoMyLecture.hn.add(rs.getByte(i));
 				}
 				

@@ -127,18 +127,7 @@
 									</c:forEach>
 								</table>
 
-								<ul class='pagination pagination-sm justify-content-center'>
-									<li class='page-item'><a class="page-link" href="#">◀</a></li>
-									<li class='page-item'><a class="page-link" href="#">◁</a></li>
-									<li class='page-item'><a class="page-link" href="#">2</a></li>
-									<li class='page-item'><a class="page-link" href="#">3</a></li>
-									<li class='page-item active'><span class='page-link' style='background-color:steelblue'>4</span></li>
-									<li class='page-item'><a class="page-link" href="#">5</a></li>
-									<li class='page-item'><a class="page-link" href="#">6</a></li>
-									<li class='page-item'><a class="page-link" href="#">▷</a></li>
-									<li class='page-item'><a class="page-link" href="#">▶</a></li>
-								</ul>
-							</nav>
+								${page1}
 
 							</div>		<!-- card body end -->
 						</div>		<!-- card end -->
@@ -202,18 +191,7 @@
 									</c:forEach>
 								</table>
 
-								<ul class='pagination pagination-sm justify-content-center'>
-									<li class='page-item'><a class="page-link" href="#">◀</a></li>
-									<li class='page-item'><a class="page-link" href="#">◁</a></li>
-									<li class='page-item'><a class="page-link" href="#">2</a></li>
-									<li class='page-item'><a class="page-link" href="#">3</a></li>
-									<li class='page-item active'><span class='page-link' style='background-color:steelblue'>4</span></li>
-									<li class='page-item'><a class="page-link" href="#">5</a></li>
-									<li class='page-item'><a class="page-link" href="#">6</a></li>
-									<li class='page-item'><a class="page-link" href="#">▷</a></li>
-									<li class='page-item'><a class="page-link" href="#">▶</a></li>
-								</ul>
-							</nav>
+								${page2}
 
 
 							</div>		<!-- card body end -->
@@ -270,19 +248,7 @@
 									</c:forEach>
 								</table>
 
-								<nav>
-									<ul class='pagination pagination-sm justify-content-center'>
-										<li class='page-item'><a class="page-link" href="#">◀</a></li>
-										<li class='page-item'><a class="page-link" href="#">◁</a></li>
-										<li class='page-item'><a class="page-link" href="#">2</a></li>
-										<li class='page-item'><a class="page-link" href="#">3</a></li>
-										<li class='page-item active'><span class='page-link' style='background-color:steelblue'>4</span></li>
-										<li class='page-item'><a class="page-link" href="#">5</a></li>
-										<li class='page-item'><a class="page-link" href="#">6</a></li>
-										<li class='page-item'><a class="page-link" href="#">▷</a></li>
-										<li class='page-item'><a class="page-link" href="#">▶</a></li>
-									</ul>
-								</nav>
+								${page3}
 
 							</div>		<!-- card body end -->
 						</div>		<!-- card end -->

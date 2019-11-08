@@ -221,26 +221,37 @@
 			</div>
 		</div>
 	</div>
-	<!-- row end -->
-	<!------------------------------------------------------------------------------>
-	<!-- 내용 끝 -->
-	<!------------------------------------------------------------------------------>
-	<%@ include file="main_bottom.jsp"%>
-	<!-- js 선언부 ----------------------------------------------------------------->
-	<script src="my/js/jquery.min.js"></script>
-	<script src="my/js/moment.min.js"></script>
+<!------------------------------------------------------------------------------>
+<!-- 내용 끝 -->
+<!------------------------------------------------------------------------------>
+			</div>
+		</div>
+	</div>
 
-	<script src="my/js/popper.min.js"></script>
-	<script src="my/js/bootstrap.min.js"></script>
+	<!-- 하단 정보 -->
+	<footer class="footer">
+		<span class="text-right">	Copyright <a target="_blank" href="#">Induk University</a></span>
+		<span class="float-right">Programmed by <a target="_blank" href="#"><b>Gamejigi</b></a></span>
+	</footer>
 
-	<script src="my/js/detect.js"></script>
-	<script src="my/js/fastclick.js"></script>
-	<script src="my/js/jquery.blockUI.js"></script>
-	<script src="my/js/jquery.nicescroll.js"></script>
+</div>
 
-	<script src="my/js/pikeadmin.js"></script>
+<!-- js 선언부 ----------------------------------------------------------------->
+<script src="my/js/jquery.min.js"></script>
+<script src="my/js/moment.min.js"></script>
 
-	<script src="my/js/jquery.dataTables.min.js"></script>
-	<script src="my/js/dataTables.bootstrap4.min.js"></script>
+<script src="my/js/popper.min.js"></script>
+<script src="my/js/bootstrap.min.js"></script>
+
+<script src="my/js/detect.js"></script>
+<script src="my/js/fastclick.js"></script>
+<script src="my/js/jquery.blockUI.js"></script>
+<script src="my/js/jquery.nicescroll.js"></script>
+
+<script src="my/js/pikeadmin.js"></script>
+
+<script src="my/js/jquery.dataTables.min.js"></script>
+<script src="my/js/dataTables.bootstrap4.min.js"></script>
+
 </body>
 </html>

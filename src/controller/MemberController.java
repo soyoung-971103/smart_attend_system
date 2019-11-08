@@ -95,7 +95,7 @@ public class MemberController extends HttpServlet {
 			dtoAssist.setUid(request.getParameter("login_uid"));
 			dtoAssist.setPwd(request.getParameter("login_password"));				
 			dto = dao.loginCheckAssist(dtoAssist);				
-		}else if(kind.equals("admin")) {
+		}else if(kind.equals("admin")&&request.getParameter("login_uid").equals(admin_id)&&request.getParameter("login_password").equals(admin_pw)) {
 			dto = new MemberDTO();
 			dto.setName(admin_name);
 			dto.setUid(admin_id);

@@ -56,7 +56,20 @@ public class ADRemoveController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	private void list(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException{
-	
+		
+		String tmp=request.getParameter("npage");
+		int npage = Integer.parseInt(tmp == null?"1":tmp);
+		String page = null;
+		int limit=5;
+		int start =(npage-1);
+		start*=limit;
+		String query="select depart.abbreviation, teacher.name, subject.name, subject.grade, lecture.class, room.name, "
+				+ "building.name, lectureday.* from subject left join lecture on lecture.subject_id = subject.id "
+				+ "left join lectureday on lectureday.lecture_id = lecture.id left join room on room.id = lectureday.room_id "
+				+ "left join building on building.id = room.building_id left join teacher on teacher.id = lecture.teacher_id "
+				+ "left join depart on depart.id = teacher.depart_id where lectureday.state='학과장승인'";
+		
+		page = dao.pagination(npage, dao.rowcount(query), request.getRequestURI());
 		if(request.getAttribute("dtolist") != null) request.removeAttribute("dtolist");
 		
 		String minmax = dao.Year(request, response);
@@ -82,6 +95,7 @@ public class ADRemoveController extends HttpServlet {
 			else if(request.getParameter("c").equals("2"))
 				dao.returnlec(request,response);
 		}
+		request.setAttribute("page", page);
 		dtoListControl = daoControl.List();
     	request.setAttribute("controlList", dtoListControl);
 		RequestDispatcher dis = request.getRequestDispatcher("ad_lecmove.jsp"); 

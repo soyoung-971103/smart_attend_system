@@ -99,7 +99,7 @@ String text1 = request.getParameter("text1");
                               </div>
                            </div>
                            <div class="col" align="right">
-                              <a href="ad_teachernew.jsp" class="btn btn-sm mycolor1">추가</a>
+                              <a href="teacher-inputdata.do" class="btn btn-sm mycolor1">추가</a>
                            </div>
                         </div>
                         </form>
@@ -130,19 +130,7 @@ String text1 = request.getParameter("text1");
                            </tr>
                         </c:forEach>
                         </table>
-						<nav>
-							<ul class="pagination pagination-sm justify-content-center">
-								<li class="page-item"><a class="page-link" href="#">◀</a></li>
-								<li class="page-item"><a class="page-link" href="#">◁</a></li>
-								<li class="page-item"><a class="page-link" href="#">2</a></li>
-								<li class="page-item"><a class="page-link" href="#">3</a></li>
-								<li class="page-item active"><span class="page-link" style="background-color:steelblue">4</span></li>
-								<li class="page-item"><a class="page-link" href="#">5</a></li>
-								<li class="page-item"><a class="page-link" href="#">6</a></li>
-								<li class="page-item"><a class="page-link" href="#">▷</a></li>
-								<li class="page-item"><a class="page-link" href="#">▶</a></li>
-							</ul>
-						</nav>
+						${pagination}
                         <%
                            String nurl = "TeacherController?text1="+text1;
                            //out.println(pagination(npage, count, nurl));
